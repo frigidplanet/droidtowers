@@ -41,6 +41,7 @@ public abstract class GridObject {
 	
 	//TODO This should be moved out into the config files for the individual objects 
 	public static final float VISITORS_PER_CLEANING = 35f;
+	
 	protected static Map<String, TextureRegion> availableDecals;
 	protected final GridObjectType gridObjectType;
 	protected final GameGrid gameGrid;
