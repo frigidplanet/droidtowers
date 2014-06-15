@@ -1,0 +1,172 @@
+[
+  {
+    "id": "tutorial-welcome",
+    "name": "Welcome to Droid Towers!",
+    "description": "To start building your Tower,\ntap the Build menu in the bottom right."
+  },
+  {
+    "id": "tutorial-unlock-lobby",
+    "name": "Breaking ground",
+    "description": "Tap on the house icon to open the buy menu.\n\nThen tap \"BUY\" next to the Lobby.",
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "OBJECT_TYPE",
+        "thingId": "GROUND-FLOOR-LOBBY"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-purchased-lobby",
+    "name": "Pillars of Success",
+    "description": "Your cursor now is in \"Placement\" mode.\nDouble Tap to place the Lobby.\n\nPress the ESCAPE key to exit \"Placement\" mode.",
+    "descriptionMobile": "Your cursor now is in \"Placement\" mode.\nDouble Tap to place the Lobby.\n\nPress the BACK button to exit \"Placement\" mode."
+  },
+  {
+    "id": "tutorial-build-lobby",
+    "name": "There is no place like Home",
+    "description": "The Lobby serves as the base for a Tower.\n\nDroids need a place to call home.\nYou should build an Apartment for them.",
+    "requirements": [
+      {
+        "type": "BUILD",
+        "thing": "OBJECT_TYPE",
+        "thingId": "GROUND-FLOOR-LOBBY",
+        "amount": 1
+      }
+    ],
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "OBJECT_TYPE",
+        "thingId": "SMALL-APARTMENT"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-build-apartment",
+    "name": "Beam me up, Scotty",
+    "description": "See the red sign on your Apartment?\nThis means it has no transit connection.\n\nBuild an Elevator so the Droids can move in.",
+    "requirements": [
+      {
+        "type": "BUILD",
+        "thing": "OBJECT_TYPE",
+        "thingId": "SMALL-APARTMENT",
+        "amount": 1
+      }
+    ],
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "OBJECT_TYPE",
+        "thingId": "ELEVATOR"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-stretch-elevator",
+    "name": "Sky's the limit!",
+    "description": "Elevators need to service\neach floor of your Tower.\n\nConnect your elevator by dragging\nthe top or bottom of the elevator shaft.",
+    "requirements": [
+      {
+        "type": "BUILD",
+        "thing": "OBJECT_TYPE",
+        "thingId": "ELEVATOR",
+        "amount": 1
+      }
+    ],
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "ACHIEVEMENT",
+        "thingId": "tutorial-build-pizza-place"
+      },
+      {
+        "type": "UNLOCK",
+        "thing": "OBJECT_TYPE",
+        "thingId": "PIZZA-PLACE"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-build-pizza-place",
+    "name": "Pizza, Pizza!",
+    "description": "Droids will get hungry over time.\n\n Luckily they love Pizza!\n\nBuild a Pizza Place so they don't starve!",
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "ACHIEVEMENT",
+        "thingId": "tutorial-pan"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-pan",
+    "name": "Navigation",
+    "description": "Now that your Tower is up and running,\nlets learn how to control your camera.\n\nTo move the screen around,\ntap anywhere and drag.",
+    "requirements": [
+      {
+        "type": "BUILD",
+        "thing": "OBJECT_TYPE",
+        "thingId": "PIZZA-PLACE",
+        "amount": 1
+      }
+    ],
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "ACHIEVEMENT",
+        "thingId": "tutorial-zoom"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-zoom",
+    "name": "Magnification",
+    "description": "Great job!\n\nYou can also zoom in via your mouse's scroll wheel.\nIt works just like scrolling a document.\n\nTry it now.",
+    "descriptionMobile": "Great job!\n\nYou can also zoom the camera\nby pinching the screen.\n\nTry it now.",
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "ACHIEVEMENT",
+        "thingId": "tutorial-turn-on-population-overlay"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-turn-on-population-overlay",
+    "name": "Population Overlays",
+    "description": "Now that you've mastered the camera controls,\nit is time to introduce the data overlays.\n\nIn the top right corner tap the Overlays button then,\nturn on the Population overlay by tapping the toggle switch.",
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "ACHIEVEMENT",
+        "thingId": "tutorial-turn-off-population-overlay"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-turn-off-population-overlay",
+    "name": "Population Overlays",
+    "description": "Look at the Apartment you built,\nsee the blue coloring?\nThis shows there are Droids living there.\n\nOverlays provide insight into the management\nof your Tower's overall success.\n\nNow turn off the Population overlay.",
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "ACHIEVEMENT",
+        "thingId": "tutorial-finished"
+      }
+    ]
+  },
+  {
+    "id": "tutorial-finished",
+    "name": "Congratulations!",
+    "description": "Congratulations, you are now ready to conquer the sky!\n\nPS: Your Tower will be automatically saved.",
+    "tapToGiveReward": true,
+    "rewards": [
+      {
+        "type": "UNLOCK",
+        "thing": "PROVIDER_TYPE",
+        "thingProviderTypes": ["HOUSING", "COMMERCIAL", "TRANSPORT", "SERVICE", "SKY_LOBBY"]
+      }
+    ]
+  }
+]

@@ -1,0 +1,74 @@
+menus-hd.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+trophy
+  rotate: false
+  xy: 187, 163
+  size: 150, 170
+  orig: 150, 170
+  offset: 0, 0
+  index: -1
+upgrade-to-unlimited
+  rotate: false
+  xy: 2, 2
+  size: 419, 159
+  orig: 419, 159
+  offset: 4, 5
+  index: -1
+happy-droids-logo
+  rotate: false
+  xy: 2, 373
+  size: 196, 123
+  orig: 196, 123
+  offset: 8, 4
+  index: -1
+facebook-logo
+  rotate: false
+  xy: 423, 68
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+google-play-large
+  rotate: false
+  xy: 200, 407
+  size: 172, 60
+  orig: 172, 60
+  offset: 0, 0
+  index: -1
+droid-cousin-vinnie
+  rotate: false
+  xy: 2, 163
+  size: 183, 208
+  orig: 183, 208
+  offset: 5, 1
+  index: -1
+large-left-arrow
+  rotate: false
+  xy: 457, 2
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+right-arrow
+  rotate: false
+  xy: 457, 68
+  size: 27, 32
+  orig: 27, 32
+  offset: 3, 0
+  index: -1
+large-right-arrow
+  rotate: false
+  xy: 423, 2
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+powered-by-libgdx
+  rotate: false
+  xy: 200, 335
+  size: 233, 70
+  orig: 233, 70
+  offset: 0, 0
+  index: -1

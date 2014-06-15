@@ -1,0 +1,28 @@
+This fork is intended to remove certain parts of the application.  It is intended to streamline the code and remove things that are specific to the app as listed on Google Play from the source.
+
+Modificiations from parent:
+- Remove everything non-Android
+- Remove heyzap
+
+-----------------------------------------------------------------------------------------------
+This is the source code for Droid Towers, a game for Android.  It is a 
+tower building simulation inspired by SimTower.  I have added my own game play
+elements that I felt improved on the original game.
+
+I am looking for someone to maybe take over the game.  It makes around $200 a month with zero
+advertising.  I never really did much promotion beyond a reddit post.  I would love to see
+someone take this over and make it much bigger.  If you're interested in this, email me phil@happydroids.com
+so we can chat about the details.
+
+I have not made the game free on Google Play yet as I am waiting to see if there is interest in
+the project.  If anyone knows of a way I could provide visibility into the financial details of the
+game easily for public consumption I would happily do so.  Until then I plan to donate the funds to
+Childs Play (http://www.childsplaycharity.org/).
+
+The game is licensed as MIT, see the LICENSE file for details.  You are free to use anything in this repository as you wish, but you should give me some credit.  If you want the original PSDs for the artwork I would be happy to supply those, just ask me.
+
+
+I originally released this on July 10, 2012 as a sort of tribute to my Father whom shares the same birthday.
+
+
+Link to Google Play: https://play.google.com/store/apps/details?id=com.happydroids.droidtowers
