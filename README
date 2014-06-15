@@ -4,7 +4,7 @@ Modificiations from parent:
 - Remove everything non-Android
 - Remove heyzap
 
------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 This is the source code for Droid Towers, a game for Android.  It is a 
 tower building simulation inspired by SimTower.  I have added my own game play
 elements that I felt improved on the original game.
