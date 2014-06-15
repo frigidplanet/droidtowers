@@ -16,6 +16,7 @@ $RECYCLE.BIN/
 
 # Auto generated eclipse files
 /bin
+/gen
 
 # =========================
 # Operating System Files
