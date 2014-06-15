@@ -11,23 +11,23 @@ import com.happydroids.droidtowers.entities.Avatar;
 import com.happydroids.droidtowers.platform.Display;
 
 public class AvatarListWindow extends ScrollableTowerWindow {
-  public AvatarListWindow(Stage stage, AvatarLayer avatarLayer) {
-    super("Droids", stage);
+	public AvatarListWindow(Stage stage, AvatarLayer avatarLayer) {
+		super("Droids", stage);
 
-    defaults().space(Display.devicePixel(8));
+		defaults().space(Display.devicePixel(8));
 
-    row().fillX().padTop(Display.devicePixel(8));
-    add(FontManager.Default.makeLabel("NAME")).expandX();
-    add(FontManager.Default.makeLabel("HUNGER")).width(100);
-    add(FontManager.Default.makeLabel("HAPPINESS")).width(100);
-    add(FontManager.Default.makeLabel("WALKING TO")).width(200);
+		row().fillX().padTop(Display.devicePixel(8));
+		add(FontManager.Default.makeLabel("NAME")).expandX();
+		add(FontManager.Default.makeLabel("HUNGER")).width(100);
+		add(FontManager.Default.makeLabel("HAPPINESS")).width(100);
+		add(FontManager.Default.makeLabel("WALKING TO")).width(200);
 
-    row().fillX();
-    addHorizontalRule(Colors.ICS_BLUE, 2, 4);
+		row().fillX();
+		addHorizontalRule(Colors.ICS_BLUE, 2, 4);
 
-    for (Avatar avatar : avatarLayer.getObjects()) {
-      row().fillX();
-      add(new AvatarInfoRow(avatar)).expandX().colspan(4);
-    }
-  }
+		for (Avatar avatar : avatarLayer.getObjects()) {
+			row().fillX();
+			add(new AvatarInfoRow(avatar)).expandX().colspan(4);
+		}
+	}
 }

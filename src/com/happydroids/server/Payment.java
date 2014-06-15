@@ -12,46 +12,46 @@ import java.util.Date;
 @SuppressWarnings("FieldCanBeLocal")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
 public class Payment extends HappyDroidServiceObject {
-  protected String itemId;
-  protected String orderId;
-  protected String source;
-  protected Date receivedOn;
-  protected Date refundedOn;
-  protected String serial;
+	protected String itemId;
+	protected String orderId;
+	protected String source;
+	protected Date receivedOn;
+	protected Date refundedOn;
+	protected String serial;
 
-  public Payment(String itemId, String orderId, String source) {
-    this.itemId = itemId;
-    this.orderId = orderId;
-    this.source = source;
-  }
+	public Payment(String itemId, String orderId, String source) {
+		this.itemId = itemId;
+		this.orderId = orderId;
+		this.source = source;
+	}
 
-  public Payment() {
+	public Payment() {
 
-  }
+	}
 
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/payment/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/payment/";
+	}
 
-  @Override
-  protected boolean requireAuthentication() {
-    return false;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return false;
+	}
 
-  public boolean wasRefunded() {
-    return refundedOn != null;
-  }
+	public boolean wasRefunded() {
+		return refundedOn != null;
+	}
 
-  public String getOrderId() {
-    return orderId;
-  }
+	public String getOrderId() {
+		return orderId;
+	}
 
-  public String getItemId() {
-    return itemId;
-  }
+	public String getItemId() {
+		return itemId;
+	}
 
-  public String getSerial() {
-    return serial;
-  }
+	public String getSerial() {
+		return serial;
+	}
 }

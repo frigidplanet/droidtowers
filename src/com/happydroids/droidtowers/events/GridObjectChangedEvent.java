@@ -5,29 +5,28 @@
 package com.happydroids.droidtowers.events;
 
 public class GridObjectChangedEvent extends GridObjectEvent {
-  protected String nameOfParamChanged;
+	protected String nameOfParamChanged;
 
-  public GridObjectChangedEvent() {
-  }
+	public GridObjectChangedEvent() {
+	}
 
-  @Override
-  public String toString() {
-    return "GridObjectChangedEvent{" +
-                   "nameOfParamChanged='" + getNameOfParamChanged() + '\'' +
-                   '}';
-  }
+	@Override
+	public String toString() {
+		return "GridObjectChangedEvent{" + "nameOfParamChanged='"
+				+ getNameOfParamChanged() + '\'' + '}';
+	}
 
-  public String getNameOfParamChanged() {
-    return nameOfParamChanged;
-  }
+	public String getNameOfParamChanged() {
+		return nameOfParamChanged;
+	}
 
-  public void setNameOfParamChanged(String nameOfParamChanged) {
-    this.nameOfParamChanged = nameOfParamChanged;
-  }
+	public void setNameOfParamChanged(String nameOfParamChanged) {
+		this.nameOfParamChanged = nameOfParamChanged;
+	}
 
-  @Override
-  public void reset() {
-    super.reset();
-    nameOfParamChanged = null;
-  }
+	@Override
+	public void reset() {
+		super.reset();
+		nameOfParamChanged = null;
+	}
 }

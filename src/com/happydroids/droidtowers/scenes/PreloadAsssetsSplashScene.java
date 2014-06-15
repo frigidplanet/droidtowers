@@ -9,27 +9,27 @@ import com.happydroids.droidtowers.scenes.components.SceneManager;
 
 public class PreloadAsssetsSplashScene extends SplashScene {
 
-  private Runnable postPreloadRunnable;
+	private Runnable postPreloadRunnable;
 
-  @Override
-  public void create(Object... args) {
-    super.create(args);
+	@Override
+	public void create(Object... args) {
+		super.create(args);
 
-    if (args != null && args.length > 0) {
-      postPreloadRunnable = (Runnable) args[0];
-    }
-  }
+		if (args != null && args.length > 0) {
+			postPreloadRunnable = (Runnable) args[0];
+		}
+	}
 
-  @Override
-  public void render(float deltaTime) {
-    super.render(deltaTime);
+	@Override
+	public void render(float deltaTime) {
+		super.render(deltaTime);
 
-    if (TowerAssetManager.preloadFinished()) {
-      if (postPreloadRunnable != null) {
-        postPreloadRunnable.run();
-      } else {
-        SceneManager.popScene();
-      }
-    }
-  }
+		if (TowerAssetManager.preloadFinished()) {
+			if (postPreloadRunnable != null) {
+				postPreloadRunnable.run();
+			} else {
+				SceneManager.popScene();
+			}
+		}
+	}
 }

@@ -8,15 +8,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.happydroids.droidtowers.Colors;
 
 public class HudToolButton extends ColorizedImageButton {
-  private final ImageButtonStyle originalStyle;
+	private final ImageButtonStyle originalStyle;
 
-  public HudToolButton(TextureAtlas hudAtlas) {
-    super(hudAtlas.findRegion("tool-sprite"), Colors.ICS_BLUE);
+	public HudToolButton(TextureAtlas hudAtlas) {
+		super(hudAtlas.findRegion("tool-sprite"), Colors.ICS_BLUE);
 
-    originalStyle = getStyle();
-  }
+		originalStyle = getStyle();
+	}
 
-  public void resetStyle() {
-    setStyle(originalStyle);
-  }
+	public void resetStyle() {
+		setStyle(originalStyle);
+	}
 }

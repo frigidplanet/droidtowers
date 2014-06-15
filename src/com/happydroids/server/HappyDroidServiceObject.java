@@ -21,163 +21,172 @@ import java.lang.reflect.Modifier;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
 @JsonFilter(value = "HappyDroidServiceObject")
 public abstract class HappyDroidServiceObject {
-  public static final ApiRunnable NO_OP_API_RUNNABLE = new ApiRunnable();
+	public static final ApiRunnable NO_OP_API_RUNNABLE = new ApiRunnable();
 
-  private long id;
-  private String resourceUri;
-  private boolean fetchError;
+	private long id;
+	private String resourceUri;
+	private boolean fetchError;
 
+	@JsonIgnore
+	public abstract String getBaseResourceUri();
 
-  @JsonIgnore
-  public abstract String getBaseResourceUri();
+	protected HappyDroidServiceObject() {
 
-  protected HappyDroidServiceObject() {
+	}
 
-  }
+	public long getId() {
+		return id;
+	}
 
-  public long getId() {
-    return id;
-  }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-  public void setId(long id) {
-    this.id = id;
-  }
+	public String getResourceUri() {
+		return resourceUri;
+	}
 
-  public String getResourceUri() {
-    return resourceUri;
-  }
+	protected abstract boolean requireAuthentication();
 
-  protected abstract boolean requireAuthentication();
+	public void setResourceUri(String resourceUri) {
+		if (resourceUri != null && !resourceUri.startsWith("http")) {
+			resourceUri = HappyDroidConsts.HAPPYDROIDS_URI + resourceUri;
+		}
 
-  public void setResourceUri(String resourceUri) {
-    if (resourceUri != null && !resourceUri.startsWith("http")) {
-      resourceUri = HappyDroidConsts.HAPPYDROIDS_URI + resourceUri;
-    }
+		this.resourceUri = resourceUri;
+	}
 
-    this.resourceUri = resourceUri;
-  }
+	private void validateResourceUri() {
+		if (resourceUri != null && !resourceUri.startsWith("http")) {
+			resourceUri = HappyDroidConsts.HAPPYDROIDS_URI + resourceUri;
+		}
+	}
 
-  private void validateResourceUri() {
-    if (resourceUri != null && !resourceUri.startsWith("http")) {
-      resourceUri = HappyDroidConsts.HAPPYDROIDS_URI + resourceUri;
-    }
-  }
+	public void fetch(final ApiRunnable apiRunnable) {
+		if (resourceUri == null) {
+			throw new RuntimeException(
+					"resourceUri must not be null when using fetch()");
+		}
 
-  public void fetch(final ApiRunnable apiRunnable) {
-    if (resourceUri == null) {
-      throw new RuntimeException("resourceUri must not be null when using fetch()");
-    }
+		fetchError = true;
 
-    fetchError = true;
+		validateResourceUri();
 
-    validateResourceUri();
+		HttpResponse response = HappyDroidService.instance().makeGetRequest(
+				resourceUri, null, isCachingAllowed(), getCacheMaxAge());
+		if (response != null && response.getStatusLine().getStatusCode() == 200) {
+			fetchError = false;
+			copyValuesFromResponse(response);
+		}
 
-    HttpResponse response = HappyDroidService.instance()
-                                    .makeGetRequest(resourceUri, null, isCachingAllowed(), getCacheMaxAge());
-    if (response != null && response.getStatusLine().getStatusCode() == 200) {
-      fetchError = false;
-      copyValuesFromResponse(response);
-    }
+		apiRunnable.handleResponse(response, HappyDroidServiceObject.this);
+	}
 
-    apiRunnable.handleResponse(response, HappyDroidServiceObject.this);
-  }
+	protected int getCacheMaxAge() {
+		return -1;
+	}
 
-  protected int getCacheMaxAge() {
-    return -1;
-  }
+	protected boolean isCachingAllowed() {
+		return false;
+	}
 
-  protected boolean isCachingAllowed() {
-    return false;
-  }
+	public void save() {
+		save(NO_OP_API_RUNNABLE);
+	}
 
-  public void save() {
-    save(NO_OP_API_RUNNABLE);
-  }
+	@SuppressWarnings("unchecked")
+	public void save(final ApiRunnable apiRunnable) {
+		try {
+			if (!Platform.getConnectionMonitor().isConnectedOrConnecting()) {
+				apiRunnable.onError(null, HttpStatusCode.ClientClosedRequest,
+						this);
+				return;
+			} else if (!beforeSaveValidation(apiRunnable)) {
+				apiRunnable.onError(null,
+						HttpStatusCode.ClientValidationFailed, this);
+				return;
+			}
 
-  @SuppressWarnings("unchecked")
-  public void save(final ApiRunnable apiRunnable) {
-    try {
-      if (!Platform.getConnectionMonitor().isConnectedOrConnecting()) {
-        apiRunnable.onError(null, HttpStatusCode.ClientClosedRequest, this);
-        return;
-      } else if (!beforeSaveValidation(apiRunnable)) {
-        apiRunnable.onError(null, HttpStatusCode.ClientValidationFailed, this);
-        return;
-      }
+			validateResourceUri();
 
-      validateResourceUri();
+			HttpResponse response;
+			if (resourceUri == null) {
+				response = HappyDroidService.instance().makePostRequest(
+						getBaseResourceUri(), this);
+				if (response != null
+						&& response.getStatusLine().getStatusCode() == 201) {
+					Header location = Iterables
+							.getFirst(Lists.newArrayList(response
+									.getHeaders("Location")), null);
+					if (location != null) {
+						resourceUri = location.getValue();
+					}
 
-      HttpResponse response;
-      if (resourceUri == null) {
-        response = HappyDroidService.instance().makePostRequest(getBaseResourceUri(), this);
-        if (response != null && response.getStatusLine().getStatusCode() == 201) {
-          Header location = Iterables.getFirst(Lists.newArrayList(response.getHeaders("Location")), null);
-          if (location != null) {
-            resourceUri = location.getValue();
-          }
+					copyValuesFromResponse(response);
+				}
+			} else {
+				response = HappyDroidService.instance().makePutRequest(
+						resourceUri, this);
+			}
 
-          copyValuesFromResponse(response);
-        }
-      } else {
-        response = HappyDroidService.instance().makePutRequest(resourceUri, this);
-      }
+			apiRunnable.handleResponse(response, HappyDroidServiceObject.this);
+		} catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
 
-      apiRunnable.handleResponse(response, HappyDroidServiceObject.this);
-    } catch (Throwable throwable) {
-      throw new RuntimeException(throwable);
-    }
-  }
+	@SuppressWarnings("unchecked")
+	protected boolean beforeSaveValidation(ApiRunnable afterSave) {
+		if (!Platform.getConnectionMonitor().isConnectedOrConnecting()) {
+			afterSave.onError(null, HttpStatusCode.ClientClosedRequest, this);
+			return false;
+		}
 
-  @SuppressWarnings("unchecked")
-  protected boolean beforeSaveValidation(ApiRunnable afterSave) {
-    if (!Platform.getConnectionMonitor().isConnectedOrConnecting()) {
-      afterSave.onError(null, HttpStatusCode.ClientClosedRequest, this);
-      return false;
-    }
+		return true;
+	}
 
-    return true;
-  }
+	private void copyValuesFromResponse(HttpResponse response) {
+		HappyDroidServiceObject serverInstance = HappyDroidService
+				.materializeObject(response, getClass());
+		if (serverInstance != null) {
+			Class<?> currentClass = serverInstance.getClass();
 
-  private void copyValuesFromResponse(HttpResponse response) {
-    HappyDroidServiceObject serverInstance = HappyDroidService.materializeObject(response, getClass());
-    if (serverInstance != null) {
-      Class<?> currentClass = serverInstance.getClass();
+			do {
+				for (Field field : currentClass.getDeclaredFields()) {
+					copyValueFromField(serverInstance, field);
+				}
 
-      do {
-        for (Field field : currentClass.getDeclaredFields()) {
-          copyValueFromField(serverInstance, field);
-        }
+				currentClass = currentClass.getSuperclass();
+			} while (!currentClass.equals(Object.class));
+		}
+	}
 
-        currentClass = currentClass.getSuperclass();
-      } while (!currentClass.equals(Object.class));
-    }
-  }
+	private void copyValueFromField(HappyDroidServiceObject serverInstance,
+			Field field) {
+		try {
+			if (!Modifier.isFinal(field.getModifiers())) {
+				field.setAccessible(true);
+				field.set(this, field.get(serverInstance));
+			}
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-  private void copyValueFromField(HappyDroidServiceObject serverInstance, Field field) {
-    try {
-      if (!Modifier.isFinal(field.getModifiers())) {
-        field.setAccessible(true);
-        field.set(this, field.get(serverInstance));
-      }
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    }
-  }
+	@JsonIgnore
+	public boolean isSaved() {
+		return resourceUri != null;
+	}
 
-  @JsonIgnore
-  public boolean isSaved() {
-    return resourceUri != null;
-  }
+	protected ObjectMapper getObjectMapper() {
+		return HappyDroidService.instance().getObjectMapper();
+	}
 
-  protected ObjectMapper getObjectMapper() {
-    return HappyDroidService.instance().getObjectMapper();
-  }
+	public void fetch() {
+		fetch(NO_OP_API_RUNNABLE);
+	}
 
-  public void fetch() {
-    fetch(NO_OP_API_RUNNABLE);
-  }
-
-  public boolean errorWhileFetching() {
-    return fetchError;
-  }
+	public boolean errorWhileFetching() {
+		return fetchError;
+	}
 }

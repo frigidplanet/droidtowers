@@ -23,137 +23,151 @@ import java.util.List;
 
 public class FriendsListWindow extends ScrollableTowerWindow {
 
-  private final TextureRegionDrawable facebookIcon;
-  private List<PlayerFriendItem> playerFriendRows;
-  private List<PlayerFriendItem> nonPlayerFriendRows;
-  private boolean playerFriendsFetched;
-  private boolean nonPlayerFriendsFetched;
-  private final GameState playerGameState;
+	private final TextureRegionDrawable facebookIcon;
+	private List<PlayerFriendItem> playerFriendRows;
+	private List<PlayerFriendItem> nonPlayerFriendRows;
+	private boolean playerFriendsFetched;
+	private boolean nonPlayerFriendsFetched;
+	private final GameState playerGameState;
 
-  public FriendsListWindow(Stage stage, GameState gameState) {
-    super("My Friends", stage);
-    playerGameState = gameState;
+	public FriendsListWindow(Stage stage, GameState gameState) {
+		super("My Friends", stage);
+		playerGameState = gameState;
 
-    facebookIcon = TowerAssetManager.drawableFromAtlas("facebook-logo", "hud/menus.txt");
-    playerFriendRows = Lists.newArrayList();
-    nonPlayerFriendRows = Lists.newArrayList();
+		facebookIcon = TowerAssetManager.drawableFromAtlas("facebook-logo",
+				"hud/menus.txt");
+		playerFriendRows = Lists.newArrayList();
+		nonPlayerFriendRows = Lists.newArrayList();
 
-    defaults().left().space(Display.devicePixel(6));
+		defaults().left().space(Display.devicePixel(6));
 
-    add(FontManager.Roboto32.makeLabel("making friends :]"));
+		add(FontManager.Roboto32.makeLabel("making friends :]"));
 
-    NonPlayerFriendSearchBox friendSearchBox = new NonPlayerFriendSearchBox(this);
-    setStaticHeader(friendSearchBox);
+		NonPlayerFriendSearchBox friendSearchBox = new NonPlayerFriendSearchBox(
+				this);
+		setStaticHeader(friendSearchBox);
 
-    new BackgroundTask() {
-      private PlayerFriendCollection friendCollection;
+		new BackgroundTask() {
+			private PlayerFriendCollection friendCollection;
 
-      @Override
-      protected void execute() throws Exception {
-        friendCollection = new PlayerFriendCollection();
-        friendCollection.fetch();
-      }
+			@Override
+			protected void execute() throws Exception {
+				friendCollection = new PlayerFriendCollection();
+				friendCollection.fetch();
+			}
 
-      @Override
-      public synchronized void afterExecute() {
-        processPlayerFriends(friendCollection);
-      }
-    }.run();
+			@Override
+			public synchronized void afterExecute() {
+				processPlayerFriends(friendCollection);
+			}
+		}.run();
 
-    new BackgroundTask() {
-      private NonPlayerFriendCollection friendCollection;
+		new BackgroundTask() {
+			private NonPlayerFriendCollection friendCollection;
 
-      @Override
-      protected void execute() throws Exception {
-        friendCollection = new NonPlayerFriendCollection();
-        friendCollection.fetch();
-      }
+			@Override
+			protected void execute() throws Exception {
+				friendCollection = new NonPlayerFriendCollection();
+				friendCollection.fetch();
+			}
 
-      @Override
-      public synchronized void afterExecute() {
-        processNonPlayerFriends(friendCollection);
-      }
-    }.run();
-  }
+			@Override
+			public synchronized void afterExecute() {
+				processNonPlayerFriends(friendCollection);
+			}
+		}.run();
+	}
 
-  private void processNonPlayerFriends(HappyDroidServiceCollection<NonPlayerFriend> collection) {
-    if (collection != null && !collection.isEmpty()) {
-      for (NonPlayerFriend profile : collection.getObjects()) {
-        PlayerFriendItem playerFriendItem = new NonPlayerFriendItem(profile, playerGameState);
-        playerFriendItem.createChildren(facebookIcon);
-        nonPlayerFriendRows.add(playerFriendItem);
-      }
-    }
+	private void processNonPlayerFriends(
+			HappyDroidServiceCollection<NonPlayerFriend> collection) {
+		if (collection != null && !collection.isEmpty()) {
+			for (NonPlayerFriend profile : collection.getObjects()) {
+				PlayerFriendItem playerFriendItem = new NonPlayerFriendItem(
+						profile, playerGameState);
+				playerFriendItem.createChildren(facebookIcon);
+				nonPlayerFriendRows.add(playerFriendItem);
+			}
+		}
 
-    nonPlayerFriendsFetched = true;
-    updateViewWhenFinished();
-  }
+		nonPlayerFriendsFetched = true;
+		updateViewWhenFinished();
+	}
 
-  private void processPlayerFriends(HappyDroidServiceCollection<PlayerProfile> collection) {
-    playerFriendsFetched = true;
+	private void processPlayerFriends(
+			HappyDroidServiceCollection<PlayerProfile> collection) {
+		playerFriendsFetched = true;
 
-    if (collection != null && !collection.isEmpty()) {
-      for (PlayerProfile profile : collection.getObjects()) {
-        PlayerFriendItem playerFriendItem = new PlayerFriendItem(profile, playerGameState);
-        playerFriendItem.createChildren(facebookIcon);
-        playerFriendRows.add(playerFriendItem);
-      }
-    }
+		if (collection != null && !collection.isEmpty()) {
+			for (PlayerProfile profile : collection.getObjects()) {
+				PlayerFriendItem playerFriendItem = new PlayerFriendItem(
+						profile, playerGameState);
+				playerFriendItem.createChildren(facebookIcon);
+				playerFriendRows.add(playerFriendItem);
+			}
+		}
 
-    updateViewWhenFinished();
-  }
+		updateViewWhenFinished();
+	}
 
-  private void updateViewWhenFinished() {
-    if (!playerFriendsFetched || !nonPlayerFriendsFetched) {
-      return;
-    }
+	private void updateViewWhenFinished() {
+		if (!playerFriendsFetched || !nonPlayerFriendsFetched) {
+			return;
+		}
 
-    clear();
+		clear();
 
-    row().fillX();
-    add(FontManager.Roboto24.makeLabel("Friends playing Droid Towers")).expandX();
-    row().fillX();
-    add(new HorizontalRule()).expandX();
+		row().fillX();
+		add(FontManager.Roboto24.makeLabel("Friends playing Droid Towers"))
+				.expandX();
+		row().fillX();
+		add(new HorizontalRule()).expandX();
 
+		if (!playerFriendRows.isEmpty()) {
+			for (PlayerFriendItem friendRow : playerFriendRows) {
+				row().fillX();
+				add(friendRow).expandX();
+			}
+		} else {
+			row().fillX();
+			add(
+					FontManager.Roboto18
+							.makeLabel("You should invite some of your friends to play with."))
+					.expandX();
+		}
 
-    if (!playerFriendRows.isEmpty()) {
-      for (PlayerFriendItem friendRow : playerFriendRows) {
-        row().fillX();
-        add(friendRow).expandX();
-      }
-    } else {
-      row().fillX();
-      add(FontManager.Roboto18.makeLabel("You should invite some of your friends to play with.")).expandX();
-    }
+		row().fillX().padTop(Display.devicePixel(32));
+		add(FontManager.Roboto24.makeLabel("Friends on Facebook")).expandX();
+		row().fillX();
+		add(new HorizontalRule()).expandX();
+		if (!nonPlayerFriendRows.isEmpty()) {
+			for (PlayerFriendItem friendRow : nonPlayerFriendRows) {
+				row().fillX();
+				add(friendRow).expandX();
+			}
+		} else {
+			row().fillX();
+			if (playerFriendRows.isEmpty()) {
+				add(
+						FontManager.Roboto18
+								.makeLabel("Wow, terribly sorry to tell you this..\n\nBut you appear to have no friends.\n\n"))
+						.expandX();
+			} else {
+				add(
+						FontManager.Roboto18
+								.makeLabel("You have already invited everyone, thanks!"))
+						.expandX();
+			}
+		}
 
-    row().fillX().padTop(Display.devicePixel(32));
-    add(FontManager.Roboto24.makeLabel("Friends on Facebook")).expandX();
-    row().fillX();
-    add(new HorizontalRule()).expandX();
-    if (!nonPlayerFriendRows.isEmpty()) {
-      for (PlayerFriendItem friendRow : nonPlayerFriendRows) {
-        row().fillX();
-        add(friendRow).expandX();
-      }
-    } else {
-      row().fillX();
-      if (playerFriendRows.isEmpty()) {
-        add(FontManager.Roboto18
-                    .makeLabel("Wow, terribly sorry to tell you this..\n\nBut you appear to have no friends.\n\n")).expandX();
-      } else {
-        add(FontManager.Roboto18.makeLabel("You have already invited everyone, thanks!")).expandX();
-      }
-    }
+		shoveContentUp();
+		content.invalidateHierarchy();
+	}
 
-    shoveContentUp();
-    content.invalidateHierarchy();
-  }
+	public List<PlayerFriendItem> getNonPlayerFriendRows() {
+		return nonPlayerFriendRows;
+	}
 
-  public List<PlayerFriendItem> getNonPlayerFriendRows() {
-    return nonPlayerFriendRows;
-  }
-
-  public List<PlayerFriendItem> getPlayerFriendRows() {
-    return playerFriendRows;
-  }
+	public List<PlayerFriendItem> getPlayerFriendRows() {
+		return playerFriendRows;
+	}
 }

@@ -11,33 +11,30 @@ import java.util.Date;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class GameUpdate extends HappyDroidServiceObject {
-  public Date releasedOn;
-  public String gitSha;
-  public String version;
-  public int versionCode;
-  public String notes;
-  public boolean active;
+	public Date releasedOn;
+	public String gitSha;
+	public String version;
+	public int versionCode;
+	public String notes;
+	public boolean active;
 
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/gameupdate/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/gameupdate/";
+	}
 
-  @Override
-  protected boolean requireAuthentication() {
-    return false;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return false;
+	}
 
-  @Override
-  public String toString() {
-    return "GameUpdate{" +
-                   "gitSha='" + gitSha + '\'' +
-                   ", releasedOn=" + releasedOn +
-                   ", version='" + version + '\'' +
-                   '}';
-  }
+	@Override
+	public String toString() {
+		return "GameUpdate{" + "gitSha='" + gitSha + '\'' + ", releasedOn="
+				+ releasedOn + ", version='" + version + '\'' + '}';
+	}
 
-  public String getGitSHA() {
-    return gitSha;
-  }
+	public String getGitSHA() {
+		return gitSha;
+	}
 }

@@ -7,21 +7,21 @@ package com.happydroids.droidtowers.tween;
 import aurelienribon.tweenengine.TweenManager;
 
 public class TweenSystem {
-  private TweenSystem() {
+	private TweenSystem() {
 
-  }
+	}
 
-  static TweenManager tweenManager;
+	static TweenManager tweenManager;
 
-  public static TweenManager manager() {
-    if (tweenManager == null) {
-      tweenManager = new TweenManager();
-    }
+	public static TweenManager manager() {
+		if (tweenManager == null) {
+			tweenManager = new TweenManager();
+		}
 
-    return tweenManager;
-  }
+		return tweenManager;
+	}
 
-  public static void setTweenManager(TweenManager tweenManager) {
-    TweenSystem.tweenManager = tweenManager;
-  }
+	public static void setTweenManager(TweenManager tweenManager) {
+		TweenSystem.tweenManager = tweenManager;
+	}
 }

@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 class InputEventBlackHole implements EventListener {
-  @Override
-  public boolean handle(Event e) {
-    if (!(e instanceof InputEvent)) {
-      return false;
-    }
-    InputEvent event = (InputEvent) e;
-    event.cancel();
-    return true;
-  }
+	@Override
+	public boolean handle(Event e) {
+		if (!(e instanceof InputEvent)) {
+			return false;
+		}
+		InputEvent event = (InputEvent) e;
+		event.cancel();
+		return true;
+	}
 }

@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 class TouchSwallower extends Group {
-  public TouchSwallower() {
-    setTouchable(Touchable.enabled);
-    addListener(new InputEventBlackHole());
-  }
+	public TouchSwallower() {
+		setTouchable(Touchable.enabled);
+		addListener(new InputEventBlackHole());
+	}
 }

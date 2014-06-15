@@ -5,6 +5,5 @@
 package com.happydroids.droidtowers.entities;
 
 public enum GridObjectPlacementState {
-  INVALID,
-  PLACED
+	INVALID, PLACED
 }

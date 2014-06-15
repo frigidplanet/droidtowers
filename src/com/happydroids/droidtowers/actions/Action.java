@@ -5,15 +5,15 @@
 package com.happydroids.droidtowers.actions;
 
 public abstract class Action {
-  protected boolean markedForRemoval;
+	protected boolean markedForRemoval;
 
-  protected void markToRemove() {
-    markedForRemoval = true;
-  }
+	protected void markToRemove() {
+		markedForRemoval = true;
+	}
 
-  public boolean isMarkedForRemoval() {
-    return markedForRemoval;
-  }
+	public boolean isMarkedForRemoval() {
+		return markedForRemoval;
+	}
 
-  public abstract void act(float deltaTime);
+	public abstract void act(float deltaTime);
 }

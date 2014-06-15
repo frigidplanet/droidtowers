@@ -11,32 +11,32 @@ import static java.lang.Thread.sleep;
 import static java.lang.Thread.yield;
 
 public abstract class PeriodicBackgroundTask extends BackgroundTask {
-  private final long updateFrequency;
-  private boolean canceled;
+	private final long updateFrequency;
+	private boolean canceled;
 
-  protected PeriodicBackgroundTask(long updateFrequency) {
-    super();
+	protected PeriodicBackgroundTask(long updateFrequency) {
+		super();
 
-    this.updateFrequency = updateFrequency;
-  }
+		this.updateFrequency = updateFrequency;
+	}
 
-  @Override
-  protected final void execute() throws Exception {
-    while (update() && !canceled) {
-      try {
-        if (HappyDroidConsts.DEBUG) {
-          System.out.println("updateFrequency = " + updateFrequency);
-        }
-        sleep(updateFrequency);
-        yield();
-      } catch (InterruptedException ignored) {
-      }
-    }
-  }
+	@Override
+	protected final void execute() throws Exception {
+		while (update() && !canceled) {
+			try {
+				if (HappyDroidConsts.DEBUG) {
+					System.out.println("updateFrequency = " + updateFrequency);
+				}
+				sleep(updateFrequency);
+				yield();
+			} catch (InterruptedException ignored) {
+			}
+		}
+	}
 
-  public abstract boolean update();
+	public abstract boolean update();
 
-  public synchronized void cancel() {
-    canceled = true;
-  }
+	public synchronized void cancel() {
+		canceled = true;
+	}
 }

@@ -9,21 +9,21 @@ import com.happydroids.droidtowers.achievements.Achievement;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class AchievementCompletionEvent implements Pool.Poolable {
-  private Achievement achievement;
+	private Achievement achievement;
 
-  public AchievementCompletionEvent() {
-  }
+	public AchievementCompletionEvent() {
+	}
 
-  public Achievement getAchievement() {
-    return achievement;
-  }
+	public Achievement getAchievement() {
+		return achievement;
+	}
 
-  public void setAchievement(Achievement achievement) {
-    this.achievement = achievement;
-  }
+	public void setAchievement(Achievement achievement) {
+		this.achievement = achievement;
+	}
 
-  @Override
-  public void reset() {
-    achievement = null;
-  }
+	@Override
+	public void reset() {
+		achievement = null;
+	}
 }

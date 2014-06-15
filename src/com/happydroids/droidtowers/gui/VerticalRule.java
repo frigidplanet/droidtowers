@@ -13,36 +13,37 @@ import com.happydroids.droidtowers.TowerAssetManager;
 import static com.happydroids.droidtowers.ColorUtil.rgba;
 
 public class VerticalRule extends Widget {
-  private static final Color DEFAULT_COLOR = rgba("#0099CC"); // android ICS blue!
-  private final Color desiredColor;
-  private final int desiredWidth;
-  private Texture texture;
+	private static final Color DEFAULT_COLOR = rgba("#0099CC"); // android ICS
+																// blue!
+	private final Color desiredColor;
+	private final int desiredWidth;
+	private Texture texture;
 
-  public VerticalRule() {
-    this(DEFAULT_COLOR, 2);
-  }
+	public VerticalRule() {
+		this(DEFAULT_COLOR, 2);
+	}
 
-  public VerticalRule(Color desiredColor, int desiredWidth) {
-    this.desiredColor = desiredColor;
-    this.desiredWidth = desiredWidth;
+	public VerticalRule(Color desiredColor, int desiredWidth) {
+		this.desiredColor = desiredColor;
+		this.desiredWidth = desiredWidth;
 
-    texture = TowerAssetManager.texture(TowerAssetManager.WHITE_SWATCH);
-  }
+		texture = TowerAssetManager.texture(TowerAssetManager.WHITE_SWATCH);
+	}
 
-  public VerticalRule(int height) {
-    this(DEFAULT_COLOR, height);
-  }
+	public VerticalRule(int height) {
+		this(DEFAULT_COLOR, height);
+	}
 
-  @Override
-  public void draw(SpriteBatch batch, float parentAlpha) {
-    Color prevColor = batch.getColor();
-    batch.setColor(desiredColor);
-    batch.draw(texture, getX(), getY(), getWidth(), getHeight());
-    batch.setColor(prevColor);
-  }
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		Color prevColor = batch.getColor();
+		batch.setColor(desiredColor);
+		batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+		batch.setColor(prevColor);
+	}
 
-  @Override
-  public float getPrefWidth() {
-    return desiredWidth;
-  }
+	@Override
+	public float getPrefWidth() {
+		return desiredWidth;
+	}
 }

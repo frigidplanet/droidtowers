@@ -5,8 +5,5 @@
 package com.happydroids.droidtowers.tasks;
 
 public enum MovieState {
-  Failed,
-  Downloading,
-  Queued,
-  Loaded
+	Failed, Downloading, Queued, Loaded
 }

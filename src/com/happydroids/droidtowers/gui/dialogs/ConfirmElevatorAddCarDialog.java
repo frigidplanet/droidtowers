@@ -12,29 +12,31 @@ import com.happydroids.droidtowers.utils.StringUtils;
 
 public class ConfirmElevatorAddCarDialog extends Dialog {
 
-  public ConfirmElevatorAddCarDialog(final Elevator gridObject) {
-    super();
+	public ConfirmElevatorAddCarDialog(final Elevator gridObject) {
+		super();
 
-    if (gridObject.canAddElevatorCar()) {
-      final int costForCar = gridObject.getGridObjectType().getCoins() / 3;
+		if (gridObject.canAddElevatorCar()) {
+			final int costForCar = gridObject.getGridObjectType().getCoins() / 3;
 
-      setMessage("Purchasing another elevator car will cost $" + StringUtils.formatNumber(costForCar) + " now, and\nwill increase the monthly upkeep of this elevator.\n\nDo you want to continue?");
-      addButton("Yes", new OnClickCallback() {
-        @Override
-        public void onClick(Dialog dialog) {
-          dialog.dismiss();
-          Player.instance().subtractCurrency(costForCar);
-          gridObject.addCar();
-        }
-      });
-      addButton("No", new OnClickCallback() {
-        @Override
-        public void onClick(Dialog dialog) {
-          dialog.dismiss();
-        }
-      });
-    } else {
-      setMessage("Sorry this elevator cannot accept anymore cars.");
-    }
-  }
+			setMessage("Purchasing another elevator car will cost $"
+					+ StringUtils.formatNumber(costForCar)
+					+ " now, and\nwill increase the monthly upkeep of this elevator.\n\nDo you want to continue?");
+			addButton("Yes", new OnClickCallback() {
+				@Override
+				public void onClick(Dialog dialog) {
+					dialog.dismiss();
+					Player.instance().subtractCurrency(costForCar);
+					gridObject.addCar();
+				}
+			});
+			addButton("No", new OnClickCallback() {
+				@Override
+				public void onClick(Dialog dialog) {
+					dialog.dismiss();
+				}
+			});
+		} else {
+			setMessage("Sorry this elevator cannot accept anymore cars.");
+		}
+	}
 }

@@ -11,17 +11,18 @@ import com.happydroids.platform.Platform;
 import java.net.URI;
 
 public class ApplicationResumeScene extends SplashScene {
-  @Override
-  public void render(float deltaTime) {
-    super.render(deltaTime);
+	@Override
+	public void render(float deltaTime) {
+		super.render(deltaTime);
 
-    if (TowerAssetManager.assetManager().getProgress() >= 1.0f) {
-      SceneManager.popScene();
+		if (TowerAssetManager.assetManager().getProgress() >= 1.0f) {
+			SceneManager.popScene();
 
-      if (Platform.protocolHandler != null && Platform.protocolHandler.hasUri()) {
-        URI launchUri = Platform.protocolHandler.consumeUri();
-        SceneManager.pushScene(LaunchUriScene.class, launchUri);
-      }
-    }
-  }
+			if (Platform.protocolHandler != null
+					&& Platform.protocolHandler.hasUri()) {
+				URI launchUri = Platform.protocolHandler.consumeUri();
+				SceneManager.pushScene(LaunchUriScene.class, launchUri);
+			}
+		}
+	}
 }

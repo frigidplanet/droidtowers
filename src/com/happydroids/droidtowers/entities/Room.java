@@ -24,201 +24,205 @@ import java.util.Set;
 import static com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class Room extends GridObject {
-  private static BitmapFont labelFont;
-  public static final String DECAL_COUSIN_VINNIE = "cousin-vinnie";
-  public static final String DECAL_TRANSPORT_DISCONNECTED = "transport-disconnected";
-  public static final String DECAL_NEEDS_DROIDS = "needs-droids";
-  public static final String DECAL_DIRTY = "dirty";
-  private Sprite sprite;
+	private static BitmapFont labelFont;
+	public static final String DECAL_COUSIN_VINNIE = "cousin-vinnie";
+	public static final String DECAL_TRANSPORT_DISCONNECTED = "transport-disconnected";
+	public static final String DECAL_NEEDS_DROIDS = "needs-droids";
+	public static final String DECAL_DIRTY = "dirty";
+	private Sprite sprite;
 
-  private static final int UPDATE_FREQUENCY = 10000;
-  private long lastUpdateTime;
-  private int populationRequired;
+	private static final int UPDATE_FREQUENCY = 10000;
+	private long lastUpdateTime;
+	private int populationRequired;
 
-  private Set<Avatar> residents;
-  private float timeUntilDecalCheck = 0.05f;
+	private Set<Avatar> residents;
+	private float timeUntilDecalCheck = 0.05f;
 
+	public Room(RoomType roomType, GameGrid gameGrid) {
+		super(roomType, gameGrid);
 
-  public Room(RoomType roomType, GameGrid gameGrid) {
-    super(roomType, gameGrid);
+		if (availableDecals == null) {
+			availableDecals = Maps.newHashMap();
 
-    if (availableDecals == null) {
-      availableDecals = Maps.newHashMap();
+			for (AtlasRegion region : TowerAssetManager.textureAtlas(
+					"rooms/decals.txt").getRegions()) {
+				availableDecals.put(region.name, region);
+			}
+		}
 
-      for (AtlasRegion region : TowerAssetManager.textureAtlas("rooms/decals.txt").getRegions()) {
-        availableDecals.put(region.name, region);
-      }
-    }
+		sprite = new Sprite(roomType.getTextureRegion(getVariationId()));
 
-    sprite = new Sprite(roomType.getTextureRegion(getVariationId()));
+		residents = Sets.newHashSet();
+	}
 
-    residents = Sets.newHashSet();
-  }
+	@Override
+	public Sprite getSprite() {
+		return sprite;
+	}
 
-  @Override
-  public Sprite getSprite() {
-    return sprite;
-  }
+	@Override
+	public void updateSprite() {
+		sprite.setRegion(gridObjectType.getTextureRegion(getVariationId()));
+	}
 
-  @Override
-  public void updateSprite() {
-    sprite.setRegion(gridObjectType.getTextureRegion(getVariationId()));
-  }
+	@Override
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
+			Color renderTintColor) {
+		super.render(spriteBatch, spriteCache, renderTintColor);
+		renderDecals(spriteBatch);
+	}
 
-  @Override
-  public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
-    super.render(spriteBatch, spriteCache, renderTintColor);
-    renderDecals(spriteBatch);
-  }
+	@Override
+	public void update(float deltaTime) {
+		super.update(deltaTime);
 
-  @Override
-  public void update(float deltaTime) {
-    super.update(deltaTime);
+		timeUntilDecalCheck -= deltaTime;
+		if (timeUntilDecalCheck <= 0) {
+			timeUntilDecalCheck = 2.5f;
+			checkDecals();
+		}
+	}
 
-    timeUntilDecalCheck -= deltaTime;
-    if (timeUntilDecalCheck <= 0) {
-      timeUntilDecalCheck = 2.5f;
-      checkDecals();
-    }
-  }
+	protected void checkDecals() {
+		if (loanFromCousinVinnie > 0) {
+			decalsToDraw.add(DECAL_COUSIN_VINNIE);
+		} else {
+			decalsToDraw.remove(DECAL_COUSIN_VINNIE);
+		}
 
-  protected void checkDecals() {
-    if (loanFromCousinVinnie > 0) {
-      decalsToDraw.add(DECAL_COUSIN_VINNIE);
-    } else {
-      decalsToDraw.remove(DECAL_COUSIN_VINNIE);
-    }
+		if (!connectedToTransport) {
+			decalsToDraw.add(DECAL_TRANSPORT_DISCONNECTED);
+		} else {
+			decalsToDraw.remove(DECAL_TRANSPORT_DISCONNECTED);
+		}
 
-    if (!connectedToTransport) {
-      decalsToDraw.add(DECAL_TRANSPORT_DISCONNECTED);
-    } else {
-      decalsToDraw.remove(DECAL_TRANSPORT_DISCONNECTED);
-    }
+		if (needsDroids()) {
+			decalsToDraw.add(DECAL_NEEDS_DROIDS);
+		} else {
+			decalsToDraw.remove(DECAL_NEEDS_DROIDS);
+		}
+	}
 
-    if (needsDroids()) {
-      decalsToDraw.add(DECAL_NEEDS_DROIDS);
-    } else {
-      decalsToDraw.remove(DECAL_NEEDS_DROIDS);
-    }
-  }
+	public int getNumResidents() {
+		return residents.size();
+	}
 
-  public int getNumResidents() {
-    return residents.size();
-  }
+	@Override
+	public int getCoinsEarned() {
+		if (getNumResidents() > 0 && isConnectedToTransport()) {
+			return Math.round(gridObjectType.getCoinsEarned()
+					* getNumResidents() * getResidencyLevel());
+		}
 
-  @Override
-  public int getCoinsEarned() {
-    if (getNumResidents() > 0 && isConnectedToTransport()) {
-      return Math.round(gridObjectType.getCoinsEarned() * getNumResidents() * getResidencyLevel());
-    }
+		return 0;
+	}
 
-    return 0;
-  }
+	@Override
+	public float getNoiseLevel() {
+		if (((RoomType) gridObjectType).getPopulationMax() > 0) {
+			return super.getNoiseLevel()
+					* (getNumResidents() / ((RoomType) gridObjectType)
+							.getPopulationMax());
+		}
 
-  @Override
-  public float getNoiseLevel() {
-    if (((RoomType) gridObjectType).getPopulationMax() > 0) {
-      return super.getNoiseLevel() * (getNumResidents() / ((RoomType) gridObjectType).getPopulationMax());
-    }
+		return 0;
+	}
 
-    return 0;
-  }
+	@Override
+	public float getDesirability() {
+		if (placed && connectedToTransport) {
+			float value = 1f;
+			value -= getSurroundingNoiseLevel() * 0.5f;
+			value -= getTransportModifier() * 0.5f;
+			value -= getSecurityModifier() * 0.5f;
+			value -= getSurroundingCrimeLevel() * 0.5f;
+			return MathUtils.clamp(value, 0, 1f);
+		}
 
+		return 0f;
+	}
 
-  @Override
-  public float getDesirability() {
-    if (placed && connectedToTransport) {
-      float value = 1f;
-      value -= getSurroundingNoiseLevel() * 0.5f;
-      value -= getTransportModifier() * 0.5f;
-      value -= getSecurityModifier() * 0.5f;
-      value -= getSurroundingCrimeLevel() * 0.5f;
-      return MathUtils.clamp(value, 0, 1f);
-    }
+	private float getSecurityModifier() {
+		float minDist = Float.MAX_VALUE;
+		for (GridPoint gridPoint : getGridPointsTouched()) {
+			minDist = Math
+					.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromSecurity,
+							minDist);
+		}
+		return minDist;
+	}
 
-    return 0f;
-  }
+	@Override
+	public GridObjectPopOver makePopOver() {
+		return new RoomPopOver(this);
+	}
 
-  private float getSecurityModifier() {
-    float minDist = Float.MAX_VALUE;
-    for (GridPoint gridPoint : getGridPointsTouched()) {
-      minDist = Math.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromSecurity, minDist);
-    }
-    return minDist;
-  }
+	@Override
+	protected boolean hasPopOver() {
+		return true;
+	}
 
-  @Override
-  public GridObjectPopOver makePopOver() {
-    return new RoomPopOver(this);
-  }
+	@Override
+	public boolean needsDroids() {
+		return residents.size() == 0;
+	}
 
-  @Override
-  protected boolean hasPopOver() {
-    return true;
-  }
+	private float getTransportModifier() {
+		float minDist = Float.MAX_VALUE;
+		for (GridPoint gridPoint : getGridPointsTouched()) {
+			minDist = Math
+					.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromTransit,
+							minDist);
+		}
+		return minDist;
+	}
 
-  @Override public boolean needsDroids() {
-    return residents.size() == 0;
-  }
+	public float getResidencyLevel() {
+		int populationMax = ((RoomType) gridObjectType).getPopulationMax();
+		if (populationMax == 0) {
+			return 0;
+		}
 
-  private float getTransportModifier() {
-    float minDist = Float.MAX_VALUE;
-    for (GridPoint gridPoint : getGridPointsTouched()) {
-      minDist = Math.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromTransit, minDist);
-    }
-    return minDist;
-  }
+		return residents.size() / (float) populationMax;
+	}
 
-  public float getResidencyLevel() {
-    int populationMax = ((RoomType) gridObjectType).getPopulationMax();
-    if (populationMax == 0) {
-      return 0;
-    }
+	public Set<Avatar> getResidents() {
+		return residents;
+	}
 
-    return residents.size() / (float) populationMax;
-  }
+	@Override
+	public String toString() {
+		return "Room{" + "name=" + getName() + ", supportedResidency="
+				+ getNumSupportedResidents() + ", populationRequired="
+				+ populationRequired + ", residents=" + residents + '}';
+	}
 
-  public Set<Avatar> getResidents() {
-    return residents;
-  }
+	public boolean addResident(Avatar avatar) {
+		if (getNumResidents() < getNumSupportedResidents()) {
+			residents.add(avatar);
+			decalsToDraw.remove(DECAL_NEEDS_DROIDS);
 
-  @Override
-  public String toString() {
-    return "Room{" +
-                   "name=" + getName() +
-                   ", supportedResidency=" + getNumSupportedResidents() +
-                   ", populationRequired=" + populationRequired +
-                   ", residents=" + residents +
-                   '}';
-  }
+			return true;
+		}
 
-  public boolean addResident(Avatar avatar) {
-    if (getNumResidents() < getNumSupportedResidents()) {
-      residents.add(avatar);
-      decalsToDraw.remove(DECAL_NEEDS_DROIDS);
+		return false;
+	}
 
-      return true;
-    }
+	public boolean hasResidents() {
+		return !residents.isEmpty();
+	}
 
-    return false;
-  }
+	public int getNumSupportedResidents() {
+		int populationMax = ((RoomType) gridObjectType).getPopulationMax();
+		float desirability = getDesirability();
+		if (desirability > 0.75f) {
+			return populationMax;
+		}
 
-  public boolean hasResidents() {
-    return !residents.isEmpty();
-  }
+		return (int) Math.ceil(populationMax * desirability);
+	}
 
-  public int getNumSupportedResidents() {
-    int populationMax = ((RoomType) gridObjectType).getPopulationMax();
-    float desirability = getDesirability();
-    if (desirability > 0.75f) {
-      return populationMax;
-    }
-
-    return (int) Math.ceil(populationMax * desirability);
-  }
-
-
-  public void removeResident(Avatar avatar) {
-    residents.remove(avatar);
-  }
+	public void removeResident(Avatar avatar) {
+		residents.remove(avatar);
+	}
 }

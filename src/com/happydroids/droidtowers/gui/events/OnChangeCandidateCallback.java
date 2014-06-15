@@ -7,5 +7,5 @@ package com.happydroids.droidtowers.gui.events;
 import com.happydroids.droidtowers.employee.JobCandidate;
 
 public interface OnChangeCandidateCallback {
-  public void change(JobCandidate candidate);
+	public void change(JobCandidate candidate);
 }

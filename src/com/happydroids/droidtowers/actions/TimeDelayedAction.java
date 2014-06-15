@@ -5,64 +5,64 @@
 package com.happydroids.droidtowers.actions;
 
 public abstract class TimeDelayedAction extends Action {
-  private float currentTime;
-  private float updateFrequency;
-  private boolean shouldRepeat;
-  private boolean hasRunBefore;
-  private boolean paused;
+	private float currentTime;
+	private float updateFrequency;
+	private boolean shouldRepeat;
+	private boolean hasRunBefore;
+	private boolean paused;
 
-  public TimeDelayedAction(float updateFrequency) {
-    this(updateFrequency, true);
-  }
+	public TimeDelayedAction(float updateFrequency) {
+		this(updateFrequency, true);
+	}
 
-  public TimeDelayedAction(float updateFrequency, boolean shouldRepeat) {
-    this.updateFrequency = updateFrequency;
-    currentTime = 0;
-    this.shouldRepeat = shouldRepeat;
-  }
+	public TimeDelayedAction(float updateFrequency, boolean shouldRepeat) {
+		this.updateFrequency = updateFrequency;
+		currentTime = 0;
+		this.shouldRepeat = shouldRepeat;
+	}
 
-  public void act(float deltaTime) {
-    if (hasRunBefore && !shouldRepeat) {
-      return;
-    } else if (paused) {
-      return;
-    }
+	public void act(float deltaTime) {
+		if (hasRunBefore && !shouldRepeat) {
+			return;
+		} else if (paused) {
+			return;
+		}
 
-    currentTime += deltaTime;
+		currentTime += deltaTime;
 
-    if (currentTime >= updateFrequency) {
-      currentTime = 0.0f;
-      hasRunBefore = true;
+		if (currentTime >= updateFrequency) {
+			currentTime = 0.0f;
+			hasRunBefore = true;
 
-      run();
-    }
-  }
+			run();
+		}
+	}
 
-  public void reset() {
-    currentTime = 0.0f;
-    hasRunBefore = false;
-    markedForRemoval = false;
-  }
+	public void reset() {
+		currentTime = 0.0f;
+		hasRunBefore = false;
+		markedForRemoval = false;
+	}
 
-  public boolean isPaused() {
-    return paused;
-  }
+	public boolean isPaused() {
+		return paused;
+	}
 
-  public void pause() {
-    paused = true;
-  }
+	public void pause() {
+		paused = true;
+	}
 
-  public void unpause() {
-    paused = false;
-  }
+	public void unpause() {
+		paused = false;
+	}
 
-  public abstract void run();
+	public abstract void run();
 
-  public void setFrequency(float frequency) {
-    this.updateFrequency = frequency;
-  }
+	public void setFrequency(float frequency) {
+		this.updateFrequency = frequency;
+	}
 
-  protected void scheduleToRunIn(float delay) {
-    currentTime = updateFrequency - delay;
-  }
+	protected void scheduleToRunIn(float delay) {
+		currentTime = updateFrequency - delay;
+	}
 }

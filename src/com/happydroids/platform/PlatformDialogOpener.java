@@ -5,5 +5,5 @@
 package com.happydroids.platform;
 
 public interface PlatformDialogOpener {
-  void showAlert(String title, String message);
+	void showAlert(String title, String message);
 }

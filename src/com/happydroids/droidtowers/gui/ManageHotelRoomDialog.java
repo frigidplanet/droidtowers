@@ -13,67 +13,71 @@ import com.happydroids.droidtowers.entities.HotelRoom;
 import com.happydroids.droidtowers.generators.NameGenerator;
 import com.happydroids.droidtowers.platform.Display;
 
-
 public class ManageHotelRoomDialog extends Dialog {
-  private final HotelRoom hotelRoom;
-  private TextField textField;
+	private final HotelRoom hotelRoom;
+	private TextField textField;
 
-  public ManageHotelRoomDialog(final HotelRoom hotelRoom) {
-    this.hotelRoom = hotelRoom;
+	public ManageHotelRoomDialog(final HotelRoom hotelRoom) {
+		this.hotelRoom = hotelRoom;
 
-    textField = FontManager.Roboto18.makeTextField(hotelRoom.getName(), "");
+		textField = FontManager.Roboto18.makeTextField(hotelRoom.getName(), "");
 
-    setTitle("Manage: " + hotelRoom.getName());
-    setView(makeContentView());
+		setTitle("Manage: " + hotelRoom.getName());
+		setView(makeContentView());
 
-    addButton("Save", new OnClickCallback() {
-      @Override
-      public void onClick(Dialog dialog) {
-        dismiss();
+		addButton("Save", new OnClickCallback() {
+			@Override
+			public void onClick(Dialog dialog) {
+				dismiss();
 
-        hotelRoom.setName(textField.getText());
-      }
-    });
+				hotelRoom.setName(textField.getText());
+			}
+		});
 
-    addButton("Discard", new OnClickCallback() {
-      @Override
-      public void onClick(Dialog dialog) {
-        dismiss();
-      }
-    });
-  }
+		addButton("Discard", new OnClickCallback() {
+			@Override
+			public void onClick(Dialog dialog) {
+				dismiss();
+			}
+		});
+	}
 
-  private Actor makeContentView() {
-    Table content = new Table();
-    content.defaults().pad(Display.devicePixel(4));
+	private Actor makeContentView() {
+		Table content = new Table();
+		content.defaults().pad(Display.devicePixel(4));
 
-    content.row().fillX();
-    content.add(FontManager.Roboto18.makeLabel("Name of " + hotelRoom.getGridObjectType().getName()))
-            .expandX()
-            .colspan(2);
+		content.row().fillX();
+		content.add(
+				FontManager.Roboto18.makeLabel("Name of "
+						+ hotelRoom.getGridObjectType().getName())).expandX()
+				.colspan(2);
 
-    content.row();
-    content.add(textField).width(400);
-    content.add(makeRandomNameButton());
+		content.row();
+		content.add(textField).width(400);
+		content.add(makeRandomNameButton());
 
-    content.row();
-    content.add(FontManager.Roboto18.makeLabel("Uses between Cleanings")).colspan(2);
+		content.row();
+		content.add(FontManager.Roboto18.makeLabel("Uses between Cleanings"))
+				.colspan(2);
 
-    content.row();
-    content.add(FontManager.Roboto18.makeLabel(String.valueOf(hotelRoom.getNumVisitors()))).colspan(2);
+		content.row();
+		content.add(
+				FontManager.Roboto18.makeLabel(String.valueOf(hotelRoom
+						.getNumVisitors()))).colspan(2);
 
-    return content;
-  }
+		return content;
+	}
 
-  private TextButton makeRandomNameButton() {
-    TextButton randomNameButton = FontManager.Roboto12.makeTextButton("Random Name");
-    randomNameButton.addListener(new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        textField.setText(NameGenerator.randomCorporationName());
-      }
-    });
+	private TextButton makeRandomNameButton() {
+		TextButton randomNameButton = FontManager.Roboto12
+				.makeTextButton("Random Name");
+		randomNameButton.addListener(new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				textField.setText(NameGenerator.randomCorporationName());
+			}
+		});
 
-    return randomNameButton;
-  }
+		return randomNameButton;
+	}
 }

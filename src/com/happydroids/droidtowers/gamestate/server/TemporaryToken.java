@@ -11,61 +11,56 @@ import com.happydroids.droidtowers.TowerConsts;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TemporaryToken extends TowerGameServiceObject {
-  private String value;
-  private String clickableUri;
-  private SessionToken session;
+	private String value;
+	private String clickableUri;
+	private SessionToken session;
 
-  @Override
-  public String getBaseResourceUri() {
-    return TowerConsts.HAPPYDROIDS_URI + "/api/v1/temporarytoken/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return TowerConsts.HAPPYDROIDS_URI + "/api/v1/temporarytoken/";
+	}
 
-  public TemporaryToken() {
-  }
+	public TemporaryToken() {
+	}
 
-  @Override
-  protected boolean requireAuthentication() {
-    return false;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return false;
+	}
 
-  public boolean validate() {
-    fetch(NO_OP_API_RUNNABLE);
-    return hasSessionToken();
-  }
+	public boolean validate() {
+		fetch(NO_OP_API_RUNNABLE);
+		return hasSessionToken();
+	}
 
-  public String getValue() {
-    return value;
-  }
+	public String getValue() {
+		return value;
+	}
 
-  public String getSessionToken() {
-    return session != null ? session.token : null;
-  }
+	public String getSessionToken() {
+		return session != null ? session.token : null;
+	}
 
-  public boolean hasSessionToken() {
-    return session != null && session.token != null;
-  }
+	public boolean hasSessionToken() {
+		return session != null && session.token != null;
+	}
 
-  public String getClickableUri() {
-    return clickableUri;
-  }
+	public String getClickableUri() {
+		return clickableUri;
+	}
 
-  public class SessionToken {
-    public String token;
+	public class SessionToken {
+		public String token;
 
-    @Override
-    public String toString() {
-      return "SessionToken{" +
-                     "token='" + token + '\'' +
-                     '}';
-    }
-  }
+		@Override
+		public String toString() {
+			return "SessionToken{" + "token='" + token + '\'' + '}';
+		}
+	}
 
-  @Override
-  public String toString() {
-    return "TemporaryToken{" +
-                   "resourceUri='" + getResourceUri() + '\'' +
-                   ", value=" + value +
-                   ", session=" + session +
-                   '}';
-  }
+	@Override
+	public String toString() {
+		return "TemporaryToken{" + "resourceUri='" + getResourceUri() + '\''
+				+ ", value=" + value + ", session=" + session + '}';
+	}
 }

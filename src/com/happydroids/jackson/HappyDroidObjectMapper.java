@@ -14,26 +14,29 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.happydroids.server.StackTraceSerializer;
 
 public class HappyDroidObjectMapper extends ObjectMapper {
-  protected final SimpleModule happyModules;
+	protected final SimpleModule happyModules;
 
-  public HappyDroidObjectMapper() {
-    super();
+	public HappyDroidObjectMapper() {
+		super();
 
-    configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    happyModules = new SimpleModule();
-    happyModules.addSerializer(new StackTraceSerializer());
-    registerModule(happyModules);
+		configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		happyModules = new SimpleModule();
+		happyModules.addSerializer(new StackTraceSerializer());
+		registerModule(happyModules);
 
-    setFilters(new SimpleFilterProvider().addFilter("HappyDroidServiceObject", SimpleBeanPropertyFilter.serializeAllExcept("id")));
-  }
+		setFilters(new SimpleFilterProvider().addFilter(
+				"HappyDroidServiceObject",
+				SimpleBeanPropertyFilter.serializeAllExcept("id")));
+	}
 
-  public void addSerializer(JsonSerializer serializer) {
-    happyModules.addSerializer(serializer);
-    registerModule(happyModules);
-  }
+	public void addSerializer(JsonSerializer serializer) {
+		happyModules.addSerializer(serializer);
+		registerModule(happyModules);
+	}
 
-  public void addDeserializer(Class<Class> clazz, JsonDeserializer<Class> deserializer) {
-    happyModules.addDeserializer(clazz, deserializer);
-    registerModule(happyModules);
-  }
+	public void addDeserializer(Class<Class> clazz,
+			JsonDeserializer<Class> deserializer) {
+		happyModules.addDeserializer(clazz, deserializer);
+		registerModule(happyModules);
+	}
 }

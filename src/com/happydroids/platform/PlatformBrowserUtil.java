@@ -5,5 +5,5 @@
 package com.happydroids.platform;
 
 public interface PlatformBrowserUtil {
-  public void launchWebBrowser(final String uri);
+	public void launchWebBrowser(final String uri);
 }

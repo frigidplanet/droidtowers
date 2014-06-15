@@ -25,136 +25,153 @@ import static com.happydroids.droidtowers.input.InputSystem.Keys;
 import static com.happydroids.droidtowers.types.ProviderType.SKY_LOBBY;
 
 public class PlacementTool extends ToolBase {
-  private GridObjectType gridObjectType;
-  private GridObject gridObject;
-  private GridPoint touchDownPointDelta;
-  private boolean isDraggingGridObject;
-  private GridObjectPurchaseChecker gridObjectPurchaseChecker;
-  private final InputCallback cancelPlacementInputCallback;
+	private GridObjectType gridObjectType;
+	private GridObject gridObject;
+	private GridPoint touchDownPointDelta;
+	private boolean isDraggingGridObject;
+	private GridObjectPurchaseChecker gridObjectPurchaseChecker;
+	private final InputCallback cancelPlacementInputCallback;
 
-  public PlacementTool(OrthographicCamera camera, List<GameLayer> gameLayers, GameGrid gameGrid) {
-    super(camera, gameLayers, gameGrid);
+	public PlacementTool(OrthographicCamera camera, List<GameLayer> gameLayers,
+			GameGrid gameGrid) {
+		super(camera, gameLayers, gameGrid);
 
-    cancelPlacementInputCallback = new InputCallback() {
-      public boolean run(float timeDelta) {
-        InputSystem.instance().switchTool(GestureTool.PICKER, null);
-        return true;
-      }
-    };
+		cancelPlacementInputCallback = new InputCallback() {
+			public boolean run(float timeDelta) {
+				InputSystem.instance().switchTool(GestureTool.PICKER, null);
+				return true;
+			}
+		};
 
-    InputSystem.instance().bind(new int[]{Keys.ESCAPE, Keys.BACK}, cancelPlacementInputCallback);
-  }
+		InputSystem.instance().bind(new int[] { Keys.ESCAPE, Keys.BACK },
+				cancelPlacementInputCallback);
+	}
 
-  public void setup(GridObjectType gridObjectType) {
-    this.gridObjectType = gridObjectType;
-  }
+	public void setup(GridObjectType gridObjectType) {
+		this.gridObjectType = gridObjectType;
+	}
 
-  public boolean touchDown(float x, float y, int pointer, int button) {
-    Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
-    GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
-    makeGridObjectAtFinger_whenGridObjectIsNull(gridPointAtFinger);
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
+		GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x,
+				worldPoint.y);
+		makeGridObjectAtFinger_whenGridObjectIsNull(gridPointAtFinger);
 
-    isDraggingGridObject = gridObject.getWorldBounds().contains(worldPoint.x, worldPoint.y);
+		isDraggingGridObject = gridObject.getWorldBounds().contains(
+				worldPoint.x, worldPoint.y);
 
-    return true;
-  }
+		return true;
+	}
 
-  public boolean tap(float x, float y, int count, int button) {
-    return count >= 2 && finishPurchase();
-  }
+	public boolean tap(float x, float y, int count, int button) {
+		return count >= 2 && finishPurchase();
+	}
 
-  @Override
-  public boolean longPress(float x, float y) {
-    return finishPurchase();
-  }
+	@Override
+	public boolean longPress(float x, float y) {
+		return finishPurchase();
+	}
 
-  public boolean pan(float x, float y, float deltaX, float deltaY) {
-    if (isDraggingGridObject) {
-      Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
-      Vector3 deltaPoint = camera.getPickRay(x + -deltaX, y + deltaY).getEndPoint(1);
-      GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
+	public boolean pan(float x, float y, float deltaX, float deltaY) {
+		if (isDraggingGridObject) {
+			Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
+			Vector3 deltaPoint = camera.getPickRay(x + -deltaX, y + deltaY)
+					.getEndPoint(1);
+			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(
+					worldPoint.x, worldPoint.y);
 
-      if (touchDownPointDelta != null) {
-        gridPointAtFinger.sub(touchDownPointDelta);
-      }
-      if (gridObject != null) {
-        gridObject.setPosition(gridPointAtFinger);
-      }
+			if (touchDownPointDelta != null) {
+				gridPointAtFinger.sub(touchDownPointDelta);
+			}
+			if (gridObject != null) {
+				gridObject.setPosition(gridPointAtFinger);
+			}
 
-      return true;
-    }
+			return true;
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  @Override
-  public void update(float deltaTime) {
-    if (!Gdx.app.getType().equals(Android)) {
-      Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(), Gdx.input.getY()).getEndPoint(1);
-      GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
+	@Override
+	public void update(float deltaTime) {
+		if (!Gdx.app.getType().equals(Android)) {
+			Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(),
+					Gdx.input.getY()).getEndPoint(1);
+			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(
+					worldPoint.x, worldPoint.y);
 
-      makeGridObjectAtFinger_whenGridObjectIsNull(gridPointAtFinger);
+			makeGridObjectAtFinger_whenGridObjectIsNull(gridPointAtFinger);
 
-      if (gridObject != null) {
-        gridObject.setPosition(gridPointAtFinger);
-      }
-    }
-  }
+			if (gridObject != null) {
+				gridObject.setPosition(gridPointAtFinger);
+			}
+		}
+	}
 
-  private void makeGridObjectAtFinger_whenGridObjectIsNull(GridPoint gridPointAtFinger) {
-    if (gridObject == null) {
-      gridObject = gridObjectType.makeGridObject(gameGrid);
-      gridObject.setPosition(gridPointAtFinger);
+	private void makeGridObjectAtFinger_whenGridObjectIsNull(
+			GridPoint gridPointAtFinger) {
+		if (gridObject == null) {
+			gridObject = gridObjectType.makeGridObject(gameGrid);
+			gridObject.setPosition(gridPointAtFinger);
 
-      gameGrid.addObject(gridObject);
-    } else {
-      touchDownPointDelta = gridPointAtFinger.cpy().sub(gridObject.getPosition());
-    }
-  }
+			gameGrid.addObject(gridObject);
+		} else {
+			touchDownPointDelta = gridPointAtFinger.cpy().sub(
+					gridObject.getPosition());
+		}
+	}
 
-  private boolean finishPurchase() {
-    if (gridObject != null) {
-      if (gridObject.getPosition().y > LIMITED_VERSION_MAX_FLOOR && !Platform.getPurchaseManager()
-                                                                             .hasPurchasedUnlimitedVersion()) {
-        new PurchaseDroidTowersUnlimitedPrompt().show();
-        return true;
-      } else if (!gameGrid.canObjectBeAt(gridObject)) {
-        HeadsUpDisplay.showToast(gridObjectType.provides(SKY_LOBBY) ? "The Sky Lobby can only be built every 15 floors." : "This object cannot be placed here.");
-        return true;
-      } else {
-        gridObject.setPlaced(true);
-        gridObject = null;
+	private boolean finishPurchase() {
+		if (gridObject != null) {
+			if (gridObject.getPosition().y > LIMITED_VERSION_MAX_FLOOR
+					&& !Platform.getPurchaseManager()
+							.hasPurchasedUnlimitedVersion()) {
+				new PurchaseDroidTowersUnlimitedPrompt().show();
+				return true;
+			} else if (!gameGrid.canObjectBeAt(gridObject)) {
+				HeadsUpDisplay
+						.showToast(gridObjectType.provides(SKY_LOBBY) ? "The Sky Lobby can only be built every 15 floors."
+								: "This object cannot be placed here.");
+				return true;
+			} else {
+				gridObject.setPlaced(true);
+				gridObject = null;
 
-        if (gridObjectPurchaseChecker != null) {
-          gridObjectPurchaseChecker.makePurchase();
+				if (gridObjectPurchaseChecker != null) {
+					gridObjectPurchaseChecker.makePurchase();
 
-          if(!gridObjectType.allowContinuousPurchase()) {
-            InputSystem.instance().switchTool(GestureTool.PICKER, null);
-          }
-        }
-      }
-    }
+					if (!gridObjectType.allowContinuousPurchase()) {
+						InputSystem.instance().switchTool(GestureTool.PICKER,
+								null);
+					}
+				}
+			}
+		}
 
-    touchDownPointDelta = null;
+		touchDownPointDelta = null;
 
-    return false;
-  }
+		return false;
+	}
 
-  public void enterPurchaseMode() {
-    gridObjectPurchaseChecker = new GridObjectPurchaseChecker(gameGrid, gridObjectType);
+	public void enterPurchaseMode() {
+		gridObjectPurchaseChecker = new GridObjectPurchaseChecker(gameGrid,
+				gridObjectType);
 
-    if (gridObjectPurchaseChecker != null && !gridObjectPurchaseChecker.canPurchase()) {
-      InputSystem.instance().switchTool(GestureTool.PICKER, null);
-    }
-  }
+		if (gridObjectPurchaseChecker != null
+				&& !gridObjectPurchaseChecker.canPurchase()) {
+			InputSystem.instance().switchTool(GestureTool.PICKER, null);
+		}
+	}
 
-  @Override
-  public void cleanup() {
-    if (gridObject != null) {
-      gameGrid.removeObject(gridObject);
-      gridObject = null;
-    }
+	@Override
+	public void cleanup() {
+		if (gridObject != null) {
+			gameGrid.removeObject(gridObject);
+			gridObject = null;
+		}
 
-    InputSystem.instance().unbind(new int[]{Keys.ESCAPE, Keys.BACK}, cancelPlacementInputCallback);
-  }
+		InputSystem.instance().unbind(new int[] { Keys.ESCAPE, Keys.BACK },
+				cancelPlacementInputCallback);
+	}
 }

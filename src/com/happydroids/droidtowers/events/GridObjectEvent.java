@@ -8,18 +8,18 @@ import com.badlogic.gdx.utils.Pool;
 import com.happydroids.droidtowers.entities.GridObject;
 
 public class GridObjectEvent implements Pool.Poolable {
-  protected GridObject gridObject;
+	protected GridObject gridObject;
 
-  @Override
-  public void reset() {
-    gridObject = null;
-  }
+	@Override
+	public void reset() {
+		gridObject = null;
+	}
 
-  public GridObject getGridObject() {
-    return gridObject;
-  }
+	public GridObject getGridObject() {
+		return gridObject;
+	}
 
-  public void setGridObject(GridObject gridObject) {
-    this.gridObject = gridObject;
-  }
+	public void setGridObject(GridObject gridObject) {
+		this.gridObject = gridObject;
+	}
 }

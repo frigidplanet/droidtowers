@@ -5,6 +5,6 @@
 package com.happydroids.droidtowers.events;
 
 public class WeatherStateChangeEvent {
-  public WeatherStateChangeEvent() {
-  }
+	public WeatherStateChangeEvent() {
+	}
 }

@@ -11,44 +11,45 @@ import com.happydroids.droidtowers.gui.dialogs.CousinVinnieRepayLoanDialog;
 import com.happydroids.droidtowers.platform.Display;
 
 public class CommercialSpacePopOver extends GridObjectPopOver<CommercialSpace> {
-  private RatingBar crimeBar;
-  private RatingBar employmentBar;
-  private RatingBar dirtLevelBar;
+	private RatingBar crimeBar;
+	private RatingBar employmentBar;
+	private RatingBar dirtLevelBar;
 
-  public CommercialSpacePopOver(final CommercialSpace commercialSpace) {
-    super(commercialSpace);
-  }
+	public CommercialSpacePopOver(final CommercialSpace commercialSpace) {
+		super(commercialSpace);
+	}
 
-  @Override
-  protected void buildControls() {
-    super.buildControls();
+	@Override
+	protected void buildControls() {
+		super.buildControls();
 
-    employmentBar = makeStarRatingBar("Employment");
-    crimeBar = makeStarRatingBar("Crime");
-    crimeBar.setTextures(RatingBar.SECURITY_ICON);
-    dirtLevelBar = makeStarRatingBar("Dirt");
-    dirtLevelBar.setTextures(RatingBar.COCKROACH_ICON);
+		employmentBar = makeStarRatingBar("Employment");
+		crimeBar = makeStarRatingBar("Crime");
+		crimeBar.setTextures(RatingBar.SECURITY_ICON);
+		dirtLevelBar = makeStarRatingBar("Dirt");
+		dirtLevelBar.setTextures(RatingBar.COCKROACH_ICON);
 
-    ButtonBar buttonBar = new ButtonBar();
-    if (gridObject.hasLoanFromCousinVinnie()) {
-      buttonBar.addButton("Repay Vinnie", new VibrateClickListener() {
-        @Override
-        public void onClick(InputEvent event, float x, float y) {
-          new CousinVinnieRepayLoanDialog(gridObject).show();
-        }
-      });
-    }
+		ButtonBar buttonBar = new ButtonBar();
+		if (gridObject.hasLoanFromCousinVinnie()) {
+			buttonBar.addButton("Repay Vinnie", new VibrateClickListener() {
+				@Override
+				public void onClick(InputEvent event, float x, float y) {
+					new CousinVinnieRepayLoanDialog(gridObject).show();
+				}
+			});
+		}
 
-    row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
-    add(buttonBar).expandX().minWidth(200);
-  }
+		row().fillX().pad(Display.devicePixel(-8))
+				.padTop(Display.devicePixel(16));
+		add(buttonBar).expandX().minWidth(200);
+	}
 
-  @Override
-  protected void updateControls() {
-    super.updateControls();
+	@Override
+	protected void updateControls() {
+		super.updateControls();
 
-    crimeBar.setValue(gridObject.getSurroundingCrimeLevel() * 5f);
-    employmentBar.setValue(gridObject.getEmploymentLevel() * 5f);
-    dirtLevelBar.setValue(gridObject.getDirtLevel() * 5f);
-  }
+		crimeBar.setValue(gridObject.getSurroundingCrimeLevel() * 5f);
+		employmentBar.setValue(gridObject.getEmploymentLevel() * 5f);
+		dirtLevelBar.setValue(gridObject.getDirtLevel() * 5f);
+	}
 }

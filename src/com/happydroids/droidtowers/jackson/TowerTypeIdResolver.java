@@ -12,20 +12,20 @@ import com.happydroids.droidtowers.utils.ClassNameResolver;
 import java.io.IOException;
 
 public class TowerTypeIdResolver extends ClassNameIdResolver {
-  public TowerTypeIdResolver() {
-    super(null, null);
-  }
+	public TowerTypeIdResolver() {
+		super(null, null);
+	}
 
-  public JavaType typeFromId(String id) {
-    try {
-      Class clazz = ClassNameResolver.resolveClass(id);
-      if (clazz != null) {
-        return TypeFactory.defaultInstance().constructType(clazz);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+	public JavaType typeFromId(String id) {
+		try {
+			Class clazz = ClassNameResolver.resolveClass(id);
+			if (clazz != null) {
+				return TypeFactory.defaultInstance().constructType(clazz);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
-    return super.typeFromId(id);
-  }
+		return super.typeFromId(id);
+	}
 }

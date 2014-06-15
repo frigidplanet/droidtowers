@@ -33,293 +33,309 @@ import static com.happydroids.droidtowers.math.Direction.*;
 import static com.happydroids.droidtowers.tween.GameObjectAccessor.POSITION;
 
 public class AvatarSteeringManager {
-  private static final String TAG = AvatarSteeringManager.class.getSimpleName();
-  public static final float MOVEMENT_SPEED = 30;
+	private static final String TAG = AvatarSteeringManager.class
+			.getSimpleName();
+	public static final float MOVEMENT_SPEED = 30;
 
-  private final Avatar avatar;
-  private final GameGrid gameGrid;
-  private Array<GridPosition> path;
-  private boolean running;
-  private GridPosition currentPos;
-  private Vector2 currentWorldPos;
-  private Vector2 nextWorldPos;
-  private TransitLine transitLine = new TransitLine();
-  private boolean movingHorizontally;
-  private Direction horizontalDirection;
-  private int currentState;
-  private Runnable completeCallback;
-  private int pointsTraveled;
-  private float randomSpeedModifier;
+	private final Avatar avatar;
+	private final GameGrid gameGrid;
+	private Array<GridPosition> path;
+	private boolean running;
+	private GridPosition currentPos;
+	private Vector2 currentWorldPos;
+	private Vector2 nextWorldPos;
+	private TransitLine transitLine = new TransitLine();
+	private boolean movingHorizontally;
+	private Direction horizontalDirection;
+	private int currentState;
+	private Runnable completeCallback;
+	private int pointsTraveled;
+	private float randomSpeedModifier;
 
+	public AvatarSteeringManager(Avatar avatar, GameGrid gameGrid) {
+		this.avatar = avatar;
+		this.gameGrid = gameGrid;
 
-  public AvatarSteeringManager(Avatar avatar, GameGrid gameGrid) {
-    this.avatar = avatar;
-    this.gameGrid = gameGrid;
+		currentWorldPos = new Vector2();
+		nextWorldPos = new Vector2();
 
-    currentWorldPos = new Vector2();
-    nextWorldPos = new Vector2();
+		currentState = 0;
+		transitLine = new TransitLine();
+		transitLine.setVisible(avatar.isVisible());
+		transitLine.setColor(avatar.getColor());
 
-    currentState = 0;
-    transitLine = new TransitLine();
-    transitLine.setVisible(avatar.isVisible());
-    transitLine.setColor(avatar.getColor());
+		gameGrid.getRenderer().addTransitLine(transitLine);
+	}
 
-    gameGrid.getRenderer().addTransitLine(transitLine);
-  }
+	public void start() {
+		running = true;
+		pointsTraveled = 0;
 
-  public void start() {
-    running = true;
-    pointsTraveled = 0;
+		currentState = 0;
+		randomSpeedModifier = MathUtils.random(0.5f, 1.75f);
+		transitLine.clear();
+		for (int i = 0, pathSize = path.size; i < pathSize; i++) {
+			GridPosition position = path.get(i);
+			transitLine.addPoint(position.worldPoint());
+		}
 
-    currentState = 0;
-    randomSpeedModifier = MathUtils.random(0.5f, 1.75f);
-    transitLine.clear();
-    for (int i = 0, pathSize = path.size; i < pathSize; i++) {
-      GridPosition position = path.get(i);
-      transitLine.addPoint(position.worldPoint());
-    }
+		advancePosition();
+	}
 
-    advancePosition();
-  }
+	public void finished() {
+		if (!running) {
+			return;
+		}
 
-  public void finished() {
-    if (!running) {
-      return;
-    }
+		if (currentPos != null && currentPos.elevator != null) {
+			currentPos.elevator.removePassenger(this);
+		}
 
-    if (currentPos != null && currentPos.elevator != null) {
-      currentPos.elevator.removePassenger(this);
-    }
+		running = false;
+		pointsTraveled = 0;
+		TweenSystem.manager().killTarget(avatar);
 
-    running = false;
-    pointsTraveled = 0;
-    TweenSystem.manager().killTarget(avatar);
+		avatar.afterReachingTarget();
+	}
 
-    avatar.afterReachingTarget();
-  }
+	private void advancePosition() {
+		if (!running) {
+			return;
+		}
 
-  private void advancePosition() {
-    if (!running) {
-      return;
-    }
+		pointsTraveled += 1;
 
-    pointsTraveled += 1;
+		if (path.size == 0 || pointsTraveled == path.size) {
+			finished();
+			return;
+		}
 
-    if (path.size == 0 || pointsTraveled == path.size) {
-      finished();
-      return;
-    }
+		transitLine.highlightPoint(pointsTraveled);
+		currentPos = path.get(pointsTraveled);
+		currentWorldPos.set(currentPos.worldPoint());
 
-    transitLine.highlightPoint(pointsTraveled);
-    currentPos = path.get(pointsTraveled);
-    currentWorldPos.set(currentPos.worldPoint());
+		if (pointsTraveled + 1 < path.size) {
+			GridPosition next = path.get(pointsTraveled + 1);
+			if (next != null && next.y != currentPos.y) {
+				if (currentPos.stair != null) {
+					pointsTraveled++;
+					traverseStair(next);
+					return;
+				} else if (currentPos.elevator != null) {
+					GridPosition endOfElevator = null;
+					do {
+						if (next != null && next.elevator != null
+								&& next.elevator.equals(currentPos.elevator)
+								&& currentPos.y != next.y) {
+							transitLine.highlightPoint(pointsTraveled++);
+							endOfElevator = next;
+						} else {
+							break;
+						}
 
-    if (pointsTraveled + 1 < path.size) {
-      GridPosition next = path.get(pointsTraveled + 1);
-      if (next != null && next.y != currentPos.y) {
-        if (currentPos.stair != null) {
-          pointsTraveled++;
-          traverseStair(next);
-          return;
-        } else if (currentPos.elevator != null) {
-          GridPosition endOfElevator = null;
-          do {
-            if (next != null && next.elevator != null && next.elevator
-                .equals(currentPos.elevator) && currentPos.y != next.y) {
-              transitLine.highlightPoint(pointsTraveled++);
-              endOfElevator = next;
-            } else {
-              break;
-            }
+						next = pointsTraveled + 1 < path.size ? path
+								.get(pointsTraveled + 1) : null;
+					} while (next != null);
 
-            next = pointsTraveled + 1 < path.size ? path.get(pointsTraveled + 1) : null;
-          } while (next != null);
+					if (endOfElevator != null) {
+						traverseElevator(endOfElevator);
+						return;
+					}
+				}
+			}
+		}
 
-          if (endOfElevator != null) {
-            traverseElevator(endOfElevator);
-            return;
-          }
-        }
-      }
-    }
+		moveAvatarTo(currentPos, new TweenCallback() {
+			public void onEvent(int type, BaseTween source) {
+				advancePosition();
+			}
+		});
+	}
 
-    moveAvatarTo(currentPos, new TweenCallback() {
-      public void onEvent(int type, BaseTween source) {
-        advancePosition();
-      }
-    });
-  }
+	private void traverseElevator(final GridPosition destination) {
+		int offsetX = TowerConsts.GRID_UNIT_SIZE
+				+ Random.randomInt(0, TowerConsts.GRID_UNIT_SIZE);
+		nextWorldPos.set(currentPos.worldPoint());
 
-  private void traverseElevator(final GridPosition destination) {
-    int offsetX = TowerConsts.GRID_UNIT_SIZE + Random.randomInt(0, TowerConsts.GRID_UNIT_SIZE);
-    nextWorldPos.set(currentPos.worldPoint());
+		GridPosition leftOfElevator = gameGrid.positionCache().getPosition(
+				currentPos.x - 1, currentPos.y);
+		if (leftOfElevator != null && !leftOfElevator.isEmpty()) {
+			nextWorldPos.x -= -offsetX;
+		} else {
+			GridPosition rightOfElevator = gameGrid.positionCache()
+					.getPosition(currentPos.x + 1, currentPos.y);
+			if (rightOfElevator != null && !rightOfElevator.isEmpty()) {
+				nextWorldPos.x += offsetX;
+			}
+		}
 
+		moveAvatarTo(nextWorldPos, new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween source) {
+				if (currentPos.elevator == null) {
+					finished();
+					return;
+				}
 
-    GridPosition leftOfElevator = gameGrid.positionCache().getPosition(currentPos.x - 1, currentPos.y);
-    if (leftOfElevator != null && !leftOfElevator.isEmpty()) {
-      nextWorldPos.x -= -offsetX;
-    } else {
-      GridPosition rightOfElevator = gameGrid.positionCache().getPosition(currentPos.x + 1, currentPos.y);
-      if (rightOfElevator != null && !rightOfElevator.isEmpty()) {
-        nextWorldPos.x += offsetX;
-      }
-    }
+				boolean addedPassenger = currentPos.elevator.addPassenger(
+						AvatarSteeringManager.this, currentPos.y,
+						destination.y,
+						uponArrivalAtElevatorDestination(destination));
+				if (!addedPassenger) {
+					Gdx.app.error(TAG, "ZOMG CANNOT REACH FLOOR!!!");
+					finished();
+				}
+			}
+		});
+	}
 
-    moveAvatarTo(nextWorldPos, new TweenCallback() {
-      @Override
-      public void onEvent(int type, BaseTween source) {
-        if (currentPos.elevator == null) {
-          finished();
-          return;
-        }
+	private Runnable uponArrivalAtElevatorDestination(
+			final GridPosition destination) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				currentPos = destination;
+				moveAvatarTo(currentPos, new TweenCallback() {
+					@Override
+					public void onEvent(int type, BaseTween source) {
+						currentState = AvatarState.MOVING;
+						advancePosition();
+					}
+				});
+			}
+		};
+	}
 
-        boolean addedPassenger = currentPos.elevator
-            .addPassenger(AvatarSteeringManager.this, currentPos.y, destination.y, uponArrivalAtElevatorDestination(destination));
-        if (!addedPassenger) {
-          Gdx.app.error(TAG, "ZOMG CANNOT REACH FLOOR!!!");
-          finished();
-        }
-      }
-    });
-  }
+	private void traverseStair(final GridPosition nextPosition) {
+		if (currentPos.stair == null) {
+			finished();
+			return;
+		}
 
-  private Runnable uponArrivalAtElevatorDestination(final GridPosition destination) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        currentPos = destination;
-        moveAvatarTo(currentPos, new TweenCallback() {
-          @Override
-          public void onEvent(int type, BaseTween source) {
-            currentState = AvatarState.MOVING;
-            advancePosition();
-          }
-        });
-      }
-    };
-  }
+		currentState = AvatarState.USING_STAIRS;
 
-  private void traverseStair(final GridPosition nextPosition) {
-    if (currentPos.stair == null) {
-      finished();
-      return;
-    }
+		Direction verticalDir = nextPosition.y < currentPos.y ? DOWN : UP;
+		Stair stair = verticalDir.equals(UP) ? currentPos.stair
+				: nextPosition.stair;
+		if (stair == null) {
+			finished();
+			return;
+		}
 
-    currentState = AvatarState.USING_STAIRS;
+		Rectangle stairBounds = stair.getWorldBounds();
+		Vector2 stairBottomRight = new Vector2(stairBounds.x
+				+ stairBounds.width - avatar.getWidth(), stairBounds.y);
+		final Vector2 stairTopLeft = new Vector2(stairBounds.x, stairBounds.y
+				+ stairBounds.height);
 
-    Direction verticalDir = nextPosition.y < currentPos.y ? DOWN : UP;
-    Stair stair = verticalDir.equals(UP) ? currentPos.stair : nextPosition.stair;
-    if (stair == null) {
-      finished();
-      return;
-    }
+		List<Vector2> points = Lists.newArrayList();
+		points.add(currentPos.worldPoint());
 
+		if (verticalDir.equals(UP)) {
+			points.add(stairBottomRight);
+			points.add(stairTopLeft);
+		} else {
+			points.add(stairTopLeft);
+			points.add(stairBottomRight);
+		}
+		points.add(nextPosition.worldPoint());
 
-    Rectangle stairBounds = stair.getWorldBounds();
-    Vector2 stairBottomRight = new Vector2(stairBounds.x + stairBounds.width - avatar.getWidth(), stairBounds.y);
-    final Vector2 stairTopLeft = new Vector2(stairBounds.x, stairBounds.y + stairBounds.height);
+		final TransitLine stairLine = new TransitLine();
+		stairLine.addPoints(points);
+		stairLine.setColor(avatar.getColor());
+		gameGrid.getRenderer().addTransitLine(stairLine);
 
-    List<Vector2> points = Lists.newArrayList();
-    points.add(currentPos.worldPoint());
+		Timeline sequence = Timeline.createSequence();
 
-    if (verticalDir.equals(UP)) {
-      points.add(stairBottomRight);
-      points.add(stairTopLeft);
-    } else {
-      points.add(stairTopLeft);
-      points.add(stairBottomRight);
-    }
-    points.add(nextPosition.worldPoint());
+		Vector2 lastPos = currentPos.worldPoint();
+		for (Vector2 point : points) {
+			sequence.push(Tween
+					.to(avatar,
+							POSITION,
+							lastPos.dst(point) * MOVEMENT_SPEED
+									* randomSpeedModifier)
+					.target(point.x, point.y).ease(Linear.INOUT));
+			lastPos = point;
+		}
 
-    final TransitLine stairLine = new TransitLine();
-    stairLine.addPoints(points);
-    stairLine.setColor(avatar.getColor());
-    gameGrid.getRenderer().addTransitLine(stairLine);
+		sequence.setCallback(new TweenCallback() {
+			public void onEvent(int type, BaseTween source) {
+				gameGrid.getRenderer().removeTransitLine(stairLine);
+				currentState = AvatarState.MOVING;
+				advancePosition();
+			}
+		});
+		sequence.start(TweenSystem.manager());
+	}
 
-    Timeline sequence = Timeline.createSequence();
+	public void moveAvatarTo(GridPosition gridPosition,
+			TweenCallback endCallback) {
+		moveAvatarTo(nextWorldPos.set(gridPosition.worldPoint()), endCallback);
+	}
 
-    Vector2 lastPos = currentPos.worldPoint();
-    for (Vector2 point : points) {
-      sequence.push(Tween.to(avatar, POSITION, lastPos.dst(point) * MOVEMENT_SPEED * randomSpeedModifier)
-          .target(point.x, point.y)
-          .ease(Linear.INOUT));
-      lastPos = point;
-    }
+	public void moveAvatarTo(Vector2 endPoint, final TweenCallback endCallback) {
+		currentState |= MOVING;
 
-    sequence.setCallback(new TweenCallback() {
-      public void onEvent(int type, BaseTween source) {
-        gameGrid.getRenderer().removeTransitLine(stairLine);
-        currentState = AvatarState.MOVING;
-        advancePosition();
-      }
-    });
-    sequence.start(TweenSystem.manager());
-  }
+		TweenSystem.manager().killTarget(avatar);
 
-  public void moveAvatarTo(GridPosition gridPosition, TweenCallback endCallback) {
-    moveAvatarTo(nextWorldPos.set(gridPosition.worldPoint()), endCallback);
-  }
+		horizontalDirection = (int) endPoint.x < (int) avatar.getX() ? LEFT
+				: RIGHT;
+		float distanceBetweenPoints = endPoint
+				.dst(avatar.getX(), avatar.getY());
+		Tween.to(
+				avatar,
+				POSITION,
+				(int) (distanceBetweenPoints * MOVEMENT_SPEED * randomSpeedModifier))
+				.ease(Linear.INOUT)
+				.target(endPoint.x - avatar.getWidth(), endPoint.y)
+				.setCallback(new TweenCallback() {
+					@Override
+					public void onEvent(int type, BaseTween source) {
+						currentState &= ~MOVING;
+						endCallback.onEvent(type, source);
+					}
+				}).setCallbackTriggers(COMPLETE).start(TweenSystem.manager());
+	}
 
-  public void moveAvatarTo(Vector2 endPoint, final TweenCallback endCallback) {
-    currentState |= MOVING;
+	public boolean isRunning() {
+		return running;
+	}
 
-    TweenSystem.manager().killTarget(avatar);
+	public Avatar getAvatar() {
+		return avatar;
+	}
 
-    horizontalDirection = (int) endPoint.x < (int) avatar.getX() ? LEFT : RIGHT;
-    float distanceBetweenPoints = endPoint.dst(avatar.getX(), avatar.getY());
-    Tween.to(avatar, POSITION, (int) (distanceBetweenPoints * MOVEMENT_SPEED * randomSpeedModifier))
-        .ease(Linear.INOUT)
-        .target(endPoint.x - avatar.getWidth(), endPoint.y)
-        .setCallback(new TweenCallback() {
-          @Override
-          public void onEvent(int type, BaseTween source) {
-            currentState &= ~MOVING;
-            endCallback.onEvent(type, source);
-          }
-        })
-        .setCallbackTriggers(COMPLETE)
-        .start(TweenSystem.manager());
-  }
+	public Direction horizontalDirection() {
+		return horizontalDirection;
+	}
 
-  public boolean isRunning() {
-    return running;
-  }
+	public int getCurrentState() {
+		return currentState;
+	}
 
-  public Avatar getAvatar() {
-    return avatar;
-  }
+	public void setCompleteCallback(Runnable runnable) {
+		completeCallback = runnable;
+	}
 
-  public Direction horizontalDirection() {
-    return horizontalDirection;
-  }
+	public void boardElevator(final Runnable runnable) {
+		currentState = AvatarState.USING_ELEVATOR;
 
-  public int getCurrentState() {
-    return currentState;
-  }
+		nextWorldPos.set(currentPos.worldPoint());
+		nextWorldPos.x += Random.randomInt(8, 40);
+		moveAvatarTo(nextWorldPos, new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween source) {
+				currentState = AvatarState.MOVING;
+				runnable.run();
+			}
+		});
+	}
 
-  public void setCompleteCallback(Runnable runnable) {
-    completeCallback = runnable;
-  }
+	public void setPath(Array<GridPosition> path) {
+		this.path = path;
+	}
 
-  public void boardElevator(final Runnable runnable) {
-    currentState = AvatarState.USING_ELEVATOR;
-
-    nextWorldPos.set(currentPos.worldPoint());
-    nextWorldPos.x += Random.randomInt(8, 40);
-    moveAvatarTo(nextWorldPos, new TweenCallback() {
-      @Override
-      public void onEvent(int type, BaseTween source) {
-        currentState = AvatarState.MOVING;
-        runnable.run();
-      }
-    });
-  }
-
-  public void setPath(Array<GridPosition> path) {
-    this.path = path;
-  }
-
-  public GridPosition getCurrentPos() {
-    return currentPos;
-  }
+	public GridPosition getCurrentPos() {
+		return currentPos;
+	}
 }

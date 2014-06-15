@@ -12,8 +12,9 @@ import com.happydroids.droidtowers.utils.ClassNameResolver;
 import java.io.IOException;
 
 public class TowerGameClassDeserializer extends JsonDeserializer<Class> {
-  @Override
-  public Class deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-    return ClassNameResolver.resolveClass(jp.getText().trim());
-  }
+	@Override
+	public Class deserialize(JsonParser jp, DeserializationContext ctxt)
+			throws IOException {
+		return ClassNameResolver.resolveClass(jp.getText().trim());
+	}
 }

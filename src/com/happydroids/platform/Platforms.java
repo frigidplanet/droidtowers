@@ -5,8 +5,5 @@
 package com.happydroids.platform;
 
 public enum Platforms {
-  Mac,
-  Windows,
-  Unix,
-  Unknown
+	Mac, Windows, Unix, Unknown
 }

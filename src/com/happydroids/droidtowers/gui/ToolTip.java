@@ -10,21 +10,22 @@ import com.happydroids.droidtowers.Colors;
 import com.happydroids.droidtowers.TowerAssetManager;
 
 public class ToolTip extends Table {
-  private final Label label;
+	private final Label label;
 
-  public ToolTip() {
-    setVisible(false);
-    label = FontManager.Default.makeLabel("");
+	public ToolTip() {
+		setVisible(false);
+		label = FontManager.Default.makeLabel("");
 
-    defaults();
-    setBackground(TowerAssetManager.ninePatchDrawable(TowerAssetManager.WHITE_SWATCH, Colors.TRANSPARENT_BLACK));
-    pad(4);
-    add(label);
-    pack();
-  }
+		defaults();
+		setBackground(TowerAssetManager.ninePatchDrawable(
+				TowerAssetManager.WHITE_SWATCH, Colors.TRANSPARENT_BLACK));
+		pad(4);
+		add(label);
+		pack();
+	}
 
-  public void setText(String message) {
-    label.setText(message);
-    pack();
-  }
+	public void setText(String message) {
+		label.setText(message);
+		pack();
+	}
 }

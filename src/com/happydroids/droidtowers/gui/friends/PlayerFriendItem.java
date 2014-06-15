@@ -27,58 +27,65 @@ import static com.happydroids.droidtowers.Colors.DARK_GRAY;
 import static com.happydroids.droidtowers.gui.FontManager.Roboto18;
 
 public class PlayerFriendItem extends Table {
-  private PlayerProfile profile;
-  private final GameState playerGameState;
+	private PlayerProfile profile;
+	private final GameState playerGameState;
 
-  public PlayerFriendItem(PlayerProfile profile, GameState playerGameState) {
-    this.profile = profile;
-    this.playerGameState = playerGameState;
-  }
+	public PlayerFriendItem(PlayerProfile profile, GameState playerGameState) {
+		this.profile = profile;
+		this.playerGameState = playerGameState;
+	}
 
-  public PlayerFriendItem(GameState playerGameState) {
-    this.playerGameState = playerGameState;
-  }
+	public PlayerFriendItem(GameState playerGameState) {
+		this.playerGameState = playerGameState;
+	}
 
-  protected String getPlayerName() {
-    return profile.getFullName();
-  }
+	protected String getPlayerName() {
+		return profile.getFullName();
+	}
 
-  public void createChildren(TextureRegionDrawable facebookIcon) {
-    clear();
-    defaults().pad(Display.devicePixel(4));
+	public void createChildren(TextureRegionDrawable facebookIcon) {
+		clear();
+		defaults().pad(Display.devicePixel(4));
 
-    row().fill();
-    add(new Image(facebookIcon, Scaling.none)).spaceRight(Display.devicePixel(10));
-    add(Roboto18.makeLabel(getPlayerName())).expandX();
-    add(makeActionButton());
+		row().fill();
+		add(new Image(facebookIcon, Scaling.none)).spaceRight(
+				Display.devicePixel(10));
+		add(Roboto18.makeLabel(getPlayerName())).expandX();
+		add(makeActionButton());
 
-    row().fill();
-    add(new HorizontalRule(DARK_GRAY, 1)).colspan(3);
-  }
+		row().fill();
+		add(new HorizontalRule(DARK_GRAY, 1)).colspan(3);
+	}
 
-  protected TextButton makeActionButton() {
-    TextButton button = Roboto18.makeTextButton("Add Neighbor");
-    button.addListener(new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        new FriendCloudGameSaveCollection()
-                .filterBy("owner_resource_uri", URI.create(profile.getResourceUri()).getPath())
-                .fetch(new ApiCollectionRunnable<HappyDroidServiceCollection<FriendCloudGameSave>>() {
-                  @Override
-                  public void onSuccess(HttpResponse response, HappyDroidServiceCollection<FriendCloudGameSave> collection) {
-                    for (FriendCloudGameSave cloudGameSave : collection.getObjects()) {
-                      playerGameState.getCloudGameSave().getNeighborGameSaves().add(cloudGameSave);
-                    }
+	protected TextButton makeActionButton() {
+		TextButton button = Roboto18.makeTextButton("Add Neighbor");
+		button.addListener(new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				new FriendCloudGameSaveCollection()
+						.filterBy("owner_resource_uri",
+								URI.create(profile.getResourceUri()).getPath())
+						.fetch(new ApiCollectionRunnable<HappyDroidServiceCollection<FriendCloudGameSave>>() {
+							@Override
+							public void onSuccess(
+									HttpResponse response,
+									HappyDroidServiceCollection<FriendCloudGameSave> collection) {
+								for (FriendCloudGameSave cloudGameSave : collection
+										.getObjects()) {
+									playerGameState.getCloudGameSave()
+											.getNeighborGameSaves()
+											.add(cloudGameSave);
+								}
 
-                    playerGameState.saveGame(true);
-                  }
-                });
-      }
-    });
-    return button;
-  }
+								playerGameState.saveGame(true);
+							}
+						});
+			}
+		});
+		return button;
+	}
 
-  public boolean playerNameMatches(String text) {
-    return getPlayerName().toLowerCase().contains(text);
-  }
+	public boolean playerNameMatches(String text) {
+		return getPlayerName().toLowerCase().contains(text);
+	}
 }

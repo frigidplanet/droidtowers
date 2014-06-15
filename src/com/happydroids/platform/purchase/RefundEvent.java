@@ -5,9 +5,9 @@
 package com.happydroids.platform.purchase;
 
 public class RefundEvent {
-  public final String itemId;
+	public final String itemId;
 
-  public RefundEvent(String itemId) {
-    this.itemId = itemId;
-  }
+	public RefundEvent(String itemId) {
+		this.itemId = itemId;
+	}
 }

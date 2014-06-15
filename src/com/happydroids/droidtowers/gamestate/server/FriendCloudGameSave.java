@@ -11,35 +11,33 @@ import com.happydroids.droidtowers.gamestate.NonInteractiveGameSave;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class FriendCloudGameSave extends CloudGameSave {
-  private PlayerProfile owner;
+	private PlayerProfile owner;
 
-  public FriendCloudGameSave() {
-    super();
-  }
+	public FriendCloudGameSave() {
+		super();
+	}
 
-  public FriendCloudGameSave(String resourceUri) {
-    this();
-    setResourceUri(resourceUri);
-  }
+	public FriendCloudGameSave(String resourceUri) {
+		this();
+		setResourceUri(resourceUri);
+	}
 
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/friendgamesave/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/friendgamesave/";
+	}
 
-  @Override
-  public GameSave getGameSave() {
-    return new NonInteractiveGameSave(super.getGameSave());
-  }
+	@Override
+	public GameSave getGameSave() {
+		return new NonInteractiveGameSave(super.getGameSave());
+	}
 
-  public PlayerProfile getOwner() {
-    return owner;
-  }
+	public PlayerProfile getOwner() {
+		return owner;
+	}
 
-  @Override
-  public String toString() {
-    return "FriendCloudGameSave{" +
-                   "owner=" + owner +
-                   '}';
-  }
+	@Override
+	public String toString() {
+		return "FriendCloudGameSave{" + "owner=" + owner + '}';
+	}
 }

@@ -21,63 +21,77 @@ import java.util.Date;
 import java.util.UUID;
 
 public class GameSaveFactory {
-  public static String generateFilename() {
-    return UUID.randomUUID().toString().replaceAll("-", "") + ".json";
-  }
+	public static String generateFilename() {
+		return UUID.randomUUID().toString().replaceAll("-", "") + ".json";
+	}
 
-  public static GameSave readFile(FileHandle fileHandle) throws Exception {
-    return readFile(fileHandle.read(), fileHandle.name());
-  }
+	public static GameSave readFile(FileHandle fileHandle) throws Exception {
+		return readFile(fileHandle.read(), fileHandle.name());
+	}
 
-  public static GameSave readFile(InputStream inputStream, String fileName) {
-    try {
-      return TowerGameService.instance().getObjectMapper().readValue(inputStream, GameSave.class);
-    } catch (Exception e) {
-      throw new RuntimeException("There was a problem parsing: " + fileName, e);
-    }
-  }
+	public static GameSave readFile(InputStream inputStream, String fileName) {
+		try {
+			return TowerGameService.instance().getObjectMapper()
+					.readValue(inputStream, GameSave.class);
+		} catch (Exception e) {
+			throw new RuntimeException("There was a problem parsing: "
+					+ fileName, e);
+		}
+	}
 
-  @SuppressWarnings("PointlessBooleanExpression")
-  public static void save(GameSave gameSave, FileHandle gameFile) throws IOException {
-    if (TowerConsts.DEBUG && gameSave.isSaveToDiskDisabled()) {
-      return;
-    }
-    gameSave.getMetadata().lastPlayed = new Date();
-    OutputStream stream = gameFile.write(false);
-    TowerGameService.instance().getObjectMapper().writeValue(stream, gameSave);
-    stream.flush();
-    stream.close();
-  }
+	@SuppressWarnings("PointlessBooleanExpression")
+	public static void save(GameSave gameSave, FileHandle gameFile)
+			throws IOException {
+		if (TowerConsts.DEBUG && gameSave.isSaveToDiskDisabled()) {
+			return;
+		}
+		gameSave.getMetadata().lastPlayed = new Date();
+		OutputStream stream = gameFile.write(false);
+		TowerGameService.instance().getObjectMapper()
+				.writeValue(stream, gameSave);
+		stream.flush();
+		stream.close();
+	}
 
-  public static GameSave readMetadata(InputStream inputStream) {
-    try {
-      HappyDroidObjectMapper objectMapper = TowerGameService.instance().getObjectMapper();
-      return objectMapper.reader(GameSave.class).withView(GameSave.Views.Metadata.class).readValue(inputStream);
-    } catch (Exception e) {
-      throw new RuntimeException("There was a problem parsing gamesave metadata.", e);
-    }
-  }
+	public static GameSave readMetadata(InputStream inputStream) {
+		try {
+			HappyDroidObjectMapper objectMapper = TowerGameService.instance()
+					.getObjectMapper();
+			return objectMapper.reader(GameSave.class)
+					.withView(GameSave.Views.Metadata.class)
+					.readValue(inputStream);
+		} catch (Exception e) {
+			throw new RuntimeException(
+					"There was a problem parsing gamesave metadata.", e);
+		}
+	}
 
-  public static FileHandle getStorageRoot() {
-    if (Gdx.files.isExternalStorageAvailable()) {
-      return Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY);
-    } else if (Gdx.files.isLocalStorageAvailable()) {
-      return Gdx.files.local(TowerConsts.GAME_SAVE_DIRECTORY);
-    }
+	public static FileHandle getStorageRoot() {
+		if (Gdx.files.isExternalStorageAvailable()) {
+			return Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY);
+		} else if (Gdx.files.isLocalStorageAvailable()) {
+			return Gdx.files.local(TowerConsts.GAME_SAVE_DIRECTORY);
+		}
 
-    throw new RuntimeException("No storage device available.");
-  }
+		throw new RuntimeException("No storage device available.");
+	}
 
-  public static GameSave upgradeGameSave(InputStream inputStream, String fileName) {
-    try {
-      JacksonTransformer transformer = new JacksonTransformer(inputStream, fileName);
-      transformer.addTransform(Migration_GameSave_UnhappyrobotToDroidTowers.class);
-      transformer.addTransform(Migration_GameSave_RemoveObjectCounts.class);
-      transformer.addTransform(Migration_GameSave_MoveMetadata.class);
+	public static GameSave upgradeGameSave(InputStream inputStream,
+			String fileName) {
+		try {
+			JacksonTransformer transformer = new JacksonTransformer(
+					inputStream, fileName);
+			transformer
+					.addTransform(Migration_GameSave_UnhappyrobotToDroidTowers.class);
+			transformer
+					.addTransform(Migration_GameSave_RemoveObjectCounts.class);
+			transformer.addTransform(Migration_GameSave_MoveMetadata.class);
 
-      return TowerGameService.instance().getObjectMapper().readValue(transformer.process(), GameSave.class);
-    } catch (Exception e) {
-      throw new RuntimeException("There was a problem parsing: " + fileName, e);
-    }
-  }
+			return TowerGameService.instance().getObjectMapper()
+					.readValue(transformer.process(), GameSave.class);
+		} catch (Exception e) {
+			throw new RuntimeException("There was a problem parsing: "
+					+ fileName, e);
+		}
+	}
 }

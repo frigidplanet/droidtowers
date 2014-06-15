@@ -21,34 +21,38 @@ import com.happydroids.droidtowers.tween.GameObjectAccessor;
 import com.happydroids.droidtowers.tween.TweenSystem;
 
 public class SkyLayer extends GameLayer implements RespondsToWorldSizeChange {
-  private final WeatherService weatherService;
-  private final GameObject sky;
+	private final WeatherService weatherService;
+	private final GameObject sky;
 
-  public SkyLayer(WeatherService weatherService) {
-    super();
-    this.weatherService = weatherService;
+	public SkyLayer(WeatherService weatherService) {
+		super();
+		this.weatherService = weatherService;
 
-    weatherService.events().register(this);
+		weatherService.events().register(this);
 
-    Texture texture = TowerAssetManager.texture("backgrounds/sky-gradient.png");
-    sky = new GameObject(texture);
-    sky.setColor(weatherService.currentState().skyColor);
+		Texture texture = TowerAssetManager
+				.texture("backgrounds/sky-gradient.png");
+		sky = new GameObject(texture);
+		sky.setColor(weatherService.currentState().skyColor);
 
-    addChild(sky);
-  }
+		addChild(sky);
+	}
 
-  public void updateWorldSize(Vector2 worldSize) {
-    sky.setPosition(-Display.getBiggestScreenDimension(), TowerConsts.GROUND_HEIGHT);
-    sky.setSize(worldSize.x + (Display.getBiggestScreenDimension() * 4), worldSize.y + Display.getBiggestScreenDimension());
-    sky.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
-  }
+	public void updateWorldSize(Vector2 worldSize) {
+		sky.setPosition(-Display.getBiggestScreenDimension(),
+				TowerConsts.GROUND_HEIGHT);
+		sky.setSize(worldSize.x + (Display.getBiggestScreenDimension() * 4),
+				worldSize.y + Display.getBiggestScreenDimension());
+		sky.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
+	}
 
-  @Subscribe
-  public void WeatherService_onWeatherChange(WeatherStateChangeEvent event) {
-    Color tweenColor = weatherService.currentState().skyColor;
+	@Subscribe
+	public void WeatherService_onWeatherChange(WeatherStateChangeEvent event) {
+		Color tweenColor = weatherService.currentState().skyColor;
 
-    Tween.to(sky, GameObjectAccessor.COLOR, TowerConsts.WEATHER_SERVICE_STATE_CHANGE_DURATION)
-            .target(tweenColor.r, tweenColor.g, tweenColor.b, tweenColor.a)
-            .start(TweenSystem.manager());
-  }
+		Tween.to(sky, GameObjectAccessor.COLOR,
+				TowerConsts.WEATHER_SERVICE_STATE_CHANGE_DURATION)
+				.target(tweenColor.r, tweenColor.g, tweenColor.b, tweenColor.a)
+				.start(TweenSystem.manager());
+	}
 }

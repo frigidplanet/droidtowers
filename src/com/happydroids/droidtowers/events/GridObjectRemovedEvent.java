@@ -5,6 +5,6 @@
 package com.happydroids.droidtowers.events;
 
 public class GridObjectRemovedEvent extends GridObjectEvent {
-  public GridObjectRemovedEvent() {
-  }
+	public GridObjectRemovedEvent() {
+	}
 }

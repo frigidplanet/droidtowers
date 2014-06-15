@@ -7,5 +7,5 @@ package com.happydroids.droidtowers.events;
 import com.badlogic.gdx.math.Vector2;
 
 public interface RespondsToWorldSizeChange {
-  public void updateWorldSize(Vector2 worldSize);
+	public void updateWorldSize(Vector2 worldSize);
 }

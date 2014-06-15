@@ -38,158 +38,176 @@ import static com.happydroids.droidtowers.TowerConsts.GAME_GRID_START_SIZE;
 import static com.happydroids.droidtowers.TowerConsts.GRID_UNIT_SIZE;
 
 public class ViewNeighborScene extends Scene {
-  private List<GameLayer> gameLayers;
-  private GestureDelegater gestureDelegater;
-  private GestureDetector gestureDetector;
-  private ViewNeighborHUD neighborHUD;
-  private GameLayer billboardLayer;
-  private GameState playerGameState;
-  private Vector2 worldSize;
-  private int neighborGameGridX;
+	private List<GameLayer> gameLayers;
+	private GestureDelegater gestureDelegater;
+	private GestureDetector gestureDetector;
+	private ViewNeighborHUD neighborHUD;
+	private GameLayer billboardLayer;
+	private GameState playerGameState;
+	private Vector2 worldSize;
+	private int neighborGameGridX;
 
-  @Override
-  public void create(Object... args) {
-    playerGameState = (GameState) args[0];
+	@Override
+	public void create(Object... args) {
+		playerGameState = (GameState) args[0];
 
-    neighborHUD = new ViewNeighborHUD(playerGameState);
-    neighborHUD.pack();
-    neighborHUD.setX(0);
-    neighborHUD.setY(Gdx.graphics.getHeight() - neighborHUD.getHeight());
-    getStage().addActor(neighborHUD);
+		neighborHUD = new ViewNeighborHUD(playerGameState);
+		neighborHUD.pack();
+		neighborHUD.setX(0);
+		neighborHUD.setY(Gdx.graphics.getHeight() - neighborHUD.getHeight());
+		getStage().addActor(neighborHUD);
 
-    InputSystem.instance().bind(TowerConsts.NEGATIVE_BUTTON_KEYS, goBackHomeCallback);
+		InputSystem.instance().bind(TowerConsts.NEGATIVE_BUTTON_KEYS,
+				goBackHomeCallback);
 
-    WeatherService weatherService = new WeatherService();
+		WeatherService weatherService = new WeatherService();
 
-    gameLayers = Lists.newArrayList();
-    gameLayers.add(new SkyLayer(weatherService));
-    gameLayers.add(new CityScapeLayer());
-    gameLayers.add(new CloudLayer(weatherService));
-    gameLayers.add(new RainLayer(weatherService));
-    gameLayers.add(new GroundLayer());
+		gameLayers = Lists.newArrayList();
+		gameLayers.add(new SkyLayer(weatherService));
+		gameLayers.add(new CityScapeLayer());
+		gameLayers.add(new CloudLayer(weatherService));
+		gameLayers.add(new RainLayer(weatherService));
+		gameLayers.add(new GroundLayer());
 
-    billboardLayer = new GameLayer();
+		billboardLayer = new GameLayer();
 
-    gestureDelegater = new GestureDelegater(camera, gameLayers, null, getCameraController());
-    gestureDetector = new GestureDetector(20, 0.5f, 2, 0.15f, gestureDelegater);
-    InputSystem.instance().addInputProcessor(gestureDetector, 100);
-    InputSystem.instance().setGestureDelegate(gestureDelegater);
-    InputSystem.instance().switchTool(GestureTool.PICKER, null);
+		gestureDelegater = new GestureDelegater(camera, gameLayers, null,
+				getCameraController());
+		gestureDetector = new GestureDetector(20, 0.5f, 2, 0.15f,
+				gestureDelegater);
+		InputSystem.instance().addInputProcessor(gestureDetector, 100);
+		InputSystem.instance().setGestureDelegate(gestureDelegater);
+		InputSystem.instance().switchTool(GestureTool.PICKER, null);
 
-    updateWorldSize(new Vector2(4000, 4000));
-    cameraController.updateCameraConstraints(new Vector2(4000, 2000));
+		updateWorldSize(new Vector2(4000, 4000));
+		cameraController.updateCameraConstraints(new Vector2(4000, 2000));
 
-    worldSize = new Vector2();
-    neighborGameGridX = 0;
+		worldSize = new Vector2();
+		neighborGameGridX = 0;
 
-    createNeighborTowers(playerGameState.getCloudGameSave().getNeighborGameSaves());
-    playerGameState.getCloudGameSave().getNeighborGameSaves().events().register(this);
-  }
+		createNeighborTowers(playerGameState.getCloudGameSave()
+				.getNeighborGameSaves());
+		playerGameState.getCloudGameSave().getNeighborGameSaves().events()
+				.register(this);
+	}
 
-  private void createNeighborTowers(FriendCloudGameSaveCollection friendGameSaves) {
-    if (friendGameSaves.isEmpty()) {
-      return;
-    }
+	private void createNeighborTowers(
+			FriendCloudGameSaveCollection friendGameSaves) {
+		if (friendGameSaves.isEmpty()) {
+			return;
+		}
 
-    for (final FriendCloudGameSave friendCloudGameSave : friendGameSaves.getObjects()) {
-      addNeighborGameGridToWorld(friendCloudGameSave);
-    }
+		for (final FriendCloudGameSave friendCloudGameSave : friendGameSaves
+				.getObjects()) {
+			addNeighborGameGridToWorld(friendCloudGameSave);
+		}
 
-    updateWorldConstraints();
-  }
+		updateWorldConstraints();
+	}
 
-  private void updateWorldConstraints() {
-    gameLayers.remove(billboardLayer);
-    gameLayers.add(billboardLayer);
+	private void updateWorldConstraints() {
+		gameLayers.remove(billboardLayer);
+		gameLayers.add(billboardLayer);
 
-    updateWorldSize(worldSize);
-  }
+		updateWorldSize(worldSize);
+	}
 
-  private void addNeighborGameGridToWorld(FriendCloudGameSave friendCloudGameSave) {
-    NeighborGameGrid neighborGameGrid = new NeighborGameGrid(getCamera(), new GridPoint(neighborGameGridX, 0));
-    neighborGameGrid.setGridScale(1f);
-    GameSave gameSave = friendCloudGameSave.getGameSave();
+	private void addNeighborGameGridToWorld(
+			FriendCloudGameSave friendCloudGameSave) {
+		NeighborGameGrid neighborGameGrid = new NeighborGameGrid(getCamera(),
+				new GridPoint(neighborGameGridX, 0));
+		neighborGameGrid.setGridScale(1f);
+		GameSave gameSave = friendCloudGameSave.getGameSave();
 
-    if (!gameSave.hasGridObjects()) {
-      System.out.println("Skipping, no objects! " + friendCloudGameSave);
-      return;
-    }
+		if (!gameSave.hasGridObjects()) {
+			System.out.println("Skipping, no objects! " + friendCloudGameSave);
+			return;
+		}
 
-    gameSave.attachToGame(neighborGameGrid, camera, cameraController);
-    neighborGameGrid.findLimits();
-    neighborGameGridX += (neighborGameGrid.getGridSize().x + 6) * GRID_UNIT_SIZE;
+		gameSave.attachToGame(neighborGameGrid, camera, cameraController);
+		neighborGameGrid.findLimits();
+		neighborGameGridX += (neighborGameGrid.getGridSize().x + 6)
+				* GRID_UNIT_SIZE;
 
-    neighborGameGrid.setOwnerName(friendCloudGameSave.getOwner().getFirstName());
-    neighborGameGrid.addListener(new NeighborMenuBuilder(this));
+		neighborGameGrid.setOwnerName(friendCloudGameSave.getOwner()
+				.getFirstName());
+		neighborGameGrid.addListener(new NeighborMenuBuilder(this));
 
+		TowerNameBillboard billboard = new TowerNameBillboard(neighborGameGrid);
+		billboard.setPosition(neighborGameGrid.getWorldBounds().x
+				- (2 * GRID_UNIT_SIZE), TowerConsts.GROUND_HEIGHT);
+		billboardLayer.addChild(billboard);
 
-    TowerNameBillboard billboard = new TowerNameBillboard(neighborGameGrid);
-    billboard.setPosition(neighborGameGrid.getWorldBounds().x - (2 * GRID_UNIT_SIZE), TowerConsts.GROUND_HEIGHT);
-    billboardLayer.addChild(billboard);
+		worldSize.y = Math.max(worldSize.y, neighborGameGrid.getWorldSize().y);
+		worldSize.x = neighborGameGrid.getWorldBounds().x
+				+ neighborGameGrid.getWorldBounds().width;
 
-    worldSize.y = Math.max(worldSize.y, neighborGameGrid.getWorldSize().y);
-    worldSize.x = neighborGameGrid.getWorldBounds().x + neighborGameGrid.getWorldBounds().width;
+		gameLayers.add(neighborGameGrid.getRenderer());
+		gameLayers.add(neighborGameGrid);
+	}
 
-    gameLayers.add(neighborGameGrid.getRenderer());
-    gameLayers.add(neighborGameGrid);
-  }
+	private void updateWorldSize(Vector2 worldSize) {
+		worldSize.x = Math.max(GAME_GRID_START_SIZE * GRID_UNIT_SIZE,
+				worldSize.x);
+		worldSize.y = Math.max(GAME_GRID_START_SIZE * GRID_UNIT_SIZE,
+				worldSize.y);
+		for (GameLayer gameLayer : gameLayers) {
+			if (gameLayer instanceof RespondsToWorldSizeChange) {
+				((RespondsToWorldSizeChange) gameLayer)
+						.updateWorldSize(worldSize);
+			}
+		}
 
-  private void updateWorldSize(Vector2 worldSize) {
-    worldSize.x = Math.max(GAME_GRID_START_SIZE * GRID_UNIT_SIZE, worldSize.x);
-    worldSize.y = Math.max(GAME_GRID_START_SIZE * GRID_UNIT_SIZE, worldSize.y);
-    for (GameLayer gameLayer : gameLayers) {
-      if (gameLayer instanceof RespondsToWorldSizeChange) {
-        ((RespondsToWorldSizeChange) gameLayer).updateWorldSize(worldSize);
-      }
-    }
+		cameraController.updateCameraConstraints(worldSize);
+		camera.zoom = CameraController.ZOOM_MAX / 2;
+		camera.position.set(worldSize.x / 2 - Display.getWidth() / 2,
+				TowerConsts.GROUND_HEIGHT, 0f);
+	}
 
-    cameraController.updateCameraConstraints(worldSize);
-    camera.zoom = CameraController.ZOOM_MAX / 2;
-    camera.position.set(worldSize.x / 2 - Display.getWidth() / 2, TowerConsts.GROUND_HEIGHT, 0f);
-  }
+	@Override
+	public void pause() {
+		InputSystem.instance().removeInputProcessor(gestureDetector);
+		InputSystem.instance().setGestureDelegate(null);
+	}
 
-  @Override
-  public void pause() {
-    InputSystem.instance().removeInputProcessor(gestureDetector);
-    InputSystem.instance().setGestureDelegate(null);
-  }
+	@Override
+	public void resume() {
+		InputSystem.instance().addInputProcessor(gestureDetector, 100);
+		InputSystem.instance().setGestureDelegate(gestureDelegater);
+		InputSystem.instance().switchTool(GestureTool.PICKER, null);
+	}
 
-  @Override
-  public void resume() {
-    InputSystem.instance().addInputProcessor(gestureDetector, 100);
-    InputSystem.instance().setGestureDelegate(gestureDelegater);
-    InputSystem.instance().switchTool(GestureTool.PICKER, null);
-  }
+	@Override
+	public void render(float deltaTime) {
+		for (GameLayer gameLayer : gameLayers) {
+			gameLayer.update(deltaTime);
+			gameLayer.render(getSpriteBatch(), getCamera());
+		}
+	}
 
-  @Override
-  public void render(float deltaTime) {
-    for (GameLayer gameLayer : gameLayers) {
-      gameLayer.update(deltaTime);
-      gameLayer.render(getSpriteBatch(), getCamera());
-    }
-  }
+	@Override
+	public void dispose() {
+		playerGameState.getCloudGameSave().getNeighborGameSaves().events()
+				.unregister(this);
+		InputSystem.instance().unbind(TowerConsts.NEGATIVE_BUTTON_KEYS,
+				goBackHomeCallback);
+	}
 
-  @Override
-  public void dispose() {
-    playerGameState.getCloudGameSave().getNeighborGameSaves().events().unregister(this);
-    InputSystem.instance().unbind(TowerConsts.NEGATIVE_BUTTON_KEYS, goBackHomeCallback);
-  }
+	private InputCallback goBackHomeCallback = new InputCallback() {
+		@Override
+		public boolean run(float timeDelta) {
+			SceneManager.popScene();
+			return true;
+		}
+	};
 
-  private InputCallback goBackHomeCallback = new InputCallback() {
-    @Override
-    public boolean run(float timeDelta) {
-      SceneManager.popScene();
-      return true;
-    }
-  };
+	public ViewNeighborHUD getNeighborHUD() {
+		return neighborHUD;
+	}
 
-  public ViewNeighborHUD getNeighborHUD() {
-    return neighborHUD;
-  }
-
-  @Subscribe
-  public void NeighborGameSave_onChange(CollectionChangeEvent event) {
-    addNeighborGameGridToWorld((FriendCloudGameSave) event.object);
-    updateWorldConstraints();
-  }
+	@Subscribe
+	public void NeighborGameSave_onChange(CollectionChangeEvent event) {
+		addNeighborGameGridToWorld((FriendCloudGameSave) event.object);
+		updateWorldConstraints();
+	}
 }

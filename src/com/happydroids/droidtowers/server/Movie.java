@@ -24,156 +24,168 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.PROTECT
 
 @JsonAutoDetect(fieldVisibility = PROTECTED_AND_PUBLIC)
 public class Movie extends HappyDroidServiceObject {
-  protected String title;
-  protected int atlasFps;
-  protected String atlasTxt;
-  protected String atlasPng;
-  protected String youtubeTrailerUrl;
-  protected String ticketsPurchaseUrl;
-  @JsonIgnore private FileHandle atlasTxtFile;
-  @JsonIgnore private FileHandle atlasPngFile;
-  @JsonIgnore private MovieState state;
-  @JsonIgnore private int refs;
-  @JsonIgnore private RunnableQueue postLoad;
-  @JsonIgnore private TextureAtlas textureAtlas;
+	protected String title;
+	protected int atlasFps;
+	protected String atlasTxt;
+	protected String atlasPng;
+	protected String youtubeTrailerUrl;
+	protected String ticketsPurchaseUrl;
+	@JsonIgnore
+	private FileHandle atlasTxtFile;
+	@JsonIgnore
+	private FileHandle atlasPngFile;
+	@JsonIgnore
+	private MovieState state;
+	@JsonIgnore
+	private int refs;
+	@JsonIgnore
+	private RunnableQueue postLoad;
+	@JsonIgnore
+	private TextureAtlas textureAtlas;
 
-  public Movie() {
-    state = MovieState.Queued;
-    postLoad = new RunnableQueue();
-  }
+	public Movie() {
+		state = MovieState.Queued;
+		postLoad = new RunnableQueue();
+	}
 
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/movie/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/movie/";
+	}
 
-  @Override
-  protected boolean requireAuthentication() {
-    return false;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return false;
+	}
 
-  @Override
-  protected int getCacheMaxAge() {
-    return HappyDroidConsts.ONE_DAY;
-  }
+	@Override
+	protected int getCacheMaxAge() {
+		return HappyDroidConsts.ONE_DAY;
+	}
 
-  @Override
-  protected boolean isCachingAllowed() {
-    return true;
-  }
+	@Override
+	protected boolean isCachingAllowed() {
+		return true;
+	}
 
-  public void loadAssets(final Runnable runnable) {
-    postLoad.push(runnable);
-    TowerAssetManager.assetManager().events().register(this);
-    TowerAssetManager.assetManager().load(atlasTxtFile.file().getAbsolutePath(), TextureAtlas.class);
-  }
+	public void loadAssets(final Runnable runnable) {
+		postLoad.push(runnable);
+		TowerAssetManager.assetManager().events().register(this);
+		TowerAssetManager.assetManager().load(
+				atlasTxtFile.file().getAbsolutePath(), TextureAtlas.class);
+	}
 
-  public void queueForDownload() {
-    if (state.equals(MovieState.Loaded) || state.equals(MovieState.Downloading)) {
-      return;
-    }
+	public void queueForDownload() {
+		if (state.equals(MovieState.Loaded)
+				|| state.equals(MovieState.Downloading)) {
+			return;
+		}
 
-    final FileHandle movieStorageRoot = GameSaveFactory.getStorageRoot().child("movies/");
-    if (!movieStorageRoot.exists()) {
-      movieStorageRoot.mkdirs();
-    }
+		final FileHandle movieStorageRoot = GameSaveFactory.getStorageRoot()
+				.child("movies/");
+		if (!movieStorageRoot.exists()) {
+			movieStorageRoot.mkdirs();
+		}
 
-    setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
-    setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
+		setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
+		setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
 
-    new DownloadMovieAssetsTask(this).run();
-  }
+		new DownloadMovieAssetsTask(this).run();
+	}
 
-  public TextureAtlas getTextureAtlas() {
-    if (textureAtlas == null) {
-      textureAtlas = TowerAssetManager.textureAtlas(getAtlasTxtFile().file().getAbsolutePath());
-    }
+	public TextureAtlas getTextureAtlas() {
+		if (textureAtlas == null) {
+			textureAtlas = TowerAssetManager.textureAtlas(getAtlasTxtFile()
+					.file().getAbsolutePath());
+		}
 
-    return textureAtlas;
-  }
+		return textureAtlas;
+	}
 
-  public int getAtlasFps() {
-    return atlasFps;
-  }
+	public int getAtlasFps() {
+		return atlasFps;
+	}
 
-  public String getYoutubeTrailerUrl() {
-    return youtubeTrailerUrl;
-  }
+	public String getYoutubeTrailerUrl() {
+		return youtubeTrailerUrl;
+	}
 
-  public String getTicketsPurchaseUrl() {
-    return ticketsPurchaseUrl;
-  }
+	public String getTicketsPurchaseUrl() {
+		return ticketsPurchaseUrl;
+	}
 
-  public String getTitle() {
-    return title;
-  }
+	public String getTitle() {
+		return title;
+	}
 
-  public void decrementRefCount() {
-    refs -= 1;
+	public void decrementRefCount() {
+		refs -= 1;
 
-    if (refs == 0) {
-      textureAtlas.dispose();
-      textureAtlas = null;
-    }
-  }
+		if (refs == 0) {
+			textureAtlas.dispose();
+			textureAtlas = null;
+		}
+	}
 
-  public void incrementRefCount() {
-    refs += 1;
-  }
+	public void incrementRefCount() {
+		refs += 1;
+	}
 
-  public FileHandle getAtlasTxtFile() {
-    return atlasTxtFile;
-  }
+	public FileHandle getAtlasTxtFile() {
+		return atlasTxtFile;
+	}
 
-  public void setAtlasTxtFile(FileHandle atlasTxtFile) {
-    this.atlasTxtFile = atlasTxtFile;
-  }
+	public void setAtlasTxtFile(FileHandle atlasTxtFile) {
+		this.atlasTxtFile = atlasTxtFile;
+	}
 
-  public FileHandle getAtlasPngFile() {
-    return atlasPngFile;
-  }
+	public FileHandle getAtlasPngFile() {
+		return atlasPngFile;
+	}
 
-  public void setAtlasPngFile(FileHandle atlasPngFile) {
-    this.atlasPngFile = atlasPngFile;
-  }
+	public void setAtlasPngFile(FileHandle atlasPngFile) {
+		this.atlasPngFile = atlasPngFile;
+	}
 
-  public String getAtlasPngUrl() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + atlasPng;
-  }
+	public String getAtlasPngUrl() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + atlasPng;
+	}
 
-  public String getAtlasTxtUrl() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + atlasTxt;
-  }
+	public String getAtlasTxtUrl() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + atlasTxt;
+	}
 
-  public void setState(MovieState state) {
-    this.state = state;
-  }
+	public void setState(MovieState state) {
+		this.state = state;
+	}
 
-  public MovieState getState() {
-    return state;
-  }
+	public MovieState getState() {
+		return state;
+	}
 
-  @Subscribe
-  public void AssetManager_onAssetLoad(AssetLoadEvent event) {
-    if (!event.getFileName().contains(atlasPngFile.name()) && !event.getFileName().contains(atlasTxtFile.name())) {
-      return;
-    }
+	@Subscribe
+	public void AssetManager_onAssetLoad(AssetLoadEvent event) {
+		if (!event.getFileName().contains(atlasPngFile.name())
+				&& !event.getFileName().contains(atlasTxtFile.name())) {
+			return;
+		}
 
-    TowerAssetManager.events().unregister(this);
-    setState(event instanceof AssetLoadErrorEvent ? MovieState.Failed : MovieState.Loaded);
+		TowerAssetManager.events().unregister(this);
+		setState(event instanceof AssetLoadErrorEvent ? MovieState.Failed
+				: MovieState.Loaded);
 
-    if (getState().equals(MovieState.Failed)) {
-      if (atlasPngFile.exists()) {
-        atlasPngFile.delete();
-      }
+		if (getState().equals(MovieState.Failed)) {
+			if (atlasPngFile.exists()) {
+				atlasPngFile.delete();
+			}
 
-      if (atlasTxtFile.exists()) {
-        atlasTxtFile.delete();
-      }
+			if (atlasTxtFile.exists()) {
+				atlasTxtFile.delete();
+			}
 
-      MovieServer.instance().removeMovieFromPlayQueue(this);
-    }
+			MovieServer.instance().removeMovieFromPlayQueue(this);
+		}
 
-    postLoad.runAll();
-  }
+		postLoad.runAll();
+	}
 }

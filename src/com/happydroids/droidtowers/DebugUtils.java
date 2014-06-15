@@ -21,85 +21,97 @@ import org.apach3.http.HttpResponse;
 import static com.happydroids.HappyDroidConsts.DEBUG;
 
 public class DebugUtils {
-  public static void loadFirstGameFound(VarArgRunnable loadGameRunnable) {
-    verifyEnvironment();
+	public static void loadFirstGameFound(VarArgRunnable loadGameRunnable) {
+		verifyEnvironment();
 
-    try {
-      FileHandle storage = Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY);
-      FileHandle[] files = storage.list(".json");
-      if (files.length > 0) {
-        for (FileHandle file : files) {
-          if (!file.path().endsWith("png")) {
-            loadGameRunnable.run(file);
-            break;
-          }
-        }
-      }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
+		try {
+			FileHandle storage = Gdx.files
+					.external(TowerConsts.GAME_SAVE_DIRECTORY);
+			FileHandle[] files = storage.list(".json");
+			if (files.length > 0) {
+				for (FileHandle file : files) {
+					if (!file.path().endsWith("png")) {
+						loadGameRunnable.run(file);
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-  public static void createNonSavableGame(boolean newGame) {
-    verifyEnvironment();
+	public static void createNonSavableGame(boolean newGame) {
+		verifyEnvironment();
 
-    GameSave gameSave = new GameSave("DO NOT SAVE!", DifficultyLevel.EASY);
-    gameSave.setNewGame(newGame);
-    gameSave.disableSaving();
-    SceneManager.changeScene(LoadTowerSplashScene.class, gameSave);
-  }
+		GameSave gameSave = new GameSave("DO NOT SAVE!", DifficultyLevel.EASY);
+		gameSave.setNewGame(newGame);
+		gameSave.disableSaving();
+		SceneManager.changeScene(LoadTowerSplashScene.class, gameSave);
+	}
 
-  private static void verifyEnvironment() {
-    if (DEBUG) {
-      return;
-    }
+	private static void verifyEnvironment() {
+		if (DEBUG) {
+			return;
+		}
 
-    throw new RuntimeException("CANNOT BE USED IN PRODUCTION.");
-  }
+		throw new RuntimeException("CANNOT BE USED IN PRODUCTION.");
+	}
 
-  public static void loadFirstGameFound() {
-    loadFirstGameFound(new VarArgRunnable() {
-      public void run(Object... args) {
-        try {
-          SceneManager.changeScene(LoadTowerSplashScene.class, GameSaveFactory.readFile((FileHandle) args[0]));
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
+	public static void loadFirstGameFound() {
+		loadFirstGameFound(new VarArgRunnable() {
+			public void run(Object... args) {
+				try {
+					SceneManager.changeScene(LoadTowerSplashScene.class,
+							GameSaveFactory.readFile((FileHandle) args[0]));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-  public static void loadGameFromCloud(final int gameId) {
-    new CloudGameSaveCollection()
-            .filterBy("id", gameId)
-            .fetch(new ApiCollectionRunnable<HappyDroidServiceCollection<CloudGameSave>>() {
-              @Override
-              public void onSuccess(HttpResponse response, HappyDroidServiceCollection<CloudGameSave> collection) {
-                SceneManager.changeScene(LoadTowerSplashScene.class, collection.getObjects().get(0).getGameSave());
-              }
+	public static void loadGameFromCloud(final int gameId) {
+		new CloudGameSaveCollection()
+				.filterBy("id", gameId)
+				.fetch(new ApiCollectionRunnable<HappyDroidServiceCollection<CloudGameSave>>() {
+					@Override
+					public void onSuccess(
+							HttpResponse response,
+							HappyDroidServiceCollection<CloudGameSave> collection) {
+						SceneManager.changeScene(LoadTowerSplashScene.class,
+								collection.getObjects().get(0).getGameSave());
+					}
 
-              @Override
-              public void onError(HttpResponse response, int statusCode, HappyDroidServiceCollection<CloudGameSave> collection) {
-                new Dialog()
-                        .setTitle("Could not find game: " + gameId)
-                        .setMessage("Not able to load game: " + gameId + "\n\nReason: " + response.getStatusLine())
-                        .addButton("Dismiss", new OnClickCallback() {
-                          @Override
-                          public void onClick(Dialog dialog) {
-                            dialog.dismiss();
-                          }
-                        })
-                        .show();
-              }
-            });
-  }
+					@Override
+					public void onError(
+							HttpResponse response,
+							int statusCode,
+							HappyDroidServiceCollection<CloudGameSave> collection) {
+						new Dialog()
+								.setTitle("Could not find game: " + gameId)
+								.setMessage(
+										"Not able to load game: " + gameId
+												+ "\n\nReason: "
+												+ response.getStatusLine())
+								.addButton("Dismiss", new OnClickCallback() {
+									@Override
+									public void onClick(Dialog dialog) {
+										dialog.dismiss();
+									}
+								}).show();
+					}
+				});
+	}
 
-  public static void loadGameByFilename(String fileName) {
-    try {
-      SceneManager.changeScene(LoadTowerSplashScene.class, GameSaveFactory.readFile(Gdx.files
-                                                                                            .internal("testgames/" + fileName)));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+	public static void loadGameByFilename(String fileName) {
+		try {
+			SceneManager.changeScene(
+					LoadTowerSplashScene.class,
+					GameSaveFactory.readFile(Gdx.files.internal("testgames/"
+							+ fileName)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

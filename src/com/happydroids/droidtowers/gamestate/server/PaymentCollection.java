@@ -9,13 +9,13 @@ import com.happydroids.server.HappyDroidServiceCollection;
 import com.happydroids.server.Payment;
 
 public class PaymentCollection extends HappyDroidServiceCollection<Payment> {
-  @Override
-  protected boolean requireAuthentication() {
-    return false;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return false;
+	}
 
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/payment/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/payment/";
+	}
 }

@@ -14,24 +14,27 @@ import com.happydroids.droidtowers.graphics.ResolutionIndependentAtlas;
 import com.happydroids.droidtowers.tween.TweenSystem;
 
 public class ProgressDialog extends Dialog {
-  public ProgressDialog() {
-    super();
+	public ProgressDialog() {
+		super();
 
-    ResolutionIndependentAtlas resolutionIndependentAtlas = new ResolutionIndependentAtlas(Gdx.files
-                                                                                                   .internal("hud/skin.txt"));
-    Image progressSpinner = new Image(new TextureRegionDrawable(resolutionIndependentAtlas.findRegion("progress-indeterminate")), Scaling.none);
-    progressSpinner.layout();
-    progressSpinner.setOriginX(progressSpinner.getImageWidth() / 2);
-    progressSpinner.setOriginY(progressSpinner.getImageHeight() / 2);
+		ResolutionIndependentAtlas resolutionIndependentAtlas = new ResolutionIndependentAtlas(
+				Gdx.files.internal("hud/skin.txt"));
+		Image progressSpinner = new Image(
+				new TextureRegionDrawable(
+						resolutionIndependentAtlas
+								.findRegion("progress-indeterminate")),
+				Scaling.none);
+		progressSpinner.layout();
+		progressSpinner.setOriginX(progressSpinner.getImageWidth() / 2);
+		progressSpinner.setOriginY(progressSpinner.getImageHeight() / 2);
 
-    Table c = new Table();
-    c.add(progressSpinner).fill();
+		Table c = new Table();
+		c.add(progressSpinner).fill();
 
-    setView(c);
+		setView(c);
 
-    Tween.to(progressSpinner, WidgetAccessor.ROTATION, 1000)
-            .target(-360.0f)
-            .repeat(Tween.INFINITY, 350)
-            .start(TweenSystem.manager());
-  }
+		Tween.to(progressSpinner, WidgetAccessor.ROTATION, 1000)
+				.target(-360.0f).repeat(Tween.INFINITY, 350)
+				.start(TweenSystem.manager());
+	}
 }

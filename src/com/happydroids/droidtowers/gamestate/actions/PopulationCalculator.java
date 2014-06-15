@@ -14,28 +14,31 @@ import com.happydroids.droidtowers.types.RoomType;
 
 public class PopulationCalculator extends GameGridAction {
 
-  private final AvatarLayer avatarLayer;
+	private final AvatarLayer avatarLayer;
 
-  public PopulationCalculator(GameGrid gameGrid, AvatarLayer avatarLayer, float frequency) {
-    super(gameGrid, frequency);
-    this.avatarLayer = avatarLayer;
-  }
+	public PopulationCalculator(GameGrid gameGrid, AvatarLayer avatarLayer,
+			float frequency) {
+		super(gameGrid, frequency);
+		this.avatarLayer = avatarLayer;
+	}
 
-  @Override
-  public void run() {
-    Array<GridObject> rooms = gameGrid.getInstancesOf(Room.class);
-    int supportedResidency = 0;
-    int maxPopulation = 0;
+	@Override
+	public void run() {
+		Array<GridObject> rooms = gameGrid.getInstancesOf(Room.class);
+		int supportedResidency = 0;
+		int maxPopulation = 0;
 
-    if (rooms != null) {
-      for (GridObject gridObject : rooms) {
-        maxPopulation += ((RoomType) gridObject.getGridObjectType()).getPopulationMax();
-        supportedResidency += ((Room) gridObject).getNumSupportedResidents();
-      }
-    }
+		if (rooms != null) {
+			for (GridObject gridObject : rooms) {
+				maxPopulation += ((RoomType) gridObject.getGridObjectType())
+						.getPopulationMax();
+				supportedResidency += ((Room) gridObject)
+						.getNumSupportedResidents();
+			}
+		}
 
-    Player.instance().setPopulationMax(maxPopulation);
-    Player.instance().setSupportedResidency(supportedResidency);
-    Player.instance().setPopulationResidency(avatarLayer.getNumAvatars());
-  }
+		Player.instance().setPopulationMax(maxPopulation);
+		Player.instance().setSupportedResidency(supportedResidency);
+		Player.instance().setPopulationResidency(avatarLayer.getNumAvatars());
+	}
 }

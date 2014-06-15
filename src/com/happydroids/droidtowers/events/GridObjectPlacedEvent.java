@@ -5,6 +5,6 @@
 package com.happydroids.droidtowers.events;
 
 public class GridObjectPlacedEvent extends GridObjectEvent {
-  public GridObjectPlacedEvent() {
-  }
+	public GridObjectPlacedEvent() {
+	}
 }

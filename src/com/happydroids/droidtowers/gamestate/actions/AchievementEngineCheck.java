@@ -13,27 +13,30 @@ import com.happydroids.droidtowers.events.GridObjectEvent;
 import com.happydroids.droidtowers.grid.GameGrid;
 
 public class AchievementEngineCheck extends GameGridAction {
-  private static final String TAG = AchievementEngineCheck.class.getSimpleName();
+	private static final String TAG = AchievementEngineCheck.class
+			.getSimpleName();
 
-  public AchievementEngineCheck(GameGrid gameGrid, float frequency) {
-    super(gameGrid, frequency);
+	public AchievementEngineCheck(GameGrid gameGrid, float frequency) {
+		super(gameGrid, frequency);
 
-    gameGrid.events().register(this);
-  }
+		gameGrid.events().register(this);
+	}
 
-  @Override
-  public void run() {
-    AchievementEngine.instance().checkAchievements(gameGrid);
-    TutorialEngine.instance().checkAchievements(gameGrid);
-  }
+	@Override
+	public void run() {
+		AchievementEngine.instance().checkAchievements(gameGrid);
+		TutorialEngine.instance().checkAchievements(gameGrid);
+	}
 
-  @Subscribe
-  public void GameEvent_handleGridObjectEvent(GridObjectEvent event) {
-    if (event instanceof ElevatorHeightChangeEvent) {
-      TutorialEngine.instance().moveToStepWhenReady("tutorial-build-pizza-place");
-    } else if (event.getGridObject().isPlaced()) {
-      Gdx.app.debug(TAG, "GameEvent_handleGridObjectEvent triggered by: " + event);
-      scheduleToRunIn(0.25f);
-    }
-  }
+	@Subscribe
+	public void GameEvent_handleGridObjectEvent(GridObjectEvent event) {
+		if (event instanceof ElevatorHeightChangeEvent) {
+			TutorialEngine.instance().moveToStepWhenReady(
+					"tutorial-build-pizza-place");
+		} else if (event.getGridObject().isPlaced()) {
+			Gdx.app.debug(TAG, "GameEvent_handleGridObjectEvent triggered by: "
+					+ event);
+			scheduleToRunIn(0.25f);
+		}
+	}
 }

@@ -16,56 +16,59 @@ import com.happydroids.droidtowers.utils.StringUtils;
 import com.happydroids.platform.Platform;
 
 public class MovieTheaterPopOver extends GridObjectPopOver {
-  public MovieTheaterPopOver(MovieTheater movieTheater) {
-    super(movieTheater);
-  }
+	public MovieTheaterPopOver(MovieTheater movieTheater) {
+		super(movieTheater);
+	}
 
-  @Override
-  protected void buildControls() {
-    super.buildControls();
+	@Override
+	protected void buildControls() {
+		super.buildControls();
 
-    ButtonBar buttonBar = new ButtonBar();
-    if (gridObject.hasLoanFromCousinVinnie()) {
-      buttonBar.addButton("Repay Vinnie", new VibrateClickListener() {
-        @Override
-        public void onClick(InputEvent event, float x, float y) {
-          new CousinVinnieRepayLoanDialog((Room) gridObject).show();
-        }
-      });
-    }
+		ButtonBar buttonBar = new ButtonBar();
+		if (gridObject.hasLoanFromCousinVinnie()) {
+			buttonBar.addButton("Repay Vinnie", new VibrateClickListener() {
+				@Override
+				public void onClick(InputEvent event, float x, float y) {
+					new CousinVinnieRepayLoanDialog((Room) gridObject).show();
+				}
+			});
+		}
 
-    Movie movie = ((MovieTheater) gridObject).getMovie();
-    if (movie != null) {
-      makeYouTubeTrailerButton(buttonBar, movie);
-      makeMovieTicketsPurchaseButton(buttonBar, movie);
-    }
+		Movie movie = ((MovieTheater) gridObject).getMovie();
+		if (movie != null) {
+			makeYouTubeTrailerButton(buttonBar, movie);
+			makeMovieTicketsPurchaseButton(buttonBar, movie);
+		}
 
-    row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
-    add(buttonBar).expandX().minWidth(200);
-  }
+		row().fillX().pad(Display.devicePixel(-8))
+				.padTop(Display.devicePixel(16));
+		add(buttonBar).expandX().minWidth(200);
+	}
 
-  private void makeYouTubeTrailerButton(ButtonBar buttonBar, Movie movie) {
-    final String youtubeTrailerUrl = movie.getYoutubeTrailerUrl();
-    if (!StringUtils.isEmpty(youtubeTrailerUrl)) {
-      buttonBar.addButton("Watch Trailer", new VibrateClickListener() {
-        @Override
-        public void onClick(InputEvent event, float x, float y) {
-          Platform.getBrowserUtil().launchWebBrowser(youtubeTrailerUrl);
-        }
-      });
-    }
-  }
+	private void makeYouTubeTrailerButton(ButtonBar buttonBar, Movie movie) {
+		final String youtubeTrailerUrl = movie.getYoutubeTrailerUrl();
+		if (!StringUtils.isEmpty(youtubeTrailerUrl)) {
+			buttonBar.addButton("Watch Trailer", new VibrateClickListener() {
+				@Override
+				public void onClick(InputEvent event, float x, float y) {
+					Platform.getBrowserUtil().launchWebBrowser(
+							youtubeTrailerUrl);
+				}
+			});
+		}
+	}
 
-  private void makeMovieTicketsPurchaseButton(ButtonBar buttonBar, Movie movie) {
-    final String ticketsPurchaseUrl = movie.getTicketsPurchaseUrl();
-    if (!StringUtils.isEmpty(ticketsPurchaseUrl)) {
-      buttonBar.addButton("Get Tickets", new VibrateClickListener() {
-        @Override
-        public void onClick(InputEvent event, float x, float y) {
+	private void makeMovieTicketsPurchaseButton(ButtonBar buttonBar, Movie movie) {
+		final String ticketsPurchaseUrl = movie.getTicketsPurchaseUrl();
+		if (!StringUtils.isEmpty(ticketsPurchaseUrl)) {
+			buttonBar.addButton("Get Tickets", new VibrateClickListener() {
+				@Override
+				public void onClick(InputEvent event, float x, float y) {
 
-          Platform.getBrowserUtil().launchWebBrowser(ticketsPurchaseUrl);
-        }
-      });
-    }
-  }
+					Platform.getBrowserUtil().launchWebBrowser(
+							ticketsPurchaseUrl);
+				}
+			});
+		}
+	}
 }

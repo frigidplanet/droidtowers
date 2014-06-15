@@ -11,34 +11,36 @@ import com.happydroids.platform.Platform;
 import com.happydroids.server.GameUpdate;
 
 public class GameUpdateDialog extends Dialog {
-  public GameUpdateDialog(GameUpdate latestUpdate) {
-    super();
+	public GameUpdateDialog(GameUpdate latestUpdate) {
+		super();
 
-    setTitle("An update is available!");
-    setMessage("An update to Droid Towers is available:\n\n" + latestUpdate.notes + "\n\nWould you like to update now?");
+		setTitle("An update is available!");
+		setMessage("An update to Droid Towers is available:\n\n"
+				+ latestUpdate.notes + "\n\nWould you like to update now?");
 
-    switch (Gdx.app.getType()) {
-      case Desktop:
-        addButton("Yes", new OnClickCallback() {
-          @Override
-          public void onClick(Dialog dialog) {
-            dismiss();
-            Platform.getBrowserUtil()
-                    .launchWebBrowser(HappyDroidConsts.HAPPYDROIDS_URI + "/droidtowers/download-latest");
-          }
-        });
-        break;
+		switch (Gdx.app.getType()) {
+		case Desktop:
+			addButton("Yes", new OnClickCallback() {
+				@Override
+				public void onClick(Dialog dialog) {
+					dismiss();
+					Platform.getBrowserUtil().launchWebBrowser(
+							HappyDroidConsts.HAPPYDROIDS_URI
+									+ "/droidtowers/download-latest");
+				}
+			});
+			break;
 
-      case Android:
+		case Android:
 
-        break;
-    }
+			break;
+		}
 
-    addButton("Not now", new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        dismiss();
-      }
-    });
-  }
+		addButton("Not now", new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				dismiss();
+			}
+		});
+	}
 }

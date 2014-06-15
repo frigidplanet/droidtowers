@@ -7,18 +7,19 @@ package com.happydroids.droidtowers.gamestate.server;
 import com.happydroids.HappyDroidConsts;
 import com.happydroids.server.HappyDroidServiceCollection;
 
-public class FriendCloudGameSaveCollection extends HappyDroidServiceCollection<FriendCloudGameSave> {
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/friendgamesave/";
-  }
+public class FriendCloudGameSaveCollection extends
+		HappyDroidServiceCollection<FriendCloudGameSave> {
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/friendgamesave/";
+	}
 
-  @Override
-  protected boolean requireAuthentication() {
-    return true;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return true;
+	}
 
-  public FriendCloudGameSaveCollection() {
-    super();
-  }
+	public FriendCloudGameSaveCollection() {
+		super();
+	}
 }

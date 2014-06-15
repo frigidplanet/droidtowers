@@ -25,198 +25,210 @@ import com.happydroids.droidtowers.scenes.components.SceneManager;
 import java.util.List;
 
 public class Dialog extends Table {
-  private String title;
-  private String message;
-  private List<TextButton> buttons;
-  private Runnable dismissCallback;
-  private InputCallback dismissInputCallback;
-  private Actor view;
-  private boolean hideButtons;
-  private Texture modalNoiseTexture;
-  private Group youCantTouchThis;
-  private ButtonBar buttonBar;
-  private boolean viewPadding;
+	private String title;
+	private String message;
+	private List<TextButton> buttons;
+	private Runnable dismissCallback;
+	private InputCallback dismissInputCallback;
+	private Actor view;
+	private boolean hideButtons;
+	private Texture modalNoiseTexture;
+	private Group youCantTouchThis;
+	private ButtonBar buttonBar;
+	private boolean viewPadding;
 
-  public Dialog() {
-    this(DroidTowersGame.getRootUiStage());
-  }
+	public Dialog() {
+		this(DroidTowersGame.getRootUiStage());
+	}
 
-  public Dialog(Stage stage) {
-    super();
-    this.setStage(stage);
-    setTouchable(Touchable.enabled);
-    hideButtons = false;
-    viewPadding = true;
+	public Dialog(Stage stage) {
+		super();
+		this.setStage(stage);
+		setTouchable(Touchable.enabled);
+		hideButtons = false;
+		viewPadding = true;
 
-    buttonBar = new ButtonBar();
+		buttonBar = new ButtonBar();
 
-    modalNoiseTexture = TowerAssetManager.texture("swatches/modal-noise.png");
-    modalNoiseTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		modalNoiseTexture = TowerAssetManager
+				.texture("swatches/modal-noise.png");
+		modalNoiseTexture.setWrap(Texture.TextureWrap.Repeat,
+				Texture.TextureWrap.Repeat);
 
-    setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png", Color.WHITE, 1, 1, 1, 1));
+		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png",
+				Color.WHITE, 1, 1, 1, 1));
 
-    youCantTouchThis = new TouchSwallower();
-    youCantTouchThis.setWidth(getStage().getWidth());
-    youCantTouchThis.setHeight(getStage().getHeight());
+		youCantTouchThis = new TouchSwallower();
+		youCantTouchThis.setWidth(getStage().getWidth());
+		youCantTouchThis.setHeight(getStage().getHeight());
 
-    dismissInputCallback = new InputCallback() {
-      @Override
-      public boolean run(float timeDelta) {
-        dismiss();
-        return true;
-      }
-    };
+		dismissInputCallback = new InputCallback() {
+			@Override
+			public boolean run(float timeDelta) {
+				dismiss();
+				return true;
+			}
+		};
 
-    addListener(new InputEventBlackHole());
-  }
+		addListener(new InputEventBlackHole());
+	}
 
-  public Dialog setTitle(String title) {
-    this.title = title;
+	public Dialog setTitle(String title) {
+		this.title = title;
 
-    return this;
-  }
+		return this;
+	}
 
-  public Dialog setMessage(String message) {
-    this.message = message;
+	public Dialog setMessage(String message) {
+		this.message = message;
 
-    return this;
-  }
+		return this;
+	}
 
-  public Dialog show() {
-    clearActions();
-    clear();
+	public Dialog show() {
+		clearActions();
+		clear();
 
-    getStage().addActor(youCantTouchThis);
-    getStage().addActor(this);
+		getStage().addActor(youCantTouchThis);
+		getStage().addActor(this);
 
-    defaults().top().left();
+		defaults().top().left();
 
-    getColor().a = 0f;
-    addAction(Actions.fadeIn(0.25f));
+		getColor().a = 0f;
+		addAction(Actions.fadeIn(0.25f));
 
-    if (title != null) {
-      add(FontManager.Default.makeLabel(title, Colors.ICS_BLUE)).pad(Display.devicePixel(6));
-      row().fillX();
-      add(new HorizontalRule()).expandX();
-    }
+		if (title != null) {
+			add(FontManager.Default.makeLabel(title, Colors.ICS_BLUE)).pad(
+					Display.devicePixel(6));
+			row().fillX();
+			add(new HorizontalRule()).expandX();
+		}
 
-    int padSide = Display.devicePixel(32);
-    int padTop = Display.devicePixel(20);
-    if (view != null) {
-      row().fill();
-      Cell viewCell = add(view).center().expand();
+		int padSide = Display.devicePixel(32);
+		int padTop = Display.devicePixel(20);
+		if (view != null) {
+			row().fill();
+			Cell viewCell = add(view).center().expand();
 
-      if (viewPadding) {
-        viewCell.pad(padTop, padSide, padTop, padSide);
-      }
-    }
+			if (viewPadding) {
+				viewCell.pad(padTop, padSide, padTop, padSide);
+			}
+		}
 
-    if (message != null) {
-      row().pad(padTop, padSide, padTop, padSide);
-      add(FontManager.Roboto18.makeLabel(message, Color.WHITE));
-    }
+		if (message != null) {
+			row().pad(padTop, padSide, padTop, padSide);
+			add(FontManager.Roboto18.makeLabel(message, Color.WHITE));
+		}
 
-    if (!hideButtons) {
-      if (buttonBar.getButtonCount() == 0) {
-        addButton("Dismiss", new OnClickCallback() {
-          @Override
-          public void onClick(Dialog dialog) {
-            dialog.dismiss();
-          }
-        });
-      }
+		if (!hideButtons) {
+			if (buttonBar.getButtonCount() == 0) {
+				addButton("Dismiss", new OnClickCallback() {
+					@Override
+					public void onClick(Dialog dialog) {
+						dialog.dismiss();
+					}
+				});
+			}
 
-      row().fillX();
-      add(buttonBar).expandX();
-    }
+			row().fillX();
+			add(buttonBar).expandX();
+		}
 
-    pack();
+		pack();
 
-    setX((getStage().getWidth() / 2) - (getWidth() / 2));
-    setY((getStage().getHeight() / 2) - (getHeight() / 2));
+		setX((getStage().getWidth() / 2) - (getWidth() / 2));
+		setY((getStage().getHeight() / 2) - (getHeight() / 2));
 
-    if (!hideButtons) {
-      InputSystem.instance().bind(new int[]{InputSystem.Keys.BACK, InputSystem.Keys.ESCAPE}, dismissInputCallback);
-    }
+		if (!hideButtons) {
+			InputSystem.instance()
+					.bind(new int[] { InputSystem.Keys.BACK,
+							InputSystem.Keys.ESCAPE }, dismissInputCallback);
+		}
 
-    return this;
-  }
+		return this;
+	}
 
-  @Override
-  protected void drawBackground(SpriteBatch batch, float parentAlpha) {
-    drawModalNoise(batch);
+	@Override
+	protected void drawBackground(SpriteBatch batch, float parentAlpha) {
+		drawModalNoise(batch);
 
-    SceneManager.activeScene().effects().drawDropShadow(batch, parentAlpha, this);
+		SceneManager.activeScene().effects()
+				.drawDropShadow(batch, parentAlpha, this);
 
-    batch.setColor(Color.WHITE);
-    super.drawBackground(batch, parentAlpha);
-  }
+		batch.setColor(Color.WHITE);
+		super.drawBackground(batch, parentAlpha);
+	}
 
-  protected void drawModalNoise(SpriteBatch batch) {
-    batch.setColor(1, 1, 1, 0.45f * getColor().a);
-    batch.draw(modalNoiseTexture, 0, 0, getStage().getWidth(), getStage().getHeight(), 0, 0, getStage().getWidth() / modalNoiseTexture
-                                                                                                                             .getWidth(), getStage()
-                                                                                                                                                  .getHeight() / modalNoiseTexture
-                                                                                                                                                                         .getHeight());
-  }
+	protected void drawModalNoise(SpriteBatch batch) {
+		batch.setColor(1, 1, 1, 0.45f * getColor().a);
+		batch.draw(modalNoiseTexture, 0, 0, getStage().getWidth(), getStage()
+				.getHeight(), 0, 0,
+				getStage().getWidth() / modalNoiseTexture.getWidth(),
+				getStage().getHeight() / modalNoiseTexture.getHeight());
+	}
 
-  public Dialog addButton(String buttonText, final OnClickCallback clickCallback) {
-    return addButton(buttonText, new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        clickCallback.onClick(Dialog.this);
-      }
-    });
-  }
+	public Dialog addButton(String buttonText,
+			final OnClickCallback clickCallback) {
+		return addButton(buttonText, new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				clickCallback.onClick(Dialog.this);
+			}
+		});
+	}
 
-  public Dialog addButton(String buttonText, VibrateClickListener clickListener) {
-    buttonBar.addButton(buttonText, clickListener);
+	public Dialog addButton(String buttonText,
+			VibrateClickListener clickListener) {
+		buttonBar.addButton(buttonText, clickListener);
 
-    return this;
-  }
+		return this;
+	}
 
-  public void dismiss() {
-    InputSystem.instance().unbind(new int[]{InputSystem.Keys.BACK, InputSystem.Keys.ESCAPE}, dismissInputCallback);
+	public void dismiss() {
+		InputSystem.instance().unbind(
+				new int[] { InputSystem.Keys.BACK, InputSystem.Keys.ESCAPE },
+				dismissInputCallback);
 
-    addAction(Actions.sequence(Actions.fadeOut(0.125f), Actions.run(new Runnable() {
-      @Override
-      public void run() {
-        remove();
-      }
-    })));
+		addAction(Actions.sequence(Actions.fadeOut(0.125f),
+				Actions.run(new Runnable() {
+					@Override
+					public void run() {
+						remove();
+					}
+				})));
 
-    youCantTouchThis.remove();
+		youCantTouchThis.remove();
 
-    if (dismissCallback != null) {
-      dismissCallback.run();
-    }
-  }
+		if (dismissCallback != null) {
+			dismissCallback.run();
+		}
+	}
 
-  public Dialog setDismissCallback(Runnable dismissCallback) {
-    this.dismissCallback = dismissCallback;
+	public Dialog setDismissCallback(Runnable dismissCallback) {
+		this.dismissCallback = dismissCallback;
 
-    return this;
-  }
+		return this;
+	}
 
-  public void setView(Actor view) {
-    this.view = view;
-  }
+	public void setView(Actor view) {
+		this.view = view;
+	}
 
-  public Dialog hideButtons(boolean cancelable) {
-    this.hideButtons = cancelable;
+	public Dialog hideButtons(boolean cancelable) {
+		this.hideButtons = cancelable;
 
-    return this;
-  }
+		return this;
+	}
 
-  protected void clearButtons() {
-    buttons.clear();
-  }
+	protected void clearButtons() {
+		buttons.clear();
+	}
 
-  protected void useViewPadding(boolean b) {
-    viewPadding = b;
-  }
+	protected void useViewPadding(boolean b) {
+		viewPadding = b;
+	}
 
-  protected void addButton(Button button) {
-    buttonBar.addButton(button);
-  }
+	protected void addButton(Button button) {
+		buttonBar.addButton(button);
+	}
 }

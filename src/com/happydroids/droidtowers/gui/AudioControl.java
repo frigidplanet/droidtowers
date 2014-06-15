@@ -16,23 +16,26 @@ import static com.badlogic.gdx.graphics.Color.WHITE;
 import static com.happydroids.droidtowers.Colors.ICS_BLUE;
 
 public class AudioControl extends ImageButton {
-  public AudioControl(TextureAtlas hudAtlas) {
-    super(new NinePatchDrawable(new NinePatch(hudAtlas.findRegion("audio-on"), WHITE)),
-                 new NinePatchDrawable(new NinePatch(hudAtlas.findRegion("audio-on"), ICS_BLUE)),
-                 new NinePatchDrawable(new NinePatch(hudAtlas.findRegion("audio-off"), WHITE)));
-    layout();
+	public AudioControl(TextureAtlas hudAtlas) {
+		super(new NinePatchDrawable(new NinePatch(
+				hudAtlas.findRegion("audio-on"), WHITE)),
+				new NinePatchDrawable(new NinePatch(
+						hudAtlas.findRegion("audio-on"), ICS_BLUE)),
+				new NinePatchDrawable(new NinePatch(
+						hudAtlas.findRegion("audio-off"), WHITE)));
+		layout();
 
-    GameSoundController.runAfterInit(new Runnable() {
-      @Override
-      public void run() {
-        setChecked(!DroidTowersGame.getSoundController().isAudioState());
+		GameSoundController.runAfterInit(new Runnable() {
+			@Override
+			public void run() {
+				setChecked(!DroidTowersGame.getSoundController().isAudioState());
 
-        addListener(new VibrateClickListener() {
-          public void onClick(InputEvent event, float x, float y) {
-            DroidTowersGame.getSoundController().toggleAudio();
-          }
-        });
-      }
-    });
-  }
+				addListener(new VibrateClickListener() {
+					public void onClick(InputEvent event, float x, float y) {
+						DroidTowersGame.getSoundController().toggleAudio();
+					}
+				});
+			}
+		});
+	}
 }

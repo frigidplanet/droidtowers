@@ -16,70 +16,73 @@ import com.happydroids.droidtowers.gui.dialogs.CousinVinnieRepayLoanDialog;
 import com.happydroids.droidtowers.platform.Display;
 
 public class RoomPopOver extends GridObjectPopOver<Room> {
-  private RatingBar residencyBar;
-  private RatingBar crimeBar;
-  private Table residentImages;
+	private RatingBar residencyBar;
+	private RatingBar crimeBar;
+	private Table residentImages;
 
+	public RoomPopOver(Room room) {
+		super(room);
+	}
 
-  public RoomPopOver(Room room) {
-    super(room);
-  }
+	@Override
+	protected void buildControls() {
+		super.buildControls();
 
-  @Override
-  protected void buildControls() {
-    super.buildControls();
+		crimeBar = makeStarRatingBar("Crime");
+		crimeBar.setTextures(RatingBar.SECURITY_ICON);
 
-    crimeBar = makeStarRatingBar("Crime");
-    crimeBar.setTextures(RatingBar.SECURITY_ICON);
+		residencyBar = makeStarRatingBar("Residents");
 
-    residencyBar = makeStarRatingBar("Residents");
+		residentImages = new Table();
+		residentImages.defaults().pad(Display.devicePixel(2));
 
-    residentImages = new Table();
-    residentImages.defaults().pad(Display.devicePixel(2));
+		row().fillX();
+		add(residentImages).center();
 
-    row().fillX();
-    add(residentImages).center();
+		if (gridObject.hasLoanFromCousinVinnie()) {
+			ButtonBar buttonBar = new ButtonBar();
+			buttonBar.addButton("Repay loan from Vinnie",
+					new VibrateClickListener() {
+						@Override
+						public void onClick(InputEvent event, float x, float y) {
+							new CousinVinnieRepayLoanDialog(gridObject).show();
+						}
+					});
 
-    if (gridObject.hasLoanFromCousinVinnie()) {
-      ButtonBar buttonBar = new ButtonBar();
-      buttonBar.addButton("Repay loan from Vinnie", new VibrateClickListener() {
-        @Override
-        public void onClick(InputEvent event, float x, float y) {
-          new CousinVinnieRepayLoanDialog(gridObject).show();
-        }
-      });
+			row().fillX().pad(Display.devicePixel(-8))
+					.padTop(Display.devicePixel(16));
+			add(buttonBar).expandX().minWidth(200);
+		}
+	}
 
-      row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
-      add(buttonBar).expandX().minWidth(200);
-    }
-  }
+	@Override
+	protected void updateControls() {
+		super.updateControls();
 
-  @Override
-  protected void updateControls() {
-    super.updateControls();
+		crimeBar.setValue(gridObject.getSurroundingCrimeLevel() * 5f);
+		residencyBar.setValue(gridObject.getResidencyLevel() * 5f);
 
-    crimeBar.setValue(gridObject.getSurroundingCrimeLevel() * 5f);
-    residencyBar.setValue(gridObject.getResidencyLevel() * 5f);
+		boolean updatedLayout = false;
 
-    boolean updatedLayout = false;
+		if (gridObject.hasResidents()) {
+			if (residentImages.getChildren().size < gridObject.getResidents()
+					.size()) {
+				residentImages.clear();
 
-    if (gridObject.hasResidents()) {
-      if (residentImages.getChildren().size < gridObject.getResidents().size()) {
-        residentImages.clear();
+				for (Avatar avatar : gridObject.getResidents()) {
+					Image image = new Image(new TextureRegionDrawable(avatar),
+							Scaling.none);
+					image.getColor().set(avatar.getColor());
+					residentImages.add(image).width((int) avatar.getWidth());
+				}
+				residentImages.pack();
+				updatedLayout = true;
+			}
+		}
 
-        for (Avatar avatar : gridObject.getResidents()) {
-          Image image = new Image(new TextureRegionDrawable(avatar), Scaling.none);
-          image.getColor().set(avatar.getColor());
-          residentImages.add(image).width((int) avatar.getWidth());
-        }
-        residentImages.pack();
-        updatedLayout = true;
-      }
-    }
-
-    if (updatedLayout) {
-      invalidateHierarchy();
-      pack();
-    }
-  }
+		if (updatedLayout) {
+			invalidateHierarchy();
+			pack();
+		}
+	}
 }

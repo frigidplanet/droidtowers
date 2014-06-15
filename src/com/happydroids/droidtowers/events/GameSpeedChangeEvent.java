@@ -7,9 +7,9 @@ package com.happydroids.droidtowers.events;
 import com.happydroids.droidtowers.scenes.Scene;
 
 public class GameSpeedChangeEvent {
-  public final Scene scene;
+	public final Scene scene;
 
-  public GameSpeedChangeEvent(Scene scene) {
-    this.scene = scene;
-  }
+	public GameSpeedChangeEvent(Scene scene) {
+		this.scene = scene;
+	}
 }

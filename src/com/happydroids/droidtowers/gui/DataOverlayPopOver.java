@@ -19,67 +19,70 @@ import com.happydroids.droidtowers.platform.Display;
 import static com.happydroids.droidtowers.TowerAssetManager.drawable;
 
 class DataOverlayPopOver extends PopOver {
-  private final GameGridRenderer gameGridRenderer;
+	private final GameGridRenderer gameGridRenderer;
 
-  DataOverlayPopOver(final GameGridRenderer gameGridRenderer) {
-    this.gameGridRenderer = gameGridRenderer;
-    alignArrow(Align.right);
-  }
+	DataOverlayPopOver(final GameGridRenderer gameGridRenderer) {
+		this.gameGridRenderer = gameGridRenderer;
+		alignArrow(Align.right);
+	}
 
-  @Override
-  protected void show(Actor parentWidget, Actor relativeTo) {
-    content.clear();
-    buildControls();
+	@Override
+	protected void show(Actor parentWidget, Actor relativeTo) {
+		content.clear();
+		buildControls();
 
-    super.show(parentWidget, relativeTo);
-  }
+		super.show(parentWidget, relativeTo);
+	}
 
-  @Override
-  protected void hide() {
-    super.hide();
+	@Override
+	protected void hide() {
+		super.hide();
 
-    gameGridRenderer.setActiveOverlay(null);
-  }
+		gameGridRenderer.setActiveOverlay(null);
+	}
 
-  private void buildControls() {
-    boolean unlockedJanitors = AchievementEngine.instance().findById("build5commercialspaces").hasGivenReward();
-    boolean unlockedMaids = AchievementEngine.instance().findById("build8hotelroom").hasGivenReward();
+	private void buildControls() {
+		boolean unlockedJanitors = AchievementEngine.instance()
+				.findById("build5commercialspaces").hasGivenReward();
+		boolean unlockedMaids = AchievementEngine.instance()
+				.findById("build8hotelroom").hasGivenReward();
 
-    for (final Overlays overlay : Overlays.values()) {
-      if (overlay.equals(Overlays.DIRT_LEVEL) && (!unlockedJanitors || !unlockedMaids)) {
-        continue;
-      }
+		for (final Overlays overlay : Overlays.values()) {
+			if (overlay.equals(Overlays.DIRT_LEVEL)
+					&& (!unlockedJanitors || !unlockedMaids)) {
+				continue;
+			}
 
-      final CheckBox checkBox = FontManager.Roboto18.makeCheckBox(overlay.toString());
-      checkBox.align(Align.left);
-      checkBox.getLabelCell().padLeft(0).spaceLeft(Display.devicePixel(8));
-      checkBox.addListener(new VibrateClickListener() {
-        public void onClick(InputEvent event, float x, float y) {
-          if (checkBox.isChecked()) {
-            for (Actor otherCheckbox : getActors()) {
-              if (otherCheckbox instanceof CheckBox && otherCheckbox != checkBox) {
-                ((CheckBox) otherCheckbox).setChecked(false);
-              }
-            }
+			final CheckBox checkBox = FontManager.Roboto18.makeCheckBox(overlay
+					.toString());
+			checkBox.align(Align.left);
+			checkBox.getLabelCell().padLeft(0)
+					.spaceLeft(Display.devicePixel(8));
+			checkBox.addListener(new VibrateClickListener() {
+				public void onClick(InputEvent event, float x, float y) {
+					if (checkBox.isChecked()) {
+						for (Actor otherCheckbox : getActors()) {
+							if (otherCheckbox instanceof CheckBox
+									&& otherCheckbox != checkBox) {
+								((CheckBox) otherCheckbox).setChecked(false);
+							}
+						}
 
-            gameGridRenderer.setActiveOverlay(overlay);
-          } else {
-            gameGridRenderer.setActiveOverlay(null);
-          }
-        }
-      });
+						gameGridRenderer.setActiveOverlay(overlay);
+					} else {
+						gameGridRenderer.setActiveOverlay(null);
+					}
+				}
+			});
 
+			Image colorSwatch = new Image(
+					drawable(TowerAssetManager.WHITE_SWATCH), Scaling.stretch);
+			colorSwatch.setColor(overlay.getColor(1f));
 
-      Image colorSwatch = new Image(drawable(TowerAssetManager.WHITE_SWATCH), Scaling.stretch);
-      colorSwatch.setColor(overlay.getColor(1f));
-
-      row().left();
-      add(checkBox).pad(0).fillX();
-      add(colorSwatch)
-              .width(16)
-              .height(16);
-    }
-  }
-
+			row().left();
+			add(checkBox).pad(0).fillX();
+			add(colorSwatch).width(16).height(16);
+		}
+	}
 
 }

@@ -18,61 +18,62 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class GridObjectState {
-  private String typeId;
-  private GridPoint position;
-  private GridPoint size;
-  private String name;
-  private int variationId;
-  private int loanFromCousinVinnie;
-  private List<JobCandidate> employees;
-  private int numberOfElevatorCars;
+	private String typeId;
+	private GridPoint position;
+	private GridPoint size;
+	private String name;
+	private int variationId;
+	private int loanFromCousinVinnie;
+	private List<JobCandidate> employees;
+	private int numberOfElevatorCars;
 
-  public GridObjectState() {
+	public GridObjectState() {
 
-  }
+	}
 
-  public GridObjectState(GridObject gridObject) {
-    typeId = gridObject.getGridObjectType().getId();
-    position = gridObject.getPosition();
-    size = gridObject.getSize();
-    name = gridObject.hasCustomName() ? gridObject.getName() : null;
-    variationId = gridObject.getVariationId();
-    loanFromCousinVinnie = gridObject.getAmountLoanedFromCousinVinnie();
+	public GridObjectState(GridObject gridObject) {
+		typeId = gridObject.getGridObjectType().getId();
+		position = gridObject.getPosition();
+		size = gridObject.getSize();
+		name = gridObject.hasCustomName() ? gridObject.getName() : null;
+		variationId = gridObject.getVariationId();
+		loanFromCousinVinnie = gridObject.getAmountLoanedFromCousinVinnie();
 
-    if (gridObject instanceof Elevator) {
-      numberOfElevatorCars = ((Elevator) gridObject).getNumElevatorCars();
-    }
-  }
+		if (gridObject instanceof Elevator) {
+			numberOfElevatorCars = ((Elevator) gridObject).getNumElevatorCars();
+		}
+	}
 
-  public GridObject materialize(GameGrid gameGrid) {
-    GridObjectType objectType = GridObjectTypeFactory.findTypeById(typeId);
-    if (objectType != null) {
-      GridObject object = objectType.makeGridObject(gameGrid);
+	public GridObject materialize(GameGrid gameGrid) {
+		GridObjectType objectType = GridObjectTypeFactory.findTypeById(typeId);
+		if (objectType != null) {
+			GridObject object = objectType.makeGridObject(gameGrid);
 
-      if (object != null) {
-        if (name != null) {
-          object.setName(name);
-        }
-        object.setPosition(position.x, position.y);
-        object.setSize(size.x, size.y);
-        object.setPlaced(true);
-        if (variationId > 0) {
-          object.setVariationId(variationId);
-        }
-        object.addLoanFromCousinVinnie(loanFromCousinVinnie);
+			if (object != null) {
+				if (name != null) {
+					object.setName(name);
+				}
+				object.setPosition(position.x, position.y);
+				object.setSize(size.x, size.y);
+				object.setPlaced(true);
+				if (variationId > 0) {
+					object.setVariationId(variationId);
+				}
+				object.addLoanFromCousinVinnie(loanFromCousinVinnie);
 
-        if (object instanceof Elevator) {
-          ((Elevator) object).setNumElevatorCars(numberOfElevatorCars);
-        }
+				if (object instanceof Elevator) {
+					((Elevator) object)
+							.setNumElevatorCars(numberOfElevatorCars);
+				}
 
-        object.updateSprite();
+				object.updateSprite();
 
-        gameGrid.addObject(object);
+				gameGrid.addObject(object);
 
-        return object;
-      }
-    }
+				return object;
+			}
+		}
 
-    throw new RuntimeException("Cannot find type: " + typeId);
-  }
+		throw new RuntimeException("Cannot find type: " + typeId);
+	}
 }

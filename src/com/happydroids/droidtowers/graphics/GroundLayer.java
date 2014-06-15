@@ -14,33 +14,37 @@ import com.happydroids.droidtowers.events.RespondsToWorldSizeChange;
 import com.happydroids.droidtowers.platform.Display;
 
 public class GroundLayer extends GameLayer implements RespondsToWorldSizeChange {
-  public GroundLayer() {
-    super();
-  }
+	public GroundLayer() {
+		super();
+	}
 
-  @Override
-  public void updateWorldSize(Vector2 worldSize) {
-    removeAllChildren();
+	@Override
+	public void updateWorldSize(Vector2 worldSize) {
+		removeAllChildren();
 
-    Texture topTexture = TowerAssetManager.texture("backgrounds/ground-top.png");
+		Texture topTexture = TowerAssetManager
+				.texture("backgrounds/ground-top.png");
 
-    float tiledHeight = TowerConsts.GROUND_HEIGHT - topTexture.getHeight();
+		float tiledHeight = TowerConsts.GROUND_HEIGHT - topTexture.getHeight();
 
-    GameObject top = new GameObject(topTexture);
-    int biggestScreenDimension = Display.getBiggestScreenDimension();
-    top.setPosition(-biggestScreenDimension, tiledHeight);
-    top.setSize(worldSize.x + (biggestScreenDimension * 2), topTexture.getHeight());
-    top.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
+		GameObject top = new GameObject(topTexture);
+		int biggestScreenDimension = Display.getBiggestScreenDimension();
+		top.setPosition(-biggestScreenDimension, tiledHeight);
+		top.setSize(worldSize.x + (biggestScreenDimension * 2),
+				topTexture.getHeight());
+		top.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
 
-    addChild(top);
+		addChild(top);
 
-    Texture tileTexture = TowerAssetManager.texture("backgrounds/ground-tile.png");
+		Texture tileTexture = TowerAssetManager
+				.texture("backgrounds/ground-tile.png");
 
-    GameObject tile = new GameObject(tileTexture);
-    tile.setPosition(-biggestScreenDimension, -biggestScreenDimension);
-    tile.setSize(worldSize.x + (biggestScreenDimension * 4), tiledHeight + biggestScreenDimension);
-    tile.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		GameObject tile = new GameObject(tileTexture);
+		tile.setPosition(-biggestScreenDimension, -biggestScreenDimension);
+		tile.setSize(worldSize.x + (biggestScreenDimension * 4), tiledHeight
+				+ biggestScreenDimension);
+		tile.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-    addChild(tile);
-  }
+		addChild(tile);
+	}
 }

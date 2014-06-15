@@ -16,56 +16,56 @@ import org.apach3.commons.lang3.StringUtils;
 import java.util.List;
 
 public class AchievementDetailView extends ScrollableTowerWindow {
-  public AchievementDetailView(Achievement achievement, Stage stage) {
-    super(achievement.getName(), stage);
+	public AchievementDetailView(Achievement achievement, Stage stage) {
+		super(achievement.getName(), stage);
 
-    defaults().top().left().space(Display.devicePixel(6));
+		defaults().top().left().space(Display.devicePixel(6));
 
-    makeDivider();
+		makeDivider();
 
-    String description = achievement.getDescription();
-    if (!StringUtils.isEmpty(description)) {
-      addHeaderRow("description");
+		String description = achievement.getDescription();
+		if (!StringUtils.isEmpty(description)) {
+			addHeaderRow("description");
 
-      row();
-      Label descLabel = FontManager.Roboto18.makeLabel(description);
-      descLabel.setWrap(true);
-      add(descLabel).fill();
+			row();
+			Label descLabel = FontManager.Roboto18.makeLabel(description);
+			descLabel.setWrap(true);
+			add(descLabel).fill();
 
-      makeDivider();
-    }
+			makeDivider();
+		}
 
-    List<Requirement> requirements = achievement.getRequirements();
-    List<Reward> rewards = achievement.getRewards();
+		List<Requirement> requirements = achievement.getRequirements();
+		List<Reward> rewards = achievement.getRewards();
 
-    if (requirements != null) {
-      row().expandX();
-      add(new RequirementsTable(requirements)).fill();
-    }
+		if (requirements != null) {
+			row().expandX();
+			add(new RequirementsTable(requirements)).fill();
+		}
 
-    if (requirements != null && rewards != null) {
-      makeDivider();
-    }
+		if (requirements != null && rewards != null) {
+			makeDivider();
+		}
 
-    if (rewards != null) {
-      row().expandX();
-      add(new RewardsTable(rewards)).fill();
-    }
+		if (rewards != null) {
+			row().expandX();
+			add(new RewardsTable(rewards)).fill();
+		}
 
-    shoveContentUp();
-  }
+		shoveContentUp();
+	}
 
-  private void makeDivider() {
-    row().height(Display.devicePixel(22));
-    add(new NoOpWidget());
-  }
+	private void makeDivider() {
+		row().height(Display.devicePixel(22));
+		add(new NoOpWidget());
+	}
 
-  private void addHeaderRow(String headerText) {
-    row();
-    add(FontManager.Default.makeLabel(headerText, Color.GRAY));
+	private void addHeaderRow(String headerText) {
+		row();
+		add(FontManager.Default.makeLabel(headerText, Color.GRAY));
 
-    row();
-    add(new HorizontalRule(Color.DARK_GRAY, 1));
-  }
+		row();
+		add(new HorizontalRule(Color.DARK_GRAY, 1));
+	}
 
 }

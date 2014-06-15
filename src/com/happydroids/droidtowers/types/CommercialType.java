@@ -15,30 +15,30 @@ import static com.happydroids.droidtowers.types.ProviderType.HOTEL_ROOMS;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CommercialType extends RoomType {
-  public static final String COMMERCIAL_STATS_LINE = "MAX EMPLOYEES: {maxEmployees}\nMAX INCOME: {maxIncome}\nSERVICED BY: {servicedBy}";
-  private int jobsProvided;
-  private int populationAttraction;
+	public static final String COMMERCIAL_STATS_LINE = "MAX EMPLOYEES: {maxEmployees}\nMAX INCOME: {maxIncome}\nSERVICED BY: {servicedBy}";
+	private int jobsProvided;
+	private int populationAttraction;
 
-  public CommercialType() {
-    statsLine = COMMERCIAL_STATS_LINE;
-  }
+	public CommercialType() {
+		statsLine = COMMERCIAL_STATS_LINE;
+	}
 
-  @Override
-  public GridObject makeGridObject(GameGrid gameGrid) {
-    if (getId().equalsIgnoreCase("MOVIE-THEATER")) {
-      return new MovieTheater(this, gameGrid);
-    } else if (this.provides(HOTEL_ROOMS)) {
-      return new HotelRoom(this, gameGrid);
-    }
+	@Override
+	public GridObject makeGridObject(GameGrid gameGrid) {
+		if (getId().equalsIgnoreCase("MOVIE-THEATER")) {
+			return new MovieTheater(this, gameGrid);
+		} else if (this.provides(HOTEL_ROOMS)) {
+			return new HotelRoom(this, gameGrid);
+		}
 
-    return new CommercialSpace(this, gameGrid);
-  }
+		return new CommercialSpace(this, gameGrid);
+	}
 
-  public int getJobsProvided() {
-    return jobsProvided;
-  }
+	public int getJobsProvided() {
+		return jobsProvided;
+	}
 
-  public int getPopulationAttraction() {
-    return populationAttraction;
-  }
+	public int getPopulationAttraction() {
+		return populationAttraction;
+	}
 }

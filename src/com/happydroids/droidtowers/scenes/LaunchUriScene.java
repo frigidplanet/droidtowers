@@ -14,51 +14,56 @@ import java.net.URI;
 import java.util.List;
 
 public class LaunchUriScene extends SplashScene {
-  private static final String TAG = LaunchUriScene.class.getSimpleName();
+	private static final String TAG = LaunchUriScene.class.getSimpleName();
 
-  @Override
-  public void create(Object... args) {
-    super.create(args);
+	@Override
+	public void create(Object... args) {
+		super.create(args);
 
-    if (args == null) {
-      throw new RuntimeException("args cannot be null!");
-    }
+		if (args == null) {
+			throw new RuntimeException("args cannot be null!");
+		}
 
-    URI launchUri = (URI) args[0];
-    List<NameValuePair> queryParams = URLEncodedUtils.parse(launchUri, "utf8");
-    String launchUriHost = launchUri.getHost();
+		URI launchUri = (URI) args[0];
+		List<NameValuePair> queryParams = URLEncodedUtils.parse(launchUri,
+				"utf8");
+		String launchUriHost = launchUri.getHost();
 
-    Gdx.app.debug(TAG, "Launch task: " + launchUriHost);
-    final NameValuePair sessionToken = getParam(queryParams, "session");
-    if (sessionToken != null && !TowerGameService.instance().isAuthenticated()) {
-      Gdx.app.debug(TAG, "Launch session: " + sessionToken.getValue());
-      TowerGameService.instance().setSessionToken(sessionToken.getValue());
-    }
+		Gdx.app.debug(TAG, "Launch task: " + launchUriHost);
+		final NameValuePair sessionToken = getParam(queryParams, "session");
+		if (sessionToken != null
+				&& !TowerGameService.instance().isAuthenticated()) {
+			Gdx.app.debug(TAG, "Launch session: " + sessionToken.getValue());
+			TowerGameService.instance()
+					.setSessionToken(sessionToken.getValue());
+		}
 
-    if (launchUriHost.equals("launchgame")) {
-      final NameValuePair gameId = getParam(queryParams, "id");
-      if (gameId != null) {
-        new LaunchGameUriAction().checkAuthAndLoadGame(gameId);
-      }
-    } else if (launchUriHost.equals("register")) {
-      final NameValuePair serial = getParam(queryParams, "serial");
-      if (serial != null) {
-        SceneManager.popScene();
-        SceneManager.pushScene(VerifyPurchaseScene.class, serial.getValue());
-      }
-    } else {
-      SceneManager.changeScene(MainMenuScene.class);
-    }
+		if (launchUriHost.equals("launchgame")) {
+			final NameValuePair gameId = getParam(queryParams, "id");
+			if (gameId != null) {
+				new LaunchGameUriAction().checkAuthAndLoadGame(gameId);
+			}
+		} else if (launchUriHost.equals("register")) {
+			final NameValuePair serial = getParam(queryParams, "serial");
+			if (serial != null) {
+				SceneManager.popScene();
+				SceneManager.pushScene(VerifyPurchaseScene.class,
+						serial.getValue());
+			}
+		} else {
+			SceneManager.changeScene(MainMenuScene.class);
+		}
 
-  }
+	}
 
-  private NameValuePair getParam(List<NameValuePair> queryParams, String keyName) {
-    for (NameValuePair queryParam : queryParams) {
-      if (queryParam.getName().equalsIgnoreCase(keyName)) {
-        return queryParam;
-      }
-    }
+	private NameValuePair getParam(List<NameValuePair> queryParams,
+			String keyName) {
+		for (NameValuePair queryParam : queryParams) {
+			if (queryParam.getName().equalsIgnoreCase(keyName)) {
+				return queryParam;
+			}
+		}
 
-    return null;
-  }
+		return null;
+	}
 }

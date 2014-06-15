@@ -14,66 +14,70 @@ import com.happydroids.droidtowers.grid.GameGrid;
 import java.util.List;
 
 public class PickerTool extends ToolBase {
-  public PickerTool(OrthographicCamera camera, List<GameLayer> gameLayers, GameGrid gameGrid) {
-    super(camera, gameLayers, gameGrid);
-  }
+	public PickerTool(OrthographicCamera camera, List<GameLayer> gameLayers,
+			GameGrid gameGrid) {
+		super(camera, gameLayers, gameGrid);
+	}
 
-  @Override
-  public boolean longPress(float x, float y) {
-    Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
+	@Override
+	public boolean longPress(float x, float y) {
+		Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
 
-    for (GameLayer gameLayer : gameLayers) {
-      if (gameLayer.isTouchEnabled() && gameLayer.longPress(worldPoint)) {
-        return true;
-      }
-    }
+		for (GameLayer gameLayer : gameLayers) {
+			if (gameLayer.isTouchEnabled() && gameLayer.longPress(worldPoint)) {
+				return true;
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  @Override
-  public boolean pan(float x, float y, float deltaX, float deltaY) {
-    Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
-    Vector2 deltaPoint = cameraPickRayToWorldPoint(x + -deltaX, y + deltaY);
+	@Override
+	public boolean pan(float x, float y, float deltaX, float deltaY) {
+		Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
+		Vector2 deltaPoint = cameraPickRayToWorldPoint(x + -deltaX, y + deltaY);
 
-    for (GameLayer gameLayer : gameLayers) {
-      if (gameLayer.isTouchEnabled() && gameLayer.pan(worldPoint, deltaPoint)) {
-        return true;
-      }
-    }
+		for (GameLayer gameLayer : gameLayers) {
+			if (gameLayer.isTouchEnabled()
+					&& gameLayer.pan(worldPoint, deltaPoint)) {
+				return true;
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  @Override
-  public boolean tap(float x, float y, int count, int button) {
-    Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
 
-    for (GameLayer gameLayer : gameLayers) {
-      if (gameLayer.isTouchEnabled() && gameLayer.tap(worldPoint, count, button)) {
-        return true;
-      }
-    }
+		for (GameLayer gameLayer : gameLayers) {
+			if (gameLayer.isTouchEnabled()
+					&& gameLayer.tap(worldPoint, count, button)) {
+				return true;
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  @Override
-  public boolean touchDown(float x, float y, int pointer, int button) {
-    Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
 
-    for (GameLayer gameLayer : gameLayers) {
-      if (gameLayer.isTouchEnabled() && gameLayer.touchDown(worldPoint, pointer)) {
-        return true;
-      }
-    }
+		for (GameLayer gameLayer : gameLayers) {
+			if (gameLayer.isTouchEnabled()
+					&& gameLayer.touchDown(worldPoint, pointer)) {
+				return true;
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 
-  private Vector2 cameraPickRayToWorldPoint(float x, float y) {
-    Ray pickRay = camera.getPickRay(x, y);
-    Vector3 pickRayEndPoint = pickRay.getEndPoint(1);
-    return new Vector2(pickRayEndPoint.x, pickRayEndPoint.y);
-  }
+	private Vector2 cameraPickRayToWorldPoint(float x, float y) {
+		Ray pickRay = camera.getPickRay(x, y);
+		Vector3 pickRayEndPoint = pickRay.getEndPoint(1);
+		return new Vector2(pickRayEndPoint.x, pickRayEndPoint.y);
+	}
 }

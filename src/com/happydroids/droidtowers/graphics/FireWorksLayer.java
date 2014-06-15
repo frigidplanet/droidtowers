@@ -30,101 +30,107 @@ import java.util.Set;
 import static com.happydroids.droidtowers.TowerConsts.GRID_UNIT_SIZE;
 import static com.happydroids.droidtowers.TowerConsts.LOBBY_FLOOR;
 
-public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements RespondsToWorldSizeChange {
-  private static final float FIREWORK_DURATION = 10f;
+public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements
+		RespondsToWorldSizeChange {
+	private static final float FIREWORK_DURATION = 10f;
 
-  private final Iterator<float[]> colorsIterator;
-  private final Rectangle worldBounds;
-  private boolean playFireWorks;
-  private float timePlaying;
+	private final Iterator<float[]> colorsIterator;
+	private final Rectangle worldBounds;
+	private boolean playFireWorks;
+	private float timePlaying;
 
-  public FireWorksLayer(GameGrid gameGrid) {
-    super();
+	public FireWorksLayer(GameGrid gameGrid) {
+		super();
 
-    gameGrid.events().register(this);
-    TutorialEngine.instance().eventBus().register(this);
-    AchievementEngine.instance().eventBus().register(this);
+		gameGrid.events().register(this);
+		TutorialEngine.instance().eventBus().register(this);
+		AchievementEngine.instance().eventBus().register(this);
 
-    ParticleEffect particleEffect = new ParticleEffect();
-    particleEffect.load(Gdx.files.internal("particles/firework.p"), Gdx.files.internal("particles"));
+		ParticleEffect particleEffect = new ParticleEffect();
+		particleEffect.load(Gdx.files.internal("particles/firework.p"),
+				Gdx.files.internal("particles"));
 
-    Set<float[]> colors = Sets.newHashSet();
-    colors.add(makeParticleColorArray(Color.WHITE, Color.RED, Color.ORANGE));
-    colors.add(makeParticleColorArray(Color.WHITE, Color.BLUE, Color.GREEN));
-    colors.add(makeParticleColorArray(Color.WHITE, Color.YELLOW, Color.PINK));
-    colors.add(makeParticleColorArray(Color.WHITE, Color.PINK, Color.MAGENTA));
-    colors.add(makeParticleColorArray(Color.WHITE, Color.BLUE, Color.CYAN));
+		Set<float[]> colors = Sets.newHashSet();
+		colors.add(makeParticleColorArray(Color.WHITE, Color.RED, Color.ORANGE));
+		colors.add(makeParticleColorArray(Color.WHITE, Color.BLUE, Color.GREEN));
+		colors.add(makeParticleColorArray(Color.WHITE, Color.YELLOW, Color.PINK));
+		colors.add(makeParticleColorArray(Color.WHITE, Color.PINK,
+				Color.MAGENTA));
+		colors.add(makeParticleColorArray(Color.WHITE, Color.BLUE, Color.CYAN));
 
-    colorsIterator = Iterators.cycle(colors);
+		colorsIterator = Iterators.cycle(colors);
 
-    worldBounds = new Rectangle();
-    for (int i = 0; i < 10; i++) {
-      addChild(new ParticleEffectManager(new ParticleEffect(particleEffect), colorsIterator, worldBounds));
-    }
-  }
+		worldBounds = new Rectangle();
+		for (int i = 0; i < 10; i++) {
+			addChild(new ParticleEffectManager(new ParticleEffect(
+					particleEffect), colorsIterator, worldBounds));
+		}
+	}
 
-  private float[] makeParticleColorArray(final Color colorA, final Color colorB, final Color colorC) {
-    return new float[]{
-                              colorA.r, colorA.g, colorA.b, colorA.a,
-                              colorB.r, colorB.g, colorB.b, colorB.a,
-                              colorC.r, colorC.g, colorC.b, colorC.a
-    };
-  }
+	private float[] makeParticleColorArray(final Color colorA,
+			final Color colorB, final Color colorC) {
+		return new float[] { colorA.r, colorA.g, colorA.b, colorA.a, colorB.r,
+				colorB.g, colorB.b, colorB.a, colorC.r, colorC.g, colorC.b,
+				colorC.a };
+	}
 
-  @Override
-  protected boolean shouldCullObjects() {
-    return false;
-  }
+	@Override
+	protected boolean shouldCullObjects() {
+		return false;
+	}
 
-  private void play() {
-    playFireWorks = true;
-    for (GameObject gameObject : gameObjects) {
-      ((ParticleEffectManager) gameObject).resetEffect();
-    }
-  }
+	private void play() {
+		playFireWorks = true;
+		for (GameObject gameObject : gameObjects) {
+			((ParticleEffectManager) gameObject).resetEffect();
+		}
+	}
 
-  @Override
-  public void update(float timeDelta) {
-    super.update(timeDelta);
+	@Override
+	public void update(float timeDelta) {
+		super.update(timeDelta);
 
-    if (playFireWorks) {
-      timePlaying += timeDelta;
+		if (playFireWorks) {
+			timePlaying += timeDelta;
 
-      if (timePlaying >= FIREWORK_DURATION) {
-        timePlaying = 0f;
-        playFireWorks = false;
+			if (timePlaying >= FIREWORK_DURATION) {
+				timePlaying = 0f;
+				playFireWorks = false;
 
-        for (GameObject gameObject : gameObjects) {
-          ((ParticleEffectManager) gameObject).stop();
-        }
-      }
-    }
-  }
+				for (GameObject gameObject : gameObjects) {
+					((ParticleEffectManager) gameObject).stop();
+				}
+			}
+		}
+	}
 
-  @Override
-  public void updateWorldSize(Vector2 worldSize) {
-    int groundHeight = GRID_UNIT_SIZE * LOBBY_FLOOR;
-    worldBounds.set(0, groundHeight + GRID_UNIT_SIZE * 5, worldSize.x, groundHeight + GRID_UNIT_SIZE * 20);
-  }
+	@Override
+	public void updateWorldSize(Vector2 worldSize) {
+		int groundHeight = GRID_UNIT_SIZE * LOBBY_FLOOR;
+		worldBounds.set(0, groundHeight + GRID_UNIT_SIZE * 5, worldSize.x,
+				groundHeight + GRID_UNIT_SIZE * 20);
+	}
 
-  @Subscribe
-  public void PurchaseManger_onPurchase(PurchaseEvent event) {
-    play();
-  }
+	@Subscribe
+	public void PurchaseManger_onPurchase(PurchaseEvent event) {
+		play();
+	}
 
-  @Subscribe
-  public void GameGrid_onGridObjectPlaced(GridObjectPlacedEvent event) {
-//    play();
-  }
+	@Subscribe
+	public void GameGrid_onGridObjectPlaced(GridObjectPlacedEvent event) {
+		// play();
+	}
 
-  @Subscribe
-  public void AchievementEngine_onAchievementCompletion(AchievementCompletionEvent event) {
-    if (event.getAchievement() instanceof TutorialStep) {
-      if (event.getAchievement().getId().equalsIgnoreCase("tutorial-finished")) {
-        play();
-      }
-    } else {
-      play();
-    }
-  }
+	@Subscribe
+	public void AchievementEngine_onAchievementCompletion(
+			AchievementCompletionEvent event) {
+		if (event.getAchievement() instanceof TutorialStep) {
+			if (event.getAchievement().getId()
+					.equalsIgnoreCase("tutorial-finished")) {
+				play();
+			}
+		} else {
+			play();
+		}
+	}
 }

@@ -9,32 +9,33 @@ import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.entities.Player;
 
 public class ConfirmRedecorationDialog extends Dialog {
-  public ConfirmRedecorationDialog(final GridObject gridObject) {
-    super();
+	public ConfirmRedecorationDialog(final GridObject gridObject) {
+		super();
 
-    setMessage("Would you like to redecorate this room?\n\nIt will cost $1,000.");
-    addButton("Yes", new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        dismiss();
+		setMessage("Would you like to redecorate this room?\n\nIt will cost $1,000.");
+		addButton("Yes", new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				dismiss();
 
-        int variationId = gridObject.getVariationId() + 1;
-        if (variationId > gridObject.getGridObjectType().getNumVariations()) {
-          variationId = 1;
-        }
+				int variationId = gridObject.getVariationId() + 1;
+				if (variationId > gridObject.getGridObjectType()
+						.getNumVariations()) {
+					variationId = 1;
+				}
 
-        gridObject.setVariationId(variationId);
-        gridObject.updateSprite();
+				gridObject.setVariationId(variationId);
+				gridObject.updateSprite();
 
-        Player.instance().subtractCurrency(1000);
-      }
-    });
+				Player.instance().subtractCurrency(1000);
+			}
+		});
 
-    addButton("No", new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        dismiss();
-      }
-    });
-  }
+		addButton("No", new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				dismiss();
+			}
+		});
+	}
 }

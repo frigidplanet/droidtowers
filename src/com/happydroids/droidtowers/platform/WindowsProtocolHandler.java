@@ -9,19 +9,19 @@ import com.happydroids.platform.PlatformProtocolHandler;
 import java.net.URI;
 
 public class WindowsProtocolHandler implements PlatformProtocolHandler {
-  public void initialize(String[] applicationArgs) {
+	public void initialize(String[] applicationArgs) {
 
-  }
+	}
 
-  public boolean hasUri() {
-    return false;
-  }
+	public boolean hasUri() {
+		return false;
+	}
 
-  public URI consumeUri() {
-    return null;
-  }
+	public URI consumeUri() {
+		return null;
+	}
 
-  public void setUrl(URI uri) {
+	public void setUrl(URI uri) {
 
-  }
+	}
 }

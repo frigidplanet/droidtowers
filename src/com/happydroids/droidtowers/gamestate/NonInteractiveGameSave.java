@@ -12,29 +12,31 @@ import com.happydroids.droidtowers.input.CameraController;
 import java.util.List;
 
 public class NonInteractiveGameSave extends GameSave {
-  public NonInteractiveGameSave(GameSave gameSave) {
-    super();
-    metadata = gameSave.metadata;
-    gridSize = gameSave.gridSize;
-    gridObjects = gameSave.gridObjects;
-  }
+	public NonInteractiveGameSave(GameSave gameSave) {
+		super();
+		metadata = gameSave.metadata;
+		gridSize = gameSave.gridSize;
+		gridObjects = gameSave.gridObjects;
+	}
 
-  @Override
-  public void attachToGame(GameGrid gameGrid, OrthographicCamera camera, CameraController cameraController) {
-    gameGrid.clearObjects();
-    gameGrid.setTowerName(metadata.towerName);
-    gameGrid.setGridSize(gridSize.x, gridSize.y);
-    gameGrid.updateWorldSize(true);
+	@Override
+	public void attachToGame(GameGrid gameGrid, OrthographicCamera camera,
+			CameraController cameraController) {
+		gameGrid.clearObjects();
+		gameGrid.setTowerName(metadata.towerName);
+		gameGrid.setGridSize(gridSize.x, gridSize.y);
+		gameGrid.updateWorldSize(true);
 
-    if (gridObjects != null) {
-      for (GridObjectState gridObjectState : gridObjects) {
-        gridObjectState.materialize(gameGrid);
-      }
-    }
-  }
+		if (gridObjects != null) {
+			for (GridObjectState gridObjectState : gridObjects) {
+				gridObjectState.materialize(gameGrid);
+			}
+		}
+	}
 
-  @Override
-  public void update(OrthographicCamera camera, GameGrid gameGrid, List<String> neighbors) {
+	@Override
+	public void update(OrthographicCamera camera, GameGrid gameGrid,
+			List<String> neighbors) {
 
-  }
+	}
 }

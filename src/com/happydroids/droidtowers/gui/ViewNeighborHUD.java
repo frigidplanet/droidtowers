@@ -12,42 +12,44 @@ import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 
 public class ViewNeighborHUD extends Table {
-  public ViewNeighborHUD(final GameState playerGameState) {
-    super();
+	public ViewNeighborHUD(final GameState playerGameState) {
+		super();
 
-    defaults().top().left();
+		defaults().top().left();
 
-    TextButton backButton = FontManager.Roboto18.makeTextButton("< back to my tower");
-    backButton.addListener(new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        SceneManager.popScene();
-      }
-    });
+		TextButton backButton = FontManager.Roboto18
+				.makeTextButton("< back to my tower");
+		backButton.addListener(new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				SceneManager.popScene();
+			}
+		});
 
-    TextButton addNeighborsButton = FontManager.Roboto18.makeTextButton("add neighbors");
-    addNeighborsButton.addListener(new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        new FriendsListWindow(getStage(), playerGameState).show();
-      }
-    });
+		TextButton addNeighborsButton = FontManager.Roboto18
+				.makeTextButton("add neighbors");
+		addNeighborsButton.addListener(new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				new FriendsListWindow(getStage(), playerGameState).show();
+			}
+		});
 
-    row().top().left().fillX();
-    add(backButton);
-    add().expandX();
-    add(addNeighborsButton).right();
-  }
+		row().top().left().fillX();
+		add(backButton);
+		add().expandX();
+		add(addNeighborsButton).right();
+	}
 
-  @Override
-  public float getPrefWidth() {
-    return Display.getWidth();
-  }
+	@Override
+	public float getPrefWidth() {
+		return Display.getWidth();
+	}
 
-  public void showToast(String toastText) {
-    Toast toast = new Toast();
-    toast.setMessage(toastText);
-    getStage().addActor(toast);
-    toast.show();
-  }
+	public void showToast(String toastText) {
+		Toast toast = new Toast();
+		toast.setMessage(toastText);
+		getStage().addActor(toast);
+		toast.show();
+	}
 }

@@ -26,144 +26,151 @@ import static com.happydroids.droidtowers.achievements.RequirementType.ADD_NEIGH
 import static com.happydroids.droidtowers.achievements.RequirementType.HAPPYDROIDS_CONNECT;
 
 public class AchievementEngine {
-  private static final String TAG = AchievementEngine.class.getSimpleName();
+	private static final String TAG = AchievementEngine.class.getSimpleName();
 
-  protected static AchievementEngine instance;
-  protected List<Achievement> achievements;
-  protected EventBus eventBus;
-  protected Map<String, Achievement> achievementsById;
+	protected static AchievementEngine instance;
+	protected List<Achievement> achievements;
+	protected EventBus eventBus;
+	protected Map<String, Achievement> achievementsById;
 
+	public static AchievementEngine instance() {
+		if (instance == null) {
+			instance = new AchievementEngine();
+		}
 
-  public static AchievementEngine instance() {
-    if (instance == null) {
-      instance = new AchievementEngine();
-    }
+		return instance;
+	}
 
-    return instance;
-  }
+	protected AchievementEngine() {
+		try {
+			eventBus = new SafeEventBus();
+			ObjectMapper mapper = TowerGameService.instance().getObjectMapper();
+			achievements = mapper.readValue(
+					Gdx.files.internal("params/achievements.json").reader(),
+					mapper.getTypeFactory().constructCollectionType(
+							ArrayList.class, Achievement.class));
 
-  protected AchievementEngine() {
-    try {
-      eventBus = new SafeEventBus();
-      ObjectMapper mapper = TowerGameService.instance().getObjectMapper();
-      achievements = mapper.readValue(Gdx.files.internal("params/achievements.json").reader(), mapper.getTypeFactory()
-                                                                                                       .constructCollectionType(ArrayList.class, Achievement.class));
+			// noinspection PointlessBooleanExpression
+			if (!TowerConsts.ENABLE_HAPPYDROIDS_CONNECT) {
+				Iterator<Achievement> achievementIterator = achievements
+						.iterator();
+				while (achievementIterator.hasNext()) {
+					Achievement achievement = achievementIterator.next();
+					for (Requirement requirement : achievement
+							.getRequirements()) {
+						if (requirement.getType().equals(ADD_NEIGHBOR)
+								|| requirement.getType().equals(
+										HAPPYDROIDS_CONNECT)) {
+							achievementIterator.remove();
+						}
+					}
+				}
+			}
 
+			achievementsById = Maps.newHashMap();
+			for (Achievement achievement : achievements) {
+				achievementsById.put(achievement.getId(), achievement);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-      //noinspection PointlessBooleanExpression
-      if (!TowerConsts.ENABLE_HAPPYDROIDS_CONNECT) {
-        Iterator<Achievement> achievementIterator = achievements.iterator();
-        while (achievementIterator.hasNext()) {
-          Achievement achievement = achievementIterator.next();
-          for (Requirement requirement : achievement.getRequirements()) {
-            if (requirement.getType().equals(ADD_NEIGHBOR) || requirement.getType().equals(HAPPYDROIDS_CONNECT)) {
-              achievementIterator.remove();
-            }
-          }
-        }
-      }
+	public List<Achievement> getAchievements() {
+		return achievements;
+	}
 
-      achievementsById = Maps.newHashMap();
-      for (Achievement achievement : achievements) {
-        achievementsById.put(achievement.getId(), achievement);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
+	public void checkAchievements(GameGrid gameGrid) {
+		Gdx.app.debug(TAG, "Checking achievements...");
+		for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
+			Achievement achievement = achievements.get(i);
+			achievement.checkRequirements(gameGrid);
 
-  public List<Achievement> getAchievements() {
-    return achievements;
-  }
+			if (achievement.isCompleted()) {
+				complete(achievement);
+			}
+		}
+	}
 
-  public void checkAchievements(GameGrid gameGrid) {
-    Gdx.app.debug(TAG, "Checking achievements...");
-    for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
-      Achievement achievement = achievements.get(i);
-      achievement.checkRequirements(gameGrid);
+	protected void complete(Achievement achievement) {
+		if (achievement.isLocked() || achievement.hasGivenReward()) {
+			return;
+		}
 
-      if (achievement.isCompleted()) {
-        complete(achievement);
-      }
-    }
-  }
+		achievement.setCompleted(true);
+	}
 
-  protected void complete(Achievement achievement) {
-    if (achievement.isLocked() || achievement.hasGivenReward()) {
-      return;
-    }
+	public void displayNotification(Achievement achievement) {
+		new AchievementNotification(achievement).show();
+		AchievementCompletionEvent event = Pools
+				.obtain(AchievementCompletionEvent.class);
+		event.setAchievement(achievement);
+		eventBus.post(event);
+		Pools.free(event);
+	}
 
-    achievement.setCompleted(true);
-  }
+	public void complete(String achievementId) {
+		Achievement achievement = findById(achievementId);
+		if (achievement != null) {
+			complete(achievement);
+			return;
+		}
 
-  public void displayNotification(Achievement achievement) {
-    new AchievementNotification(achievement).show();
-    AchievementCompletionEvent event = Pools.obtain(AchievementCompletionEvent.class);
-    event.setAchievement(achievement);
-    eventBus.post(event);
-    Pools.free(event);
-  }
+		throw new RuntimeException("Could not find achievement called: "
+				+ achievementId);
+	}
 
-  public void complete(String achievementId) {
-    Achievement achievement = findById(achievementId);
-    if (achievement != null) {
-      complete(achievement);
-      return;
-    }
+	public void loadCompletedAchievements(List<String> achievementIds,
+			GameGrid gameGrid) {
+		resetState();
 
-    throw new RuntimeException("Could not find achievement called: " + achievementId);
-  }
+		if (achievementIds == null) {
+			return;
+		}
 
-  public void loadCompletedAchievements(List<String> achievementIds, GameGrid gameGrid) {
-    resetState();
+		for (Achievement achievement : achievements) {
+			achievement.checkRequirements(gameGrid);
 
-    if (achievementIds == null) {
-      return;
-    }
+			if (achievementIds.contains(achievement.getId())) {
+				achievement.setCompleted(true);
+				achievement.unlockReward();
+			}
+		}
+	}
 
-    for (Achievement achievement : achievements) {
-      achievement.checkRequirements(gameGrid);
+	public void add(Achievement achievement) {
+		achievements.add(achievement);
+	}
 
-      if (achievementIds.contains(achievement.getId())) {
-        achievement.setCompleted(true);
-        achievement.unlockReward();
-      }
-    }
-  }
+	public void resetState() {
+		for (Achievement achievement : achievements) {
+			achievement.resetState();
+		}
+	}
 
-  public void add(Achievement achievement) {
-    achievements.add(achievement);
-  }
+	public void completeAll() {
+		for (Achievement achievement : achievements) {
+			achievement.setCompleted(true);
+			achievement.unlockReward();
+		}
+	}
 
-  public void resetState() {
-    for (Achievement achievement : achievements) {
-      achievement.resetState();
-    }
-  }
+	public Achievement findById(String achievementId) {
+		return achievementsById.get(achievementId);
+	}
 
-  public void completeAll() {
-    for (Achievement achievement : achievements) {
-      achievement.setCompleted(true);
-      achievement.unlockReward();
-    }
-  }
+	public boolean hasPendingAwards() {
+		for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
+			Achievement achievement = achievements.get(i);
+			if (achievement.isCompleted() && !achievement.hasGivenReward()) {
+				return true;
+			}
+		}
 
-  public Achievement findById(String achievementId) {
-    return achievementsById.get(achievementId);
-  }
+		return false;
+	}
 
-  public boolean hasPendingAwards() {
-    for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
-      Achievement achievement = achievements.get(i);
-      if (achievement.isCompleted() && !achievement.hasGivenReward()) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  public EventBus eventBus() {
-    return eventBus;
-  }
+	public EventBus eventBus() {
+		return eventBus;
+	}
 }

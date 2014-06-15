@@ -9,23 +9,23 @@ import com.google.common.collect.Lists;
 import java.util.LinkedList;
 
 public class RunnableQueue {
-  private LinkedList<Runnable> queue;
+	private LinkedList<Runnable> queue;
 
-  public RunnableQueue() {
-    queue = Lists.newLinkedList();
-  }
+	public RunnableQueue() {
+		queue = Lists.newLinkedList();
+	}
 
-  public void push(Runnable runnable) {
-    queue.add(runnable);
-  }
+	public void push(Runnable runnable) {
+		queue.add(runnable);
+	}
 
-  public void runAll() {
-    while (queue.peek() != null) {
-      queue.poll().run();
-    }
-  }
+	public void runAll() {
+		while (queue.peek() != null) {
+			queue.poll().run();
+		}
+	}
 
-  public void clear() {
-    queue.clear();
-  }
+	public void clear() {
+		queue.clear();
+	}
 }

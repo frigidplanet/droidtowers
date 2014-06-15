@@ -9,9 +9,9 @@ import com.happydroids.droidtowers.grid.GameGrid;
 
 /**
  * A callback for when an actor is clicked.
- *
+ * 
  * @author Nathan Sweet
  */
 public interface GameGridClickListener {
-  public void click(GameGrid gameGrid, GridObject gridObject, float x, float y);
+	public void click(GameGrid gameGrid, GridObject gridObject, float x, float y);
 }

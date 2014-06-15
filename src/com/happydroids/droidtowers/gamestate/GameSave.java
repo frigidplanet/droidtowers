@@ -33,166 +33,171 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.MINIMAL_CLASS;
 
 @JsonAutoDetect(fieldVisibility = PROTECTED_AND_PUBLIC, getterVisibility = NONE, setterVisibility = NONE, isGetterVisibility = NONE)
 @JsonTypeInfo(use = MINIMAL_CLASS, include = WRAPPER_OBJECT, property = "class")
-//@JsonTypeIdResolver(TowerTypeIdResolver.class)
+// @JsonTypeIdResolver(TowerTypeIdResolver.class)
 public class GameSave {
-  @JsonView({Views.Metadata.class, Views.All.class})
-  protected Player player;
-  @JsonView(Views.All.class)
-  protected Vector3 cameraPosition;
-  @JsonView(Views.All.class)
-  protected float cameraZoom;
-  @JsonView(Views.All.class)
-  protected GridPoint gridSize;
-  @JsonView(Views.All.class)
-  protected List<GridObjectState> gridObjects;
-  @JsonView(Views.All.class)
-  protected ArrayList<String> completedAchievements;
-  @JsonView(Views.All.class)
-  protected List<String> neighbors;
-  private boolean newGame;
+	@JsonView({ Views.Metadata.class, Views.All.class })
+	protected Player player;
+	@JsonView(Views.All.class)
+	protected Vector3 cameraPosition;
+	@JsonView(Views.All.class)
+	protected float cameraZoom;
+	@JsonView(Views.All.class)
+	protected GridPoint gridSize;
+	@JsonView(Views.All.class)
+	protected List<GridObjectState> gridObjects;
+	@JsonView(Views.All.class)
+	protected ArrayList<String> completedAchievements;
+	@JsonView(Views.All.class)
+	protected List<String> neighbors;
+	private boolean newGame;
 
-  private boolean saveToDiskDisabled;
-  @JsonView({Views.Metadata.class, Views.All.class})
-  protected GameSaveMetadata metadata;
-  protected int fileFormat = 4;
+	private boolean saveToDiskDisabled;
+	@JsonView({ Views.Metadata.class, Views.All.class })
+	protected GameSaveMetadata metadata;
+	protected int fileFormat = 4;
 
-  public GameSave() {
-    newGame = false;
-  }
+	public GameSave() {
+		newGame = false;
+	}
 
-  public GameSave(String towerName, DifficultyLevel difficultyLevel) {
-    newGame = true;
+	public GameSave(String towerName, DifficultyLevel difficultyLevel) {
+		newGame = true;
 
-    this.metadata = new GameSaveMetadata(towerName, difficultyLevel);
-    player = new Player(difficultyLevel.getStartingMoney());
-    gridSize = new GridPoint(TowerConsts.GAME_GRID_START_SIZE, TowerConsts.GAME_GRID_START_SIZE);
-  }
+		this.metadata = new GameSaveMetadata(towerName, difficultyLevel);
+		player = new Player(difficultyLevel.getStartingMoney());
+		gridSize = new GridPoint(TowerConsts.GAME_GRID_START_SIZE,
+				TowerConsts.GAME_GRID_START_SIZE);
+	}
 
-  public void attachToGame(GameGrid gameGrid, OrthographicCamera camera, CameraController cameraController) {
-    gameGrid.clearObjects();
-    gameGrid.setTowerName(metadata.towerName);
-    gameGrid.setGridSize(gridSize.x, gridSize.y);
-    gameGrid.updateWorldSize(true);
+	public void attachToGame(GameGrid gameGrid, OrthographicCamera camera,
+			CameraController cameraController) {
+		gameGrid.clearObjects();
+		gameGrid.setTowerName(metadata.towerName);
+		gameGrid.setGridSize(gridSize.x, gridSize.y);
+		gameGrid.updateWorldSize(true);
 
-    Player.setInstance(player);
+		Player.setInstance(player);
 
-    if (cameraPosition != null) {
-      camera.zoom = cameraZoom;
-      cameraController.panTo(cameraPosition, false);
-    }
+		if (cameraPosition != null) {
+			camera.zoom = cameraZoom;
+			cameraController.panTo(cameraPosition, false);
+		}
 
-    if (gridObjects != null) {
-      for (GridObjectState gridObjectState : gridObjects) {
-        gridObjectState.materialize(gameGrid);
-      }
-    }
+		if (gridObjects != null) {
+			for (GridObjectState gridObjectState : gridObjects) {
+				gridObjectState.materialize(gameGrid);
+			}
+		}
 
-    if (newGame) {
-      TutorialEngine.instance().setEnabled(true);
-      TutorialEngine.instance().moveToStepWhenReady("tutorial-welcome");
-    } else {
-      TutorialEngine.instance().setEnabled(false);
-      TutorialEngine.instance().completeAll();
-      HeadsUpDisplay.instance().getAchievementButton().setVisible(true);
-      HeadsUpDisplay.instance().toggleViewNeighborsButton(true);
-    }
+		if (newGame) {
+			TutorialEngine.instance().setEnabled(true);
+			TutorialEngine.instance().moveToStepWhenReady("tutorial-welcome");
+		} else {
+			TutorialEngine.instance().setEnabled(false);
+			TutorialEngine.instance().completeAll();
+			HeadsUpDisplay.instance().getAchievementButton().setVisible(true);
+			HeadsUpDisplay.instance().toggleViewNeighborsButton(true);
+		}
 
-    AchievementEngine.instance().loadCompletedAchievements(completedAchievements, gameGrid);
-    AchievementEngine.instance().checkAchievements(gameGrid);
+		AchievementEngine.instance().loadCompletedAchievements(
+				completedAchievements, gameGrid);
+		AchievementEngine.instance().checkAchievements(gameGrid);
 
-    newGame = false;
-  }
+		newGame = false;
+	}
 
-  public void update(OrthographicCamera camera, GameGrid gameGrid, List<String> neighbors) {
-    gridSize = gameGrid.getGridSize();
-    gridObjects = Lists.newArrayList();
+	public void update(OrthographicCamera camera, GameGrid gameGrid,
+			List<String> neighbors) {
+		gridSize = gameGrid.getGridSize();
+		gridObjects = Lists.newArrayList();
 
-    for (GridObject gridObject : gameGrid.getObjects()) {
-      if (gridObject.isPlaced()) {
-        gridObjects.add(new GridObjectState(gridObject));
-      }
-    }
-    completedAchievements = Lists.newArrayList();
+		for (GridObject gridObject : gameGrid.getObjects()) {
+			if (gridObject.isPlaced()) {
+				gridObjects.add(new GridObjectState(gridObject));
+			}
+		}
+		completedAchievements = Lists.newArrayList();
 
-    for (Achievement achievement : AchievementEngine.instance().getAchievements()) {
-      if (achievement.isCompleted() && achievement.hasGivenReward()) {
-        completedAchievements.add(achievement.getId());
-      }
-    }
+		for (Achievement achievement : AchievementEngine.instance()
+				.getAchievements()) {
+			if (achievement.isCompleted() && achievement.hasGivenReward()) {
+				completedAchievements.add(achievement.getId());
+			}
+		}
 
-    cameraPosition = camera.position;
-    cameraZoom = camera.zoom;
+		cameraPosition = camera.position;
+		cameraZoom = camera.zoom;
 
-    player = Player.instance();
-    this.neighbors = neighbors;
-    metadata.fileGeneration += 1;
-  }
+		player = Player.instance();
+		this.neighbors = neighbors;
+		metadata.fileGeneration += 1;
+	}
 
-  public String getCloudSaveUri() {
-    return metadata.cloudSaveUri;
-  }
+	public String getCloudSaveUri() {
+		return metadata.cloudSaveUri;
+	}
 
-  public String getBaseFilename() {
-    return metadata.baseFilename;
-  }
+	public String getBaseFilename() {
+		return metadata.baseFilename;
+	}
 
-  public boolean isNewGame() {
-    return newGame;
-  }
+	public boolean isNewGame() {
+		return newGame;
+	}
 
-  public void setCloudSaveUri(String cloudSaveUri) {
-    metadata.cloudSaveUri = cloudSaveUri;
-  }
+	public void setCloudSaveUri(String cloudSaveUri) {
+		metadata.cloudSaveUri = cloudSaveUri;
+	}
 
-  public int getFileGeneration() {
-    return metadata.fileGeneration;
-  }
+	public int getFileGeneration() {
+		return metadata.fileGeneration;
+	}
 
-  public String getTowerName() {
-    return metadata.towerName;
-  }
+	public String getTowerName() {
+		return metadata.towerName;
+	}
 
-  public Player getPlayer() {
-    return player;
-  }
+	public Player getPlayer() {
+		return player;
+	}
 
-  public void disableSaving() {
-    saveToDiskDisabled = true;
-  }
+	public void disableSaving() {
+		saveToDiskDisabled = true;
+	}
 
-  public void setNewGame(boolean newGame) {
-    this.newGame = newGame;
-  }
+	public void setNewGame(boolean newGame) {
+		this.newGame = newGame;
+	}
 
-  public boolean hasGridObjects() {
-    return gridObjects != null && !gridObjects.isEmpty();
-  }
+	public boolean hasGridObjects() {
+		return gridObjects != null && !gridObjects.isEmpty();
+	}
 
-  public boolean isSaveToDiskDisabled() {
-    return saveToDiskDisabled;
-  }
+	public boolean isSaveToDiskDisabled() {
+		return saveToDiskDisabled;
+	}
 
-  public GameSaveMetadata getMetadata() {
-    return metadata;
-  }
+	public GameSaveMetadata getMetadata() {
+		return metadata;
+	}
 
-  public void setNeighbors(List<String> neighbors) {
-    this.neighbors = neighbors;
-  }
+	public void setNeighbors(List<String> neighbors) {
+		this.neighbors = neighbors;
+	}
 
-  public int numNeighbors() {
-    if (neighbors != null) {
-      return neighbors.size();
-    }
+	public int numNeighbors() {
+		if (neighbors != null) {
+			return neighbors.size();
+		}
 
-    return 0;
-  }
+		return 0;
+	}
 
-  public static class Views {
-    public static class Metadata {
-    }
+	public static class Views {
+		public static class Metadata {
+		}
 
-    public static class All {
-    }
-  }
+		public static class All {
+		}
+	}
 }

@@ -14,40 +14,40 @@ import java.util.Map;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PUBLIC_ONLY)
 public class AssetList {
-  public final Map<String, Class> preloadFiles;
-  public final Map<String, Class> normalFiles;
-  public final Map<String, String> highDefFiles;
+	public final Map<String, Class> preloadFiles;
+	public final Map<String, Class> normalFiles;
+	public final Map<String, String> highDefFiles;
 
-  public final List<String> musicFiles;
+	public final List<String> musicFiles;
 
-  public AssetList() {
-    preloadFiles = Maps.newHashMap();
-    normalFiles = Maps.newHashMap();
-    highDefFiles = Maps.newHashMap();
-    musicFiles = Lists.newArrayList();
-  }
+	public AssetList() {
+		preloadFiles = Maps.newHashMap();
+		normalFiles = Maps.newHashMap();
+		highDefFiles = Maps.newHashMap();
+		musicFiles = Lists.newArrayList();
+	}
 
-  public void preload(String fileName, String hdVersion, Class clazz) {
-    preloadFiles.put(fileName, clazz);
+	public void preload(String fileName, String hdVersion, Class clazz) {
+		preloadFiles.put(fileName, clazz);
 
-    normalFiles.remove(fileName);
+		normalFiles.remove(fileName);
 
-    if (hdVersion != null && !StringUtils.isEmpty(hdVersion)) {
-      highDefFiles.put(fileName, hdVersion);
-    }
-  }
+		if (hdVersion != null && !StringUtils.isEmpty(hdVersion)) {
+			highDefFiles.put(fileName, hdVersion);
+		}
+	}
 
-  public void normal(String fileName, String hdVersion, Class clazz) {
-    if (!preloadFiles.containsKey(fileName)) {
-      normalFiles.put(fileName, clazz);
+	public void normal(String fileName, String hdVersion, Class clazz) {
+		if (!preloadFiles.containsKey(fileName)) {
+			normalFiles.put(fileName, clazz);
 
-      if (hdVersion != null && !StringUtils.isEmpty(hdVersion)) {
-        highDefFiles.put(fileName, hdVersion);
-      }
-    }
-  }
+			if (hdVersion != null && !StringUtils.isEmpty(hdVersion)) {
+				highDefFiles.put(fileName, hdVersion);
+			}
+		}
+	}
 
-  public void addMusic(String fileName) {
-    musicFiles.add(fileName);
-  }
+	public void addMusic(String fileName) {
+		musicFiles.add(fileName);
+	}
 }

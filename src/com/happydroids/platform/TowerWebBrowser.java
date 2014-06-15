@@ -34,156 +34,161 @@ import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.webkit.WebSettings.RenderPriority.HIGH;
 
 public class TowerWebBrowser extends Dialog {
-  static final FrameLayout.LayoutParams FILL =
-          new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+	static final FrameLayout.LayoutParams FILL = new FrameLayout.LayoutParams(
+			MATCH_PARENT, MATCH_PARENT);
 
-  private WebView webView;
-  private Activity activity;
-  private ProgressDialog progressDialog;
-  private FrameLayout container;
-  private final String uriToLoad;
-  private final Handler mainHandler;
-  private final Runnable timeoutRunnable;
+	private WebView webView;
+	private Activity activity;
+	private ProgressDialog progressDialog;
+	private FrameLayout container;
+	private final String uriToLoad;
+	private final Handler mainHandler;
+	private final Runnable timeoutRunnable;
 
-  public TowerWebBrowser(Context context, String uriToLoad) {
-    super(context, android.R.style.Theme_Translucent_NoTitleBar);
-    this.uriToLoad = uriToLoad;
-    activity = (Activity) context;
+	public TowerWebBrowser(Context context, String uriToLoad) {
+		super(context, android.R.style.Theme_Translucent_NoTitleBar);
+		this.uriToLoad = uriToLoad;
+		activity = (Activity) context;
 
-    getWindow().setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
-    mainHandler = new Handler(activity.getMainLooper());
-    timeoutRunnable = new Runnable() {
-      @Override
-      public void run() {
-        new AlertDialog.Builder(activity)
-                .setTitle("Timeout!")
-                .setPositiveButton("Okay", new OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialogInterface, int i) {
-                    progressDialog.dismiss();
-                  }
-                });
-      }
-    };
-  }
+		getWindow().setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
+		mainHandler = new Handler(activity.getMainLooper());
+		timeoutRunnable = new Runnable() {
+			@Override
+			public void run() {
+				new AlertDialog.Builder(activity).setTitle("Timeout!")
+						.setPositiveButton("Okay", new OnClickListener() {
+							@Override
+							public void onClick(
+									DialogInterface dialogInterface, int i) {
+								progressDialog.dismiss();
+							}
+						});
+			}
+		};
+	}
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    progressDialog = new ProgressDialog(getContext());
-    progressDialog.requestWindowFeature(FEATURE_NO_TITLE);
-    progressDialog.getWindow().setLayout(MATCH_PARENT, MATCH_PARENT);
-    progressDialog.setIndeterminate(true);
-    progressDialog.setOnCancelListener(new OnCancelListener() {
-      @Override
-      public void onCancel(DialogInterface dialogInterface) {
-        webView.stopLoading();
-      }
-    });
-    progressDialog.setMessage("Loading...");
+		progressDialog = new ProgressDialog(getContext());
+		progressDialog.requestWindowFeature(FEATURE_NO_TITLE);
+		progressDialog.getWindow().setLayout(MATCH_PARENT, MATCH_PARENT);
+		progressDialog.setIndeterminate(true);
+		progressDialog.setOnCancelListener(new OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialogInterface) {
+				webView.stopLoading();
+			}
+		});
+		progressDialog.setMessage("Loading...");
 
-    requestWindowFeature(FEATURE_NO_TITLE);
+		requestWindowFeature(FEATURE_NO_TITLE);
 
-    buildWebView();
+		buildWebView();
 
-    container = new FrameLayout(getContext());
+		container = new FrameLayout(getContext());
 
-    ImageView closeImage = new ImageView(getContext());
-    closeImage.setImageResource(R.drawable.close);
-    closeImage.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        TowerWebBrowser.this.dismiss();
-      }
-    });
-    int closeButtonWidth = closeImage.getDrawable().getIntrinsicWidth();
-    int webViewPadding = closeButtonWidth / 2;
+		ImageView closeImage = new ImageView(getContext());
+		closeImage.setImageResource(R.drawable.close);
+		closeImage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				TowerWebBrowser.this.dismiss();
+			}
+		});
+		int closeButtonWidth = closeImage.getDrawable().getIntrinsicWidth();
+		int webViewPadding = closeButtonWidth / 2;
 
-    LinearLayout webViewContainer = new LinearLayout(getContext());
-    webViewContainer.addView(webView);
-    webViewContainer.setPadding(webViewPadding, webViewPadding, webViewPadding, webViewPadding);
+		LinearLayout webViewContainer = new LinearLayout(getContext());
+		webViewContainer.addView(webView);
+		webViewContainer.setPadding(webViewPadding, webViewPadding,
+				webViewPadding, webViewPadding);
 
-    container.addView(webViewContainer);
-    container.addView(closeImage, new ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+		container.addView(webViewContainer);
+		container.addView(closeImage, new ViewGroup.LayoutParams(WRAP_CONTENT,
+				WRAP_CONTENT));
 
-    addContentView(container, FILL);
+		addContentView(container, FILL);
 
-    setOnDismissListener(new OnDismissListener() {
-      @Override
-      public void onDismiss(DialogInterface dialog) {
-        webView.loadUrl("about:blank");
-      }
-    });
-  }
+		setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				webView.loadUrl("about:blank");
+			}
+		});
+	}
 
-  private void buildWebView() {
-    webView = new WebView(getContext());
-    webView.setLayoutParams(FILL);
-    webView.setHorizontalScrollBarEnabled(false);
-    webView.setVerticalScrollBarEnabled(false);
-    webView.getSettings().setJavaScriptEnabled(true);
-    webView.getSettings().setSavePassword(false);
-    webView.getSettings().setSaveFormData(false);
-    webView.getSettings().setRenderPriority(HIGH);
+	private void buildWebView() {
+		webView = new WebView(getContext());
+		webView.setLayoutParams(FILL);
+		webView.setHorizontalScrollBarEnabled(false);
+		webView.setVerticalScrollBarEnabled(false);
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.getSettings().setSavePassword(false);
+		webView.getSettings().setSaveFormData(false);
+		webView.getSettings().setRenderPriority(HIGH);
 
-    webView.setWebChromeClient(new WebChromeClient() {
-      @Override
-      public void onProgressChanged(WebView view, int newProgress) {
-        activity.setProgress(newProgress);
-      }
-    });
+		webView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+				activity.setProgress(newProgress);
+			}
+		});
 
-    webView.setWebViewClient(new WebViewClient() {
-      @Override
-      public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (url.contains("youtube.com")) {
-          Intent intent = new Intent(Intent.ACTION_VIEW);
-          intent.setData(Uri.parse(url));
-          activity.startActivity(intent);
-          dismiss();
-          return true;
-        }
+		webView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (url.contains("youtube.com")) {
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(url));
+					activity.startActivity(intent);
+					dismiss();
+					return true;
+				}
 
-        return false;
-      }
+				return false;
+			}
 
-      @Override
-      public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        progressDialog.show();
-        progressDialog.getWindow().setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
+			@Override
+			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+				progressDialog.show();
+				progressDialog.getWindow().setFlags(FLAG_FULLSCREEN,
+						FLAG_FULLSCREEN);
 
-        mainHandler.postDelayed(timeoutRunnable, 1500);
-      }
+				mainHandler.postDelayed(timeoutRunnable, 1500);
+			}
 
-      @Override
-      public void onPageFinished(WebView view, String url) {
-        super.onPageFinished(view, url);
-        progressDialog.dismiss();
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				progressDialog.dismiss();
 
-        mainHandler.removeCallbacks(timeoutRunnable);
+				mainHandler.removeCallbacks(timeoutRunnable);
 
-        setTitle(view.getTitle());
-        container.setBackgroundColor(Color.TRANSPARENT);
-      }
-    });
+				setTitle(view.getTitle());
+				container.setBackgroundColor(Color.TRANSPARENT);
+			}
+		});
 
-    webView.addJavascriptInterface(new HappyDroidJavascriptInterface(getContext(), this), "happyDroid");
+		webView.addJavascriptInterface(new HappyDroidJavascriptInterface(
+				getContext(), this), "happyDroid");
 
-    if (uriToLoad != null) {
-      webView.loadUrl(uriToLoad);
-    }
-  }
+		if (uriToLoad != null) {
+			webView.loadUrl(uriToLoad);
+		}
+	}
 
-  @Override
-  public boolean onKeyDown(int keyCode, KeyEvent event) {
-    // Check if the key event was the Back button and if there's history
-    if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
-      webView.goBack();
-      return true;
-    }
-    // If it wasn't the Back key or there's no web page history, bubble up to the default
-    // system behavior (probably exit the activity)
-    return super.onKeyDown(keyCode, event);
-  }
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// Check if the key event was the Back button and if there's history
+		if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+			webView.goBack();
+			return true;
+		}
+		// If it wasn't the Back key or there's no web page history, bubble up
+		// to the default
+		// system behavior (probably exit the activity)
+		return super.onKeyDown(keyCode, event);
+	}
 }

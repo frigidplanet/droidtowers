@@ -5,6 +5,5 @@
 package com.happydroids.droidtowers.gamestate.server;
 
 public enum PlayerProfileProvider {
-  facebook,
-  twitter
+	facebook, twitter
 }

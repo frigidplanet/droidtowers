@@ -14,27 +14,27 @@ import java.util.List;
 import static com.happydroids.droidtowers.gui.FontManager.Roboto18;
 
 class RewardsTable extends Table {
-  public RewardsTable(List<Reward> rewards) {
-    defaults().top().left().space(8).fillX();
+	public RewardsTable(List<Reward> rewards) {
+		defaults().top().left().space(8).fillX();
 
-    add(FontManager.Default.makeLabel("reward", Color.GRAY)).expandX();
+		add(FontManager.Default.makeLabel("reward", Color.GRAY)).expandX();
 
-    row();
-    add(new HorizontalRule(Color.DARK_GRAY, 1)).colspan(2);
+		row();
+		add(new HorizontalRule(Color.DARK_GRAY, 1)).colspan(2);
 
-    for (Reward reward : rewards) {
-      addReward(reward);
-    }
-  }
+		for (Reward reward : rewards) {
+			addReward(reward);
+		}
+	}
 
-  @SuppressWarnings("unchecked")
-  private void addReward(Reward reward) {
-    row().fillX().pad(12, 0, 12, 0);
-    Label label = Roboto18.makeLabel(reward.getRewardString(false));
-    label.setWrap(true);
-    add(label).expandX();
+	@SuppressWarnings("unchecked")
+	private void addReward(Reward reward) {
+		row().fillX().pad(12, 0, 12, 0);
+		Label label = Roboto18.makeLabel(reward.getRewardString(false));
+		label.setWrap(true);
+		add(label).expandX();
 
-    row();
-    add(new HorizontalRule(Color.DARK_GRAY, 1)).colspan(3);
-  }
+		row();
+		add(new HorizontalRule(Color.DARK_GRAY, 1)).colspan(3);
+	}
 }

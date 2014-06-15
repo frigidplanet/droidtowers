@@ -17,72 +17,76 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TutorialEngine extends AchievementEngine {
-  private static TutorialEngine instance;
-  private boolean enabled;
+	private static TutorialEngine instance;
+	private boolean enabled;
 
-  public static TutorialEngine instance() {
-    if (instance == null) {
-      instance = new TutorialEngine();
-    }
+	public static TutorialEngine instance() {
+		if (instance == null) {
+			instance = new TutorialEngine();
+		}
 
-    return instance;
-  }
+		return instance;
+	}
 
-  protected TutorialEngine() {
-    try {
-      ObjectMapper mapper = TowerGameService.instance().getObjectMapper();
-      achievements = mapper.readValue(Gdx.files.internal("params/tutorial-steps.json").reader(), mapper.getTypeFactory()
-                                                                                                         .constructCollectionType(ArrayList.class, TutorialStep.class));
-      achievementsById = Maps.newHashMap();
+	protected TutorialEngine() {
+		try {
+			ObjectMapper mapper = TowerGameService.instance().getObjectMapper();
+			achievements = mapper.readValue(
+					Gdx.files.internal("params/tutorial-steps.json").reader(),
+					mapper.getTypeFactory().constructCollectionType(
+							ArrayList.class, TutorialStep.class));
+			achievementsById = Maps.newHashMap();
 
-      for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
-        Achievement achievement = achievements.get(i);
-        achievementsById.put(achievement.getId(), achievement);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
+			for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
+				Achievement achievement = achievements.get(i);
+				achievementsById.put(achievement.getId(), achievement);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-  @Override
-  public void checkAchievements(GameGrid gameGrid) {
-    if (enabled) {
-      super.checkAchievements(gameGrid);
-    }
-  }
+	@Override
+	public void checkAchievements(GameGrid gameGrid) {
+		if (enabled) {
+			super.checkAchievements(gameGrid);
+		}
+	}
 
-  public void moveToStepWhenReady(String stepId) {
-    complete(stepId);
-  }
+	public void moveToStepWhenReady(String stepId) {
+		complete(stepId);
+	}
 
-  @Override
-  protected void complete(Achievement achievement) {
-    TutorialStep tutorialStep = (TutorialStep) achievement;
+	@Override
+	protected void complete(Achievement achievement) {
+		TutorialStep tutorialStep = (TutorialStep) achievement;
 
-    if (tutorialStep.isLocked() || tutorialStep.hasGivenReward() || tutorialStep.hasShownNotification()) {
-      return;
-    }
+		if (tutorialStep.isLocked() || tutorialStep.hasGivenReward()
+				|| tutorialStep.hasShownNotification()) {
+			return;
+		}
 
-    tutorialStep.setCompleted(true);
+		tutorialStep.setCompleted(true);
 
-    if (!tutorialStep.requiresTapToGiveReward()) {
-      tutorialStep.giveReward();
-    }
+		if (!tutorialStep.requiresTapToGiveReward()) {
+			tutorialStep.giveReward();
+		}
 
-    if (enabled) {
-      tutorialStep.shownNotification();
-      new TutorialStepNotification(tutorialStep).show();
+		if (enabled) {
+			tutorialStep.shownNotification();
+			new TutorialStepNotification(tutorialStep).show();
 
-      AchievementCompletionEvent event = Pools.obtain(AchievementCompletionEvent.class);
-      event.setAchievement(tutorialStep);
-      eventBus.post(event);
-      Pools.free(event);
-    }
-  }
+			AchievementCompletionEvent event = Pools
+					.obtain(AchievementCompletionEvent.class);
+			event.setAchievement(tutorialStep);
+			eventBus.post(event);
+			Pools.free(event);
+		}
+	}
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 
-    resetState();
-  }
+		resetState();
+	}
 }

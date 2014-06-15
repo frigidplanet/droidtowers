@@ -10,17 +10,19 @@ import com.happydroids.server.HttpStatusCode;
 
 @SuppressWarnings("unchecked")
 public abstract class TowerGameServiceObject extends HappyDroidServiceObject {
-  @Override
-  protected boolean beforeSaveValidation(ApiRunnable afterSave) {
-    if (!super.beforeSaveValidation(afterSave)) {
-      return false;
-    }
+	@Override
+	protected boolean beforeSaveValidation(ApiRunnable afterSave) {
+		if (!super.beforeSaveValidation(afterSave)) {
+			return false;
+		}
 
-    if (requireAuthentication() && !TowerGameService.instance().isAuthenticated()) {
-      afterSave.onError(null, HttpStatusCode.NetworkAuthenticationRequired, this);
-      return false;
-    }
+		if (requireAuthentication()
+				&& !TowerGameService.instance().isAuthenticated()) {
+			afterSave.onError(null,
+					HttpStatusCode.NetworkAuthenticationRequired, this);
+			return false;
+		}
 
-    return true;
-  }
+		return true;
+	}
 }

@@ -5,7 +5,5 @@
 package com.happydroids.platform.purchase;
 
 public enum TransactionState {
-  PURCHASED,
-  CANCELED,
-  REFUNDED
+	PURCHASED, CANCELED, REFUNDED
 }

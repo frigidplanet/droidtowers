@@ -10,15 +10,15 @@ import com.happydroids.droidtowers.types.ProviderType;
 import static com.happydroids.droidtowers.types.ProviderType.COMMERCIAL;
 
 public class SecurityGuard extends Janitor {
-  public static final ProviderType SECURITY_GUARD_SERVICE_PROVIDER_TYPES = COMMERCIAL;
+	public static final ProviderType SECURITY_GUARD_SERVICE_PROVIDER_TYPES = COMMERCIAL;
 
-  public SecurityGuard(AvatarLayer avatarLayer) {
-    super(avatarLayer);
+	public SecurityGuard(AvatarLayer avatarLayer) {
+		super(avatarLayer);
 
-    setServicesTheseProviderTypes(SECURITY_GUARD_SERVICE_PROVIDER_TYPES);
-  }
+		setServicesTheseProviderTypes(SECURITY_GUARD_SERVICE_PROVIDER_TYPES);
+	}
 
-  protected String addFramePrefix(String frameName) {
-    return "security-guard/" + frameName;
-  }
+	protected String addFramePrefix(String frameName) {
+		return "security-guard/" + frameName;
+	}
 }

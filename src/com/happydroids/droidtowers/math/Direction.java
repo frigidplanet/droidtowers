@@ -5,8 +5,5 @@
 package com.happydroids.droidtowers.math;
 
 public enum Direction {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT
+	UP, DOWN, LEFT, RIGHT
 }

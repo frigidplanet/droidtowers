@@ -5,5 +5,5 @@
 package com.happydroids.droidtowers;
 
 public interface VarArgRunnable {
-  public void run(Object... args);
+	public void run(Object... args);
 }

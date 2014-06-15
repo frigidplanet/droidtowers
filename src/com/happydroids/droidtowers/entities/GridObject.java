@@ -38,10 +38,11 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class GridObject {
-	
-	//TODO This should be moved out into the config files for the individual objects 
+
+	// TODO This should be moved out into the config files for the individual
+	// objects
 	public static final float VISITORS_PER_CLEANING = 35f;
-	
+
 	protected static Map<String, TextureRegion> availableDecals;
 	protected final GridObjectType gridObjectType;
 	protected final GameGrid gameGrid;
@@ -66,10 +67,10 @@ public abstract class GridObject {
 
 	// The total number of visitors to the object
 	protected int totalVisitors;
-	
+
 	// When the object was last cleaned
 	protected long lastCleanedAt;
-	
+
 	protected float surroundingNoiseLevel;
 	protected float surroundingCrimeLevel;
 	protected String name;
@@ -488,8 +489,8 @@ public abstract class GridObject {
 	}
 
 	/**
-	 * Controls the recording of a visitor against an object
-	 * If the visitor is a Janitor then the object will be cleaned
+	 * Controls the recording of a visitor against an object If the visitor is a
+	 * Janitor then the object will be cleaned
 	 * 
 	 * @param avatar
 	 */

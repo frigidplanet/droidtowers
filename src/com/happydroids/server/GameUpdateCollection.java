@@ -8,18 +8,19 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.happydroids.HappyDroidConsts;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class GameUpdateCollection extends HappyDroidServiceCollection<GameUpdate> {
-  public GameUpdateCollection() {
-    super();
-  }
+public class GameUpdateCollection extends
+		HappyDroidServiceCollection<GameUpdate> {
+	public GameUpdateCollection() {
+		super();
+	}
 
-  @Override
-  public String getBaseResourceUri() {
-    return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/gameupdate/";
-  }
+	@Override
+	public String getBaseResourceUri() {
+		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/gameupdate/";
+	}
 
-  @Override
-  protected boolean requireAuthentication() {
-    return false;
-  }
+	@Override
+	protected boolean requireAuthentication() {
+		return false;
+	}
 }

@@ -12,43 +12,46 @@ import com.happydroids.server.Payment;
 import com.happydroids.utils.BackgroundTask;
 
 public class VerifyPurchaseTask extends BackgroundTask {
-  private final ProgressDialog progressDialog;
-  private PaymentCollection result;
+	private final ProgressDialog progressDialog;
+	private PaymentCollection result;
 
-  public VerifyPurchaseTask(String serial, ProgressDialog progressDialog) {
-    result = new PaymentCollection();
-    result.filterBy("serial", serial);
-    this.progressDialog = progressDialog;
-  }
+	public VerifyPurchaseTask(String serial, ProgressDialog progressDialog) {
+		result = new PaymentCollection();
+		result.filterBy("serial", serial);
+		this.progressDialog = progressDialog;
+	}
 
-  @Override
-  protected void execute() throws Exception {
-    result.fetch();
-  }
+	@Override
+	protected void execute() throws Exception {
+		result.fetch();
+	}
 
-  @Override
-  public synchronized void afterExecute() {
-    Gdx.app.postRunnable(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          if (!result.isEmpty()) {
-            for (Payment payment : result.getObjects()) {
-              if (!payment.wasRefunded()) {
-                Platform.getPurchaseManager().purchaseItem(payment.getItemId(), payment.getSerial());
-              } else {
-                Platform.getPurchaseManager().revokeItem(payment.getItemId());
-              }
-            }
-          }
-        } catch (NullPointerException ignored) {
-          // TODO: FIX THIS SHIT.
-        }
-      }
-    });
+	@Override
+	public synchronized void afterExecute() {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					if (!result.isEmpty()) {
+						for (Payment payment : result.getObjects()) {
+							if (!payment.wasRefunded()) {
+								Platform.getPurchaseManager().purchaseItem(
+										payment.getItemId(),
+										payment.getSerial());
+							} else {
+								Platform.getPurchaseManager().revokeItem(
+										payment.getItemId());
+							}
+						}
+					}
+				} catch (NullPointerException ignored) {
+					// TODO: FIX THIS SHIT.
+				}
+			}
+		});
 
-    if (progressDialog != null) {
-      progressDialog.dismiss();
-    }
-  }
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+		}
+	}
 }

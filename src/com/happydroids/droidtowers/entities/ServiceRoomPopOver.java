@@ -10,7 +10,7 @@ import com.happydroids.droidtowers.gui.VibrateClickListener;
 import com.happydroids.droidtowers.gui.controls.ButtonBar;
 
 public class ServiceRoomPopOver extends GridObjectPopOver<ServiceRoom> {
-  public ServiceRoomPopOver(final ServiceRoom serviceRoom) {
-    super(serviceRoom);
-  }
+	public ServiceRoomPopOver(final ServiceRoom serviceRoom) {
+		super(serviceRoom);
+	}
 }

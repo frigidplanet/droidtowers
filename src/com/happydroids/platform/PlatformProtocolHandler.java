@@ -7,11 +7,11 @@ package com.happydroids.platform;
 import java.net.URI;
 
 public interface PlatformProtocolHandler {
-  public void initialize(String[] applicationArgs);
+	public void initialize(String[] applicationArgs);
 
-  public boolean hasUri();
+	public boolean hasUri();
 
-  public URI consumeUri();
+	public URI consumeUri();
 
-  void setUrl(URI uri);
+	void setUrl(URI uri);
 }

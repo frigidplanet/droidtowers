@@ -5,6 +5,5 @@
 package com.happydroids.droidtowers.types;
 
 public enum ResizeHandle {
-  BOTTOM,
-  TOP
+	BOTTOM, TOP
 }

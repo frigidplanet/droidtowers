@@ -5,7 +5,5 @@
 package com.happydroids.droidtowers.gui;
 
 public enum ResponseType {
-  POSITIVE,
-  NEGATIVE,
-  NEUTRAL
+	POSITIVE, NEGATIVE, NEUTRAL
 }

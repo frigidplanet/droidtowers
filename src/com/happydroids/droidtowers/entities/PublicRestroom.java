@@ -9,26 +9,27 @@ import com.happydroids.droidtowers.gui.GridObjectPopOver;
 import com.happydroids.droidtowers.types.ServiceRoomType;
 
 public class PublicRestroom extends ServiceRoom {
-  public PublicRestroom(ServiceRoomType serviceRoomType, GameGrid gameGrid) {
-    super(serviceRoomType, gameGrid);
-  }
+	public PublicRestroom(ServiceRoomType serviceRoomType, GameGrid gameGrid) {
+		super(serviceRoomType, gameGrid);
+	}
 
-  @Override
-  protected boolean canEmployDroids() {
-    return false;
-  }
+	@Override
+	protected boolean canEmployDroids() {
+		return false;
+	}
 
-  @Override public boolean needsDroids() {
-    return false;
-  }
+	@Override
+	public boolean needsDroids() {
+		return false;
+	}
 
-  @Override
-  public boolean canEarnMoney() {
-    return false;
-  }
+	@Override
+	public boolean canEarnMoney() {
+		return false;
+	}
 
-  @Override
-  public GridObjectPopOver makePopOver() {
-    return null;
-  }
+	@Override
+	public GridObjectPopOver makePopOver() {
+		return null;
+	}
 }

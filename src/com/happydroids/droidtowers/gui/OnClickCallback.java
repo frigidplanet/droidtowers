@@ -5,5 +5,5 @@
 package com.happydroids.droidtowers.gui;
 
 public abstract class OnClickCallback {
-  public abstract void onClick(Dialog dialog);
+	public abstract void onClick(Dialog dialog);
 }

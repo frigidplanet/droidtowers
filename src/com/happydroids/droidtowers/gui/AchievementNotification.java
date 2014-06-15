@@ -19,54 +19,61 @@ import com.happydroids.droidtowers.achievements.Achievement;
 import com.happydroids.droidtowers.platform.Display;
 
 public class AchievementNotification extends Dialog {
-  private final ParticleEffect particleEffect;
+	private final ParticleEffect particleEffect;
 
-  public AchievementNotification(Achievement achievement) {
-    super();
+	public AchievementNotification(Achievement achievement) {
+		super();
 
-    particleEffect = new ParticleEffect();
-    particleEffect.load(Gdx.files.internal("particles/sparkle-dialog.p"), Gdx.files.internal("particles"));
+		particleEffect = new ParticleEffect();
+		particleEffect.load(Gdx.files.internal("particles/sparkle-dialog.p"),
+				Gdx.files.internal("particles"));
 
-    setTitle("Achievement Complete: " + achievement.getName());
+		setTitle("Achievement Complete: " + achievement.getName());
 
-    Table t = new Table();
-    t.defaults().left().top().space(Display.devicePixel(8)).expandX();
-    t.add(FontManager.Roboto24.makeLabel("Great job!")).top();
-    t.row();
-    t.add(new HorizontalRule(Color.GRAY, 1)).fillX();
-    t.row();
-    t.add(FontManager.Default.makeLabel(achievement.toRewardString())).top();
+		Table t = new Table();
+		t.defaults().left().top().space(Display.devicePixel(8)).expandX();
+		t.add(FontManager.Roboto24.makeLabel("Great job!")).top();
+		t.row();
+		t.add(new HorizontalRule(Color.GRAY, 1)).fillX();
+		t.row();
+		t.add(FontManager.Default.makeLabel(achievement.toRewardString()))
+				.top();
 
-    Table c = new Table();
-    c.defaults().top().left();
-    c.row().fillX();
-    c.add(new Image(TowerAssetManager.drawableFromAtlas("trophy", "hud/menus.txt"), Scaling.none))
-        .padRight(Display.devicePixel(8));
-    c.add(t).expandX().minWidth(300);
-    c.setClip(true);
-    c.pack();
+		Table c = new Table();
+		c.defaults().top().left();
+		c.row().fillX();
+		c.add(new Image(TowerAssetManager.drawableFromAtlas("trophy",
+				"hud/menus.txt"), Scaling.none)).padRight(
+				Display.devicePixel(8));
+		c.add(t).expandX().minWidth(300);
+		c.setClip(true);
+		c.pack();
 
+		addButton("Dismiss", new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				dismiss();
+			}
+		});
+		if (Gdx.app.getType().equals(Application.ApplicationType.Android)) {
+			addButton(new HeyZapCheckInButton("Completed achievement: "
+					+ achievement.getName()));
+		}
 
-    addButton("Dismiss", new VibrateClickListener() {
-      @Override public void onClick(InputEvent event, float x, float y) {
-        dismiss();
-      }
-    });
-    if (Gdx.app.getType().equals(Application.ApplicationType.Android)) {
-      addButton(new HeyZapCheckInButton("Completed achievement: " + achievement.getName()));
-    }
+		setView(c);
+	}
 
-    setView(c);
-  }
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		particleEffect.setPosition(getX() + getWidth() / 2, getY()
+				+ getHeight() / 2);
+		particleEffect.update(delta);
+	}
 
-  @Override public void act(float delta) {
-    super.act(delta);
-    particleEffect.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
-    particleEffect.update(delta);
-  }
-
-  @Override protected void drawModalNoise(SpriteBatch batch) {
-    super.drawModalNoise(batch);
-    particleEffect.draw(batch);
-  }
+	@Override
+	protected void drawModalNoise(SpriteBatch batch) {
+		super.drawModalNoise(batch);
+		particleEffect.draw(batch);
+	}
 }

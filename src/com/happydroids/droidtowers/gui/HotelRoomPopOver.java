@@ -11,56 +11,56 @@ import com.happydroids.droidtowers.gui.dialogs.CousinVinnieRepayLoanDialog;
 import com.happydroids.droidtowers.platform.Display;
 
 public class HotelRoomPopOver extends GridObjectPopOver<HotelRoom> {
-  private RatingBar crimeBar;
-  private RatingBar dirtLevelBar;
+	private RatingBar crimeBar;
+	private RatingBar dirtLevelBar;
 
+	public HotelRoomPopOver(final HotelRoom hotelRoom) {
+		super(hotelRoom);
+	}
 
-  public HotelRoomPopOver(final HotelRoom hotelRoom) {
-    super(hotelRoom);
-  }
+	@Override
+	protected void buildControls() {
+		super.buildControls();
 
-  @Override
-  protected void buildControls() {
-    super.buildControls();
+		crimeBar = makeStarRatingBar("Crime");
+		crimeBar.setTextures(RatingBar.SECURITY_ICON);
 
-    crimeBar = makeStarRatingBar("Crime");
-    crimeBar.setTextures(RatingBar.SECURITY_ICON);
+		dirtLevelBar = makeStarRatingBar("Dirt");
+		dirtLevelBar.setTextures(RatingBar.COCKROACH_ICON);
 
-    dirtLevelBar = makeStarRatingBar("Dirt");
-    dirtLevelBar.setTextures(RatingBar.COCKROACH_ICON);
+		ButtonBar buttonBar = new ButtonBar();
+		buttonBar.addButton("Manage", new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				new ManageHotelRoomDialog(gridObject).show();
+			}
+		});
+		buttonBar.addButton("Redecorate", new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				new ConfirmRedecorationDialog(gridObject).show();
+			}
+		});
 
-    ButtonBar buttonBar = new ButtonBar();
-    buttonBar.addButton("Manage", new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        new ManageHotelRoomDialog(gridObject).show();
-      }
-    });
-    buttonBar.addButton("Redecorate", new VibrateClickListener() {
-      @Override
-      public void onClick(InputEvent event, float x, float y) {
-        new ConfirmRedecorationDialog(gridObject).show();
-      }
-    });
+		if (gridObject.hasLoanFromCousinVinnie()) {
+			buttonBar.addButton("Repay Vinnie", new VibrateClickListener() {
+				@Override
+				public void onClick(InputEvent event, float x, float y) {
+					new CousinVinnieRepayLoanDialog(gridObject).show();
+				}
+			});
+		}
 
-    if (gridObject.hasLoanFromCousinVinnie()) {
-      buttonBar.addButton("Repay Vinnie", new VibrateClickListener() {
-        @Override
-        public void onClick(InputEvent event, float x, float y) {
-          new CousinVinnieRepayLoanDialog(gridObject).show();
-        }
-      });
-    }
+		row().fillX().pad(Display.devicePixel(-8))
+				.padTop(Display.devicePixel(16));
+		add(buttonBar).expandX().minWidth(200);
+	}
 
-    row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
-    add(buttonBar).expandX().minWidth(200);
-  }
+	@Override
+	protected void updateControls() {
+		super.updateControls();
 
-  @Override
-  protected void updateControls() {
-    super.updateControls();
-
-    crimeBar.setValue(gridObject.getCrimeLevel() * 5f);
-    dirtLevelBar.setValue(gridObject.getDirtLevel() * 5f);
-  }
+		crimeBar.setValue(gridObject.getCrimeLevel() * 5f);
+		dirtLevelBar.setValue(gridObject.getDirtLevel() * 5f);
+	}
 }
