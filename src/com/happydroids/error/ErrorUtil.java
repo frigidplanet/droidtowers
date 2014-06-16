@@ -26,6 +26,7 @@ public class ErrorUtil {
 				RavenClient ravenClient = new RavenClient(
 						HappyDroidConsts.SENTRY_DSN);
 				ravenClient.captureException(
+						//(throwable == null) ? "" : (throwable.getMessage() == null) ? throwable.getClass().toString() : throwable.getClass().toString() + throwable.getMessage(),
 						ExceptionUtils.getMessage(throwable),
 						RavenUtils.getTimestampLong(), "root", 50, null,
 						throwable, null);
