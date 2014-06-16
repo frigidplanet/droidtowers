@@ -4,6 +4,8 @@
 
 package com.happydroids.droidtowers.types;
 
+import java.util.WeakHashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,9 +17,6 @@ import com.happydroids.droidtowers.achievements.Reward;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.math.GridPoint;
-import com.happydroids.platform.Platform;
-
-import java.util.WeakHashMap;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
 public abstract class GridObjectType {
@@ -38,7 +37,7 @@ public abstract class GridObjectType {
 	protected float noiseLevel;
 
 	protected float crimeLevel;
-	protected boolean unlimitedVersion = false;
+	protected boolean unlimitedVersion = true;
 	protected ProviderType provides;
 	private static WeakHashMap<String, TextureAtlas> atlases;
 	private TextureAtlas textureAtlas;
@@ -175,9 +174,7 @@ public abstract class GridObjectType {
 	}
 
 	public boolean isLocked() {
-		return lock != null
-				|| (unlimitedVersion && !Platform.getPurchaseManager()
-						.hasPurchasedUnlimitedVersion());
+		return lock != null || !unlimitedVersion;
 	}
 
 	public Reward getLock() {

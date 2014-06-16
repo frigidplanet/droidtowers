@@ -4,10 +4,10 @@
 
 package com.happydroids.droidtowers.scenes;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.input.GestureDetector;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
@@ -27,8 +27,19 @@ import com.happydroids.droidtowers.events.GameGridResizeEvent;
 import com.happydroids.droidtowers.events.RespondsToWorldSizeChange;
 import com.happydroids.droidtowers.gamestate.GameSave;
 import com.happydroids.droidtowers.gamestate.GameState;
-import com.happydroids.droidtowers.gamestate.actions.*;
-import com.happydroids.droidtowers.graphics.*;
+import com.happydroids.droidtowers.gamestate.actions.AchievementEngineCheck;
+import com.happydroids.droidtowers.gamestate.actions.BudgetCalculator;
+import com.happydroids.droidtowers.gamestate.actions.CrimeCalculator;
+import com.happydroids.droidtowers.gamestate.actions.DesirabilityCalculator;
+import com.happydroids.droidtowers.gamestate.actions.EmploymentCalculator;
+import com.happydroids.droidtowers.gamestate.actions.PopulationCalculator;
+import com.happydroids.droidtowers.gamestate.actions.StarRatingCalculator;
+import com.happydroids.droidtowers.gamestate.actions.TransportCalculator;
+import com.happydroids.droidtowers.graphics.CityScapeLayer;
+import com.happydroids.droidtowers.graphics.FireWorksLayer;
+import com.happydroids.droidtowers.graphics.GroundLayer;
+import com.happydroids.droidtowers.graphics.RainLayer;
+import com.happydroids.droidtowers.graphics.SkyLayer;
 import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.grid.GameGridRenderer;
 import com.happydroids.droidtowers.gui.HeadsUpDisplay;
@@ -39,10 +50,6 @@ import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.types.GridObjectType;
 import com.happydroids.droidtowers.types.GridObjectTypeFactory;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 public class TowerScene extends Scene {
 	private List<GameLayer> gameLayers;
@@ -55,7 +62,6 @@ public class TowerScene extends Scene {
 	private HeadsUpDisplay headsUpDisplay;
 	private GestureDetector gestureDetector;
 	private GestureDelegater gestureDelegater;
-	private TowerMiniMap towerMiniMap;
 	private TransportCalculator transportCalculator;
 	private PopulationCalculator populationCalculator;
 	private BudgetCalculator budgetCalculator;
@@ -67,11 +73,7 @@ public class TowerScene extends Scene {
 	private AvatarLayer avatarLayer;
 	private StarRatingCalculator starRatingCalculator;
 	private CrimeCalculator crimeCalculator;
-	private ParticleEffectPool effectPool;
-	private Set<ParticleEffect> activeEffects;
-	private Set<ParticleEffect> reactivatedEffects;
-	private Iterator<float[]> colorsIterator;
-
+	
 	public TowerScene() {
 		gameSaveLocation = Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY);
 	}

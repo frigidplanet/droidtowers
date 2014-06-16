@@ -4,13 +4,11 @@
 
 package com.happydroids.droidtowers.gui;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.HeyZapCheckInButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
@@ -55,10 +53,6 @@ public class AchievementNotification extends Dialog {
 				dismiss();
 			}
 		});
-		if (Gdx.app.getType().equals(Application.ApplicationType.Android)) {
-			addButton(new HeyZapCheckInButton("Completed achievement: "
-					+ achievement.getName()));
-		}
 
 		setView(c);
 	}

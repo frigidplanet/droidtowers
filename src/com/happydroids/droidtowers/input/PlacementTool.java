@@ -4,6 +4,11 @@
 
 package com.happydroids.droidtowers.input;
 
+import static com.badlogic.gdx.Application.ApplicationType.Android;
+import static com.happydroids.droidtowers.types.ProviderType.SKY_LOBBY;
+
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
@@ -11,18 +16,10 @@ import com.happydroids.droidtowers.entities.GameLayer;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.gui.HeadsUpDisplay;
-import com.happydroids.droidtowers.gui.PurchaseDroidTowersUnlimitedPrompt;
+import com.happydroids.droidtowers.input.InputSystem.Keys;
 import com.happydroids.droidtowers.math.GridPoint;
 import com.happydroids.droidtowers.money.GridObjectPurchaseChecker;
 import com.happydroids.droidtowers.types.GridObjectType;
-import com.happydroids.platform.Platform;
-
-import java.util.List;
-
-import static com.badlogic.gdx.Application.ApplicationType.Android;
-import static com.happydroids.droidtowers.TowerConsts.LIMITED_VERSION_MAX_FLOOR;
-import static com.happydroids.droidtowers.input.InputSystem.Keys;
-import static com.happydroids.droidtowers.types.ProviderType.SKY_LOBBY;
 
 public class PlacementTool extends ToolBase {
 	private GridObjectType gridObjectType;
@@ -124,12 +121,7 @@ public class PlacementTool extends ToolBase {
 
 	private boolean finishPurchase() {
 		if (gridObject != null) {
-			if (gridObject.getPosition().y > LIMITED_VERSION_MAX_FLOOR
-					&& !Platform.getPurchaseManager()
-							.hasPurchasedUnlimitedVersion()) {
-				new PurchaseDroidTowersUnlimitedPrompt().show();
-				return true;
-			} else if (!gameGrid.canObjectBeAt(gridObject)) {
+			if (!gameGrid.canObjectBeAt(gridObject)) {
 				HeadsUpDisplay
 						.showToast(gridObjectType.provides(SKY_LOBBY) ? "The Sky Lobby can only be built every 15 floors."
 								: "This object cannot be placed here.");

@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.happydroids.droidtowers.DroidTowersGame;
 import com.happydroids.droidtowers.TowerAssetManager;
+import com.happydroids.droidtowers.achievements.TutorialEngine;
 import com.happydroids.droidtowers.entities.Player;
 import com.happydroids.droidtowers.gui.DebugWindow;
 import com.happydroids.droidtowers.gui.HeadsUpDisplay;
@@ -64,6 +65,8 @@ public class DebugInputAdapter extends InputAdapter {
 			if (keys.toString().endsWith("ggmoney")) {
 				Player.instance().addCurrency(100000);
 				HeadsUpDisplay.showToast("Money!!!!");
+			} else if (keys.toString().endsWith("nopinch")) {
+				TutorialEngine.instance().moveToStepWhenReady("tutorial-turn-on-population-overlay");
 			}
 		}
 

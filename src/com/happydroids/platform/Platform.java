@@ -15,7 +15,6 @@ public class Platform {
 	public static PlatformBrowserUtil browserUtil;
 	public static PlatformProtocolHandler protocolHandler;
 	private static PlatformConnectionMonitor connectionMonitor;
-	private static PlatformPurchaseManger purchaseManager;
 	private static PlatformDialogOpener dialogOpener;
 	private static PlatformCheckInManager checkInManager;
 
@@ -101,7 +100,6 @@ public class Platform {
 
 	public static void dispose() {
 		protocolHandler = null;
-		purchaseManager = null;
 		browserUtil = null;
 		uncaughtExceptionHandler = null;
 		connectionMonitor = null;
@@ -109,14 +107,6 @@ public class Platform {
 
 	public static PlatformConnectionMonitor getConnectionMonitor() {
 		return connectionMonitor;
-	}
-
-	public static PlatformPurchaseManger getPurchaseManager() {
-		return purchaseManager;
-	}
-
-	public static void setPurchaseManager(PlatformPurchaseManger purchaseManager) {
-		Platform.purchaseManager = purchaseManager;
 	}
 
 	public static PlatformDialogOpener getDialogOpener() {

@@ -23,7 +23,6 @@ import com.happydroids.droidtowers.actions.TimeDelayedAction;
 import com.happydroids.droidtowers.audio.GameSoundController;
 import com.happydroids.droidtowers.controllers.PathSearchManager;
 import com.happydroids.droidtowers.entities.GameObject;
-import com.happydroids.droidtowers.events.InGamePurchaseReceiver;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.generators.NameGenerator;
 import com.happydroids.droidtowers.gui.FontManager;
@@ -76,7 +75,8 @@ public class DroidTowersGame implements ApplicationListener,
 		Thread.currentThread().setUncaughtExceptionHandler(
 				Platform.getUncaughtExceptionHandler());
 
-		Gdx.app.error("lifecycle", "create");
+		Gdx.app.debug("lifecycle", "create");
+		Gdx.app.debug(TAG, "ApplicationType: " + Gdx.app.getType().toString());
 		if (Gdx.app.getType().equals(Desktop)) {
 			SecurePreferences displayPrefs = TowerGameService.instance()
 					.getPreferences();
@@ -143,9 +143,6 @@ public class DroidTowersGame implements ApplicationListener,
 			}
 		});
 
-		Platform.getPurchaseManager().events()
-				.register(new InGamePurchaseReceiver());
-
 		NameGenerator.initialize();
 		RoomTypeFactory.instance();
 		CommercialTypeFactory.instance();
@@ -183,22 +180,10 @@ public class DroidTowersGame implements ApplicationListener,
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
-				if (Platform.protocolHandler != null
-						&& Platform.protocolHandler.hasUri()) {
-					SceneManager.changeScene(LaunchUriScene.class,
-							Platform.protocolHandler.consumeUri());
+				if (Platform.protocolHandler != null && Platform.protocolHandler.hasUri()) {
+					SceneManager.changeScene(LaunchUriScene.class, Platform.protocolHandler.consumeUri());
 				} else {
 					SceneManager.changeScene(MainMenuScene.class);
-				}
-
-				if (!Gdx.app.getType().equals(Applet)) {
-					Platform.getConnectionMonitor().withConnection(
-							new Runnable() {
-								@Override
-								public void run() {
-									new RegisterDeviceTask().run();
-								}
-							});
 				}
 			}
 		});

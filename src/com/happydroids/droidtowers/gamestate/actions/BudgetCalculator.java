@@ -31,11 +31,6 @@ public class BudgetCalculator extends GameGridAction {
 			coinsSpentOnUpkeep += object.getUpkeepCost();
 		}
 
-		if (!Platform.getPurchaseManager().hasPurchasedUnlimitedVersion()) {
-			coinsEarnedFromRent *= 0.5f;
-			coinsSpentOnUpkeep *= 0.5f;
-		}
-
 		if (HappyDroidConsts.DEBUG) {
 			Gdx.app.debug(TAG, String.format(
 					"Income report: %d earned, %d spent on upkeep",

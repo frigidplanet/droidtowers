@@ -67,7 +67,7 @@ public class SceneManager {
 			Gdx.app.error(TAG, "popScene resumed instance of: "
 					+ activeScene.getClass().getSimpleName());
 		} else {
-			Gdx.app.error(TAG, "popScene says there are no more scenes.");
+			Gdx.app.debug(TAG, "popScene says there are no more scenes.");
 		}
 	}
 

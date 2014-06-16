@@ -4,16 +4,19 @@
 
 package com.happydroids.droidtowers.scenes;
 
+import static com.badlogic.gdx.graphics.Texture.TextureFilter.Linear;
+import static com.badlogic.gdx.utils.Scaling.fit;
+import static com.badlogic.gdx.utils.Scaling.stretchX;
+import static com.happydroids.droidtowers.TowerAssetManager.isLoaded;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
-import com.badlogic.gdx.Application;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.HeyZapCheckInButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -30,12 +33,6 @@ import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.scenes.components.AssetLoadProgressPanel;
 import com.happydroids.droidtowers.scenes.components.ProgressPanel;
 import com.happydroids.droidtowers.tween.TweenSystem;
-import com.happydroids.platform.Platform;
-
-import static com.badlogic.gdx.graphics.Texture.TextureFilter.Linear;
-import static com.badlogic.gdx.utils.Scaling.fit;
-import static com.badlogic.gdx.utils.Scaling.stretchX;
-import static com.happydroids.droidtowers.TowerAssetManager.isLoaded;
 
 public abstract class SplashScene extends Scene {
 	public static final int CAMERA_PAN_DOWN_DURATION = 1000;
@@ -158,11 +155,7 @@ public abstract class SplashScene extends Scene {
 	}
 
 	private void makeDroidTowersLogo(boolean animateBuildOut) {
-		boolean purchasedUnlimited = Platform.getPurchaseManager()
-				.hasPurchasedUnlimitedVersion();
-		TextureAtlas.AtlasRegion droidTowersLogoTexture = purchasedUnlimited ? atlas2
-				.findRegion("droid-towers-logo-unlimited") : atlas2
-				.findRegion("droid-towers-logo");
+		TextureAtlas.AtlasRegion droidTowersLogoTexture = atlas2.findRegion("droid-towers-logo");
 		droidTowersLogo = new Image(new TextureRegionDrawable(
 				droidTowersLogoTexture), fit);
 		droidTowersLogo.setWidth(Math.min(getStage().getWidth() * 0.5f,

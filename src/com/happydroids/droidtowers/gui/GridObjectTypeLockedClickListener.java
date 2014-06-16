@@ -9,7 +9,6 @@ import com.happydroids.droidtowers.achievements.Achievement;
 import com.happydroids.droidtowers.achievements.AchievementEngine;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.droidtowers.types.GridObjectType;
-import com.happydroids.platform.Platform;
 
 class GridObjectTypeLockedClickListener extends VibrateClickListener {
 	private final GridObjectType gridObjectType;
@@ -20,13 +19,6 @@ class GridObjectTypeLockedClickListener extends VibrateClickListener {
 
 	@Override
 	public void onClick(InputEvent event, float x, float y) {
-		if (gridObjectType.requiresUnlimitedVersion()
-				&& !Platform.getPurchaseManager()
-						.hasPurchasedUnlimitedVersion()) {
-			showLockedByUnlimitedVersionDialog();
-			return;
-		}
-
 		for (Achievement achievement : AchievementEngine.instance()
 				.getAchievements()) {
 			if (achievement.getRewards().contains(gridObjectType.getLock())) {
@@ -35,11 +27,7 @@ class GridObjectTypeLockedClickListener extends VibrateClickListener {
 			}
 		}
 	}
-
-	private void showLockedByUnlimitedVersionDialog() {
-		new PurchaseDroidTowersUnlimitedPrompt().show();
-	}
-
+	
 	private void showLockedByAchievementDialog(final Achievement lockedBy) {
 		new Dialog()
 				.setTitle("Item is Locked!")

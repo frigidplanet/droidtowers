@@ -4,6 +4,8 @@
 
 package com.happydroids.droidtowers.gui;
 
+import static com.happydroids.droidtowers.TowerConsts.GAME_GRID_EXPAND_LAND_SIZE;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -26,9 +28,6 @@ import com.happydroids.droidtowers.gui.events.CameraControllerEvent;
 import com.happydroids.droidtowers.input.CameraController;
 import com.happydroids.droidtowers.math.GridPoint;
 import com.happydroids.droidtowers.platform.Display;
-import com.happydroids.platform.Platform;
-
-import static com.happydroids.droidtowers.TowerConsts.GAME_GRID_EXPAND_LAND_SIZE;
 
 public class ExpandLandOverlay extends WidgetGroup {
 	private static final int PADDING = 300;
@@ -74,11 +73,6 @@ public class ExpandLandOverlay extends WidgetGroup {
 	}
 
 	private void expandLandToEast() {
-		if (!Platform.getPurchaseManager().hasPurchasedUnlimitedVersion()) {
-			new PurchaseDroidTowersUnlimitedPrompt().show();
-			return;
-		}
-
 		gameGrid.events().unregister(DroidTowersGame.getSoundController());
 		gameGrid.getGridSize().x += GAME_GRID_EXPAND_LAND_SIZE;
 		gameGrid.updateWorldSize(false);
@@ -100,11 +94,6 @@ public class ExpandLandOverlay extends WidgetGroup {
 	}
 
 	private void expandLandToWest() {
-		if (!Platform.getPurchaseManager().hasPurchasedUnlimitedVersion()) {
-			new PurchaseDroidTowersUnlimitedPrompt().show();
-			return;
-		}
-
 		gameGrid.events().unregister(DroidTowersGame.getSoundController());
 		gameGrid.getGridSize().x += GAME_GRID_EXPAND_LAND_SIZE;
 		gameGrid.updateWorldSize(false);

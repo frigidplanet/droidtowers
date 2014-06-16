@@ -108,7 +108,7 @@ public class MainMenuScene extends SplashScene {
 			}
 
 			// DebugUtils.loadGameByFilename("d955373bf7864c3a92dbfa0410f7ddf5.json");
-			DebugUtils.loadFirstGameFound();
+			//DebugUtils.loadFirstGameFound();	//If this is uncommented you will not be able to exit a game while in DEBUG mode.
 			// DebugUtils.createNonSavableGame(false);
 			// DebugUtils.loadGameFromCloud(41);
 
@@ -124,10 +124,6 @@ public class MainMenuScene extends SplashScene {
 		addActor(makeLibGDXLogo(menuButtonAtlas));
 		addActor(makeHappyDroidsLogo(menuButtonAtlas));
 
-		if (!Platform.getPurchaseManager().hasPurchasedUnlimitedVersion()) {
-			makeUpgradeToUnlimitedButton(menuButtonAtlas);
-		}
-
 		MainMenuButtonPanel menuButtonPanel = new MainMenuButtonPanel();
 		menuButtonPanel.pack();
 		menuButtonPanel.setY(droidTowersLogo.getY()
@@ -141,33 +137,6 @@ public class MainMenuScene extends SplashScene {
 						.getWidth())), menuButtonPanel.getY())
 				.ease(TweenEquations.easeInOutExpo)
 				.start(TweenSystem.manager());
-	}
-
-	private void makeUpgradeToUnlimitedButton(TextureAtlas buttonAtlas) {
-		Image upgradeToUnlimited = new Image(
-				buttonAtlas.findRegion("upgrade-to-unlimited"));
-		upgradeToUnlimited.pack();
-		upgradeToUnlimited.setY(getStage().getHeight() / 2
-				- (upgradeToUnlimited.getImageHeight() / 2));
-		upgradeToUnlimited.setX(getStage().getWidth()
-				- (upgradeToUnlimited.getWidth() + Display.devicePixel(50)));
-		upgradeToUnlimited.setOriginX(upgradeToUnlimited.getWidth() / 2);
-		upgradeToUnlimited.setOriginY(upgradeToUnlimited.getHeight() / 2);
-		addActor(upgradeToUnlimited);
-
-		Tween.to(upgradeToUnlimited, WidgetAccessor.SCALE, 2000)
-				.target(0.75f, 0.75f).delay(1.5f)
-				.repeatYoyo(Tween.INFINITY, 50)
-				.ease(TweenEquations.easeInElastic)
-				.start(TweenSystem.manager());
-
-		upgradeToUnlimited.addListener(new VibrateClickListener() {
-			@Override
-			public void onClick(InputEvent event, float x, float y) {
-				Platform.getPurchaseManager()
-						.requestPurchaseForUnlimitedVersion();
-			}
-		});
 	}
 
 	@Override

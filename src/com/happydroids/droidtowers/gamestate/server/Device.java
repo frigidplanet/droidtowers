@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.happydroids.HappyDroidConsts;
 import com.happydroids.server.HappyDroidService;
 import com.happydroids.server.HappyDroidServiceObject;
-import com.happydroids.server.Payment;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
 public class Device extends HappyDroidServiceObject {
@@ -17,7 +16,6 @@ public class Device extends HappyDroidServiceObject {
 	public String market;
 	public String osVersion;
 	public String appVersion;
-	public Payment payment;
 	public final int appVersionCode;
 	public boolean isAuthenticated;
 

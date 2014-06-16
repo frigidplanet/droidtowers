@@ -20,9 +20,6 @@ import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.scenes.TowerScene;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.droidtowers.utils.Screenshot;
-import com.happydroids.platform.Platform;
-import com.happydroids.platform.PlatformPurchaseManger;
-import com.happydroids.platform.purchase.DroidTowerVersions;
 
 public class DebugWindow extends ScrollableTowerWindow {
 	public DebugWindow(Stage stage) {
@@ -63,9 +60,6 @@ public class DebugWindow extends ScrollableTowerWindow {
 		row();
 		add(makeToggleDebugInfoButton());
 
-		row();
-		add(makeTogglePurchaseUnlimitedButton());
-
 		shoveContentUp();
 	}
 
@@ -77,32 +71,6 @@ public class DebugWindow extends ScrollableTowerWindow {
 			public void onClick(InputEvent event, float x, float y) {
 				Player.instance()
 						.subtractCurrency(Player.instance().getCoins());
-			}
-		});
-		return button;
-	}
-
-	private Actor makeTogglePurchaseUnlimitedButton() {
-		final PlatformPurchaseManger purchaseManger = Platform
-				.getPurchaseManager();
-
-		final TextButton button = FontManager.Roboto24
-				.makeTextButton(purchaseManger.hasPurchasedUnlimitedVersion() ? "Refund"
-						: "Purchase" + " Unlimited Version");
-		button.addListener(new VibrateClickListener() {
-			@Override
-			public void onClick(InputEvent event, float x, float y) {
-				if (purchaseManger.hasPurchasedUnlimitedVersion()) {
-					purchaseManger.revokeItem(purchaseManger
-							.getSkuForVersion(DroidTowerVersions.UNLIMITED_299));
-				} else {
-					purchaseManger.purchaseItem(
-							purchaseManger
-									.getSkuForVersion(DroidTowerVersions.UNLIMITED_299),
-							"DEBUG WINDOW LOL");
-				}
-
-				dismiss();
 			}
 		});
 		return button;

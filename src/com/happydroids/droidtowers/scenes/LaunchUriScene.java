@@ -43,13 +43,6 @@ public class LaunchUriScene extends SplashScene {
 			if (gameId != null) {
 				new LaunchGameUriAction().checkAuthAndLoadGame(gameId);
 			}
-		} else if (launchUriHost.equals("register")) {
-			final NameValuePair serial = getParam(queryParams, "serial");
-			if (serial != null) {
-				SceneManager.popScene();
-				SceneManager.pushScene(VerifyPurchaseScene.class,
-						serial.getValue());
-			}
 		} else {
 			SceneManager.changeScene(MainMenuScene.class);
 		}

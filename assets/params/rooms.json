@@ -24,8 +24,7 @@
     "width":4,
     "atlasFilename":"rooms/generic.txt",
     "imageFilename":"4x1-sky-lobby",
-    "provides":"SKY_LOBBY",
-    "unlimitedVersion":true
+    "provides":"SKY_LOBBY"
   },
   {
     "id":"SMALL-APARTMENT",
