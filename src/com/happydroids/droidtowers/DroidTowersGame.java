@@ -77,19 +77,6 @@ public class DroidTowersGame implements ApplicationListener,
 
 		Gdx.app.debug("lifecycle", "create");
 		Gdx.app.debug(TAG, "ApplicationType: " + Gdx.app.getType().toString());
-		if (Gdx.app.getType().equals(Desktop)) {
-			SecurePreferences displayPrefs = TowerGameService.instance()
-					.getPreferences();
-			if (displayPrefs.contains("width")
-					&& displayPrefs.contains("height")
-					&& displayPrefs.contains("fullscreen")) {
-				Gdx.graphics.setDisplayMode(displayPrefs.getInteger("width"),
-						displayPrefs.getInteger("height"),
-						displayPrefs.getBoolean("fullscreen"));
-			} else {
-				Gdx.graphics.setDisplayMode(960, 540, false);
-			}
-		}
 
 		Display.setup();
 

@@ -142,7 +142,7 @@ public class Achievement {
 	}
 
 	public String getDescription() {
-		if (descriptionMobile != null && Gdx.app.getType().equals(Android)) {
+		if (descriptionMobile != null) {
 			return descriptionMobile;
 		}
 

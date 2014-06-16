@@ -56,41 +56,9 @@ public class OptionsDialog extends Dialog {
 		c.add(FontManager.Default.makeLabel("Effects Volume"));
 		c.add(makeSoundEffectsVolumeSlider());
 
-		if (Gdx.app.getType().equals(Application.ApplicationType.Android)) {
-			c.row().fillX();
-			c.add();
-			c.add(makeHapticFeedbackCheckbox());
-		}
-
-		if (Gdx.app.getType().equals(Application.ApplicationType.Desktop)) {
-			c.row().fillX();
-			c.add(FontManager.RobotoBold18.makeLabel("Resolution: "));
-			c.add(makeResolutionSelectBox());
-
-			fullscreenCheckbox.addListener(new VibrateClickListener() {
-				@Override
-				public void onClick(InputEvent event, float x, float y) {
-					saveDisplayChanges(displayModeList.get(displayResolution
-							.getSelectionIndex()));
-				}
-			});
-			c.row();
-			c.add();
-			c.add(fullscreenCheckbox);
-
-			setDismissCallback(new Runnable() {
-				@Override
-				public void run() {
-					if (displayModeChanged) {
-						Gdx.graphics.setDisplayMode(
-								preferences.getInteger("width"),
-								preferences.getInteger("height"),
-								preferences.getBoolean("fullscreen"));
-						SceneManager.restartActiveScene();
-					}
-				}
-			});
-		}
+		c.row().fillX();
+		c.add();
+		c.add(makeHapticFeedbackCheckbox());
 
 		setView(c);
 	}

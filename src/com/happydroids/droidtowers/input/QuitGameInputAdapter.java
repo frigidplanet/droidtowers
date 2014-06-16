@@ -14,8 +14,6 @@ import com.happydroids.droidtowers.gui.OnClickCallback;
 import com.happydroids.droidtowers.scenes.MainMenuScene;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 
-import static com.badlogic.gdx.Application.ApplicationType.Applet;
-
 public class QuitGameInputAdapter extends InputAdapter {
 
 	private boolean mainMenuIsActive;
@@ -29,10 +27,6 @@ public class QuitGameInputAdapter extends InputAdapter {
 		}
 
 		mainMenuIsActive = SceneManager.activeScene() instanceof MainMenuScene;
-
-		if (Gdx.app.getType().equals(Applet) && mainMenuIsActive) {
-			return false;
-		}
 
 		quitGameDialog = new Dialog(DroidTowersGame.getRootUiStage());
 		quitGameDialog

@@ -71,8 +71,7 @@ public class MainMenuButtonPanel extends Table {
 		optionsAndCreditsRow.add(aboutButton).expandX();
 
 		// noinspection PointlessBooleanExpression
-		if (TowerConsts.ENABLE_HAPPYDROIDS_CONNECT
-				&& !Gdx.app.getType().equals(Applet)) {
+		if (TowerConsts.ENABLE_HAPPYDROIDS_CONNECT) {
 			row();
 			final TextButton connectToHappyDroids = Default
 					.makeTextButton("login to happydroids.com");
@@ -104,18 +103,16 @@ public class MainMenuButtonPanel extends Table {
 					});
 		}
 
-		if (!Gdx.app.getType().equals(Applet)) {
-			row();
-			TextButton exitGameButton = Default.makeTextButton("exit");
-			add(exitGameButton).fill().width(BUTTON_WIDTH);
+		row();
+		TextButton exitGameButton = Default.makeTextButton("exit");
+		add(exitGameButton).fill().width(BUTTON_WIDTH);
 
-			exitGameButton.addListener(new VibrateClickListener() {
-				@Override
-				public void onClick(InputEvent event, float x, float y) {
-					Gdx.app.exit();
-				}
-			});
-		}
+		exitGameButton.addListener(new VibrateClickListener() {
+			@Override
+			public void onClick(InputEvent event, float x, float y) {
+				Gdx.app.exit();
+			}
+		});
 
 		newGameButton.addListener(new VibrateClickListener() {
 			@Override

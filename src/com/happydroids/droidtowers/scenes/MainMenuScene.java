@@ -4,10 +4,11 @@
 
 package com.happydroids.droidtowers.scenes;
 
+import static com.happydroids.droidtowers.TowerAssetManager.preloadFinished;
+import static com.happydroids.droidtowers.TowerAssetManager.textureAtlas;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,23 +16,17 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.happydroids.HappyDroidConsts;
-import com.happydroids.droidtowers.DebugUtils;
 import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.gui.FontManager;
 import com.happydroids.droidtowers.gui.VibrateClickListener;
 import com.happydroids.droidtowers.gui.WidgetAccessor;
-import com.happydroids.droidtowers.gui.dialogs.ReviewDroidTowersPrompt;
 import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.scenes.components.MainMenuButtonPanel;
 import com.happydroids.droidtowers.tween.TweenSystem;
 import com.happydroids.platform.Platform;
 import com.happydroids.security.SecurePreferences;
 import com.happydroids.server.HappyDroidService;
-
-import static com.happydroids.droidtowers.TowerAssetManager.preloadFinished;
-import static com.happydroids.droidtowers.TowerAssetManager.textureAtlas;
-import static com.happydroids.droidtowers.gui.dialogs.ReviewDroidTowersPrompt.RATING_TIMES_SINCE_PROMPTED;
 
 public class MainMenuScene extends SplashScene {
 	private static final String TAG = MainMenuScene.class.getSimpleName();
@@ -72,24 +67,7 @@ public class MainMenuScene extends SplashScene {
 
 			buildMenuComponents(textureAtlas("hud/menus.txt"));
 
-			SecurePreferences preferences = TowerGameService.instance()
-					.getPreferences();
-
-			if (!preferences.getBoolean(ReviewDroidTowersPrompt.RATING_ADDED,
-					false)
-					&& !preferences.getBoolean(
-							ReviewDroidTowersPrompt.RATING_NEVER_ASK_AGAIN,
-							false)) {
-				int timesSincePrompt = preferences
-						.incrementInt(RATING_TIMES_SINCE_PROMPTED);
-				preferences.flush();
-
-				if (timesSincePrompt >= 3
-						&& !Gdx.app.getType().equals(
-								Application.ApplicationType.Desktop)) {
-					new ReviewDroidTowersPrompt(getStage()).show();
-				}
-			}
+			SecurePreferences preferences = TowerGameService.instance().getPreferences();
 
 			if (Display.isInCompatibilityMode()) {
 				if (!preferences.getBoolean(
