@@ -4,14 +4,15 @@
 
 package com.happydroids.utils;
 
-import com.happydroids.error.ErrorUtil;
-import com.happydroids.platform.Platform;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import org.acra.ACRA;
+
+import com.happydroids.platform.Platform;
 
 public abstract class BackgroundTask {
 	protected static final String TAG = BackgroundTask.class.getSimpleName();
@@ -40,7 +41,7 @@ public abstract class BackgroundTask {
 	}
 
 	public synchronized void onError(Throwable e) {
-		ErrorUtil.rethrowError(e);
+		ACRA.getErrorReporter().handleException(e);
 	}
 
 	public final void run() {

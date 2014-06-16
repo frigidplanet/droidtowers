@@ -4,15 +4,16 @@
 
 package com.happydroids.security;
 
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.acra.ACRA;
+
 import com.badlogic.gdx.files.FileHandle;
 import com.google.common.collect.Maps;
 import com.happydroids.droidtowers.gamestate.GameSaveFactory;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
-import com.happydroids.error.ErrorUtil;
 import com.happydroids.jackson.HappyDroidObjectMapper;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 public class SecurePreferences {
 	private HashMap<String, String> values;
@@ -44,8 +45,7 @@ public class SecurePreferences {
 		if (key != null) {
 			values.put(key, value);
 		} else {
-			ErrorUtil.rethrowError(new RuntimeException(
-					"putString() requires a non null key!"));
+			ACRA.getErrorReporter().handleSilentException(new RuntimeException("putString() requires a non null key!"));
 		}
 	}
 
@@ -53,7 +53,7 @@ public class SecurePreferences {
 		try {
 			storage.writeBytes(mapper.writeValueAsBytes(values), false);
 		} catch (IOException e) {
-			ErrorUtil.rethrowError(e);
+			ACRA.getErrorReporter().handleException(e);
 		}
 	}
 

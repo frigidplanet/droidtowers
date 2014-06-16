@@ -4,6 +4,19 @@
 
 package com.happydroids.droidtowers.entities;
 
+import static com.happydroids.droidtowers.controllers.AvatarState.MOVING;
+import static com.happydroids.droidtowers.controllers.AvatarState.USING_STAIRS;
+import static com.happydroids.droidtowers.types.ProviderType.COMMERCIAL;
+import static com.happydroids.droidtowers.types.ProviderType.FOOD;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import org.acra.ACRA;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,17 +38,6 @@ import com.happydroids.droidtowers.math.Direction;
 import com.happydroids.droidtowers.math.GridPoint;
 import com.happydroids.droidtowers.pathfinding.TransitPathFinder;
 import com.happydroids.droidtowers.utils.Random;
-import com.happydroids.error.ErrorUtil;
-
-import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-
-import static com.happydroids.droidtowers.controllers.AvatarState.MOVING;
-import static com.happydroids.droidtowers.controllers.AvatarState.USING_STAIRS;
-import static com.happydroids.droidtowers.types.ProviderType.COMMERCIAL;
-import static com.happydroids.droidtowers.types.ProviderType.FOOD;
 
 public class Avatar extends GameObject {
 	public static final float FRAME_DURATION = 0.25f;
@@ -134,7 +136,7 @@ public class Avatar extends GameObject {
 				}
 			}
 		} catch (Throwable throwable) {
-			ErrorUtil.sendErrorToServer(throwable);
+			ACRA.getErrorReporter().handleException(throwable);
 		}
 	}
 
@@ -143,7 +145,6 @@ public class Avatar extends GameObject {
 		if (gridObjects.size == 1) {
 			navigateToGridObject(gridObjects.get(0));
 		} else if (gridObjects.size > 0) {
-			int idx = 0;
 			for (GridObject gridObject : gridObjects) {
 				if (gridObject.provides(COMMERCIAL)
 						&& gridObject.getDirtLevel() < 1f) {

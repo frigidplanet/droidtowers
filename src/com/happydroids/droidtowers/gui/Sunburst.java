@@ -4,6 +4,8 @@
 
 package com.happydroids.droidtowers.gui;
 
+import org.acra.ACRA;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Mesh;
@@ -14,7 +16,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.happydroids.error.ErrorUtil;
 
 public class Sunburst extends Actor {
 
@@ -105,7 +106,7 @@ public class Sunburst extends Actor {
 			batch.begin();
 		} catch (IllegalArgumentException iae) {
 			// shader is probably waiting to be reloaded after a context change.
-			ErrorUtil.rethrowErrorInDebugMode(iae);
+			ACRA.getErrorReporter().handleException(iae);
 		}
 	}
 

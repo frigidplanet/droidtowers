@@ -4,13 +4,22 @@
 
 package com.happydroids.droidtowers;
 
-import android.app.Application;
-import com.happydroids.droidtowers.R;
-import com.happydroids.platform.RavenReportSender;
-import org.acra.*;
+import static org.acra.ReportField.AVAILABLE_MEM_SIZE;
+import static org.acra.ReportField.DISPLAY;
+import static org.acra.ReportField.TOTAL_MEM_SIZE;
+import static org.acra.ReportField.USER_COMMENT;
+import static org.acra.ReportField.USER_EMAIL;
+
+import org.acra.ACRA;
+import org.acra.ACRAConfiguration;
+import org.acra.ACRAConfigurationException;
+import org.acra.ReportField;
+import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-import static org.acra.ReportField.*;
+import android.app.Application;
+
+import com.happydroids.error.CrashReporterSave;
 
 @ReportsCrashes(formKey = "")
 public class DroidTowersAndroidApplication extends Application {
@@ -23,13 +32,12 @@ public class DroidTowersAndroidApplication extends Application {
 		 */
 
 		ACRA.init(this);
-		ACRA.getErrorReporter().setReportSender(new RavenReportSender());
+		//ACRA.getErrorReporter().setReportSender(new RavenReportSender());
+		ACRA.getErrorReporter().setReportSender(new CrashReporterSave(this));
 
-		ACRAConfiguration conf = ACRA.getNewDefaultConfig();
+		ACRAConfiguration conf = ACRA.getNewDefaultConfig(this);
 		try {
-			conf.setCustomReportContent(new ReportField[] { DISPLAY,
-					USER_COMMENT, USER_EMAIL, TOTAL_MEM_SIZE,
-					AVAILABLE_MEM_SIZE });
+			conf.setCustomReportContent(new ReportField[] { DISPLAY, USER_COMMENT, USER_EMAIL, TOTAL_MEM_SIZE, AVAILABLE_MEM_SIZE });
 			conf.setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt);
 			conf.setResToastText(R.string.crash_toast_text);
 			conf.setResDialogText(R.string.crash_dialog_text);

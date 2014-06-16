@@ -4,6 +4,10 @@
 
 package com.happydroids.droidtowers.pipeline;
 
+import java.io.IOException;
+
+import org.acra.ACRA;
+
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -14,9 +18,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.happydroids.droidtowers.utils.PNG;
-import com.happydroids.error.ErrorUtil;
-
-import java.io.IOException;
 
 public class GenerateAssetManagerFileList {
 	private static FileHandle assetsDir = new FileHandle("assets/");
@@ -91,7 +92,7 @@ public class GenerateAssetManagerFileList {
 			byte[] bytes = PNG.toPNG(pixmap);
 			swatchFile.writeBytes(bytes, false);
 		} catch (IOException e) {
-			ErrorUtil.rethrowError(e);
+			ACRA.getErrorReporter().handleException(e);
 		}
 	}
 
