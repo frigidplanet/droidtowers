@@ -27,7 +27,6 @@ import com.happydroids.droidtowers.gamestate.GameState;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.grid.GridPosition;
-import com.happydroids.droidtowers.gui.dialogs.ConnectToHappyDroidsPrompt;
 import com.happydroids.droidtowers.input.CameraController;
 import com.happydroids.droidtowers.input.GestureTool;
 import com.happydroids.droidtowers.input.InputSystem;
@@ -121,36 +120,6 @@ public class HeadsUpDisplay extends WidgetGroup {
 			});
 
 			addActor(avatarsButton);
-		}
-
-		if (TowerConsts.ENABLE_HAPPYDROIDS_CONNECT) {
-			viewNeighborsButton = TowerAssetManager.imageButton(hudAtlas
-					.findRegion("view-neighbors"));
-			viewNeighborsButton.layout();
-			viewNeighborsButton.addListener(new VibrateClickListener() {
-				@Override
-				public void onClick(InputEvent event, float x, float y) {
-					if (TowerGameService.instance().isAuthenticated()) {
-						SceneManager.pushScene(ViewNeighborSplashScene.class,
-								gameState);
-					} else {
-						new ConnectToHappyDroidsPrompt().show();
-					}
-				}
-			});
-
-			viewNeighborsButton.setVisible(false);
-			viewNeighborsButton.setX(10);
-
-			if (TowerConsts.ENABLE_AVATAR_LIST_WINDOW) {
-				viewNeighborsButton.setY(avatarsButton.getY()
-						- viewNeighborsButton.getHeight() - 20);
-			} else {
-				viewNeighborsButton.setY(achievementButton.getY()
-						- viewNeighborsButton.getHeight() - 20);
-			}
-
-			addActor(viewNeighborsButton);
 		}
 
 		if (TowerConsts.DEBUG) {

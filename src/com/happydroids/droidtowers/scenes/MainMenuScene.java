@@ -84,12 +84,6 @@ public class MainMenuScene extends SplashScene {
 											+ "Thank you,\nDroid Towers Team");
 				}
 			}
-
-			// DebugUtils.loadGameByFilename("d955373bf7864c3a92dbfa0410f7ddf5.json");
-			//DebugUtils.loadFirstGameFound();	//If this is uncommented you will not be able to exit a game while in DEBUG mode.
-			// DebugUtils.createNonSavableGame(false);
-			// DebugUtils.loadGameFromCloud(41);
-
 			// new GridObjectDesigner(getStage()).show();
 		}
 	}
