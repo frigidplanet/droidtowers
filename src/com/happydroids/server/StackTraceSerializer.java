@@ -12,18 +12,12 @@ import java.io.IOException;
 
 public class StackTraceSerializer extends JsonSerializer<StackTraceElement> {
 	@Override
-	public void serialize(StackTraceElement stackTraceElement,
-			JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-			throws IOException {
+	public void serialize(StackTraceElement stackTraceElement, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 		jsonGenerator.writeStartObject();
-		jsonGenerator.writeStringField("declaringClass",
-				stackTraceElement.getClassName());
-		jsonGenerator.writeStringField("methodName",
-				stackTraceElement.getMethodName());
-		jsonGenerator.writeStringField("fileName",
-				stackTraceElement.getFileName());
-		jsonGenerator.writeNumberField("lineNumber",
-				stackTraceElement.getLineNumber());
+		jsonGenerator.writeStringField("declaringClass", stackTraceElement.getClassName());
+		jsonGenerator.writeStringField("methodName", stackTraceElement.getMethodName());
+		jsonGenerator.writeStringField("fileName", stackTraceElement.getFileName());
+		jsonGenerator.writeNumberField("lineNumber", stackTraceElement.getLineNumber());
 		jsonGenerator.writeEndObject();
 	}
 

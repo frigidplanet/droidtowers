@@ -4,6 +4,13 @@
 
 package com.happydroids.droidtowers.gui;
 
+import static java.text.NumberFormat.getNumberInstance;
+
+import java.util.Date;
+import java.util.Set;
+
+import org.ocpsoft.pretty.time.PrettyTime;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -25,38 +32,35 @@ import com.happydroids.droidtowers.gamestate.GameSaveFactory;
 import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.scenes.LoadTowerSplashScene;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
-import com.happydroids.droidtowers.tasks.WaitForCloudSyncTask;
-import org.ocpsoft.pretty.time.PrettyTime;
-
-import java.util.Date;
-import java.util.Set;
-
-import static java.text.NumberFormat.getNumberInstance;
 
 public class LoadTowerWindow extends ScrollableTowerWindow {
 	private static final String TAG = LoadTowerWindow.class.getSimpleName();
 
 	private boolean foundSaveFile;
 	private final Dialog progressDialog;
-	private final WaitForCloudSyncTask waitForCloudSyncTask;
 	private Set<Texture> towerImageTextures;
+	private LoadTowerWindow loadTowerWindow;
 
 	public LoadTowerWindow(Stage stage) {
 		super("Load a Tower", stage);
 		towerImageTextures = Sets.newHashSet();
-		progressDialog = new ProgressDialog().setMessage("looking for towers")
-				.hideButtons(true);
-
-		waitForCloudSyncTask = new WaitForCloudSyncTask(this);
-		waitForCloudSyncTask.run();
+		progressDialog = new ProgressDialog().setMessage("looking for towers").hideButtons(true);
 
 		setDismissCallback(new Runnable() {
 			@Override
 			public void run() {
 				progressDialog.dismiss();
-				waitForCloudSyncTask.cancel();
 			}
 		});
+		
+		loadTowerWindow = this;
+		
+		Gdx.app.postRunnable(new Runnable() {
+	      @Override
+	      public void run() {
+	        loadTowerWindow.buildGameSaveList();
+	      }
+	    });
 	}
 
 	public void buildGameSaveList() {

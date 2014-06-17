@@ -17,12 +17,6 @@ public class ApplicationResumeScene extends SplashScene {
 
 		if (TowerAssetManager.assetManager().getProgress() >= 1.0f) {
 			SceneManager.popScene();
-
-			if (Platform.protocolHandler != null
-					&& Platform.protocolHandler.hasUri()) {
-				URI launchUri = Platform.protocolHandler.consumeUri();
-				SceneManager.pushScene(LaunchUriScene.class, launchUri);
-			}
 		}
 	}
 }

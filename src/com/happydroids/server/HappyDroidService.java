@@ -4,12 +4,14 @@
 
 package com.happydroids.server;
 
-import com.badlogic.gdx.Gdx;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.happydroids.HappyDroidConsts;
-import com.happydroids.jackson.HappyDroidObjectMapper;
+import static org.apach3.http.client.cache.CacheResponseStatus.CACHE_HIT;
+import static org.apach3.http.impl.client.cache.CachingHttpClient.CACHE_RESPONSE_STATUS;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
 import org.apach3.http.HttpEntity;
 import org.apach3.http.HttpResponse;
 import org.apach3.http.NameValuePair;
@@ -25,18 +27,16 @@ import org.apach3.http.entity.BufferedHttpEntity;
 import org.apach3.http.entity.StringEntity;
 import org.apach3.http.impl.client.DefaultHttpClient;
 import org.apach3.http.impl.client.cache.CacheConfig;
-import org.apach3.http.impl.client.cache.CachingHttpClient;
 import org.apach3.http.message.BasicNameValuePair;
 import org.apach3.http.protocol.BasicHttpContext;
 import org.apach3.http.util.EntityUtils;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
-import static org.apach3.http.client.cache.CacheResponseStatus.CACHE_HIT;
-import static org.apach3.http.impl.client.cache.CachingHttpClient.CACHE_RESPONSE_STATUS;
+import com.badlogic.gdx.Gdx;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.happydroids.HappyDroidConsts;
+import com.happydroids.jackson.HappyDroidObjectMapper;
 
 public class HappyDroidService {
 	private static final String TAG = HappyDroidService.class.getSimpleName();
@@ -244,8 +244,6 @@ public class HappyDroidService {
 				config.setMaxObjectSize(10485760);
 				config.setHeuristicCachingEnabled(true);
 				config.setHeuristicDefaultLifetime(cacheMaxAge);
-				client = new CachingHttpClient(client,
-						new HttpCacheDiskStorage(), config);
 			}
 
 			BasicHttpContext context = new BasicHttpContext();

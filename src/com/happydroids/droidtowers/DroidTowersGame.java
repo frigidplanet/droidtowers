@@ -4,7 +4,11 @@
 
 package com.happydroids.droidtowers;
 
+import static com.badlogic.gdx.Application.ApplicationType.Android;
+import static com.happydroids.HappyDroidConsts.DEBUG;
+import static com.happydroids.HappyDroidConsts.DISPLAY_DEBUG_INFO;
 import aurelienribon.tweenengine.Tween;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -27,26 +31,27 @@ import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.generators.NameGenerator;
 import com.happydroids.droidtowers.gui.FontManager;
 import com.happydroids.droidtowers.gui.WidgetAccessor;
-import com.happydroids.droidtowers.input.*;
+import com.happydroids.droidtowers.input.CameraController;
+import com.happydroids.droidtowers.input.CameraControllerAccessor;
+import com.happydroids.droidtowers.input.DebugInputAdapter;
+import com.happydroids.droidtowers.input.InputSystem;
+import com.happydroids.droidtowers.input.QuitGameInputAdapter;
 import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.scenes.ApplicationResumeScene;
-import com.happydroids.droidtowers.scenes.LaunchUriScene;
 import com.happydroids.droidtowers.scenes.MainMenuScene;
 import com.happydroids.droidtowers.scenes.Scene;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.droidtowers.server.MovieServer;
 import com.happydroids.droidtowers.tasks.MigrateExistingGamesTask;
-import com.happydroids.droidtowers.tasks.SyncCloudGamesTask;
 import com.happydroids.droidtowers.tween.GameObjectAccessor;
 import com.happydroids.droidtowers.tween.TweenSystem;
-import com.happydroids.droidtowers.types.*;
+import com.happydroids.droidtowers.types.CommercialTypeFactory;
+import com.happydroids.droidtowers.types.ElevatorTypeFactory;
+import com.happydroids.droidtowers.types.RoomTypeFactory;
+import com.happydroids.droidtowers.types.ServiceRoomTypeFactory;
+import com.happydroids.droidtowers.types.StairTypeFactory;
 import com.happydroids.platform.Platform;
-import com.happydroids.security.SecurePreferences;
 import com.happydroids.utils.BackgroundTask;
-
-import static com.badlogic.gdx.Application.ApplicationType.*;
-import static com.happydroids.HappyDroidConsts.DEBUG;
-import static com.happydroids.HappyDroidConsts.DISPLAY_DEBUG_INFO;
 
 public class DroidTowersGame implements ApplicationListener,
 		BackgroundTask.PostExecuteManager {
@@ -119,17 +124,6 @@ public class DroidTowersGame implements ApplicationListener,
 
 		new MigrateExistingGamesTask().run();
 
-		TowerGameService.instance().afterDeviceIdentification(new Runnable() {
-			@Override
-			public void run() {
-				if (!TowerGameService.instance().isAuthenticated()) {
-					return;
-				}
-
-				new SyncCloudGamesTask().run();
-			}
-		});
-
 		NameGenerator.initialize();
 		RoomTypeFactory.instance();
 		CommercialTypeFactory.instance();
@@ -167,11 +161,7 @@ public class DroidTowersGame implements ApplicationListener,
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
-				if (Platform.protocolHandler != null && Platform.protocolHandler.hasUri()) {
-					SceneManager.changeScene(LaunchUriScene.class, Platform.protocolHandler.consumeUri());
-				} else {
-					SceneManager.changeScene(MainMenuScene.class);
-				}
+				SceneManager.changeScene(MainMenuScene.class);
 			}
 		});
 	}

@@ -6,8 +6,6 @@ package com.happydroids.platform;/*
  * Copyright (c) 2012. HappyDroids LLC, All rights reserved.
  */
 
-import com.happydroids.droidtowers.platform.PlatformCheckInManager;
-
 import java.io.File;
 
 public class Platform {
@@ -16,7 +14,6 @@ public class Platform {
 	public static PlatformProtocolHandler protocolHandler;
 	private static PlatformConnectionMonitor connectionMonitor;
 	private static PlatformDialogOpener dialogOpener;
-	private static PlatformCheckInManager checkInManager;
 
 	public static Thread.UncaughtExceptionHandler getUncaughtExceptionHandler() {
 		return uncaughtExceptionHandler;
@@ -117,11 +114,4 @@ public class Platform {
 		Platform.dialogOpener = dialogOpener;
 	}
 
-	public static void setCheckInManager(PlatformCheckInManager checkInManager) {
-		Platform.checkInManager = checkInManager;
-	}
-
-	public static PlatformCheckInManager getCheckInManager() {
-		return checkInManager;
-	}
 }

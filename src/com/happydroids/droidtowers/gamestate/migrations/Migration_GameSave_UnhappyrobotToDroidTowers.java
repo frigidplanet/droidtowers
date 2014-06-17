@@ -14,8 +14,7 @@ import sk.seges.acris.json.server.migrate.JacksonTransformationScript;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Migration_GameSave_UnhappyrobotToDroidTowers extends
-		JacksonTransformationScript<ObjectNode> {
+public class Migration_GameSave_UnhappyrobotToDroidTowers extends JacksonTransformationScript<ObjectNode> {
 	private static final HashMap<String, String> typeNameMap = new HashMap<String, String>();
 
 	static {
@@ -29,8 +28,7 @@ public class Migration_GameSave_UnhappyrobotToDroidTowers extends
 
 	@Override
 	protected void process(ObjectNode node, String fileName) {
-		ObjectNode gameSaveNode = getGameSaveUnlessFileFormatIsNewer(node,
-				"com.unhappyrobot.gamestate.GameSave", 1);
+		ObjectNode gameSaveNode = getGameSaveUnlessFileFormatIsNewer(node, "com.unhappyrobot.gamestate.GameSave", 1);
 		if (gameSaveNode == null) {
 			return;
 		}
@@ -78,8 +76,7 @@ public class Migration_GameSave_UnhappyrobotToDroidTowers extends
 			}
 		}
 
-		GridObjectType objectType = GridObjectTypeFactory
-				.findTypeById(typeName);
+		GridObjectType objectType = GridObjectTypeFactory.findTypeById(typeName);
 		if (objectType == null) {
 			throw new RuntimeException("Could not convert: " + typeName);
 		}

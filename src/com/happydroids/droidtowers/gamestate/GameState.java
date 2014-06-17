@@ -4,10 +4,13 @@
 
 package com.happydroids.droidtowers.gamestate;
 
+import static com.happydroids.HappyDroidConsts.DEBUG;
+
+import java.io.OutputStream;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.happydroids.droidtowers.gamestate.server.CloudGameSave;
 import com.happydroids.droidtowers.graphics.TowerMiniMap;
 import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.gui.Dialog;
@@ -16,14 +19,7 @@ import com.happydroids.droidtowers.input.CameraController;
 import com.happydroids.droidtowers.scenes.MainMenuScene;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.droidtowers.utils.PNG;
-import com.happydroids.server.ApiRunnable;
-import com.happydroids.server.HappyDroidServiceObject;
 import com.happydroids.utils.BackgroundTask;
-import org.apach3.http.HttpResponse;
-
-import static com.happydroids.HappyDroidConsts.DEBUG;
-
-import java.io.OutputStream;
 
 public class GameState {
 	private static final String TAG = GameState.class.getSimpleName();
@@ -37,7 +33,6 @@ public class GameState {
 	private boolean shouldSaveGame;
 	private FileHandle pngFile;
 	private int fileGeneration;
-	private CloudGameSave cloudGameSave;
 
 	public GameState(OrthographicCamera camera,
 			CameraController cameraController, FileHandle gameSaveLocation,
@@ -50,7 +45,6 @@ public class GameState {
 		gameFile = gameSaveLocation.child(currentGameSave.getBaseFilename());
 		pngFile = gameSaveLocation.child(currentGameSave.getBaseFilename()
 				+ ".png");
-		cloudGameSave = new CloudGameSave(currentGameSave, pngFile);
 	}
 
 	public void loadSavedGame() {
@@ -96,8 +90,7 @@ public class GameState {
 	public void saveGame(final boolean shouldForceCloudSave) {
 		if (shouldSaveGame && !currentGameSave.isSaveToDiskDisabled()) {
 			if (!gameGrid.isEmpty()) {
-				currentGameSave.update(camera, gameGrid,
-						cloudGameSave.getNeighbors());
+				currentGameSave.update(camera, gameGrid, null); //frigidplanet: no neighbors anymore so passing null
 
 				if (DEBUG) {
 					Gdx.app.debug("DEBUG",
@@ -117,24 +110,6 @@ public class GameState {
 							stream.flush();
 							stream.close();
 
-							if (shouldForceCloudSave
-									|| currentGameSave.getCloudSaveUri() == null
-									|| currentGameSave.getFileGeneration() % 4 == 0) {
-								cloudGameSave.updateImage(pngFile);
-								cloudGameSave.save(new ApiRunnable() {
-									@Override
-									public void onSuccess(
-											HttpResponse response,
-											HappyDroidServiceObject object) {
-										if (cloudGameSave.isSaved()) {
-											currentGameSave
-													.setCloudSaveUri(cloudGameSave
-															.getResourceUri());
-										}
-									}
-								});
-							}
-
 							GameSaveFactory.save(currentGameSave, gameFile);
 						} catch (Exception e) {
 							Gdx.app.log("GameSave", "Could not save game!", e);
@@ -145,7 +120,4 @@ public class GameState {
 		}
 	}
 
-	public CloudGameSave getCloudGameSave() {
-		return cloudGameSave;
-	}
 }

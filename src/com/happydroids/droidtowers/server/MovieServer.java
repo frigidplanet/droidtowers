@@ -5,8 +5,6 @@
 package com.happydroids.droidtowers.server;
 
 import com.badlogic.gdx.utils.Array;
-import com.happydroids.utils.BackgroundTask;
-
 import java.util.Iterator;
 
 public class MovieServer {
@@ -32,7 +30,6 @@ public class MovieServer {
 		playQueueIterator = playQueue.iterator();
 		moviesList = new MovieCollection();
 
-		new FetchMovieListTask().run();
 	}
 
 	public boolean hasMovies() {
@@ -55,14 +52,4 @@ public class MovieServer {
 		playQueue.removeValue(movie, false);
 	}
 
-	private class FetchMovieListTask extends BackgroundTask {
-		@Override
-		protected void execute() throws Exception {
-			moviesList.fetch();
-
-			for (Movie movie : moviesList.getObjects()) {
-				movie.queueForDownload();
-			}
-		}
-	}
 }

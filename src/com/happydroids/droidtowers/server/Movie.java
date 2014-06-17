@@ -4,6 +4,10 @@
 
 package com.happydroids.droidtowers.server;
 
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC;
+
+import org.apach3.commons.io.FilenameUtils;
+
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -15,12 +19,8 @@ import com.happydroids.droidtowers.events.AssetLoadErrorEvent;
 import com.happydroids.droidtowers.events.AssetLoadEvent;
 import com.happydroids.droidtowers.gamestate.GameSaveFactory;
 import com.happydroids.droidtowers.gamestate.server.RunnableQueue;
-import com.happydroids.droidtowers.tasks.DownloadMovieAssetsTask;
 import com.happydroids.droidtowers.tasks.MovieState;
 import com.happydroids.server.HappyDroidServiceObject;
-import org.apach3.commons.io.FilenameUtils;
-
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC;
 
 @JsonAutoDetect(fieldVisibility = PROTECTED_AND_PUBLIC)
 public class Movie extends HappyDroidServiceObject {
@@ -90,7 +90,6 @@ public class Movie extends HappyDroidServiceObject {
 		setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
 		setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
 
-		new DownloadMovieAssetsTask(this).run();
 	}
 
 	public TextureAtlas getTextureAtlas() {
