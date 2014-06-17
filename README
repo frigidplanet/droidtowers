@@ -4,6 +4,9 @@ Modificiations from parent:
 - Remove everything non-Android
 - Remove heyzap
 - Remove purchase options
+- Remove robotmedia
+- Remove all unused classes
+- Upgrade ACRA to 4.5 and remove sentry/raven utils
 
 Original:
 -------------------------------------------------------------------------------------------
