@@ -68,4 +68,8 @@ public class StringUtils extends org.apach3.commons.lang3.StringUtils {
 
 		return title.substring(0, finalSize - 3) + "...";
 	}
+	
+	public static boolean isEmpty(CharSequence cs) {
+        return cs == null || cs.length() == 0;
+    }
 }

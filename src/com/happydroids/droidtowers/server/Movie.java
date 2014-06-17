@@ -6,7 +6,7 @@ package com.happydroids.droidtowers.server;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC;
 
-import org.apach3.commons.io.FilenameUtils;
+import java.io.File;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -86,9 +86,13 @@ public class Movie extends HappyDroidServiceObject {
 		if (!movieStorageRoot.exists()) {
 			movieStorageRoot.mkdirs();
 		}
-
-		setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
-		setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
+		
+		//setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
+		//setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
+		
+		//Trying this method so we can get rid of apach3
+		setAtlasTxtFile(movieStorageRoot.child(new File(atlasTxt).getName()));
+		setAtlasPngFile(movieStorageRoot.child(new File(atlasPng).getName()));
 
 	}
 

@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 public class MovieServer {
 	private static MovieServer _instance;
-	private MovieCollection moviesList;
 	private Iterator<Movie> playQueueIterator;
 	private Array<Movie> playQueue;
 
@@ -28,7 +27,6 @@ public class MovieServer {
 	public MovieServer() {
 		playQueue = new Array<Movie>();
 		playQueueIterator = playQueue.iterator();
-		moviesList = new MovieCollection();
 
 	}
 

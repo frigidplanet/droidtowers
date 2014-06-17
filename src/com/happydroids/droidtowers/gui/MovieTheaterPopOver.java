@@ -5,7 +5,6 @@
 package com.happydroids.droidtowers.gui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.happydroids.droidtowers.entities.CommercialSpace;
 import com.happydroids.droidtowers.entities.MovieTheater;
 import com.happydroids.droidtowers.entities.Room;
 import com.happydroids.droidtowers.gui.controls.ButtonBar;

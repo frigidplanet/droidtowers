@@ -7,7 +7,7 @@ package com.happydroids.droidtowers.pipeline;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apach3.commons.lang3.StringUtils;
+import com.happydroids.droidtowers.utils.StringUtils;
 
 import java.util.List;
 import java.util.Map;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.happydroids.droidtowers.types.GridObjectType;
-import org.apach3.commons.lang3.StringUtils;
+import com.happydroids.droidtowers.utils.StringUtils;
 
 import java.util.Collections;
 import java.util.Iterator;
