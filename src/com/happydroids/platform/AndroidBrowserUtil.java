@@ -26,8 +26,6 @@ public class AndroidBrowserUtil implements PlatformBrowserUtil {
 					Intent intent = new Intent(Intent.ACTION_VIEW);
 					intent.setData(Uri.parse(uriToLoad));
 					activity.startActivity(intent);
-				} else {
-					new TowerWebBrowser(activity, uriToLoad).show();
 				}
 			}
 		});

@@ -4,33 +4,36 @@
 
 package com.happydroids.droidtowers.gamestate.server;
 
+import java.util.UUID;
+
 import com.happydroids.droidtowers.gui.VibrateClickListener;
 import com.happydroids.droidtowers.jackson.Vector2Serializer;
 import com.happydroids.droidtowers.jackson.Vector3Serializer;
+import com.happydroids.jackson.HappyDroidObjectMapper;
 import com.happydroids.security.SecurePreferences;
-import com.happydroids.server.HappyDroidService;
-import org.apach3.http.client.methods.HttpRequestBase;
 
-import java.util.UUID;
-
-public class TowerGameService extends HappyDroidService {
+public class TowerGameService {
 	private static final String TAG = TowerGameService.class.getSimpleName();
 	public static final String SESSION_TOKEN = "SESSION_TOKEN";
 	public static final String DEVICE_ID = "DEVICE_ID";
 
+	protected static TowerGameService _instance;
+	
+	private static String deviceType;
+	private static String deviceOSVersion;
+	private static String deviceOSMarketName = "none";
 	private SecurePreferences preferences;
 	private boolean authenticated;
-	private Device device;
 	private RunnableQueue postAuthRunnables;
 	private boolean authenticationFinished;
+	
+	protected HappyDroidObjectMapper objectMapper;
 
 	public TowerGameService() {
 		super();
 
 		postAuthRunnables = new RunnableQueue();
 
-		// getObjectMapper().addDeserializer(Class.class, new
-		// TowerGameClassDeserializer());
 		getObjectMapper().addSerializer(new Vector3Serializer());
 		getObjectMapper().addSerializer(new Vector2Serializer());
 	}
@@ -41,6 +44,18 @@ public class TowerGameService extends HappyDroidService {
 		}
 
 		return (TowerGameService) _instance;
+	}
+	
+	public HappyDroidObjectMapper getObjectMapper() {
+		if (objectMapper == null) {
+			objectMapper = new HappyDroidObjectMapper();
+		}
+
+		return objectMapper;
+	}
+	
+	public static void setInstance(TowerGameService instance) {
+		TowerGameService._instance = instance;
 	}
 
 	public static boolean hasBeenInitialised() {
@@ -72,18 +87,29 @@ public class TowerGameService extends HappyDroidService {
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
+	
+	public static void setDeviceType(String dt) {
+		deviceType = dt;
+	}
 
-	@Override
-	protected void addDefaultHeaders(HttpRequestBase request) {
-		super.addDefaultHeaders(request);
+	public static void setDeviceOSMarketName(String name) {
+		deviceOSMarketName = name;
+	}
 
-		request.setHeader("X-Device-UUID", HappyDroidService.instance()
-				.getDeviceId());
-		request.setHeader("X-Device-Market",
-				HappyDroidService.getDeviceOSMarketName());
-		if (getSessionToken() != null) {
-			request.setHeader("X-Token", getSessionToken());
-		}
+	public static void setDeviceOSVersion(String osVersion) {
+		deviceOSVersion = osVersion;
+	}
+
+	public static String getDeviceOSVersion() {
+		return deviceOSVersion;
+	}
+
+	public static String getDeviceOSMarketName() {
+		return deviceOSMarketName;
+	}
+
+	public static String getDeviceType() {
+		return deviceType;
 	}
 
 	public void afterDeviceIdentification(Runnable runnable) {
@@ -133,8 +159,7 @@ public class TowerGameService extends HappyDroidService {
 
 	public SecurePreferences getPreferences() {
 		if (preferences == null) {
-			preferences = new SecurePreferences("com.happydroids.droidtowers."
-					+ getDeviceOSMarketName());
+			preferences = new SecurePreferences("com.happydroids.droidtowers." + getDeviceOSMarketName());
 			if (!preferences.contains(DEVICE_ID)) {
 				preferences.putString(DEVICE_ID, UUID.randomUUID().toString()
 						.replaceAll("-", ""));

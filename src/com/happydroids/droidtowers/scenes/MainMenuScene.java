@@ -26,7 +26,6 @@ import com.happydroids.droidtowers.scenes.components.MainMenuButtonPanel;
 import com.happydroids.droidtowers.tween.TweenSystem;
 import com.happydroids.platform.Platform;
 import com.happydroids.security.SecurePreferences;
-import com.happydroids.server.HappyDroidService;
 
 public class MainMenuScene extends SplashScene {
 	private static final String TAG = MainMenuScene.class.getSimpleName();
@@ -42,7 +41,7 @@ public class MainMenuScene extends SplashScene {
 		Label versionLabel = FontManager.Default.makeLabel(String.format(
 				"v%s (%s, %s)", HappyDroidConsts.VERSION,
 				HappyDroidConsts.GIT_SHA.substring(0, 8),
-				HappyDroidService.getDeviceOSMarketName()));
+				TowerGameService.getDeviceOSMarketName()));
 		versionLabel.setColor(Color.LIGHT_GRAY);
 		versionLabel.setX(getStage().getWidth() - versionLabel.getWidth() - 5);
 		versionLabel

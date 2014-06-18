@@ -8,7 +8,9 @@
   <string name="crash_toast_text">Oops, an error occurred.  Please wait while we generate a report.</string>
   <string name="crash_dialog_title">Droid Towers</string>
   <string name="crash_dialog_comment_prompt">Can you describe what you were doing before the game crashed?</string>
-  <string name="crash_dialog_ok_toast">Thank you for submitting the crash report. You can now restart Droid Towers.
-  </string>
+  <string name="crash_dialog_ok_toast">Thank you for submitting the crash report. You can now restart Droid Towers.</string>
+  <string name="device_type">android</string>
+  <string name="os_market_name">google-play</string>
+  <string name="os_version">sdk:</string>
   <string name="crash_dialog_email_prompt">Your Email</string>
 </resources>

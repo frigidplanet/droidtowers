@@ -15,37 +15,32 @@ import com.happydroids.platform.AndroidBrowserUtil;
 import com.happydroids.platform.AndroidDialogOpener;
 import com.happydroids.platform.AndroidUncaughtExceptionHandler;
 import com.happydroids.platform.Platform;
-import com.happydroids.platform.PlatformConnectionMonitor;
 
 public class DroidTowersGooglePlay extends AndroidApplication {
 	private static final String TAG = DroidTowersGooglePlay.class.getSimpleName();
-	
+
 	public void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		Display.setXHDPI(metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH);
-		Display.setScaledDensity(metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? 1.5f
-				: 1f);
+		Display.setScaledDensity(metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH ? 1.5f : 1f);
 
-		TowerGameService.setDeviceType("android");
-		TowerGameService.setDeviceOSMarketName("google-play");
-		TowerGameService.setDeviceOSVersion("sdk" + getVersion());
+		TowerGameService.setDeviceType(getString(R.string.device_type));
+		TowerGameService.setDeviceOSMarketName(getString(R.string.os_market_name));
+		TowerGameService.setDeviceOSVersion(getString(R.string.os_version) + getVersion());
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useGL20 = true;
 		config.useWakelock = true;
-		
+
 		initialize(new DroidTowersGame(new Runnable() {
 			@Override
 			public void run() {
-				Platform.setDialogOpener(new AndroidDialogOpener(
-						DroidTowersGooglePlay.this));
-				Platform.setConnectionMonitor(new PlatformConnectionMonitor());
+				Platform.setDialogOpener(new AndroidDialogOpener(DroidTowersGooglePlay.this));
 				Platform.setUncaughtExceptionHandler(new AndroidUncaughtExceptionHandler());
-				Platform.setBrowserUtil(new AndroidBrowserUtil(
-						DroidTowersGooglePlay.this));
+				Platform.setBrowserUtil(new AndroidBrowserUtil(DroidTowersGooglePlay.this));
 			}
 		}), config);
 

@@ -7,10 +7,11 @@ package com.happydroids.droidtowers.gamestate.server;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.happydroids.droidtowers.TowerConsts;
+import com.happydroids.server.HappyDroidServiceObject;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TemporaryToken extends TowerGameServiceObject {
+public class TemporaryToken extends HappyDroidServiceObject {
 	private String value;
 	private String clickableUri;
 	private SessionToken session;
@@ -29,7 +30,6 @@ public class TemporaryToken extends TowerGameServiceObject {
 	}
 
 	public boolean validate() {
-		fetch(NO_OP_API_RUNNABLE);
 		return hasSessionToken();
 	}
 

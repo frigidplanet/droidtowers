@@ -5,9 +5,10 @@
 package com.happydroids.droidtowers.gamestate.server;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.happydroids.server.HappyDroidServiceObject;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class PlayerProfile extends TowerGameServiceObject {
+public class PlayerProfile extends HappyDroidServiceObject {
 	private String firstName;
 	private String lastName;
 

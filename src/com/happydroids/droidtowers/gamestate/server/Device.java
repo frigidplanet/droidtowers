@@ -6,7 +6,6 @@ package com.happydroids.droidtowers.gamestate.server;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.happydroids.HappyDroidConsts;
-import com.happydroids.server.HappyDroidService;
 import com.happydroids.server.HappyDroidServiceObject;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
@@ -21,9 +20,9 @@ public class Device extends HappyDroidServiceObject {
 
 	public Device() {
 		uuid = TowerGameService.instance().getDeviceId();
-		type = HappyDroidService.getDeviceType();
-		market = HappyDroidService.getDeviceOSMarketName();
-		osVersion = HappyDroidService.getDeviceOSVersion();
+		type = TowerGameService.getDeviceType();
+		market = TowerGameService.getDeviceOSMarketName();
+		osVersion = TowerGameService.getDeviceOSVersion();
 		appVersion = HappyDroidConsts.VERSION;
 		appVersionCode = HappyDroidConsts.VERSION_CODE;
 	}

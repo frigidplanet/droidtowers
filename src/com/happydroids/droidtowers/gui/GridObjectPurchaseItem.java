@@ -122,8 +122,7 @@ class GridObjectPurchaseItem extends Table {
 				servicedBy.add("Security Guards");
 			}
 
-			statsLine = statsLine.replace("{servicedBy}",
-					StringUtils.join(servicedBy, ", "));
+			statsLine = statsLine.replace("{servicedBy}", StringUtils.join(servicedBy.toArray(), ", ", 0, servicedBy.size()));
 		}
 
 		descriptionLabel.setText(statsLine);

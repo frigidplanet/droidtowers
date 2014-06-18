@@ -12,7 +12,6 @@ public class Platform {
 	public static Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
 	public static PlatformBrowserUtil browserUtil;
 	public static PlatformProtocolHandler protocolHandler;
-	private static PlatformConnectionMonitor connectionMonitor;
 	private static PlatformDialogOpener dialogOpener;
 
 	public static Thread.UncaughtExceptionHandler getUncaughtExceptionHandler() {
@@ -23,8 +22,7 @@ public class Platform {
 		return browserUtil;
 	}
 
-	public static void setUncaughtExceptionHandler(
-			Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
+	public static void setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
 		Platform.uncaughtExceptionHandler = uncaughtExceptionHandler;
 	}
 
@@ -32,18 +30,12 @@ public class Platform {
 		Platform.browserUtil = browserUtil;
 	}
 
-	public static void setProtocolHandler(
-			PlatformProtocolHandler protocolHandler) {
+	public static void setProtocolHandler(PlatformProtocolHandler protocolHandler) {
 		Platform.protocolHandler = protocolHandler;
 	}
 
 	public static PlatformProtocolHandler getProtocolHandler() {
 		return protocolHandler;
-	}
-
-	public static void setConnectionMonitor(
-			PlatformConnectionMonitor connectionMonitor) {
-		Platform.connectionMonitor = connectionMonitor;
 	}
 
 	public static Platforms getOSType() {
@@ -53,8 +45,7 @@ public class Platform {
 			return Platforms.Mac;
 		} else if (os.contains("win")) {
 			return Platforms.Windows;
-		} else if (os.contains("nix") || os.contains("nux")
-				|| os.contains("sun")) {
+		} else if (os.contains("nix") || os.contains("nux") || os.contains("sun")) {
 			return Platforms.Unix;
 		}
 
@@ -67,8 +58,7 @@ public class Platform {
 		String path = null;
 		switch (getOSType()) {
 		case Mac:
-			path = String.format("%s/Library/Application Support/%s", userHome,
-					appName);
+			path = String.format("%s/Library/Application Support/%s", userHome, appName);
 			break;
 		case Unix:
 			path = String.format("%s/.%s", userHome, appName);
@@ -87,8 +77,7 @@ public class Platform {
 		if (!workingDir.exists()) {
 			boolean madeDir = workingDir.mkdir();
 			if (!madeDir) {
-				throw new RuntimeException(
-						"Could not create the required local storage.");
+				throw new RuntimeException("Could not create the required local storage.");
 			}
 		}
 
@@ -99,11 +88,6 @@ public class Platform {
 		protocolHandler = null;
 		browserUtil = null;
 		uncaughtExceptionHandler = null;
-		connectionMonitor = null;
-	}
-
-	public static PlatformConnectionMonitor getConnectionMonitor() {
-		return connectionMonitor;
 	}
 
 	public static PlatformDialogOpener getDialogOpener() {

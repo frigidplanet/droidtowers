@@ -119,10 +119,9 @@ public enum Overlays {
 
 	private final Color color;
 
-	public String toString() {
-		return StringUtils.capitalize(name().substring(0,
-				name().indexOf("_LEVEL")).toLowerCase());
-	}
+	//public String toString() {
+	//	return StringUtils.capitalize(name().substring(0,name().indexOf("_LEVEL")).toLowerCase());
+	//}
 
 	public abstract Function<GridObject, Float> getMethod();
 }
