@@ -95,7 +95,8 @@ public class MainMenuScene extends SplashScene {
 		addActor(menuButtonPanel);
 
 		Tween.to(menuButtonPanel, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION)
-				.target(50 + (45 * (droidTowersLogo.getImageWidth() / droidTowersLogo.getWidth())), menuButtonPanel.getY()).ease(TweenEquations.easeInOutExpo)
+				.target(50 + (45 * (droidTowersLogo.getImageWidth() / droidTowersLogo.getWidth())), menuButtonPanel.getY())
+				.ease(TweenEquations.easeInOutExpo)
 				.start(TweenSystem.manager());
 	}
 

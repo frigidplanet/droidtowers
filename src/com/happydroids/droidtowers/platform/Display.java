@@ -7,6 +7,8 @@ package com.happydroids.droidtowers.platform;
 import com.badlogic.gdx.Gdx;
 
 public class Display {
+	private static final String TAG = Display.class.getSimpleName();
+	
 	private static float scaledDensity = 1f;
 	private static boolean xHdpiMode;
 	private static int biggestScreenDimension = -1;
@@ -16,12 +18,17 @@ public class Display {
 	private static int scaledHeight;
 
 	public static void setup() {
+		
+		Gdx.app.debug(TAG, "setting device height and width");
+		
 		actualWidth = Gdx.graphics.getWidth();
 		actualHeight = Gdx.graphics.getHeight();
 		scaledWidth = actualWidth;
 		scaledHeight = actualHeight;
 
+		//TODO move to resources file
 		if (actualWidth < 800) {
+			Gdx.app.debug(TAG, "Device width too small; using default for scale values");
 			scaledWidth = 800;
 			scaledHeight = 480;
 		}
@@ -64,12 +71,10 @@ public class Display {
 	}
 
 	public static int getWidth() {
-		// return Gdx.graphics.getWidth();
 		return scaledWidth;
 	}
 
 	public static int getHeight() {
-		// return Gdx.graphics.getHeight();
 		return scaledHeight;
 	}
 

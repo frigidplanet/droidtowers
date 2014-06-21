@@ -75,15 +75,28 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 		}
 
 		Thread.currentThread().setUncaughtExceptionHandler(Platform.getUncaughtExceptionHandler());
-
-		Gdx.app.debug("lifecycle", "create");
+		
+		// Set up the logging level based on constants file setting
+		if (TowerConsts.DEBUG) {
+			Gdx.app.debug("DEBUG", "Debug mode is enabled!");
+			Gdx.app.setLogLevel(Application.LOG_DEBUG);
+			TowerConsts.DISPLAY_DEBUG_INFO = true; //turn on debug info display
+		} else {
+			Gdx.app.setLogLevel(Application.LOG_ERROR);
+		}
+		
+		Gdx.app.debug(TAG, "Starting application");
 		Gdx.app.debug(TAG, "ApplicationType: " + Gdx.app.getType().toString());
 
+		// Set up the display sizes based on the device
+		Gdx.app.debug(TAG, "Calling display setup");
+		
 		Display.setup();
 
 		BackgroundTask.setPostExecuteManager(this);
 		BackgroundTask.setUncaughtExceptionHandler(Platform.uncaughtExceptionHandler);
 
+		//TODO Not sure why this is needed but if uncommented the game does not start...
 		TowerGameService.setInstance(new TowerGameService());
 
 		if (Gdx.graphics.isGL20Available() && Gdx.app.getType().equals(Android)) {
@@ -99,13 +112,6 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 			}
 		}
 
-		if (TowerConsts.DEBUG) {
-			Gdx.app.error("DEBUG", "Debug mode is enabled!");
-			Gdx.app.setLogLevel(Application.LOG_DEBUG);
-		} else {
-			Gdx.app.setLogLevel(Application.LOG_ERROR);
-		}
-
 		TowerAssetManager.assetManager();
 
 		ActionManager.instance().addAction(new TimeDelayedAction(1f) {
@@ -116,8 +122,11 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 			}
 		});
 
+		Gdx.app.debug(TAG, "Migrating existing save games");
 		new MigrateExistingGamesTask().run();
 
+		Gdx.app.debug(TAG, "Initializing object factories");
+		
 		NameGenerator.initialize();
 		RoomTypeFactory.instance();
 		CommercialTypeFactory.instance();
@@ -125,9 +134,8 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 		ElevatorTypeFactory.instance();
 		StairTypeFactory.instance();
 
-		if (TowerConsts.DEBUG) {
-			Gdx.app.debug("DEBUG", "Creating AchievementEngine instance.");
-		}
+		Gdx.app.debug(TAG, "Creating AchievementEngine instance");
+				
 		AchievementEngine.instance();
 		Tween.setCombinedAttributesLimit(4);
 		Tween.registerAccessor(CameraController.class, new CameraControllerAccessor());
@@ -148,6 +156,7 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 
 		Scene.setSpriteBatch(spriteBatch);
 
+		Gdx.app.debug(TAG, "Changing to MainMenuScene");
 		Gdx.app.postRunnable(new Runnable() {
 			@Override
 			public void run() {
@@ -195,7 +204,6 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 			rootUiStage.draw();
 		}
 
-		// noinspection PointlessBooleanExpression
 		if (TowerConsts.DEBUG && TowerConsts.DISPLAY_DEBUG_INFO) {
 			Table.drawDebug(SceneManager.activeScene().getStage());
 			Table.drawDebug(rootUiStage);

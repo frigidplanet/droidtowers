@@ -17,10 +17,17 @@ import com.happydroids.platform.AndroidUncaughtExceptionHandler;
 import com.happydroids.platform.Platform;
 
 public class DroidTowersGooglePlay extends AndroidApplication {
-	private static final String TAG = DroidTowersGooglePlay.class.getSimpleName();
 
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 * 
+	 * This is the start of the game and is called after DroidTowersAndroidApplication.java
+	 * See AndroidManifest.xml for call sequence
+	 */
 	public void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -34,7 +41,7 @@ public class DroidTowersGooglePlay extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useGL20 = true;
 		config.useWakelock = true;
-
+		
 		initialize(new DroidTowersGame(new Runnable() {
 			@Override
 			public void run() {

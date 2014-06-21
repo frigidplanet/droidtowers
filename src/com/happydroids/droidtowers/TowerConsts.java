@@ -17,7 +17,7 @@ public class TowerConsts {
 	public static final String HAPPYDROIDS_URI = "http://" + HAPPYDROIDS_SERVER;
 	public static final String HAPPYDROIDS_API_KEY = "f88c02844c913c20f84ea29cbabec97c10c828a8caf204de41";
 	public static final boolean DEBUG = true;
-	public static boolean DISPLAY_DEBUG_INFO = true;
+	public static boolean DISPLAY_DEBUG_INFO = false;
 	public static final long HAPPYDROIDS_PING_FREQUENCY = 180000;
 	public static final String VERSION = "1.1.26";
 	public static final int VERSION_CODE = 1126;

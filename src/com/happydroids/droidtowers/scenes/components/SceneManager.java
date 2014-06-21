@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.google.common.collect.Lists;
-import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.scenes.Scene;
 
@@ -18,10 +17,9 @@ public class SceneManager {
 	private static LinkedList<Scene> pausedScenes = Lists.newLinkedList();
 
 	public static void changeScene(Class<? extends Scene> sceneClass, Object... args) {
-		if (TowerConsts.DEBUG) {
-			System.out.println("Switching scene to: " + sceneClass.getSimpleName());
-		}
-
+		
+		Gdx.app.debug(TAG, "Switching scene to: " + sceneClass.getSimpleName());
+		
 		popScene();
 		pushScene(sceneClass, args);
 	}
@@ -47,6 +45,7 @@ public class SceneManager {
 
 	public static void popScene() {
 		if (activeScene != null) {
+			Gdx.app.debug(TAG, "removing scene: " + activeScene.getClass().getSimpleName());
 			InputSystem.instance().removeInputProcessor(activeScene.getStage());
 			activeScene.pause();
 			activeScene.dispose();

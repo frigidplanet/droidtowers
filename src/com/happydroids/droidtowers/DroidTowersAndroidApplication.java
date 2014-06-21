@@ -23,16 +23,23 @@ import com.happydroids.error.CrashReporterSave;
 
 @ReportsCrashes(formKey = "")
 public class DroidTowersAndroidApplication extends Application {
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Application#onCreate()
+	 * 
+	 * This is where the entire application starts.
+	 * 
+	 */
 	@Override
 	public void onCreate() {
 
 		/*
-		 * The following line triggers the initialization of ACRA ACRA is used
-		 * to help with debug logs etc.
+		 * The following line triggers the initialization of ACRA 
+		 * ACRA is used to help with debug logs etc.
 		 */
 
 		ACRA.init(this);
-		// ACRA.getErrorReporter().setReportSender(new RavenReportSender());
 		ACRA.getErrorReporter().setReportSender(new CrashReporterSave(this));
 
 		ACRAConfiguration conf = ACRA.getNewDefaultConfig(this);

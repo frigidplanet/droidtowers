@@ -4,9 +4,7 @@
 
 package com.happydroids.droidtowers.scenes.components;
 
-import static com.badlogic.gdx.Application.ApplicationType.Applet;
-import static com.happydroids.droidtowers.gui.FontManager.Default;
-
+import com.happydroids.droidtowers.gui.FontManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -24,10 +22,12 @@ import com.happydroids.droidtowers.platform.Display;
 
 public class MainMenuButtonPanel extends Table {
 	private static final String TAG = MainMenuButtonPanel.class.getSimpleName();
-	public static final int BUTTON_WIDTH = Display.devicePixel(280);
-	public static final int BUTTON_SPACING = Display.devicePixel(12);
+	
+	private static final int BUTTON_WIDTH = Display.devicePixel(500);
+	private static final int BUTTON_SPACING = Display.devicePixel(12);
 	private NinePatch dropShadowPatch;
 
+	//TODO move this to resources.xml file
 	public MainMenuButtonPanel() {
 		super();
 
@@ -35,19 +35,16 @@ public class MainMenuButtonPanel extends Table {
 		setBackground(TowerAssetManager.ninePatchDrawable(TowerAssetManager.WHITE_SWATCH, Color.DARK_GRAY));
 
 		pad(BUTTON_SPACING);
-
-		if (!Gdx.app.getType().equals(Applet)) {
-			padBottom(0);
-		}
+		padBottom(0);
 
 		defaults().space(BUTTON_SPACING);
 
 		row();
-		TextButton loadGameButton = Default.makeTextButton("load tower");
+		TextButton loadGameButton = FontManager.Roboto48.makeTextButton("load tower");
 		add(loadGameButton).fill().width(BUTTON_WIDTH);
 
 		row();
-		TextButton newGameButton = Default.makeTextButton("new tower");
+		TextButton newGameButton = FontManager.Roboto48.makeTextButton("new tower");
 		add(newGameButton).fill().width(BUTTON_WIDTH);
 
 		row();
@@ -55,15 +52,15 @@ public class MainMenuButtonPanel extends Table {
 		optionsAndCreditsRow.row().fill().space(BUTTON_SPACING);
 		add(optionsAndCreditsRow).width(BUTTON_WIDTH);
 
-		TextButton optionsButton = Default.makeTextButton("options");
+		TextButton optionsButton = FontManager.Roboto48.makeTextButton("options");
 		optionsAndCreditsRow.add(optionsButton).expandX();
 
-		TextButton aboutButton = Default.makeTextButton("credits");
+		TextButton aboutButton = FontManager.Roboto48.makeTextButton("credits");
 		optionsAndCreditsRow.add(aboutButton).expandX();
 
 		row();
-		row().padTop(BUTTON_SPACING);
-		TextButton exitGameButton = Default.makeTextButton("exit");
+		row().padTop(BUTTON_SPACING * 2);
+		TextButton exitGameButton = FontManager.Roboto48.makeTextButton("exit");
 		add(exitGameButton).fill().width(BUTTON_WIDTH);
 
 		exitGameButton.addListener(new VibrateClickListener() {

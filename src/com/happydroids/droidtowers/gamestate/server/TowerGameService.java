@@ -14,6 +14,7 @@ import com.happydroids.security.SecurePreferences;
 
 public class TowerGameService {
 	private static final String TAG = TowerGameService.class.getSimpleName();
+	
 	public static final String SESSION_TOKEN = "SESSION_TOKEN";
 	public static final String DEVICE_ID = "DEVICE_ID";
 

@@ -7,6 +7,7 @@ Modificiations from parent:
 - Remove robotmedia
 - Remove all unused classes
 - Upgrade ACRA to 4.5 and remove sentry/raven utils
+- Upgrade Tween to 6.3.3
 
 Original:
 -------------------------------------------------------------------------------------------

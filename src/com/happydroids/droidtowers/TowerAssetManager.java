@@ -45,6 +45,7 @@ import com.happydroids.droidtowers.platform.Display;
 
 public class TowerAssetManager {
 	private static final String TAG = TowerAssetManager.class.getSimpleName();
+	
 	private static MemoryTrackingAssetManager assetManager;
 	public static final String WHITE_SWATCH = "swatches/swatch-white.png";
 	public static final String WHITE_SWATCH_BLACK_BORDER = "swatches/swatch-white-black-border.png";
