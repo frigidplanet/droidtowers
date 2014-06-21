@@ -13,8 +13,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.eventbus.Subscribe;
-import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.TowerAssetManager;
+import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.events.AssetLoadErrorEvent;
 import com.happydroids.droidtowers.events.AssetLoadEvent;
 import com.happydroids.droidtowers.gamestate.GameSaveFactory;
@@ -50,7 +50,7 @@ public class Movie extends HappyDroidServiceObject {
 
 	@Override
 	public String getBaseResourceUri() {
-		return HappyDroidConsts.HAPPYDROIDS_URI + "/api/v1/movie/";
+		return TowerConsts.HAPPYDROIDS_URI + "/api/v1/movie/";
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class Movie extends HappyDroidServiceObject {
 
 	@Override
 	protected int getCacheMaxAge() {
-		return HappyDroidConsts.ONE_DAY;
+		return TowerConsts.ONE_DAY;
 	}
 
 	@Override
@@ -147,11 +147,11 @@ public class Movie extends HappyDroidServiceObject {
 	}
 
 	public String getAtlasPngUrl() {
-		return HappyDroidConsts.HAPPYDROIDS_URI + atlasPng;
+		return TowerConsts.HAPPYDROIDS_URI + atlasPng;
 	}
 
 	public String getAtlasTxtUrl() {
-		return HappyDroidConsts.HAPPYDROIDS_URI + atlasTxt;
+		return TowerConsts.HAPPYDROIDS_URI + atlasTxt;
 	}
 
 	public void setState(MovieState state) {

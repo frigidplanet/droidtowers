@@ -4,13 +4,13 @@
 
 package com.happydroids.platform;
 
-import com.badlogic.gdx.Gdx;
-import com.happydroids.HappyDroidConsts;
+import static com.badlogic.gdx.Application.ApplicationType.Android;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import static com.badlogic.gdx.Application.ApplicationType.Android;
+import com.badlogic.gdx.Gdx;
+import com.happydroids.droidtowers.TowerConsts;
 
 public abstract class HappyDroidUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 	protected StringBuilder generateExceptionErrorString(Throwable throwable) {
@@ -22,7 +22,7 @@ public abstract class HappyDroidUncaughtExceptionHandler implements Thread.Uncau
 			message.append("Some anonymous data about this crash has been sent to happydroids.com for analysis.\n\n");
 		}
 
-		if (HappyDroidConsts.DEBUG) {
+		if (TowerConsts.DEBUG) {
 			message.append("\n\nERROR:\n\n");
 
 			StringWriter writer = new StringWriter();

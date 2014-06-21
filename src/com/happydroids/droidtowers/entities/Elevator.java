@@ -4,16 +4,22 @@
 
 package com.happydroids.droidtowers.entities;
 
+import static com.happydroids.droidtowers.types.ResizeHandle.TOP;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.SpriteCache;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 import com.happydroids.droidtowers.TowerAssetManager;
 import com.happydroids.droidtowers.TowerConsts;
-import com.happydroids.droidtowers.actions.Action;
 import com.happydroids.droidtowers.controllers.AvatarSteeringManager;
 import com.happydroids.droidtowers.events.ElevatorHeightChangeEvent;
 import com.happydroids.droidtowers.events.GridObjectBoundsChangeEvent;
@@ -26,8 +32,6 @@ import com.happydroids.droidtowers.input.PlacementTool;
 import com.happydroids.droidtowers.math.GridPoint;
 import com.happydroids.droidtowers.types.ElevatorType;
 import com.happydroids.droidtowers.types.ResizeHandle;
-
-import static com.happydroids.droidtowers.types.ResizeHandle.TOP;
 
 public class Elevator extends Transit {
 	public static final int MAX_NUMBER_OF_CARS = 10;

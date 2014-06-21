@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.TowerAssetManager;
 import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.achievements.AchievementEngine;
@@ -79,7 +78,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
-				HappyDroidConsts.DISPLAY_DEBUG_INFO = !HappyDroidConsts.DISPLAY_DEBUG_INFO;
+				TowerConsts.DISPLAY_DEBUG_INFO = !TowerConsts.DISPLAY_DEBUG_INFO;
 			}
 		});
 		return button;

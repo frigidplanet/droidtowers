@@ -6,7 +6,7 @@ package com.happydroids.droidtowers.gamestate.actions;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.happydroids.HappyDroidConsts;
+import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.entities.Player;
 import com.happydroids.droidtowers.grid.GameGrid;
@@ -30,7 +30,7 @@ public class BudgetCalculator extends GameGridAction {
 			coinsSpentOnUpkeep += object.getUpkeepCost();
 		}
 
-		if (HappyDroidConsts.DEBUG) {
+		if (TowerConsts.DEBUG) {
 			Gdx.app.debug(TAG, String.format("Income report: %d earned, %d spent on upkeep", coinsEarnedFromRent, coinsSpentOnUpkeep));
 		}
 

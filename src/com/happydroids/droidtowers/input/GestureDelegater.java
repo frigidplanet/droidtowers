@@ -4,15 +4,14 @@
 
 package com.happydroids.droidtowers.input;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.happydroids.HappyDroidConsts;
-import com.happydroids.droidtowers.entities.GameLayer;
-import com.happydroids.droidtowers.grid.GameGrid;
-
 import java.util.List;
 
-import static com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.math.Vector2;
+import com.happydroids.droidtowers.TowerConsts;
+import com.happydroids.droidtowers.entities.GameLayer;
+import com.happydroids.droidtowers.grid.GameGrid;
 
 public class GestureDelegater implements GestureListener {
 	private ToolBase currentTool;
@@ -28,7 +27,7 @@ public class GestureDelegater implements GestureListener {
 	}
 
 	public void switchTool(OrthographicCamera camera, List<GameLayer> gameLayers, GestureTool tool, Runnable switchToolRunnable) {
-		if (HappyDroidConsts.DEBUG) {
+		if (TowerConsts.DEBUG) {
 			System.out.println("tool = " + tool);
 		}
 		if (beforeSwitchToolRunnable != null) {

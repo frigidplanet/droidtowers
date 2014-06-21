@@ -4,13 +4,13 @@
 
 package com.happydroids.droidtowers.scenes.components;
 
+import java.util.LinkedList;
+
 import com.badlogic.gdx.Gdx;
 import com.google.common.collect.Lists;
-import com.happydroids.HappyDroidConsts;
+import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.scenes.Scene;
-
-import java.util.LinkedList;
 
 public class SceneManager {
 	private static final String TAG = SceneManager.class.getSimpleName();
@@ -18,7 +18,7 @@ public class SceneManager {
 	private static LinkedList<Scene> pausedScenes = Lists.newLinkedList();
 
 	public static void changeScene(Class<? extends Scene> sceneClass, Object... args) {
-		if (HappyDroidConsts.DEBUG) {
+		if (TowerConsts.DEBUG) {
 			System.out.println("Switching scene to: " + sceneClass.getSimpleName());
 		}
 

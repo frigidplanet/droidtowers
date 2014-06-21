@@ -4,18 +4,36 @@
 
 package com.happydroids.droidtowers;
 
+import static com.badlogic.gdx.graphics.Texture.TextureFilter.Linear;
+import static com.badlogic.gdx.graphics.Texture.TextureFilter.MipMapNearestNearest;
+
+import java.io.IOException;
+import java.util.Map;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Logger;
-import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.disk.FileResolverMultiplexer;
 import com.happydroids.droidtowers.events.SafeEventBus;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
@@ -24,12 +42,6 @@ import com.happydroids.droidtowers.gui.ColorizedImageButton;
 import com.happydroids.droidtowers.gui.FontManager;
 import com.happydroids.droidtowers.pipeline.AssetList;
 import com.happydroids.droidtowers.platform.Display;
-
-import java.io.IOException;
-import java.util.Map;
-
-import static com.badlogic.gdx.graphics.Texture.TextureFilter.Linear;
-import static com.badlogic.gdx.graphics.Texture.TextureFilter.MipMapNearestNearest;
 
 public class TowerAssetManager {
 	private static final String TAG = TowerAssetManager.class.getSimpleName();
@@ -47,7 +59,7 @@ public class TowerAssetManager {
 	public static MemoryTrackingAssetManager assetManager() {
 		if (assetManager == null) {
 			assetManager = new MemoryTrackingAssetManager(new FileResolverMultiplexer());
-			if (HappyDroidConsts.DEBUG) {
+			if (TowerConsts.DEBUG) {
 				assetManager.getLogger().setLevel(Logger.ERROR);
 			}
 

@@ -5,8 +5,6 @@
 package com.happydroids.droidtowers;
 
 import static com.badlogic.gdx.Application.ApplicationType.Android;
-import static com.happydroids.HappyDroidConsts.DEBUG;
-import static com.happydroids.HappyDroidConsts.DISPLAY_DEBUG_INFO;
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Application;
@@ -101,7 +99,7 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 			}
 		}
 
-		if (DEBUG) {
+		if (TowerConsts.DEBUG) {
 			Gdx.app.error("DEBUG", "Debug mode is enabled!");
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		} else {
@@ -127,7 +125,7 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 		ElevatorTypeFactory.instance();
 		StairTypeFactory.instance();
 
-		if (DEBUG) {
+		if (TowerConsts.DEBUG) {
 			Gdx.app.debug("DEBUG", "Creating AchievementEngine instance.");
 		}
 		AchievementEngine.instance();
@@ -142,7 +140,7 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 		Gdx.input.setInputProcessor(InputSystem.instance());
 		InputSystem.instance().addInputProcessor(rootUiStage, 0);
 
-		if (DEBUG) {
+		if (TowerConsts.DEBUG) {
 			InputSystem.instance().addInputProcessor(new DebugInputAdapter(), 1000);
 		}
 
@@ -198,7 +196,7 @@ public class DroidTowersGame implements ApplicationListener, BackgroundTask.Post
 		}
 
 		// noinspection PointlessBooleanExpression
-		if (DEBUG && DISPLAY_DEBUG_INFO) {
+		if (TowerConsts.DEBUG && TowerConsts.DISPLAY_DEBUG_INFO) {
 			Table.drawDebug(SceneManager.activeScene().getStage());
 			Table.drawDebug(rootUiStage);
 

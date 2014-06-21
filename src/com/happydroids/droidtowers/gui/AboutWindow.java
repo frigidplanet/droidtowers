@@ -4,22 +4,22 @@
 
 package com.happydroids.droidtowers.gui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.Colors;
+import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.platform.Display;
 import com.happydroids.droidtowers.utils.StringUtils;
 import com.happydroids.platform.Platform;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AboutWindow extends ScrollableTowerWindow {
 	public AboutWindow(Stage stage) {
@@ -55,7 +55,7 @@ public class AboutWindow extends ScrollableTowerWindow {
 
 		addHorizontalRule(Colors.DARK_GRAY, 1, 1).padTop(Display.devicePixel(50));
 		addLabel("Device ID: " + TowerGameService.instance().getDeviceId(), FontManager.Roboto18);
-		addLabel("Game Version: " + HappyDroidConsts.VERSION + " (" + HappyDroidConsts.GIT_SHA.substring(0, 8) + ")", FontManager.Roboto18);
+		addLabel("Game Version: " + TowerConsts.VERSION + " (" + TowerConsts.GIT_SHA.substring(0, 8) + ")", FontManager.Roboto18);
 
 		row().spaceTop(Display.devicePixel(40));
 		add(FontManager.RobotoBold18.makeLabel("Software Licenses"));

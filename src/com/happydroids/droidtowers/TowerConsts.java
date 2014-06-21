@@ -8,11 +8,23 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Array;
-import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.math.GridPoint;
 
-public class TowerConsts extends HappyDroidConsts {
+public class TowerConsts {
+	
+	public static final String HAPPYDROIDS_SERVER = "local.happydroids.com";
+	public static final String HAPPYDROIDS_URI = "http://" + HAPPYDROIDS_SERVER;
+	public static final String HAPPYDROIDS_API_KEY = "f88c02844c913c20f84ea29cbabec97c10c828a8caf204de41";
+	public static final boolean DEBUG = true;
+	public static boolean DISPLAY_DEBUG_INFO = true;
+	public static final long HAPPYDROIDS_PING_FREQUENCY = 180000;
+	public static final String VERSION = "1.1.26";
+	public static final int VERSION_CODE = 1126;
+	public static final String GIT_SHA = "d0381b01a95bcec455df4157bff8a13fc1009724";
+
+	public static final int ONE_DAY = 86400;
+	
 	public static final float ONE_MEGABYTE = 1048576.0f;
 
 	public static final int GRID_UNIT_SIZE = 64;

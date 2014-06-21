@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.gui.FontManager;
@@ -38,7 +37,7 @@ public class MainMenuScene extends SplashScene {
 	public void create(Object... args) {
 		super.create(args);
 
-		Label versionLabel = FontManager.Default.makeLabel(String.format("v%s (%s, %s)", HappyDroidConsts.VERSION, HappyDroidConsts.GIT_SHA.substring(0, 8),
+		Label versionLabel = FontManager.Default.makeLabel(String.format("v%s (%s, %s)", TowerConsts.VERSION, TowerConsts.GIT_SHA.substring(0, 8),
 				TowerGameService.getDeviceOSMarketName()));
 		versionLabel.setColor(Color.LIGHT_GRAY);
 		versionLabel.setX(getStage().getWidth() - versionLabel.getWidth() - 5);

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.happydroids.HappyDroidConsts;
+import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.PROTECTED_AND_PUBLIC)
@@ -42,7 +42,7 @@ public abstract class HappyDroidServiceObject {
 
 	public void setResourceUri(String resourceUri) {
 		if (resourceUri != null && !resourceUri.startsWith("http")) {
-			resourceUri = HappyDroidConsts.HAPPYDROIDS_URI + resourceUri;
+			resourceUri = TowerConsts.HAPPYDROIDS_URI + resourceUri;
 		}
 
 		this.resourceUri = resourceUri;
