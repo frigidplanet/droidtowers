@@ -6,11 +6,12 @@ package com.happydroids.droidtowers.gui;
 
 import static java.text.NumberFormat.getNumberInstance;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
-import org.ocpsoft.pretty.time.PrettyTime;
-
+import com.aetrion.activesupport.Inflection;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -172,10 +173,13 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 		addLabelRow(metadata, towerData.getTowerName(), FontManager.RobotoBold18, Color.WHITE);
 		addLabelRow(metadata, "Population: " + getNumberInstance().format(towerData.getPlayer().getTotalPopulation()), FontManager.Default, Color.GRAY);
 		Date lastPlayed = towerData.getMetadata().lastPlayed;
-
+		
+		//Calculate days since last played for display on screen
 		if (lastPlayed != null) {
-			PrettyTime prettyTime = new PrettyTime();
-			addLabelRow(metadata, "Last played: " + prettyTime.format(lastPlayed), FontManager.Default, Color.GRAY);
+			Calendar c = Calendar.getInstance();
+			c.setTime(lastPlayed);
+			long daysSincePlay = (Calendar.getInstance().getTimeInMillis() - c.getTimeInMillis()) / 8640000;
+			addLabelRow(metadata, String.format(Locale.getDefault(), "Last played %d %s ago", daysSincePlay, (daysSincePlay > 1 ? Inflection.pluralize("day") : "day")), FontManager.Default, Color.GRAY);
 		}
 
 		Table box = new Table();
