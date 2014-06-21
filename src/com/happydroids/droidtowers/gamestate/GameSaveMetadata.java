@@ -30,7 +30,6 @@ public class GameSaveMetadata {
 		this.difficultyLevel = difficultyLevel;
 	}
 
-	@SuppressWarnings("RedundantIfStatement")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {

@@ -7,6 +7,7 @@ package com.happydroids.droidtowers.utils;
 import com.happydroids.droidtowers.TowerConsts;
 
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class StringUtils {
 	public static CharSequence formatNumber(long i) {
@@ -25,7 +26,7 @@ public class StringUtils {
 			return String.valueOf(i);
 		}
 
-		return String.format("%.1f%s", value, suffix);
+		return String.format(Locale.getDefault(), "%.1f%s", value, suffix);
 	}
 
 	public static CharSequence formatNumber(double i) {

@@ -39,7 +39,6 @@ public class GameSaveFactory {
 		}
 	}
 
-	@SuppressWarnings("PointlessBooleanExpression")
 	public static void save(GameSave gameSave, FileHandle gameFile)
 			throws IOException {
 		if (TowerConsts.DEBUG && gameSave.isSaveToDiskDisabled()) {

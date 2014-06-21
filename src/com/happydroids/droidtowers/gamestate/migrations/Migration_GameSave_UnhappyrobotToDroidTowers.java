@@ -9,9 +9,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.happydroids.droidtowers.types.GridObjectType;
 import com.happydroids.droidtowers.types.GridObjectTypeFactory;
+
 import sk.seges.acris.json.server.migrate.JacksonTransformationScript;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Migration_GameSave_UnhappyrobotToDroidTowers extends JacksonTransformationScript<ObjectNode> {
@@ -68,7 +70,7 @@ public class Migration_GameSave_UnhappyrobotToDroidTowers extends JacksonTransfo
 	}
 
 	private String transformTypeNameToTypeId(String typeName) {
-		typeName = typeName.replaceAll(" ", "-").toUpperCase();
+		typeName = typeName.replaceAll(" ", "-").toUpperCase(Locale.getDefault());
 
 		for (Map.Entry<String, String> entry : typeNameMap.entrySet()) {
 			if (entry.getKey().equalsIgnoreCase(typeName)) {

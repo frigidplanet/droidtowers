@@ -4,10 +4,13 @@
 
 package com.happydroids.droidtowers.gui;
 
+import java.util.Locale;
+
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -36,7 +39,7 @@ public class TutorialStepNotification extends Table {
 		defaults().top().left().space(Display.devicePixel(6));
 
 		row();
-		add(FontManager.Default.makeLabel(tutorialStep.getName().toUpperCase(),
+		add(FontManager.Default.makeLabel(tutorialStep.getName().toUpperCase(Locale.getDefault()),
 				Colors.ICS_BLUE));
 
 		row();
