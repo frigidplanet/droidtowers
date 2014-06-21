@@ -1,4 +1,4 @@
-package com.happydroids.droidtowers.util;
+package com.happydroids.droidtowers.utils;
 
 import android.app.Activity;
 import android.os.Build;
