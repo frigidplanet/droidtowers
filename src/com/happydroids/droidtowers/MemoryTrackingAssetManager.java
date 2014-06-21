@@ -35,20 +35,17 @@ public class MemoryTrackingAssetManager extends AssetManager {
 	private Map<String, Integer> memoryPerFile;
 	private final SafeEventBus eventBus;
 
-	public MemoryTrackingAssetManager(
-			FileResolverMultiplexer fileResolverMultiplexer) {
+	public MemoryTrackingAssetManager(FileResolverMultiplexer fileResolverMultiplexer) {
 		super(fileResolverMultiplexer);
 
 		currentMemory = 0;
 		memoryPerFile = new HashMap<String, Integer>();
-		eventBus = new SafeEventBus(
-				MemoryTrackingAssetManager.class.getSimpleName());
+		eventBus = new SafeEventBus(MemoryTrackingAssetManager.class.getSimpleName());
 
 		setErrorListener(new AssetErrorListener() {
 			@Override
 			public void error(AssetDescriptor asset, Throwable throwable) {
-				AssetLoadErrorEvent event = Pools
-						.obtain(AssetLoadErrorEvent.class);
+				AssetLoadErrorEvent event = Pools.obtain(AssetLoadErrorEvent.class);
 				event.setFileName(asset.fileName);
 				event.setType(asset.type);
 				events().post(event);
@@ -58,8 +55,7 @@ public class MemoryTrackingAssetManager extends AssetManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	private synchronized int calculateTextureSize(AssetManager assetManager,
-			String fileName) {
+	private synchronized int calculateTextureSize(AssetManager assetManager, String fileName) {
 		if (memoryPerFile.containsKey(fileName)) {
 			return memoryPerFile.get(fileName);
 		}
@@ -93,8 +89,7 @@ public class MemoryTrackingAssetManager extends AssetManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public synchronized <T> void load(String fileName, Class<T> type,
-			AssetLoaderParameters<T> parameter) {
+	public synchronized <T> void load(String fileName, Class<T> type, AssetLoaderParameters<T> parameter) {
 		if (parameter == null) {
 			parameter = makeAssetLoaderParameter(fileName, type);
 		}
@@ -102,24 +97,18 @@ public class MemoryTrackingAssetManager extends AssetManager {
 			final LoadedCallback prevCallback = parameter.loadedCallback;
 			parameter.loadedCallback = new LoadedCallback() {
 				@Override
-				public void finishedLoading(AssetManager assetManager,
-						String fileName, Class type) {
-					Gdx.app.log(
-							MemoryTrackingAssetManager.class.getSimpleName(),
-							"Loaded: " + fileName);
+				public void finishedLoading(AssetManager assetManager, String fileName, Class type) {
+					Gdx.app.log(MemoryTrackingAssetManager.class.getSimpleName(), "Loaded: " + fileName);
 
 					if (type.equals(Texture.class)) {
-						currentMemory += calculateTextureSize(assetManager,
-								fileName);
+						currentMemory += calculateTextureSize(assetManager, fileName);
 					}
 
 					if (prevCallback != null) {
-						prevCallback.finishedLoading(assetManager, fileName,
-								type);
+						prevCallback.finishedLoading(assetManager, fileName, type);
 					}
 
-					AssetLoadCompleteEvent e = Pools
-							.obtain(AssetLoadCompleteEvent.class);
+					AssetLoadCompleteEvent e = Pools.obtain(AssetLoadCompleteEvent.class);
 					e.setFileName(fileName);
 					e.setType(type);
 					eventBus.post(e);
@@ -131,8 +120,7 @@ public class MemoryTrackingAssetManager extends AssetManager {
 		super.load(fileName, type, parameter);
 	}
 
-	private <T> AssetLoaderParameters<T> makeAssetLoaderParameter(
-			String fileName, Class<T> type) {
+	private <T> AssetLoaderParameters<T> makeAssetLoaderParameter(String fileName, Class<T> type) {
 		AssetLoaderParameters<T> parameter;
 		if (type.equals(Texture.class)) {
 			parameter = (AssetLoaderParameters<T>) new TextureLoader.TextureParameter();

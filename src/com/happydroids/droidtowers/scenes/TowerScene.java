@@ -73,7 +73,7 @@ public class TowerScene extends Scene {
 	private AvatarLayer avatarLayer;
 	private StarRatingCalculator starRatingCalculator;
 	private CrimeCalculator crimeCalculator;
-	
+
 	public TowerScene() {
 		gameSaveLocation = Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY);
 	}
@@ -87,12 +87,10 @@ public class TowerScene extends Scene {
 		}
 
 		if (gameSave == null) {
-			throw new RuntimeException(
-					"Cannot load game with no GameSave passed.");
+			throw new RuntimeException("Cannot load game with no GameSave passed.");
 		}
 
-		for (GridObjectTypeFactory typeFactory : GridObjectTypeFactory
-				.allFactories()) {
+		for (GridObjectTypeFactory typeFactory : GridObjectTypeFactory.allFactories()) {
 			for (Object gridObjectType : typeFactory.all()) {
 				((GridObjectType) gridObjectType).removeLock();
 			}
@@ -104,15 +102,12 @@ public class TowerScene extends Scene {
 		gameGrid = new GameGrid(camera);
 		gameGridRenderer = gameGrid.getRenderer();
 		avatarLayer = new AvatarLayer(gameGrid);
-		gameState = new GameState(camera, cameraController, gameSaveLocation,
-				gameSave, gameGrid);
+		gameState = new GameState(camera, cameraController, gameSaveLocation, gameSave, gameGrid);
 
 		gameGrid.events().register(this);
 
-		headsUpDisplay = new HeadsUpDisplay(getStage(), getCamera(),
-				getCameraController(), gameGrid, avatarLayer,
-				AchievementEngine.instance(), TutorialEngine.instance(),
-				gameState);
+		headsUpDisplay = new HeadsUpDisplay(getStage(), getCamera(), getCameraController(), gameGrid, avatarLayer, AchievementEngine.instance(),
+				TutorialEngine.instance(), gameState);
 		weatherService = new WeatherService();
 
 		gameLayers = Lists.newArrayList();
@@ -126,33 +121,23 @@ public class TowerScene extends Scene {
 		gameLayers.add(gameGrid);
 		gameLayers.add(avatarLayer);
 
-		gestureDelegater = new GestureDelegater(camera, gameLayers, gameGrid,
-				getCameraController());
-		gestureDetector = new GestureDetector(20 * Display.getScaledDensity(),
-				0.5f, 1, 0.15f, gestureDelegater);
+		gestureDelegater = new GestureDelegater(camera, gameLayers, gameGrid, getCameraController());
+		gestureDetector = new GestureDetector(20 * Display.getScaledDensity(), 0.5f, 1, 0.15f, gestureDelegater);
 		keybindings = new DefaultKeybindings(this);
 
 		attachToInputSystem();
 
 		gameState.loadSavedGame();
 
-		populationCalculator = new PopulationCalculator(gameGrid, avatarLayer,
-				TowerConsts.ROOM_UPDATE_FREQUENCY);
-		budgetCalculator = new BudgetCalculator(gameGrid,
-				TowerConsts.PLAYER_EARNOUT_FREQUENCY);
-		employmentCalculator = new EmploymentCalculator(gameGrid,
-				TowerConsts.JOB_UPDATE_FREQUENCY);
-		desirabilityCalculator = new DesirabilityCalculator(gameGrid,
-				TowerConsts.ROOM_UPDATE_FREQUENCY);
-		starRatingCalculator = new StarRatingCalculator(gameGrid,
-				TowerConsts.ROOM_UPDATE_FREQUENCY);
-		achievementEngineCheck = new AchievementEngineCheck(gameGrid,
-				TowerConsts.ACHIEVEMENT_ENGINE_FREQUENCY);
+		populationCalculator = new PopulationCalculator(gameGrid, avatarLayer, TowerConsts.ROOM_UPDATE_FREQUENCY);
+		budgetCalculator = new BudgetCalculator(gameGrid, TowerConsts.PLAYER_EARNOUT_FREQUENCY);
+		employmentCalculator = new EmploymentCalculator(gameGrid, TowerConsts.JOB_UPDATE_FREQUENCY);
+		desirabilityCalculator = new DesirabilityCalculator(gameGrid, TowerConsts.ROOM_UPDATE_FREQUENCY);
+		starRatingCalculator = new StarRatingCalculator(gameGrid, TowerConsts.ROOM_UPDATE_FREQUENCY);
+		achievementEngineCheck = new AchievementEngineCheck(gameGrid, TowerConsts.ACHIEVEMENT_ENGINE_FREQUENCY);
 		saveAction = new GameSaveAction(gameState);
-		transportCalculator = new TransportCalculator(gameGrid,
-				TowerConsts.TRANSPORT_CALCULATOR_FREQUENCY);
-		crimeCalculator = new CrimeCalculator(gameGrid,
-				TowerConsts.CRIME_CALCULATOR_FREQUENCY);
+		transportCalculator = new TransportCalculator(gameGrid, TowerConsts.TRANSPORT_CALCULATOR_FREQUENCY);
+		crimeCalculator = new CrimeCalculator(gameGrid, TowerConsts.CRIME_CALCULATOR_FREQUENCY);
 
 		attachActions();
 
@@ -163,8 +148,7 @@ public class TowerScene extends Scene {
 		GameSoundController.runAfterInit(new Runnable() {
 			@Override
 			public void run() {
-				gameGrid.events()
-						.register(DroidTowersGame.getSoundController());
+				gameGrid.events().register(DroidTowersGame.getSoundController());
 			}
 		});
 	}
@@ -253,8 +237,7 @@ public class TowerScene extends Scene {
 		TutorialEngine.instance().resetState();
 		AchievementEngine.instance().resetState();
 
-		for (GridObjectTypeFactory typeFactory : GridObjectTypeFactory
-				.allFactories()) {
+		for (GridObjectTypeFactory typeFactory : GridObjectTypeFactory.allFactories()) {
 			for (Object o : typeFactory.all()) {
 				((GridObjectType) o).removeLock();
 			}
@@ -298,8 +281,7 @@ public class TowerScene extends Scene {
 
 		for (GameLayer gameLayer : gameLayers) {
 			if (gameLayer instanceof RespondsToWorldSizeChange) {
-				((RespondsToWorldSizeChange) gameLayer)
-						.updateWorldSize(gameGrid.getWorldSize());
+				((RespondsToWorldSizeChange) gameLayer).updateWorldSize(gameGrid.getWorldSize());
 			}
 		}
 	}

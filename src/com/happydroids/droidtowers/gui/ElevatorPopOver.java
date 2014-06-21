@@ -57,8 +57,7 @@ public class ElevatorPopOver extends GridObjectPopOver<Elevator> {
 		row();
 		add(numPassengersWaitingLabel);
 
-		row().fillX().pad(Display.devicePixel(-8))
-				.padTop(Display.devicePixel(16));
+		row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
 		add(buttonBar).expandX().minWidth(200);
 
 		pack();
@@ -68,7 +67,6 @@ public class ElevatorPopOver extends GridObjectPopOver<Elevator> {
 	protected void updateControls() {
 		numCarsLabel.setText("" + gridObject.getNumElevatorCars());
 		numRidersLabel.setText("" + gridObject.getNumRiders());
-		numPassengersWaitingLabel.setText(""
-				+ gridObject.getNumPassengersWaiting());
+		numPassengersWaitingLabel.setText("" + gridObject.getNumPassengersWaiting());
 	}
 }

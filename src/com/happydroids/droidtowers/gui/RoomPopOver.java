@@ -41,16 +41,14 @@ public class RoomPopOver extends GridObjectPopOver<Room> {
 
 		if (gridObject.hasLoanFromCousinVinnie()) {
 			ButtonBar buttonBar = new ButtonBar();
-			buttonBar.addButton("Repay loan from Vinnie",
-					new VibrateClickListener() {
-						@Override
-						public void onClick(InputEvent event, float x, float y) {
-							new CousinVinnieRepayLoanDialog(gridObject).show();
-						}
-					});
+			buttonBar.addButton("Repay loan from Vinnie", new VibrateClickListener() {
+				@Override
+				public void onClick(InputEvent event, float x, float y) {
+					new CousinVinnieRepayLoanDialog(gridObject).show();
+				}
+			});
 
-			row().fillX().pad(Display.devicePixel(-8))
-					.padTop(Display.devicePixel(16));
+			row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
 			add(buttonBar).expandX().minWidth(200);
 		}
 	}
@@ -65,13 +63,11 @@ public class RoomPopOver extends GridObjectPopOver<Room> {
 		boolean updatedLayout = false;
 
 		if (gridObject.hasResidents()) {
-			if (residentImages.getChildren().size < gridObject.getResidents()
-					.size()) {
+			if (residentImages.getChildren().size < gridObject.getResidents().size()) {
 				residentImages.clear();
 
 				for (Avatar avatar : gridObject.getResidents()) {
-					Image image = new Image(new TextureRegionDrawable(avatar),
-							Scaling.none);
+					Image image = new Image(new TextureRegionDrawable(avatar), Scaling.none);
 					image.getColor().set(avatar.getColor());
 					residentImages.add(image).width((int) avatar.getWidth());
 				}

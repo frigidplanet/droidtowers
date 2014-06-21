@@ -60,15 +60,13 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 		ratingBars = Lists.newArrayList();
 		ratingBarContainer = new Table();
 
-		InputSystem.instance().addInputProcessor(
-				new GridObjectPopOverCloser(this), 0);
+		InputSystem.instance().addInputProcessor(new GridObjectPopOverCloser(this), 0);
 
 		setTouchable(Touchable.enabled);
 		triangle = sprite(TowerAssetManager.WHITE_SWATCH_TRIANGLE_LEFT);
 		triangle.setColor(Color.DARK_GRAY);
 
-		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png",
-				Color.WHITE, 1, 1, 1, 1));
+		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png", Color.WHITE, 1, 1, 1, 1));
 		defaults().left().space(Display.devicePixel(6));
 
 		pad(Display.devicePixel(8));
@@ -82,8 +80,7 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 
 		addListener(new InputListener() {
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
 		});
@@ -95,9 +92,7 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 		add(transitLabel);
 
 		row();
-		needsDroidsLabel = Default.makeLabel("Needs "
-				+ (gridObject instanceof CommercialSpace ? "employees"
-						: "residents"), Color.RED);
+		needsDroidsLabel = Default.makeLabel("Needs " + (gridObject instanceof CommercialSpace ? "employees" : "residents"), Color.RED);
 		add(needsDroidsLabel);
 
 		row();
@@ -134,8 +129,7 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 
 	protected RatingBar makeStarRatingBar(String labelText) {
 		RatingBar ratingBar = new RatingBar(5f, 5);
-		ratingBar.setUnitLabel(FontManager.Roboto12.makeLabel(labelText,
-				Color.LIGHT_GRAY));
+		ratingBar.setUnitLabel(FontManager.Roboto12.makeLabel(labelText, Color.LIGHT_GRAY));
 		ratingBars.add(ratingBar);
 
 		return ratingBar;
@@ -143,18 +137,15 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 
 	@Override
 	protected void drawBackground(SpriteBatch batch, float parentAlpha) {
-		SceneManager.activeScene().effects()
-				.drawDropShadow(batch, parentAlpha, this);
+		SceneManager.activeScene().effects().drawDropShadow(batch, parentAlpha, this);
 
 		super.drawBackground(batch, parentAlpha);
 
 		batch.setColor(0.364f, 0.364f, 0.364f, parentAlpha);
-		batch.draw(triangle, getX() - triangle.getWidth() + 1, getY()
-				+ ((getHeight() - triangle.getHeight()) / 2) + offsetY);
+		batch.draw(triangle, getX() - triangle.getWidth() + 1, getY() + ((getHeight() - triangle.getHeight()) / 2) + offsetY);
 
 		batch.setColor(0.2666f, 0.2666f, 0.2666f, parentAlpha);
-		batch.draw(triangle, getX() - triangle.getWidth() + 2, getY()
-				+ ((getHeight() - triangle.getHeight()) / 2) + offsetY);
+		batch.draw(triangle, getX() - triangle.getWidth() + 2, getY() + ((getHeight() - triangle.getHeight()) / 2) + offsetY);
 	}
 
 	protected void updateControls() {
@@ -168,13 +159,11 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 		}
 
 		if (transitLabel != null) {
-			if (gridObject.isConnectedToTransport()
-					&& !transitLabel.getText().equals(CONNECTED_TO_TRANSIT)) {
+			if (gridObject.isConnectedToTransport() && !transitLabel.getText().equals(CONNECTED_TO_TRANSIT)) {
 				transitLabel.setText(CONNECTED_TO_TRANSIT);
 				transitLabel.setColor(Color.WHITE);
 				updatedData = true;
-			} else if (!gridObject.isConnectedToTransport()
-					&& !transitLabel.getText().equals(NOT_CONNECTED_TO_TRANSIT)) {
+			} else if (!gridObject.isConnectedToTransport() && !transitLabel.getText().equals(NOT_CONNECTED_TO_TRANSIT)) {
 				transitLabel.setText(NOT_CONNECTED_TO_TRANSIT);
 				transitLabel.setColor(Color.RED);
 				updatedData = true;
@@ -186,8 +175,7 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 				needsDroidsLabel.setVisible(true);
 				getCell(needsDroidsLabel).ignore(false);
 				updatedData = true;
-			} else if (!gridObject.needsDroids()
-					&& needsDroidsLabel.isVisible()) {
+			} else if (!gridObject.needsDroids() && needsDroidsLabel.isVisible()) {
 				needsDroidsLabel.setVisible(false);
 				getCell(needsDroidsLabel).ignore(true);
 				updatedData = true;
@@ -195,13 +183,11 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 		}
 
 		if (cousinVinniesHideout != null) {
-			if (gridObject.hasLoanFromCousinVinnie()
-					&& !cousinVinniesHideout.isVisible()) {
+			if (gridObject.hasLoanFromCousinVinnie() && !cousinVinniesHideout.isVisible()) {
 				cousinVinniesHideout.setVisible(true);
 				getCell(cousinVinniesHideout).ignore(false);
 				updatedData = true;
-			} else if (!gridObject.hasLoanFromCousinVinnie()
-					&& cousinVinniesHideout.isVisible()) {
+			} else if (!gridObject.hasLoanFromCousinVinnie() && cousinVinniesHideout.isVisible()) {
 				cousinVinniesHideout.setVisible(false);
 				getCell(cousinVinniesHideout).ignore(true);
 				updatedData = true;
@@ -209,15 +195,12 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 		}
 
 		if (incomeLabel != null) {
-			incomeLabel.setText(TowerConsts.CURRENCY_SYMBOL
-					+ StringUtils.formatNumber(gridObject.getCoinsEarned()));
+			incomeLabel.setText(TowerConsts.CURRENCY_SYMBOL + StringUtils.formatNumber(gridObject.getCoinsEarned()));
 		}
 
 		if (upkeepLabel != null) {
-			upkeepLabel.setText(TowerConsts.CURRENCY_SYMBOL
-					+ StringUtils.formatNumber(gridObject.getUpkeepCost()));
-			if (gridObject.canEarnMoney()
-					&& gridObject.getCoinsEarned() < gridObject.getUpkeepCost()) {
+			upkeepLabel.setText(TowerConsts.CURRENCY_SYMBOL + StringUtils.formatNumber(gridObject.getUpkeepCost()));
+			if (gridObject.canEarnMoney() && gridObject.getCoinsEarned() < gridObject.getUpkeepCost()) {
 				upkeepLabel.setColor(Color.RED);
 			} else {
 				upkeepLabel.setColor(Color.WHITE);
@@ -262,9 +245,7 @@ public class GridObjectPopOver<T extends GridObject> extends Table {
 			updateControls();
 		}
 
-		gridObjectWorldToScreen.set(
-				gridObject.getWorldCenter().x + triangle.getWidth(),
-				gridObject.getWorldCenter().y, 0);
+		gridObjectWorldToScreen.set(gridObject.getWorldCenter().x + triangle.getWidth(), gridObject.getWorldCenter().y, 0);
 		SceneManager.activeScene().getCamera().project(gridObjectWorldToScreen);
 		setX(gridObjectWorldToScreen.x);
 		float targetY = gridObjectWorldToScreen.y - getPrefHeight() / 2;

@@ -48,8 +48,7 @@ public class GridPosition {
 			if (gridObject instanceof Elevator) {
 				GridPoint position = gridObject.getPosition();
 				GridPoint size = gridObject.getSize();
-				if (position.x == x
-						&& (position.y == y || position.y + size.y == y)) {
+				if (position.x == x && (position.y == y || position.y + size.y == y)) {
 					return;
 				}
 
@@ -106,8 +105,7 @@ public class GridPosition {
 		int distance = 2;
 		for (int xx = x - distance; xx < x + distance; xx++) {
 			for (int yy = y - distance; yy < y + distance; yy++) {
-				if (xx < 0 || yy < 0 || xx >= gridPositions.length
-						|| yy >= gridPositions[xx].length) {
+				if (xx < 0 || yy < 0 || xx >= gridPositions.length || yy >= gridPositions[xx].length) {
 					continue;
 				}
 				if (xx == x && yy == y) {
@@ -152,12 +150,10 @@ public class GridPosition {
 		if (y != that.y) {
 			return false;
 		}
-		if (elevator != null ? !elevator.equals(that.elevator)
-				: that.elevator != null) {
+		if (elevator != null ? !elevator.equals(that.elevator) : that.elevator != null) {
 			return false;
 		}
-		if (objects != null ? !objects.equals(that.objects)
-				: that.objects != null) {
+		if (objects != null ? !objects.equals(that.objects) : that.objects != null) {
 			return false;
 		}
 		if (stair != null ? !stair.equals(that.stair) : that.stair != null) {

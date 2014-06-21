@@ -24,9 +24,7 @@ public class HappyDroidObjectMapper extends ObjectMapper {
 		happyModules.addSerializer(new StackTraceSerializer());
 		registerModule(happyModules);
 
-		setFilters(new SimpleFilterProvider().addFilter(
-				"HappyDroidServiceObject",
-				SimpleBeanPropertyFilter.serializeAllExcept("id")));
+		setFilters(new SimpleFilterProvider().addFilter("HappyDroidServiceObject", SimpleBeanPropertyFilter.serializeAllExcept("id")));
 	}
 
 	public void addSerializer(JsonSerializer serializer) {
@@ -34,8 +32,7 @@ public class HappyDroidObjectMapper extends ObjectMapper {
 		registerModule(happyModules);
 	}
 
-	public void addDeserializer(Class<Class> clazz,
-			JsonDeserializer<Class> deserializer) {
+	public void addDeserializer(Class<Class> clazz, JsonDeserializer<Class> deserializer) {
 		happyModules.addDeserializer(clazz, deserializer);
 		registerModule(happyModules);
 	}

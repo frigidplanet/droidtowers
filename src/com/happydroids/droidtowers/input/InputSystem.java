@@ -75,17 +75,14 @@ public class InputSystem extends InputAdapter {
 
 	public void switchTool(GestureTool selectedTool, Runnable switchToolRunnable) {
 		if (gestureDelegater != null) {
-			gestureDelegater.switchTool(SceneManager.activeScene().getCamera(),
-					gestureDelegater.getGameLayers(), selectedTool,
-					switchToolRunnable);
+			gestureDelegater.switchTool(SceneManager.activeScene().getCamera(), gestureDelegater.getGameLayers(), selectedTool, switchToolRunnable);
 		}
 
 		eventBus.post(new SwitchToolEvent(selectedTool));
 	}
 
 	public GestureListener getCurrentTool() {
-		return gestureDelegater != null ? gestureDelegater.getCurrentTool()
-				: null;
+		return gestureDelegater != null ? gestureDelegater.getCurrentTool() : null;
 	}
 
 	public void bind(int keyCode, InputCallback inputCallback) {
@@ -141,8 +138,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor().keyDown(keycode)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().keyDown(keycode)) {
 					return true;
 				}
 			}
@@ -156,8 +152,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor().keyTyped(character)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().keyTyped(character)) {
 					return true;
 				}
 			}
@@ -171,8 +166,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor().keyUp(keycode)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().keyUp(keycode)) {
 					return true;
 				}
 			}
@@ -185,9 +179,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor().touchDown(x, y, pointer,
-								button)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().touchDown(x, y, pointer, button)) {
 					return true;
 				}
 			}
@@ -200,9 +192,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor().touchUp(x, y, pointer,
-								button)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().touchUp(x, y, pointer, button)) {
 					return true;
 				}
 			}
@@ -216,9 +206,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor()
-								.touchDragged(x, y, pointer)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().touchDragged(x, y, pointer)) {
 					return true;
 				}
 			}
@@ -231,8 +219,7 @@ public class InputSystem extends InputAdapter {
 		if (inputProcessors != null) {
 			for (int i = 0, inputProcessorsSize = inputProcessors.size; i < inputProcessorsSize; i++) {
 				InputProcessorEntry entry = inputProcessors.get(i);
-				if (!entry.isMarkedForRemoval()
-						&& entry.getInputProcessor().scrolled(amount)) {
+				if (!entry.isMarkedForRemoval() && entry.getInputProcessor().scrolled(amount)) {
 					return true;
 				}
 			}
@@ -300,8 +287,7 @@ public class InputSystem extends InputAdapter {
 			return;
 		}
 
-		for (Map.Entry<Integer, Array<InputCallback>> entry : keyBindings
-				.entrySet()) {
+		for (Map.Entry<Integer, Array<InputCallback>> entry : keyBindings.entrySet()) {
 			for (InputCallback callback : callbacks) {
 				entry.getValue().removeValue(callback, false);
 			}

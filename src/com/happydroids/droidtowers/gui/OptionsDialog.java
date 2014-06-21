@@ -39,8 +39,7 @@ public class OptionsDialog extends Dialog {
 		super(stage);
 
 		preferences = TowerGameService.instance().getPreferences();
-		fullscreenCheckbox = FontManager.RobotoBold18
-				.makeCheckBox("Fullscreen");
+		fullscreenCheckbox = FontManager.RobotoBold18.makeCheckBox("Fullscreen");
 		fullscreenCheckbox.setChecked(Gdx.graphics.isFullscreen());
 
 		setTitle("Options");
@@ -64,8 +63,7 @@ public class OptionsDialog extends Dialog {
 	}
 
 	private CheckBox makeHapticFeedbackCheckbox() {
-		final CheckBox checkBox = FontManager.Roboto18
-				.makeCheckBox("Vibrate on touch");
+		final CheckBox checkBox = FontManager.Roboto18.makeCheckBox("Vibrate on touch");
 		checkBox.setChecked(VibrateClickListener.isVibrateEnabled());
 		checkBox.addListener(new ChangeListener() {
 			@Override
@@ -79,29 +77,25 @@ public class OptionsDialog extends Dialog {
 	}
 
 	private Slider makeMusicVolumeSlider() {
-		final Slider slider = new Slider(0f, 1f, 0.1f, false,
-				TowerAssetManager.getCustomSkin());
+		final Slider slider = new Slider(0f, 1f, 0.1f, false, TowerAssetManager.getCustomSkin());
 		slider.setValue(DroidTowersGame.getSoundController().getMusicVolume());
 		slider.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				DroidTowersGame.getSoundController().setMusicVolume(
-						slider.getValue());
+				DroidTowersGame.getSoundController().setMusicVolume(slider.getValue());
 			}
 		});
 		return slider;
 	}
 
 	private Slider makeSoundEffectsVolumeSlider() {
-		final Slider slider = new Slider(0f, 1f, 0.1f, false,
-				TowerAssetManager.getCustomSkin());
+		final Slider slider = new Slider(0f, 1f, 0.1f, false, TowerAssetManager.getCustomSkin());
 		slider.setValue(DroidTowersGame.getSoundController().getEffectsVolume());
 		slider.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				preferences.putFloat("effectsVolume", slider.getValue());
-				DroidTowersGame.getSoundController().setEffectsVolume(
-						slider.getValue());
+				DroidTowersGame.getSoundController().setEffectsVolume(slider.getValue());
 			}
 		});
 		return slider;
@@ -115,24 +109,20 @@ public class OptionsDialog extends Dialog {
 			}
 		}
 
-		displayModeList = Ordering.natural()
-				.onResultOf(new Function<Graphics.DisplayMode, Comparable>() {
-					@Override
-					public Comparable apply(@Nullable Graphics.DisplayMode input) {
-						return input.width * input.height * input.bitsPerPixel;
-					}
-				}).sortedCopy(Lists.newArrayList(displayModes));
+		displayModeList = Ordering.natural().onResultOf(new Function<Graphics.DisplayMode, Comparable>() {
+			@Override
+			public Comparable apply(@Nullable Graphics.DisplayMode input) {
+				return input.width * input.height * input.bitsPerPixel;
+			}
+		}).sortedCopy(Lists.newArrayList(displayModes));
 
 		List<String> displayModeStrings = Lists.newArrayList();
 		for (Graphics.DisplayMode displayMode : displayModeList) {
-			displayModeStrings
-					.add(displayMode.width + "x" + displayMode.height);
+			displayModeStrings.add(displayMode.width + "x" + displayMode.height);
 		}
 
-		displayResolution = new SelectBox(displayModeStrings.toArray(),
-				TowerAssetManager.getCustomSkin());
-		int currentResolution = displayModeStrings.indexOf(Display.getWidth()
-				+ "x" + Gdx.graphics.getHeight());
+		displayResolution = new SelectBox(displayModeStrings.toArray(), TowerAssetManager.getCustomSkin());
+		int currentResolution = displayModeStrings.indexOf(Display.getWidth() + "x" + Gdx.graphics.getHeight());
 		if (currentResolution > -1) {
 			displayResolution.setSelection(currentResolution);
 		}
@@ -140,8 +130,7 @@ public class OptionsDialog extends Dialog {
 		displayResolution.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				saveDisplayChanges(displayModeList.get(displayResolution
-						.getSelectionIndex()));
+				saveDisplayChanges(displayModeList.get(displayResolution.getSelectionIndex()));
 			}
 		});
 

@@ -6,12 +6,10 @@ package com.happydroids.droidtowers.input;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
-public class CameraControllerAccessor implements
-		TweenAccessor<CameraController> {
+public class CameraControllerAccessor implements TweenAccessor<CameraController> {
 	public static final int PAN = 1;
 
-	public int getValues(CameraController target, int tweenType,
-			float[] returnValues) {
+	public int getValues(CameraController target, int tweenType, float[] returnValues) {
 		switch (tweenType) {
 		case PAN:
 			returnValues[0] = target.getCamera().position.x;
@@ -22,8 +20,7 @@ public class CameraControllerAccessor implements
 		return 0;
 	}
 
-	public void setValues(CameraController target, int tweenType,
-			float[] newValues) {
+	public void setValues(CameraController target, int tweenType, float[] newValues) {
 		switch (tweenType) {
 		case PAN:
 			target.getCamera().position.set(newValues[0], newValues[1], 0f);

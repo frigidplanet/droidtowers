@@ -14,14 +14,12 @@ import java.io.IOException;
 @SuppressWarnings({ "PointlessBitwiseExpression", "NumericOverflow" })
 public class PNG {
 	public static byte[] toPNG(Pixmap pixmap) throws IOException {
-		byte[] signature = new byte[] { (byte) 137, (byte) 80, (byte) 78,
-				(byte) 71, (byte) 13, (byte) 10, (byte) 26, (byte) 10 };
+		byte[] signature = new byte[] { (byte) 137, (byte) 80, (byte) 78, (byte) 71, (byte) 13, (byte) 10, (byte) 26, (byte) 10 };
 		byte[] header = createHeaderChunk(pixmap.getWidth(), pixmap.getHeight());
 		byte[] data = createDataChunk(pixmap);
 		byte[] trailer = createTrailerChunk();
 
-		ByteArrayOutputStream png = new ByteArrayOutputStream(signature.length
-				+ header.length + data.length + trailer.length);
+		ByteArrayOutputStream png = new ByteArrayOutputStream(signature.length + header.length + data.length + trailer.length);
 		png.write(signature);
 		png.write(header);
 		png.write(data);
@@ -30,8 +28,7 @@ public class PNG {
 		return png.toByteArray();
 	}
 
-	public static byte[] createHeaderChunk(int width, int height)
-			throws IOException {
+	public static byte[] createHeaderChunk(int width, int height) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(13);
 		DataOutputStream chunk = new DataOutputStream(baos);
 		chunk.writeInt(width);
@@ -65,8 +62,7 @@ public class PNG {
 				int gg = (mask >> 8) & 0xff;
 				int bb = (mask) & 0xff;
 
-				if (rr < 0 || rr > 255 || gg < 0 || gg > 255 || bb < 0
-						|| bb > 255) {
+				if (rr < 0 || rr > 255 || gg < 0 || gg > 255 || bb < 0 || bb > 255) {
 					// break ! (assert doesn't always kick-in with the
 					// Eclipse
 					// debugger...)
@@ -151,8 +147,7 @@ class ZLIB {
 	static final int BLOCK_SIZE = 32000;
 
 	public static byte[] toZLIB(byte[] raw) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(raw.length + 6
-				+ (raw.length / BLOCK_SIZE) * 5);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(raw.length + 6 + (raw.length / BLOCK_SIZE) * 5);
 		DataOutputStream zlib = new DataOutputStream(baos);
 
 		byte tmp = (byte) 8;
@@ -162,13 +157,11 @@ class ZLIB {
 
 		int pos = 0;
 		while (raw.length - pos > BLOCK_SIZE) {
-			writeUncompressedDeflateBlock(zlib, false, raw, pos,
-					(char) BLOCK_SIZE);
+			writeUncompressedDeflateBlock(zlib, false, raw, pos, (char) BLOCK_SIZE);
 			pos += BLOCK_SIZE;
 		}
 
-		writeUncompressedDeflateBlock(zlib, true, raw, pos,
-				(char) (raw.length - pos));
+		writeUncompressedDeflateBlock(zlib, true, raw, pos, (char) (raw.length - pos));
 
 		// zlib check sum of uncompressed data
 		zlib.writeInt(calcADLER32(raw));
@@ -176,8 +169,7 @@ class ZLIB {
 		return baos.toByteArray();
 	}
 
-	private static void writeUncompressedDeflateBlock(DataOutputStream zlib,
-			boolean last, byte[] raw, int off, char len) throws IOException {
+	private static void writeUncompressedDeflateBlock(DataOutputStream zlib, boolean last, byte[] raw, int off, char len) throws IOException {
 		zlib.writeByte((byte) (last ? 1 : 0)); // Final flag, Compression type 0
 		zlib.writeByte((byte) (len & 0xFF)); // Length LSB
 		zlib.writeByte((byte) ((len & 0xFF00) >> 8)); // Length MSB

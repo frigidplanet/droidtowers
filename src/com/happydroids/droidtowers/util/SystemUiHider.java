@@ -94,8 +94,7 @@ public abstract class SystemUiHider {
 	 *            {@link #FLAG_HIDE_NAVIGATION}, and
 	 *            {@link #FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES}.
 	 */
-	public static SystemUiHider getInstance(Activity activity, View anchorView,
-			int flags) {
+	public static SystemUiHider getInstance(Activity activity, View anchorView, int flags) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			return new SystemUiHiderHoneycomb(activity, anchorView, flags);
 		} else {
@@ -145,8 +144,7 @@ public abstract class SystemUiHider {
 	 * Registers a callback, to be triggered when the system UI visibility
 	 * changes.
 	 */
-	public void setOnVisibilityChangeListener(
-			OnVisibilityChangeListener listener) {
+	public void setOnVisibilityChangeListener(OnVisibilityChangeListener listener) {
 		if (listener == null) {
 			listener = sDummyListener;
 		}

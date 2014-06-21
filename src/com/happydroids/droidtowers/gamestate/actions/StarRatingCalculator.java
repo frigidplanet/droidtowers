@@ -23,8 +23,7 @@ public class StarRatingCalculator extends GameGridAction {
 		super(gameGrid, frequency);
 
 		roomDesirability = new StatLog();
-		dubai7StarWonder = AchievementEngine.instance().findById(
-				"dubai-7-star-wonder");
+		dubai7StarWonder = AchievementEngine.instance().findById("dubai-7-star-wonder");
 		maxStars = 5f;
 	}
 
@@ -44,8 +43,7 @@ public class StarRatingCalculator extends GameGridAction {
 		float incomeRatio = 0;
 		roomDesirabilityAverage = roomDesirability.getAverage();
 		if (player.getMaxPopulation() > 0) {
-			populationFilled = player.getPopulationResidency()
-					/ (float) player.getMaxPopulation();
+			populationFilled = player.getPopulationResidency() / (float) player.getMaxPopulation();
 		}
 
 		if (player.getJobsMax() > 0) {
@@ -53,10 +51,7 @@ public class StarRatingCalculator extends GameGridAction {
 		}
 
 		if (player.getCurrentIncome() > 0) {
-			incomeRatio = (player.getCurrentIncome() - player
-					.getCurrentExpenses())
-					/ (float) (player.getCurrentIncome() + player
-							.getCurrentExpenses());
+			incomeRatio = (player.getCurrentIncome() - player.getCurrentExpenses()) / (float) (player.getCurrentIncome() + player.getCurrentExpenses());
 		}
 
 		player.setBudgetRating(incomeRatio);
@@ -64,16 +59,13 @@ public class StarRatingCalculator extends GameGridAction {
 		player.setPopulationRating(populationFilled);
 		player.setDesirabilityRating(roomDesirabilityAverage);
 
-		float compositeRating = (roomDesirabilityAverage * 0.33f)
-				+ (((populationFilled + jobsFilled) * 0.5f) * 0.33f)
-				+ (incomeRatio * 0.33f);
+		float compositeRating = (roomDesirabilityAverage * 0.33f) + (((populationFilled + jobsFilled) * 0.5f) * 0.33f) + (incomeRatio * 0.33f);
 
 		if (dubai7StarWonder.isCompleted()) {
 			maxStars = 7f;
 		}
 
-		float starRating = MathUtils.clamp(compositeRating * maxStars, 0f,
-				maxStars);
+		float starRating = MathUtils.clamp(compositeRating * maxStars, 0f, maxStars);
 		player.setStarRating(starRating);
 	}
 

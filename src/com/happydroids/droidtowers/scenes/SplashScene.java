@@ -65,8 +65,7 @@ public abstract class SplashScene extends Scene {
 	private void makeSkyGradient() {
 		Texture skyGradient = new Texture("backgrounds/splash-skygradient.png");
 		skyGradient.setFilter(Linear, Linear);
-		Image skyImage = new Image(new TextureRegionDrawable(new TextureRegion(
-				skyGradient)), Scaling.stretch);
+		Image skyImage = new Image(new TextureRegionDrawable(new TextureRegion(skyGradient)), Scaling.stretch);
 		skyImage.setWidth(getStage().getWidth() * 1.05f);
 		skyImage.setHeight(getStage().getHeight() * 1.05f);
 		skyImage.setX(-getStage().getWidth() * 0.025f);
@@ -77,15 +76,13 @@ public abstract class SplashScene extends Scene {
 	private void makeSunburst() {
 		final Sunburst sunburst = new Sunburst(getStage());
 
-		Tween.to(sunburst, WidgetAccessor.ROTATION, 5000).target(8)
-				.repeatYoyo(Tween.INFINITY, 0).start(TweenSystem.manager());
+		Tween.to(sunburst, WidgetAccessor.ROTATION, 5000).target(8).repeatYoyo(Tween.INFINITY, 0).start(TweenSystem.manager());
 
 		addActor(sunburst);
 	}
 
 	private void makeCloudLayer() {
-		cloudLayer = new SplashCloudLayer(getStage(),
-				atlas2.findRegions("cloud"));
+		cloudLayer = new SplashCloudLayer(getStage(), atlas2.findRegions("cloud"));
 		container.addActor(cloudLayer);
 	}
 
@@ -93,23 +90,15 @@ public abstract class SplashScene extends Scene {
 
 		Group cityScape = new Group();
 
-		Image cityScapeLeft = new Image(new TextureRegionDrawable(
-				atlas2.findRegion("cityscape-left")), fit, Align.bottom);
-		Image cityScapeRight = new Image(new TextureRegionDrawable(
-				atlas2.findRegion("cityscape-right")), fit, Align.bottom);
-		Image cityScapeMiddle = new Image(
-				TowerAssetManager.drawable("backgrounds/cityscape-middle.png"),
-				stretchX, Align.bottom);
-		cityScapeLeft.setWidth((int) Math.min(getStage().getWidth() * 0.33f,
-				cityScapeLeft.getImageWidth()));
-		cityScapeLeft.setHeight((int) Math.min(getStage().getHeight() * 0.33f,
-				cityScapeLeft.getImageHeight()));
+		Image cityScapeLeft = new Image(new TextureRegionDrawable(atlas2.findRegion("cityscape-left")), fit, Align.bottom);
+		Image cityScapeRight = new Image(new TextureRegionDrawable(atlas2.findRegion("cityscape-right")), fit, Align.bottom);
+		Image cityScapeMiddle = new Image(TowerAssetManager.drawable("backgrounds/cityscape-middle.png"), stretchX, Align.bottom);
+		cityScapeLeft.setWidth((int) Math.min(getStage().getWidth() * 0.33f, cityScapeLeft.getImageWidth()));
+		cityScapeLeft.setHeight((int) Math.min(getStage().getHeight() * 0.33f, cityScapeLeft.getImageHeight()));
 		cityScapeLeft.pack();
 
-		cityScapeRight.setWidth((int) Math.min(getStage().getWidth() * 0.33f,
-				cityScapeRight.getImageWidth()));
-		cityScapeRight.setHeight((int) Math.min(getStage().getHeight() * 0.33f,
-				cityScapeRight.getImageHeight()));
+		cityScapeRight.setWidth((int) Math.min(getStage().getWidth() * 0.33f, cityScapeRight.getImageWidth()));
+		cityScapeRight.setHeight((int) Math.min(getStage().getHeight() * 0.33f, cityScapeRight.getImageHeight()));
 		cityScapeRight.pack();
 
 		cityScapeRight.setX(getStage().getWidth() - cityScapeRight.getWidth());
@@ -117,8 +106,7 @@ public abstract class SplashScene extends Scene {
 		cityScapeMiddle.setWidth((int) getStage().getWidth() * 0.33f);
 		cityScapeMiddle.setHeight((int) getStage().getHeight() * 0.33f);
 		cityScapeMiddle.setX((int) cityScapeLeft.getWidth());
-		cityScapeMiddle.setWidth((int) getStage().getWidth()
-				- cityScapeLeft.getWidth() - cityScapeRight.getWidth());
+		cityScapeMiddle.setWidth((int) getStage().getWidth() - cityScapeLeft.getWidth() - cityScapeRight.getWidth());
 
 		cityScape.addActor(cityScapeLeft);
 		cityScape.addActor(cityScapeMiddle);
@@ -127,51 +115,37 @@ public abstract class SplashScene extends Scene {
 		container.addActor(cityScape);
 
 		cityScape.setY(-getStage().getHeight());
-		Tween start = Tween
-				.to(cityScape, WidgetAccessor.POSITION,
-						CAMERA_PAN_DOWN_DURATION).delay(50)
-				.target(cityScape.getX(), 0).ease(TweenEquations.easeInOutExpo)
-				.start(TweenSystem.manager());
+		Tween start = Tween.to(cityScape, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION).delay(50).target(cityScape.getX(), 0)
+				.ease(TweenEquations.easeInOutExpo).start(TweenSystem.manager());
 	}
 
 	private void makeMainBuilding(boolean animateBuildOut) {
-		Image mainBuilding = new Image(new TextureRegionDrawable(
-				atlas1.findRegion("main-building")), fit);
+		Image mainBuilding = new Image(new TextureRegionDrawable(atlas1.findRegion("main-building")), fit);
 		mainBuilding.setHeight(getStage().getHeight() * 0.85f);
 		mainBuilding.layout();
-		mainBuilding.setX(getStage().getWidth() / 2
-				- (mainBuilding.getWidth() / 2));
+		mainBuilding.setX(getStage().getWidth() / 2 - (mainBuilding.getWidth() / 2));
 		mainBuilding.setY(0);
 		container.addActor(mainBuilding);
 
 		if (animateBuildOut) {
 			mainBuilding.setY(-getStage().getHeight());
-			Tween.to(mainBuilding, WidgetAccessor.POSITION,
-					CAMERA_PAN_DOWN_DURATION).delay(50)
-					.target(mainBuilding.getX(), 0)
-					.ease(TweenEquations.easeInOutExpo)
-					.start(TweenSystem.manager());
+			Tween.to(mainBuilding, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION).delay(50).target(mainBuilding.getX(), 0)
+					.ease(TweenEquations.easeInOutExpo).start(TweenSystem.manager());
 		}
 	}
 
 	private void makeDroidTowersLogo(boolean animateBuildOut) {
 		TextureAtlas.AtlasRegion droidTowersLogoTexture = atlas2.findRegion("droid-towers-logo");
-		droidTowersLogo = new Image(new TextureRegionDrawable(
-				droidTowersLogoTexture), fit);
-		droidTowersLogo.setWidth(Math.min(getStage().getWidth() * 0.5f,
-				droidTowersLogo.getWidth()));
+		droidTowersLogo = new Image(new TextureRegionDrawable(droidTowersLogoTexture), fit);
+		droidTowersLogo.setWidth(Math.min(getStage().getWidth() * 0.5f, droidTowersLogo.getWidth()));
 		droidTowersLogo.layout();
-		droidTowersLogo.setY(getStage().getHeight()
-				- droidTowersLogo.getImageHeight() - 75);
+		droidTowersLogo.setY(getStage().getHeight() - droidTowersLogo.getImageHeight() - 75);
 		droidTowersLogo.setX(50);
 
 		if (animateBuildOut) {
 			droidTowersLogo.setX(-droidTowersLogo.getImageWidth());
-			Tween.to(droidTowersLogo, WidgetAccessor.POSITION,
-					CAMERA_PAN_DOWN_DURATION).delay(50)
-					.target(50, droidTowersLogo.getY())
-					.ease(TweenEquations.easeInOutExpo)
-					.start(TweenSystem.manager());
+			Tween.to(droidTowersLogo, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION).delay(50).target(50, droidTowersLogo.getY())
+					.ease(TweenEquations.easeInOutExpo).start(TweenSystem.manager());
 		}
 
 		container.addActor(droidTowersLogo);
@@ -184,9 +158,7 @@ public abstract class SplashScene extends Scene {
 
 		if (animateBuildOut) {
 			happyDroidImage.setY(-getStage().getHeight());
-			Tween.to(happyDroidImage, WidgetAccessor.POSITION,
-					CAMERA_PAN_DOWN_DURATION).target(happyDroidImage.getX(), 0)
-					.ease(TweenEquations.easeInOutExpo)
+			Tween.to(happyDroidImage, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION).target(happyDroidImage.getX(), 0).ease(TweenEquations.easeInOutExpo)
 					.start(TweenSystem.manager());
 		}
 
@@ -206,22 +178,17 @@ public abstract class SplashScene extends Scene {
 	@Override
 	public void render(float deltaTime) {
 		if (!createdSplashScene) {
-			if (isLoaded("backgrounds/splash1.txt")
-					&& isLoaded("backgrounds/splash1.png")
-					&& isLoaded("backgrounds/splash2.txt")
-					&& isLoaded("backgrounds/splash2.png")
-					&& isLoaded("happydroid.txt") && isLoaded("happydroid.png")
+			if (isLoaded("backgrounds/splash1.txt") && isLoaded("backgrounds/splash1.png") && isLoaded("backgrounds/splash2.txt")
+					&& isLoaded("backgrounds/splash2.png") && isLoaded("happydroid.txt") && isLoaded("happydroid.png")
 					&& isLoaded("backgrounds/cityscape-middle.png")) {
 				buildSplashScene();
 			}
 		}
 
-		if (!createdAudioControls && isLoaded("hud/buttons.txt")
-				&& DroidTowersGame.getSoundController() != null) {
+		if (!createdAudioControls && isLoaded("hud/buttons.txt") && DroidTowersGame.getSoundController() != null) {
 			createdAudioControls = true;
 
-			TextureAtlas buttonsAtlas = TowerAssetManager
-					.textureAtlas("hud/buttons.txt");
+			TextureAtlas buttonsAtlas = TowerAssetManager.textureAtlas("hud/buttons.txt");
 			AudioControl audioControl = new AudioControl(buttonsAtlas);
 
 			Table c = new Table();

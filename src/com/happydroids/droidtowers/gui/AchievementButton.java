@@ -23,17 +23,14 @@ public class AchievementButton extends ColorizedImageButton {
 	private boolean waitToAnimate;
 	private final ParticleEffect particleEffect;
 
-	public AchievementButton(TextureAtlas hudAtlas,
-			AchievementEngine achievementEngine) {
+	public AchievementButton(TextureAtlas hudAtlas, AchievementEngine achievementEngine) {
 		super(hudAtlas.findRegion("achievements"), Colors.ICS_BLUE);
 
-		activeAnimation = new Animation(ANIMATION_DURATION,
-				hudAtlas.findRegions("achievements-active"));
+		activeAnimation = new Animation(ANIMATION_DURATION, hudAtlas.findRegions("achievements-active"));
 		nextAnimationTime = 0;
 
 		particleEffect = new ParticleEffect();
-		particleEffect.load(Gdx.files.internal("particles/sparkle.p"),
-				Gdx.files.internal("particles"));
+		particleEffect.load(Gdx.files.internal("particles/sparkle.p"), Gdx.files.internal("particles"));
 
 		addListener(new VibrateClickListener() {
 			public void onClick(InputEvent event, float x, float y) {
@@ -54,8 +51,7 @@ public class AchievementButton extends ColorizedImageButton {
 				}
 			} else if (activeAnimation.isAnimationFinished(animationTime)) {
 				waitToAnimate = true;
-				nextAnimationTime = System.currentTimeMillis()
-						+ ANIMATION_DELAY;
+				nextAnimationTime = System.currentTimeMillis() + ANIMATION_DELAY;
 			}
 
 			animationTime += delta;
@@ -67,10 +63,8 @@ public class AchievementButton extends ColorizedImageButton {
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		if (AchievementEngine.instance().hasPendingAwards()) {
 			particleEffect.draw(batch);
-			batch.setColor(getColor().r, getColor().g, getColor().b,
-					getColor().a * parentAlpha);
-			batch.draw(activeAnimation.getKeyFrame(animationTime, false),
-					getX(), getY(), getWidth(), getHeight());
+			batch.setColor(getColor().r, getColor().g, getColor().b, getColor().a * parentAlpha);
+			batch.draw(activeAnimation.getKeyFrame(animationTime, false), getX(), getY(), getWidth(), getHeight());
 		} else {
 			super.draw(batch, parentAlpha);
 		}

@@ -17,13 +17,8 @@ public class ProgressDialog extends Dialog {
 	public ProgressDialog() {
 		super();
 
-		ResolutionIndependentAtlas resolutionIndependentAtlas = new ResolutionIndependentAtlas(
-				Gdx.files.internal("hud/skin.txt"));
-		Image progressSpinner = new Image(
-				new TextureRegionDrawable(
-						resolutionIndependentAtlas
-								.findRegion("progress-indeterminate")),
-				Scaling.none);
+		ResolutionIndependentAtlas resolutionIndependentAtlas = new ResolutionIndependentAtlas(Gdx.files.internal("hud/skin.txt"));
+		Image progressSpinner = new Image(new TextureRegionDrawable(resolutionIndependentAtlas.findRegion("progress-indeterminate")), Scaling.none);
 		progressSpinner.layout();
 		progressSpinner.setOriginX(progressSpinner.getImageWidth() / 2);
 		progressSpinner.setOriginY(progressSpinner.getImageHeight() / 2);
@@ -33,8 +28,6 @@ public class ProgressDialog extends Dialog {
 
 		setView(c);
 
-		Tween.to(progressSpinner, WidgetAccessor.ROTATION, 1000)
-				.target(-360.0f).repeat(Tween.INFINITY, 350)
-				.start(TweenSystem.manager());
+		Tween.to(progressSpinner, WidgetAccessor.ROTATION, 1000).target(-360.0f).repeat(Tween.INFINITY, 350).start(TweenSystem.manager());
 	}
 }

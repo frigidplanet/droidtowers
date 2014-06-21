@@ -66,7 +66,7 @@ public abstract class HappyDroidServiceObject {
 	}
 
 	public void save() {
-		return; //wasn't doing anything anyway
+		return; // wasn't doing anything anyway
 	}
 
 	private void copyValueFromField(HappyDroidServiceObject serverInstance, Field field) {

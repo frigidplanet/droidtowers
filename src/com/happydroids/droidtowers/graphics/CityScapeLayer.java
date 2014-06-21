@@ -18,16 +18,13 @@ import com.happydroids.droidtowers.platform.Display;
 
 import java.util.Iterator;
 
-public class CityScapeLayer extends GameLayer implements
-		RespondsToWorldSizeChange {
+public class CityScapeLayer extends GameLayer implements RespondsToWorldSizeChange {
 	private final Iterator<TextureAtlas.AtlasRegion> regions;
 
 	public CityScapeLayer() {
-		TextureAtlas cityScapeAtlas = TowerAssetManager
-				.textureAtlas("backgrounds/cityscape.txt");
+		TextureAtlas cityScapeAtlas = TowerAssetManager.textureAtlas("backgrounds/cityscape.txt");
 		for (Texture texture : cityScapeAtlas.getTextures()) {
-			texture.setFilter(Texture.TextureFilter.Linear,
-					Texture.TextureFilter.Linear);
+			texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}
 
 		regions = Iterables.cycle(cityScapeAtlas.getRegions()).iterator();
@@ -35,10 +32,8 @@ public class CityScapeLayer extends GameLayer implements
 
 	@Override
 	public void updateWorldSize(Vector2 worldSize) {
-		float worldWidth = worldSize.x
-				+ (Display.getBiggestScreenDimension() * 4);
-		float nextX = width() - Display.getBiggestScreenDimension()
-				- (5f * gameObjects.size);
+		float worldWidth = worldSize.x + (Display.getBiggestScreenDimension() * 4);
+		float nextX = width() - Display.getBiggestScreenDimension() - (5f * gameObjects.size);
 		while (width() - 64 < worldWidth) {
 			GameObject sprite = new GameObject(regions.next());
 			sprite.setColor(Color.WHITE);

@@ -12,8 +12,7 @@ import java.io.StringWriter;
 
 import static com.badlogic.gdx.Application.ApplicationType.Android;
 
-public abstract class HappyDroidUncaughtExceptionHandler implements
-		Thread.UncaughtExceptionHandler {
+public abstract class HappyDroidUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 	protected StringBuilder generateExceptionErrorString(Throwable throwable) {
 		StringBuilder message = new StringBuilder();
 		message.append("Wow, terribly sorry about this, but an unknown error has occurred.\n\n");

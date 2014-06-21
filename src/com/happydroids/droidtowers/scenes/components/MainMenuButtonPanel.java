@@ -31,10 +31,8 @@ public class MainMenuButtonPanel extends Table {
 	public MainMenuButtonPanel() {
 		super();
 
-		dropShadowPatch = TowerAssetManager.ninePatch(
-				"swatches/drop-shadow.png", Color.WHITE, 22, 22, 22, 22);
-		setBackground(TowerAssetManager.ninePatchDrawable(
-				TowerAssetManager.WHITE_SWATCH, Color.DARK_GRAY));
+		dropShadowPatch = TowerAssetManager.ninePatch("swatches/drop-shadow.png", Color.WHITE, 22, 22, 22, 22);
+		setBackground(TowerAssetManager.ninePatchDrawable(TowerAssetManager.WHITE_SWATCH, Color.DARK_GRAY));
 
 		pad(BUTTON_SPACING);
 
@@ -74,7 +72,7 @@ public class MainMenuButtonPanel extends Table {
 				Gdx.app.exit();
 			}
 		});
-		
+
 		optionsButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -106,14 +104,9 @@ public class MainMenuButtonPanel extends Table {
 	@Override
 	protected void drawBackground(SpriteBatch batch, float parentAlpha) {
 		if (this.dropShadowPatch != null) {
-			batch.setColor(getColor().r, getColor().g, getColor().b,
-					getColor().a * parentAlpha);
-			this.dropShadowPatch.draw(batch,
-					getX() - dropShadowPatch.getLeftWidth(), getY()
-							- dropShadowPatch.getTopHeight(),
-					getWidth() + dropShadowPatch.getRightWidth()
-							+ dropShadowPatch.getLeftWidth(), getHeight()
-							+ dropShadowPatch.getBottomHeight()
+			batch.setColor(getColor().r, getColor().g, getColor().b, getColor().a * parentAlpha);
+			this.dropShadowPatch.draw(batch, getX() - dropShadowPatch.getLeftWidth(), getY() - dropShadowPatch.getTopHeight(),
+					getWidth() + dropShadowPatch.getRightWidth() + dropShadowPatch.getLeftWidth(), getHeight() + dropShadowPatch.getBottomHeight()
 							+ dropShadowPatch.getTopHeight());
 		}
 

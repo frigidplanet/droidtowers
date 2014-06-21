@@ -65,12 +65,10 @@ public class GameSave {
 
 		this.metadata = new GameSaveMetadata(towerName, difficultyLevel);
 		player = new Player(difficultyLevel.getStartingMoney());
-		gridSize = new GridPoint(TowerConsts.GAME_GRID_START_SIZE,
-				TowerConsts.GAME_GRID_START_SIZE);
+		gridSize = new GridPoint(TowerConsts.GAME_GRID_START_SIZE, TowerConsts.GAME_GRID_START_SIZE);
 	}
 
-	public void attachToGame(GameGrid gameGrid, OrthographicCamera camera,
-			CameraController cameraController) {
+	public void attachToGame(GameGrid gameGrid, OrthographicCamera camera, CameraController cameraController) {
 		gameGrid.clearObjects();
 		gameGrid.setTowerName(metadata.towerName);
 		gameGrid.setGridSize(gridSize.x, gridSize.y);
@@ -99,15 +97,13 @@ public class GameSave {
 			HeadsUpDisplay.instance().toggleViewNeighborsButton(true);
 		}
 
-		AchievementEngine.instance().loadCompletedAchievements(
-				completedAchievements, gameGrid);
+		AchievementEngine.instance().loadCompletedAchievements(completedAchievements, gameGrid);
 		AchievementEngine.instance().checkAchievements(gameGrid);
 
 		newGame = false;
 	}
 
-	public void update(OrthographicCamera camera, GameGrid gameGrid,
-			List<String> neighbors) {
+	public void update(OrthographicCamera camera, GameGrid gameGrid, List<String> neighbors) {
 		gridSize = gameGrid.getGridSize();
 		gridObjects = Lists.newArrayList();
 
@@ -118,8 +114,7 @@ public class GameSave {
 		}
 		completedAchievements = Lists.newArrayList();
 
-		for (Achievement achievement : AchievementEngine.instance()
-				.getAchievements()) {
+		for (Achievement achievement : AchievementEngine.instance().getAchievements()) {
 			if (achievement.isCompleted() && achievement.hasGivenReward()) {
 				completedAchievements.add(achievement.getId());
 			}

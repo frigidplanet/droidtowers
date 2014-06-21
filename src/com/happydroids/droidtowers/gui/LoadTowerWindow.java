@@ -52,20 +52,19 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 				progressDialog.dismiss();
 			}
 		});
-		
+
 		loadTowerWindow = this;
-		
+
 		Gdx.app.postRunnable(new Runnable() {
-	      @Override
-	      public void run() {
-	        loadTowerWindow.buildGameSaveList();
-	      }
-	    });
+			@Override
+			public void run() {
+				loadTowerWindow.buildGameSaveList();
+			}
+		});
 	}
 
 	public void buildGameSaveList() {
-		FileHandle storage = Gdx.files
-				.external(TowerConsts.GAME_SAVE_DIRECTORY);
+		FileHandle storage = Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY);
 		FileHandle[] files = storage.list(".json");
 
 		if (files != null && files.length > 0) {
@@ -80,8 +79,7 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 		}
 
 		if (!foundSaveFile) {
-			add(FontManager.RobotoBold18
-					.makeLabel("No saved games were found on this device."));
+			add(FontManager.RobotoBold18.makeLabel("No saved games were found on this device."));
 		} else {
 			shoveContentUp();
 		}
@@ -98,15 +96,12 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 			return null;
 		}
 
-		FileHandle imageFile = Gdx.files
-				.external(TowerConsts.GAME_SAVE_DIRECTORY + gameSaveFile.name()
-						+ ".png");
+		FileHandle imageFile = Gdx.files.external(TowerConsts.GAME_SAVE_DIRECTORY + gameSaveFile.name() + ".png");
 
 		Actor imageActor = null;
 		if (imageFile.exists()) {
 			try {
-				imageActor = new Image(loadTowerImage(imageFile), Scaling.fit,
-						Align.top);
+				imageActor = new Image(loadTowerImage(imageFile), Scaling.fit, Align.top);
 			} catch (Exception ignored) {
 				imageActor = null;
 			}
@@ -117,13 +112,10 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 		}
 
 		Table fileRow = new Table();
-		fileRow.defaults().fillX().pad(Display.devicePixel(10))
-				.space(Display.devicePixel(10));
+		fileRow.defaults().fillX().pad(Display.devicePixel(10)).space(Display.devicePixel(10));
 		fileRow.row();
-		fileRow.add(imageActor).width(Display.devicePixel(64))
-				.height(Display.devicePixel(64)).center();
-		fileRow.add(makeGameFileInfoBox(fileRow, gameSaveFile, towerData))
-				.expandX().top();
+		fileRow.add(imageActor).width(Display.devicePixel(64)).height(Display.devicePixel(64)).center();
+		fileRow.add(makeGameFileInfoBox(fileRow, gameSaveFile, towerData)).expandX().top();
 		fileRow.row().fillX();
 		fileRow.add(new HorizontalRule(Color.DARK_GRAY, 2)).colspan(2);
 
@@ -136,33 +128,26 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 		return new TextureRegionDrawable(new TextureRegion(texture));
 	}
 
-	private Table makeGameFileInfoBox(final Table fileRow,
-			final FileHandle savedGameFile, GameSave towerData) {
-		TextButton launchButton = FontManager.RobotoBold18
-				.makeTextButton("Play");
+	private Table makeGameFileInfoBox(final Table fileRow, final FileHandle savedGameFile, GameSave towerData) {
+		TextButton launchButton = FontManager.RobotoBold18.makeTextButton("Play");
 		launchButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
 				dismiss();
 				try {
-					SceneManager.changeScene(LoadTowerSplashScene.class,
-							GameSaveFactory.readFile(savedGameFile));
+					SceneManager.changeScene(LoadTowerSplashScene.class, GameSaveFactory.readFile(savedGameFile));
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
 			}
 		});
 
-		TextButton deleteButton = FontManager.RobotoBold18
-				.makeTextButton("Delete");
+		TextButton deleteButton = FontManager.RobotoBold18.makeTextButton("Delete");
 		deleteButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
-				new Dialog()
-						.setTitle("Are you sure you want to delete this Tower?")
-						.setMessage(
-								"If you delete this tower, it will disappear forever.\n\nAre you sure?")
-						.addButton("Yes, delete it", new OnClickCallback() {
+				new Dialog().setTitle("Are you sure you want to delete this Tower?")
+						.setMessage("If you delete this tower, it will disappear forever.\n\nAre you sure?").addButton("Yes, delete it", new OnClickCallback() {
 							@Override
 							public void onClick(Dialog dialog) {
 								savedGameFile.delete();
@@ -184,20 +169,13 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 
 		Table metadata = new Table();
 		metadata.defaults().top().left().fillX();
-		addLabelRow(metadata, towerData.getTowerName(),
-				FontManager.RobotoBold18, Color.WHITE);
-		addLabelRow(
-				metadata,
-				"Population: "
-						+ getNumberInstance().format(
-								towerData.getPlayer().getTotalPopulation()),
-				FontManager.Default, Color.GRAY);
+		addLabelRow(metadata, towerData.getTowerName(), FontManager.RobotoBold18, Color.WHITE);
+		addLabelRow(metadata, "Population: " + getNumberInstance().format(towerData.getPlayer().getTotalPopulation()), FontManager.Default, Color.GRAY);
 		Date lastPlayed = towerData.getMetadata().lastPlayed;
+
 		if (lastPlayed != null) {
 			PrettyTime prettyTime = new PrettyTime();
-			addLabelRow(metadata,
-					"Last played: " + prettyTime.format(lastPlayed),
-					FontManager.Default, Color.GRAY);
+			addLabelRow(metadata, "Last played: " + prettyTime.format(lastPlayed), FontManager.Default, Color.GRAY);
 		}
 
 		Table box = new Table();
@@ -210,8 +188,7 @@ public class LoadTowerWindow extends ScrollableTowerWindow {
 		return box;
 	}
 
-	private void addLabelRow(Table table, String content, FontHelper font,
-			Color fontColor) {
+	private void addLabelRow(Table table, String content, FontHelper font, Color fontColor) {
 		table.row().fillX();
 		table.add(font.makeLabel(content, fontColor)).expandX();
 	}

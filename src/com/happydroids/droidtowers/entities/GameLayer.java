@@ -38,11 +38,7 @@ public class GameLayer<T extends GameObject> {
 		for (T gameObject : gameObjects) {
 			if (shouldCullObjects() && gameObject.shouldBeCulled()) {
 				tmp.set(gameObject.getX(), gameObject.getY(), 0);
-				if (camera.frustum
-						.sphereInFrustum(
-								tmp,
-								Math.max(gameObject.getWidth(),
-										gameObject.getHeight()))) {
+				if (camera.frustum.sphereInFrustum(tmp, Math.max(gameObject.getWidth(), gameObject.getHeight()))) {
 					gameObject.draw(spriteBatch);
 				}
 			} else {

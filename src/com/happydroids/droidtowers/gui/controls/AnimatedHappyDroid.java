@@ -30,9 +30,7 @@ public class AnimatedHappyDroid extends Group {
 		leftArm.setScaling(Scaling.fill);
 		leftArm.setOrigin(leftArm.getWidth() / 2, 0);
 		leftArm.setRotation(30f);
-		leftArm.addAction(forever(sequence(
-				repeat(3, sequence(rotateTo(-15f, 0.2f), rotateTo(45f, 0.2f))),
-				rotateTo(30f), delay(5f)
+		leftArm.addAction(forever(sequence(repeat(3, sequence(rotateTo(-15f, 0.2f), rotateTo(45f, 0.2f))), rotateTo(30f), delay(5f)
 
 		)));
 
@@ -45,12 +43,10 @@ public class AnimatedHappyDroid extends Group {
 		body.setScale(getScaleX(), getScaleY());
 		leftArm.setScale(getScaleX(), getScaleY());
 
-		body.setPosition(getX() + leftArm.getImageWidth() * getScaleX() * 2,
-				getY());
+		body.setPosition(getX() + leftArm.getImageWidth() * getScaleX() * 2, getY());
 		body.draw(batch, parentAlpha);
 
-		leftArm.setPosition(getX() + leftArm.getImageWidth() * getScaleX(),
-				getY() + (body.getImageHeight() * 0.7f) * getScaleY());
+		leftArm.setPosition(getX() + leftArm.getImageWidth() * getScaleX(), getY() + (body.getImageHeight() * 0.7f) * getScaleY());
 		leftArm.draw(batch, parentAlpha);
 	}
 
@@ -61,8 +57,7 @@ public class AnimatedHappyDroid extends Group {
 
 	@Override
 	public void setHeight(float height) {
-		int regionHeight = ((TextureRegionDrawable) body.getDrawable())
-				.getRegion().getRegionHeight();
+		int regionHeight = ((TextureRegionDrawable) body.getDrawable()).getRegion().getRegionHeight();
 		setScale(height / regionHeight);
 	}
 }

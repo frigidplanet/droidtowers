@@ -10,8 +10,7 @@ import com.happydroids.droidtowers.utils.Random;
 import static com.happydroids.droidtowers.ColorUtil.rgba;
 
 public enum WeatherState {
-	SUNNY(rgba("#7ab7dd"), Color.WHITE), RAINING(rgba("#374153"),
-			rgba("#111111")), SNOWING(rgba("#8b99b2"), rgba("#b8b8b8"));
+	SUNNY(rgba("#7ab7dd"), Color.WHITE), RAINING(rgba("#374153"), rgba("#111111")), SNOWING(rgba("#8b99b2"), rgba("#b8b8b8"));
 
 	public final Color skyColor;
 	public final Color cloudColor;

@@ -17,8 +17,7 @@ public class Canvas extends WidgetGroup {
 	private final CanvasTouchListener touchListener;
 
 	public Canvas() {
-		background = TowerAssetManager
-				.ninePatch(TowerAssetManager.WHITE_SWATCH);
+		background = TowerAssetManager.ninePatch(TowerAssetManager.WHITE_SWATCH);
 
 		setTouchable(Touchable.enabled);
 		touchListener = new CanvasTouchListener(this);
@@ -45,8 +44,7 @@ public class Canvas extends WidgetGroup {
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		batch.setColor(getColor());
 		float scale = getScaleX();
-		background.draw(batch, getX() * scale, getY() * scale, getWidth()
-				* scale, getHeight() * scale);
+		background.draw(batch, getX() * scale, getY() * scale, getWidth() * scale, getHeight() * scale);
 
 		super.draw(batch, parentAlpha);
 	}

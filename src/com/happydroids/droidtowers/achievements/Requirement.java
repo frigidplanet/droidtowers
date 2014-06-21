@@ -63,8 +63,7 @@ public class Requirement {
 		Scene activeScene = SceneManager.activeScene();
 		currentWeight = 0;
 		if (activeScene instanceof TowerScene) {
-			GameSave cloudGameSave = ((TowerScene) activeScene)
-					.getCurrentGameSave();
+			GameSave cloudGameSave = ((TowerScene) activeScene).getCurrentGameSave();
 			currentWeight = cloudGameSave.numNeighbors();
 
 			return currentWeight >= amount;
@@ -74,12 +73,10 @@ public class Requirement {
 
 	private boolean handleUnlockRequirement(GameGrid gameGrid) {
 		if (thing.equals(OBJECT_TYPE)) {
-			GridObjectType objectType = GridObjectTypeFactory
-					.findTypeById(thingId);
+			GridObjectType objectType = GridObjectTypeFactory.findTypeById(thingId);
 			return objectType != null && !objectType.isLocked();
 		} else if (thing.equals(ACHIEVEMENT)) {
-			Achievement achievement = AchievementEngine.instance().findById(
-					thingId);
+			Achievement achievement = AchievementEngine.instance().findById(thingId);
 			if (achievement == null) {
 				achievement = TutorialEngine.instance().findById(thingId);
 			}
@@ -95,13 +92,9 @@ public class Requirement {
 
 	private boolean handleBuildRequirement(GameGrid gameGrid) {
 		if (thing == null) {
-			throw new RuntimeException(String.format(
-					"Requirement %s does not contain 'thing' parameter.", type));
+			throw new RuntimeException(String.format("Requirement %s does not contain 'thing' parameter.", type));
 		} else if (thingProviderTypes == null && thingId == null) {
-			throw new RuntimeException(
-					String.format(
-							"Requirement %s does not contain 'thingProviderTypes' or 'thingId' parameter.",
-							type));
+			throw new RuntimeException(String.format("Requirement %s does not contain 'thingProviderTypes' or 'thingId' parameter.", type));
 		}
 
 		if (gameGrid == null) {
@@ -115,11 +108,9 @@ public class Requirement {
 			}
 
 			GridObjectType gridObjectType = gridObject.getGridObjectType();
-			if (thing.equals(PROVIDER_TYPE)
-					&& gridObjectType.provides(thingProviderTypes)) {
+			if (thing.equals(PROVIDER_TYPE) && gridObjectType.provides(thingProviderTypes)) {
 				currentWeight++;
-			} else if (thing.equals(OBJECT_TYPE)
-					&& gridObjectType.getId().equalsIgnoreCase(thingId)) {
+			} else if (thing.equals(OBJECT_TYPE) && gridObjectType.getId().equalsIgnoreCase(thingId)) {
 				currentWeight++;
 			}
 		}
@@ -129,8 +120,7 @@ public class Requirement {
 
 	@Override
 	public String toString() {
-		return "Requirement{" + "amount=" + amount + ", type=" + type
-				+ ", thing=" + thing + '}';
+		return "Requirement{" + "amount=" + amount + ", type=" + type + ", thing=" + thing + '}';
 	}
 
 	public void setAmount(int amount) {
@@ -161,28 +151,22 @@ public class Requirement {
 		String display = null;
 		switch (type) {
 		case BUILD:
-			display = "Build "
-					+ displayStringForThing(thing, amount, thingId,
-							thingProviderTypes);
+			display = "Build " + displayStringForThing(thing, amount, thingId, thingProviderTypes);
 			break;
 
 		case UNLOCK:
 			if (thing.equals(ACHIEVEMENT)) {
-				return "Complete Achievement: "
-						+ displayStringForThing(thing, amount, thingId,
-								thingProviderTypes);
+				return "Complete Achievement: " + displayStringForThing(thing, amount, thingId, thingProviderTypes);
 			}
 
 		case DESIRABILITY:
 			return "Maintain a " + amount + "% desirability rating.";
 
 		case EMPLOYMENT:
-			return "Create " + NumberFormat.getInstance().format(amount)
-					+ " Jobs";
+			return "Create " + NumberFormat.getInstance().format(amount) + " Jobs";
 
 		case POPULATION:
-			return "Attract " + NumberFormat.getInstance().format(amount)
-					+ " Residents";
+			return "Attract " + NumberFormat.getInstance().format(amount) + " Residents";
 		case HAPPYDROIDS_CONNECT:
 			return "Connect your Device to happydroids.com.";
 

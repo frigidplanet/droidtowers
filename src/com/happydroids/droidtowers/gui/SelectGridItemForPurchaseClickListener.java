@@ -16,9 +16,7 @@ class SelectGridItemForPurchaseClickListener extends VibrateClickListener {
 	private final GridObjectType gridObjectType;
 	private GridObjectPurchaseMenu gridObjectPurchaseMenu;
 
-	public SelectGridItemForPurchaseClickListener(
-			GridObjectPurchaseMenu gridObjectPurchaseMenu,
-			Runnable toolCleanupRunnable, GridObjectType gridObjectType) {
+	public SelectGridItemForPurchaseClickListener(GridObjectPurchaseMenu gridObjectPurchaseMenu, Runnable toolCleanupRunnable, GridObjectType gridObjectType) {
 		this.gridObjectPurchaseMenu = gridObjectPurchaseMenu;
 		this.toolCleanupRunnable = toolCleanupRunnable;
 		this.gridObjectType = gridObjectType;
@@ -26,17 +24,14 @@ class SelectGridItemForPurchaseClickListener extends VibrateClickListener {
 
 	@Override
 	public void onClick(InputEvent event, float x, float y) {
-		InputSystem.instance().switchTool(GestureTool.PLACEMENT,
-				toolCleanupRunnable);
+		InputSystem.instance().switchTool(GestureTool.PLACEMENT, toolCleanupRunnable);
 
-		PlacementTool placementTool = (PlacementTool) InputSystem.instance()
-				.getCurrentTool();
+		PlacementTool placementTool = (PlacementTool) InputSystem.instance().getCurrentTool();
 		placementTool.setup(gridObjectType);
 		placementTool.enterPurchaseMode();
 
 		if (gridObjectType.getId().equalsIgnoreCase("GROUND-FLOOR-LOBBY")) {
-			TutorialEngine.instance().moveToStepWhenReady(
-					"tutorial-purchased-lobby");
+			TutorialEngine.instance().moveToStepWhenReady("tutorial-purchased-lobby");
 		}
 
 		gridObjectPurchaseMenu.dismiss();

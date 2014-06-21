@@ -21,17 +21,13 @@ public class GestureDelegater implements GestureListener {
 	private final GameGrid gameGrid;
 	private final List<GameLayer> gameLayers;
 
-	public GestureDelegater(OrthographicCamera camera,
-			List<GameLayer> gameLayers, GameGrid gameGrid,
-			CameraController cameraController) {
+	public GestureDelegater(OrthographicCamera camera, List<GameLayer> gameLayers, GameGrid gameGrid, CameraController cameraController) {
 		this.gameLayers = gameLayers;
 		this.gameGrid = gameGrid;
 		this.cameraController = cameraController;
 	}
 
-	public void switchTool(OrthographicCamera camera,
-			List<GameLayer> gameLayers, GestureTool tool,
-			Runnable switchToolRunnable) {
+	public void switchTool(OrthographicCamera camera, List<GameLayer> gameLayers, GestureTool tool, Runnable switchToolRunnable) {
 		if (HappyDroidConsts.DEBUG) {
 			System.out.println("tool = " + tool);
 		}
@@ -54,30 +50,23 @@ public class GestureDelegater implements GestureListener {
 
 	// GO AWAY, DEMONS AHEAD!
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		return currentTool != null
-				&& currentTool.touchDown(x, y, pointer, button)
-				|| cameraController.touchDown(x, y, pointer);
+		return currentTool != null && currentTool.touchDown(x, y, pointer, button) || cameraController.touchDown(x, y, pointer);
 	}
 
 	public boolean tap(float x, float y, int count, int button) {
-		return currentTool != null && currentTool.tap(x, y, count, button)
-				|| cameraController.tap(x, y, count, button);
+		return currentTool != null && currentTool.tap(x, y, count, button) || cameraController.tap(x, y, count, button);
 	}
 
 	public boolean longPress(float x, float y) {
-		return currentTool != null && currentTool.longPress(x, y)
-				|| cameraController.longPress(x, y);
+		return currentTool != null && currentTool.longPress(x, y) || cameraController.longPress(x, y);
 	}
 
 	public boolean fling(float velocityX, float velocityY, int button) {
-		return currentTool != null
-				&& currentTool.fling(velocityX, velocityY, button)
-				|| cameraController.fling(velocityX, velocityY, button);
+		return currentTool != null && currentTool.fling(velocityX, velocityY, button) || cameraController.fling(velocityX, velocityY, button);
 	}
 
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		return currentTool != null && currentTool.pan(x, y, deltaX, deltaY)
-				|| cameraController.pan(x, y, deltaX, deltaY);
+		return currentTool != null && currentTool.pan(x, y, deltaX, deltaY) || cameraController.pan(x, y, deltaX, deltaY);
 	}
 
 	@Override
@@ -86,18 +75,14 @@ public class GestureDelegater implements GestureListener {
 	}
 
 	public boolean zoom(float originalDistance, float currentDistance) {
-		return currentTool != null
-				&& currentTool.zoom(originalDistance, currentDistance)
-				|| cameraController.zoom(originalDistance, currentDistance);
+		return currentTool != null && currentTool.zoom(originalDistance, currentDistance) || cameraController.zoom(originalDistance, currentDistance);
 	}
 
 	public boolean scrolled(int amount) {
-		return currentTool != null && currentTool.scrolled(amount)
-				|| cameraController.scrolled(amount);
+		return currentTool != null && currentTool.scrolled(amount) || cameraController.scrolled(amount);
 	}
 
-	public boolean pinch(Vector2 vector2, Vector2 vector21, Vector2 vector22,
-			Vector2 vector23) {
+	public boolean pinch(Vector2 vector2, Vector2 vector21, Vector2 vector22, Vector2 vector23) {
 		return false;
 	}
 

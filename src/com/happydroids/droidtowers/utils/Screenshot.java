@@ -17,14 +17,11 @@ import static com.badlogic.gdx.Application.ApplicationType.Android;
 
 public class Screenshot {
 	public static void capture() {
-		Pixmap pixmap = captureFromBuffer(0, 0, Display.getWidth(),
-				Display.getHeight(), true);
+		Pixmap pixmap = captureFromBuffer(0, 0, Display.getWidth(), Display.getHeight(), true);
 
 		try {
-			String fileName = "DroidTowers_" + System.currentTimeMillis()
-					+ ".png";
-			FileHandle storagePath = Gdx.files.external(Gdx.app.getType()
-					.equals(Android) ? "" : "Desktop/");
+			String fileName = "DroidTowers_" + System.currentTimeMillis() + ".png";
+			FileHandle storagePath = Gdx.files.external(Gdx.app.getType().equals(Android) ? "" : "Desktop/");
 			FileHandle screenShotFile = storagePath.child(fileName);
 			screenShotFile.writeBytes(PNG.toPNG(pixmap), false);
 		} catch (IOException e) {
@@ -37,8 +34,7 @@ public class Screenshot {
 
 		final Pixmap pixmap = new Pixmap(w, h, Pixmap.Format.RGBA8888);
 		ByteBuffer pixels = pixmap.getPixels();
-		Gdx.gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE,
-				pixels);
+		Gdx.gl.glReadPixels(x, y, w, h, GL10.GL_RGBA, GL10.GL_UNSIGNED_BYTE, pixels);
 
 		final int numBytes = w * h * 4;
 		byte[] lines = new byte[numBytes];

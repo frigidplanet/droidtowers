@@ -21,16 +21,14 @@ public class DefaultKeybindings {
 
 		speedUpTime = new InputCallback() {
 			public boolean run(float timeDelta) {
-				towerScene
-						.setTimeMultiplier(towerScene.getTimeMultiplier() + 0.5f);
+				towerScene.setTimeMultiplier(towerScene.getTimeMultiplier() + 0.5f);
 				return true;
 			}
 		};
 
 		slowDownTime = new InputCallback() {
 			public boolean run(float timeDelta) {
-				towerScene
-						.setTimeMultiplier(towerScene.getTimeMultiplier() - 0.5f);
+				towerScene.setTimeMultiplier(towerScene.getTimeMultiplier() - 0.5f);
 				return true;
 			}
 		};
@@ -63,18 +61,13 @@ public class DefaultKeybindings {
 	}
 
 	public void bindKeys() {
-		InputSystem.instance().bind(
-				new int[] { InputSystem.Keys.PLUS, InputSystem.Keys.UP },
-				speedUpTime);
-		InputSystem.instance().bind(
-				new int[] { InputSystem.Keys.MINUS, InputSystem.Keys.DOWN },
-				slowDownTime);
+		InputSystem.instance().bind(new int[] { InputSystem.Keys.PLUS, InputSystem.Keys.UP }, speedUpTime);
+		InputSystem.instance().bind(new int[] { InputSystem.Keys.MINUS, InputSystem.Keys.DOWN }, slowDownTime);
 
 		if (HappyDroidConsts.DEBUG) {
 			InputSystem.instance().bind(InputSystem.Keys.G, toggleGridLines);
 			InputSystem.instance().bind(InputSystem.Keys.T, toggleTransitLines);
-			InputSystem.instance()
-					.bind(InputSystem.Keys.NUM_0, resetCameraZoom);
+			InputSystem.instance().bind(InputSystem.Keys.NUM_0, resetCameraZoom);
 		}
 	}
 
@@ -82,8 +75,7 @@ public class DefaultKeybindings {
 		InputSystem.instance().unbind(speedUpTime, slowDownTime);
 
 		if (HappyDroidConsts.DEBUG) {
-			InputSystem.instance().unbind(toggleGridLines, toggleTransitLines,
-					resetCameraZoom);
+			InputSystem.instance().unbind(toggleGridLines, toggleTransitLines, resetCameraZoom);
 		}
 	}
 }

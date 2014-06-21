@@ -26,13 +26,11 @@ public class AvatarInfoRow extends Table {
 		this.avatar = avatar;
 
 		hungerBar = new ProgressBar((int) (avatar.getHungerLevel() * 100));
-		restaurantsSatsifaction = new ProgressBar(
-				(int) (avatar.getSatisfactionFood() * 100));
+		restaurantsSatsifaction = new ProgressBar((int) (avatar.getSatisfactionFood() * 100));
 		movingToLabel = FontManager.Roboto12.makeLabel("");
 
 		row().fillX().space(Display.devicePixel(8));
-		Image avatarImage = new Image(new TextureRegionDrawable(avatar),
-				Scaling.none);
+		Image avatarImage = new Image(new TextureRegionDrawable(avatar), Scaling.none);
 		avatarImage.setColor(avatar.getColor());
 		add(avatarImage);
 		add(FontManager.Default.makeLabel(avatar.getName())).expandX();
@@ -50,8 +48,7 @@ public class AvatarInfoRow extends Table {
 			timeUntilUpdate = 2f;
 
 			hungerBar.setValue((int) (avatar.getHungerLevel() * 100));
-			restaurantsSatsifaction.setValue((int) (avatar
-					.getSatisfactionFood() * 100));
+			restaurantsSatsifaction.setValue((int) (avatar.getSatisfactionFood() * 100));
 
 			GridObject target = avatar.getMovementTarget();
 			if (target != null) {

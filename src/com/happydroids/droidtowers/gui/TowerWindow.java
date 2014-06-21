@@ -28,8 +28,7 @@ import static com.happydroids.droidtowers.gui.FontManager.Roboto18;
 import static com.happydroids.droidtowers.gui.FontManager.Roboto32;
 
 public class TowerWindow {
-	private static final int[] DIALOG_CLOSE_KEYCODES = new int[] {
-			InputSystem.Keys.ESCAPE, InputSystem.Keys.BACK };
+	private static final int[] DIALOG_CLOSE_KEYCODES = new int[] { InputSystem.Keys.ESCAPE, InputSystem.Keys.BACK };
 
 	private InputCallback closeDialogCallback;
 	private Runnable dismissCallback;
@@ -63,22 +62,19 @@ public class TowerWindow {
 		wrapper.setTouchable(Touchable.enabled);
 
 		Texture texture = TowerAssetManager.texture("hud/window-bg.png");
-		texture.setFilter(Texture.TextureFilter.Linear,
-				Texture.TextureFilter.Linear);
+		texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		wrapper.setBackground(new NinePatchDrawable(new NinePatch(texture)));
 		wrapper.size((int) stage.getWidth(), (int) stage.getHeight());
 
 		titleLabel = Roboto32.makeLabel(StringUtils.truncate(title, 40));
-		closeButton = Roboto18.makeTransparentButton("< back", rgba("#007399"),
-				Colors.DARK_GRAY);
+		closeButton = Roboto18.makeTransparentButton("< back", rgba("#007399"), Colors.DARK_GRAY);
 		closeButtonLine = new VerticalRule(Display.devicePixel(2));
 
 		Table topBar = new Table();
 		topBar.row().fill();
 		topBar.add(closeButton).fill();
 		topBar.add(closeButtonLine).fillY();
-		topBar.add(titleLabel).center().left().expand()
-				.pad(Display.devicePixel(4)).padLeft(Display.devicePixel(12));
+		topBar.add(titleLabel).center().left().expand().pad(Display.devicePixel(4)).padLeft(Display.devicePixel(12));
 
 		wrapper.add(topBar).fill();
 
@@ -106,8 +102,7 @@ public class TowerWindow {
 	}
 
 	protected void padding(final int pixels) {
-		contentRow.fill().padLeft(Display.devicePixel(pixels))
-				.padRight(Display.devicePixel(pixels));
+		contentRow.fill().padLeft(Display.devicePixel(pixels)).padRight(Display.devicePixel(pixels));
 	}
 
 	protected Actor makeContentContainer() {
@@ -178,8 +173,7 @@ public class TowerWindow {
 
 	protected void unbindKeys() {
 		if (closeDialogCallback != null) {
-			InputSystem.instance().unbind(DIALOG_CLOSE_KEYCODES,
-					closeDialogCallback);
+			InputSystem.instance().unbind(DIALOG_CLOSE_KEYCODES, closeDialogCallback);
 			closeDialogCallback = null;
 		}
 	}
@@ -212,15 +206,12 @@ public class TowerWindow {
 		wrapper.pack();
 	}
 
-	protected Cell addHorizontalRule(Color darkGray, int desiredHeight,
-			int colspan) {
+	protected Cell addHorizontalRule(Color darkGray, int desiredHeight, int colspan) {
 		row().fillX();
-		return add(new HorizontalRule(darkGray, desiredHeight)).expandX()
-				.colspan(colspan);
+		return add(new HorizontalRule(darkGray, desiredHeight)).expandX().colspan(colspan);
 	}
 
-	protected Cell addLabel(String labelText, FontHelper labelFont,
-			Color fontColor) {
+	protected Cell addLabel(String labelText, FontHelper labelFont, Color fontColor) {
 		row();
 		return add(labelFont.makeLabel(labelText, fontColor));
 	}

@@ -14,8 +14,7 @@ import com.happydroids.droidtowers.grid.GameGrid;
 import java.util.List;
 
 public class PickerTool extends ToolBase {
-	public PickerTool(OrthographicCamera camera, List<GameLayer> gameLayers,
-			GameGrid gameGrid) {
+	public PickerTool(OrthographicCamera camera, List<GameLayer> gameLayers, GameGrid gameGrid) {
 		super(camera, gameLayers, gameGrid);
 	}
 
@@ -38,8 +37,7 @@ public class PickerTool extends ToolBase {
 		Vector2 deltaPoint = cameraPickRayToWorldPoint(x + -deltaX, y + deltaY);
 
 		for (GameLayer gameLayer : gameLayers) {
-			if (gameLayer.isTouchEnabled()
-					&& gameLayer.pan(worldPoint, deltaPoint)) {
+			if (gameLayer.isTouchEnabled() && gameLayer.pan(worldPoint, deltaPoint)) {
 				return true;
 			}
 		}
@@ -52,8 +50,7 @@ public class PickerTool extends ToolBase {
 		Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
 
 		for (GameLayer gameLayer : gameLayers) {
-			if (gameLayer.isTouchEnabled()
-					&& gameLayer.tap(worldPoint, count, button)) {
+			if (gameLayer.isTouchEnabled() && gameLayer.tap(worldPoint, count, button)) {
 				return true;
 			}
 		}
@@ -66,8 +63,7 @@ public class PickerTool extends ToolBase {
 		Vector2 worldPoint = cameraPickRayToWorldPoint(x, y);
 
 		for (GameLayer gameLayer : gameLayers) {
-			if (gameLayer.isTouchEnabled()
-					&& gameLayer.touchDown(worldPoint, pointer)) {
+			if (gameLayer.isTouchEnabled() && gameLayer.touchDown(worldPoint, pointer)) {
 				return true;
 			}
 		}

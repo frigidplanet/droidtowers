@@ -42,11 +42,9 @@ public enum Overlays {
 			return new Function<GridObject, Float>() {
 				public Float apply(@Nullable GridObject gridObject) {
 					if (gridObject instanceof Room) {
-						float populationMax = ((RoomType) gridObject
-								.getGridObjectType()).getPopulationMax();
+						float populationMax = ((RoomType) gridObject.getGridObjectType()).getPopulationMax();
 						if (populationMax > 0f) {
-							return ((Room) gridObject).getNumResidents()
-									/ populationMax;
+							return ((Room) gridObject).getNumResidents() / populationMax;
 						}
 					}
 
@@ -61,11 +59,9 @@ public enum Overlays {
 			return new Function<GridObject, Float>() {
 				public Float apply(@Nullable GridObject gridObject) {
 					if (gridObject instanceof CommercialSpace) {
-						float jobsProvided = ((CommercialType) gridObject
-								.getGridObjectType()).getJobsProvided();
+						float jobsProvided = ((CommercialType) gridObject.getGridObjectType()).getJobsProvided();
 						if (jobsProvided > 0f) {
-							return ((CommercialSpace) gridObject)
-									.getJobsFilled() / jobsProvided;
+							return ((CommercialSpace) gridObject).getJobsFilled() / jobsProvided;
 						}
 					}
 
@@ -93,8 +89,7 @@ public enum Overlays {
 		public Function<GridObject, Float> getMethod() {
 			return new Function<GridObject, Float>() {
 				public Float apply(@Nullable GridObject gridObject) {
-					if (gridObject instanceof CommercialSpace
-							|| gridObject instanceof HotelRoom) {
+					if (gridObject instanceof CommercialSpace || gridObject instanceof HotelRoom) {
 						return ((CommercialSpace) gridObject).getDirtLevel();
 					}
 
@@ -119,9 +114,10 @@ public enum Overlays {
 
 	private final Color color;
 
-	//public String toString() {
-	//	return StringUtils.capitalize(name().substring(0,name().indexOf("_LEVEL")).toLowerCase());
-	//}
+	// public String toString() {
+	// return
+	// StringUtils.capitalize(name().substring(0,name().indexOf("_LEVEL")).toLowerCase());
+	// }
 
 	public abstract Function<GridObject, Float> getMethod();
 }

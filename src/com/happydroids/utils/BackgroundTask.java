@@ -27,8 +27,7 @@ public abstract class BackgroundTask {
 
 	}
 
-	public static void setPostExecuteManager(
-			PostExecuteManager postExecuteManager) {
+	public static void setPostExecuteManager(PostExecuteManager postExecuteManager) {
 		BackgroundTask.postExecuteManager = postExecuteManager;
 	}
 
@@ -49,8 +48,7 @@ public abstract class BackgroundTask {
 			threadPool = Executors.newFixedThreadPool(1, new ThreadFactory() {
 				public Thread newThread(Runnable r) {
 					Thread thread = new Thread(r, "BackgroundTaskThread");
-					thread.setUncaughtExceptionHandler(Platform
-							.getUncaughtExceptionHandler());
+					thread.setUncaughtExceptionHandler(Platform.getUncaughtExceptionHandler());
 					thread.setPriority(Thread.MIN_PRIORITY);
 					thread.setDaemon(true);
 					return thread;
@@ -98,8 +96,7 @@ public abstract class BackgroundTask {
 		}
 	}
 
-	public static void setUncaughtExceptionHandler(
-			Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
+	public static void setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
 		BackgroundTask.uncaughtExceptionHandler = uncaughtExceptionHandler;
 	}
 

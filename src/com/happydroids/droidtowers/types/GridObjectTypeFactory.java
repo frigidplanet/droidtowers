@@ -27,10 +27,8 @@ public abstract class GridObjectTypeFactory<T extends GridObjectType> {
 	protected boolean parseTypesFile(FileHandle fileHandle) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			List<T> newObjectTypes = mapper.readValue(
-					fileHandle.reader(),
-					mapper.getTypeFactory().constructCollectionType(
-							ArrayList.class, gridObjectTypeClass));
+			List<T> newObjectTypes = mapper.readValue(fileHandle.reader(), mapper.getTypeFactory()
+					.constructCollectionType(ArrayList.class, gridObjectTypeClass));
 
 			if (objectTypes != null) {
 				objectTypes.addAll(newObjectTypes);
@@ -59,8 +57,7 @@ public abstract class GridObjectTypeFactory<T extends GridObjectType> {
 		return null;
 	}
 
-	public static GridObjectTypeFactory factoryForType(
-			Class<? extends GridObjectType> typeClass) {
+	public static GridObjectTypeFactory factoryForType(Class<? extends GridObjectType> typeClass) {
 		for (GridObjectTypeFactory typeFactory : typeFactories) {
 			if (typeFactory.gridObjectTypeClass.equals(typeClass)) {
 				return typeFactory;
@@ -74,8 +71,7 @@ public abstract class GridObjectTypeFactory<T extends GridObjectType> {
 		for (GridObjectTypeFactory typeFactory : typeFactories) {
 			for (Object objectType : typeFactory.all()) {
 				GridObjectType gridObjectType = (GridObjectType) objectType;
-				if (gridObjectType.getId() != null
-						&& gridObjectType.getId().equalsIgnoreCase(typeId)) {
+				if (gridObjectType.getId() != null && gridObjectType.getId().equalsIgnoreCase(typeId)) {
 					return gridObjectType;
 				}
 			}
@@ -84,8 +80,7 @@ public abstract class GridObjectTypeFactory<T extends GridObjectType> {
 		return null;
 	}
 
-	public static Set<GridObjectType> findByProviderTypeFromAnyFactory(
-			ProviderType providerType) {
+	public static Set<GridObjectType> findByProviderTypeFromAnyFactory(ProviderType providerType) {
 		Set<GridObjectType> objectTypes = Sets.newHashSet();
 
 		for (GridObjectTypeFactory typeFactory : typeFactories) {

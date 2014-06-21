@@ -50,13 +50,10 @@ public class Dialog extends Table {
 
 		buttonBar = new ButtonBar();
 
-		modalNoiseTexture = TowerAssetManager
-				.texture("swatches/modal-noise.png");
-		modalNoiseTexture.setWrap(Texture.TextureWrap.Repeat,
-				Texture.TextureWrap.Repeat);
+		modalNoiseTexture = TowerAssetManager.texture("swatches/modal-noise.png");
+		modalNoiseTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png",
-				Color.WHITE, 1, 1, 1, 1));
+		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png", Color.WHITE, 1, 1, 1, 1));
 
 		youCantTouchThis = new TouchSwallower();
 		youCantTouchThis.setWidth(getStage().getWidth());
@@ -98,8 +95,7 @@ public class Dialog extends Table {
 		addAction(Actions.fadeIn(0.25f));
 
 		if (title != null) {
-			add(FontManager.Default.makeLabel(title, Colors.ICS_BLUE)).pad(
-					Display.devicePixel(6));
+			add(FontManager.Default.makeLabel(title, Colors.ICS_BLUE)).pad(Display.devicePixel(6));
 			row().fillX();
 			add(new HorizontalRule()).expandX();
 		}
@@ -140,9 +136,7 @@ public class Dialog extends Table {
 		setY((getStage().getHeight() / 2) - (getHeight() / 2));
 
 		if (!hideButtons) {
-			InputSystem.instance()
-					.bind(new int[] { InputSystem.Keys.BACK,
-							InputSystem.Keys.ESCAPE }, dismissInputCallback);
+			InputSystem.instance().bind(new int[] { InputSystem.Keys.BACK, InputSystem.Keys.ESCAPE }, dismissInputCallback);
 		}
 
 		return this;
@@ -152,8 +146,7 @@ public class Dialog extends Table {
 	protected void drawBackground(SpriteBatch batch, float parentAlpha) {
 		drawModalNoise(batch);
 
-		SceneManager.activeScene().effects()
-				.drawDropShadow(batch, parentAlpha, this);
+		SceneManager.activeScene().effects().drawDropShadow(batch, parentAlpha, this);
 
 		batch.setColor(Color.WHITE);
 		super.drawBackground(batch, parentAlpha);
@@ -161,14 +154,11 @@ public class Dialog extends Table {
 
 	protected void drawModalNoise(SpriteBatch batch) {
 		batch.setColor(1, 1, 1, 0.45f * getColor().a);
-		batch.draw(modalNoiseTexture, 0, 0, getStage().getWidth(), getStage()
-				.getHeight(), 0, 0,
-				getStage().getWidth() / modalNoiseTexture.getWidth(),
+		batch.draw(modalNoiseTexture, 0, 0, getStage().getWidth(), getStage().getHeight(), 0, 0, getStage().getWidth() / modalNoiseTexture.getWidth(),
 				getStage().getHeight() / modalNoiseTexture.getHeight());
 	}
 
-	public Dialog addButton(String buttonText,
-			final OnClickCallback clickCallback) {
+	public Dialog addButton(String buttonText, final OnClickCallback clickCallback) {
 		return addButton(buttonText, new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -177,25 +167,21 @@ public class Dialog extends Table {
 		});
 	}
 
-	public Dialog addButton(String buttonText,
-			VibrateClickListener clickListener) {
+	public Dialog addButton(String buttonText, VibrateClickListener clickListener) {
 		buttonBar.addButton(buttonText, clickListener);
 
 		return this;
 	}
 
 	public void dismiss() {
-		InputSystem.instance().unbind(
-				new int[] { InputSystem.Keys.BACK, InputSystem.Keys.ESCAPE },
-				dismissInputCallback);
+		InputSystem.instance().unbind(new int[] { InputSystem.Keys.BACK, InputSystem.Keys.ESCAPE }, dismissInputCallback);
 
-		addAction(Actions.sequence(Actions.fadeOut(0.125f),
-				Actions.run(new Runnable() {
-					@Override
-					public void run() {
-						remove();
-					}
-				})));
+		addAction(Actions.sequence(Actions.fadeOut(0.125f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				remove();
+			}
+		})));
 
 		youCantTouchThis.remove();
 

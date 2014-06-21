@@ -62,14 +62,12 @@ public class StatusBarPanel extends Table {
 		experienceLabel = makeValueLabel("0");
 		populationLabel = makeValueLabel("0");
 		employmentLabel = makeValueLabel("0");
-		gameSpeedLabel = makeValueLabel(SceneManager.activeScene()
-				.getTimeMultiplier() + "x");
+		gameSpeedLabel = makeValueLabel(SceneManager.activeScene().getTimeMultiplier() + "x");
 		starRatingBar = new RatingBar(0, 5);
 
 		whiteSwatch = TowerAssetManager.texture(TowerAssetManager.WHITE_SWATCH);
 		backgroundTexture = TowerAssetManager.texture("hud/window-bg.png");
-		backgroundTexture.setFilter(Texture.TextureFilter.Linear,
-				Texture.TextureFilter.Linear);
+		backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		defaults();
 		center();
@@ -95,30 +93,21 @@ public class StatusBarPanel extends Table {
 		add(starRatingBar);
 
 		if (TowerConsts.ENABLE_NEWS_TICKER) {
-			row().pad(devicePixel(2)).padLeft(devicePixel(-4))
-					.padRight(devicePixel(-4));
-			add(new HorizontalRule(Colors.ICS_BLUE_SEMI_TRANSPARENT, 1))
-					.fillX().colspan(7);
+			row().pad(devicePixel(2)).padLeft(devicePixel(-4)).padRight(devicePixel(-4));
+			add(new HorizontalRule(Colors.ICS_BLUE_SEMI_TRANSPARENT, 1)).fillX().colspan(7);
 
 			row().pad(0);
 			add(new NewsTickerPanel()).colspan(7).left();
 		}
 
-		dubai7StarWonder = AchievementEngine.instance().findById(
-				"dubai-7-star-wonder");
+		dubai7StarWonder = AchievementEngine.instance().findById("dubai-7-star-wonder");
 
 		gameSpeedOverlay = new PopOver();
 		gameSpeedOverlay.alignArrow(Align.left);
-		gameSpeedOverlay.add(
-				new Image(TowerAssetManager.textureFromAtlas("snail",
-						"hud/buttons.txt"))).center();
-		gameSpeedSlider = new Slider(TowerConsts.GAME_SPEED_MIN,
-				TowerConsts.GAME_SPEED_MAX, 0.5f, false,
-				TowerAssetManager.getCustomSkin());
+		gameSpeedOverlay.add(new Image(TowerAssetManager.textureFromAtlas("snail", "hud/buttons.txt"))).center();
+		gameSpeedSlider = new Slider(TowerConsts.GAME_SPEED_MIN, TowerConsts.GAME_SPEED_MAX, 0.5f, false, TowerAssetManager.getCustomSkin());
 		gameSpeedOverlay.add(gameSpeedSlider).width(devicePixel(150));
-		gameSpeedOverlay.add(
-				new Image(TowerAssetManager.textureFromAtlas("rabbit",
-						"hud/buttons.txt"))).center();
+		gameSpeedOverlay.add(new Image(TowerAssetManager.textureFromAtlas("rabbit", "hud/buttons.txt"))).center();
 		gameSpeedOverlay.pack();
 		gameSpeedOverlay.setVisible(false);
 
@@ -189,25 +178,17 @@ public class StatusBarPanel extends Table {
 			Player player = Player.instance();
 			starRatingBar.setValue(player.getStarRating());
 
-			if (dubai7StarWonder.isCompleted()
-					&& starRatingBar.getMaxValue() == 5) {
+			if (dubai7StarWonder.isCompleted() && starRatingBar.getMaxValue() == 5) {
 				starRatingBar.setMaxValue(7);
 			}
 
 			experienceLabel.setText(formatNumber(player.getExperience()));
 
-			moneyLabel.setText(TowerConsts.CURRENCY_SYMBOL
-					+ formatNumber(player.getCoins()));
-			moneyIncomeLabel.setText(TowerConsts.CURRENCY_SYMBOL
-					+ formatNumber(player.getCurrentIncome()));
-			moneyExpensesLabel.setText(TowerConsts.CURRENCY_SYMBOL
-					+ formatNumber(player.getCurrentExpenses()));
-			populationLabel.setText(formatNumber(player
-					.getPopulationResidency())
-					+ "/"
-					+ formatNumber(player.getMaxPopulation()));
-			employmentLabel.setText(formatNumber(player.getJobsFilled()) + "/"
-					+ formatNumber(player.getJobsMax()));
+			moneyLabel.setText(TowerConsts.CURRENCY_SYMBOL + formatNumber(player.getCoins()));
+			moneyIncomeLabel.setText(TowerConsts.CURRENCY_SYMBOL + formatNumber(player.getCurrentIncome()));
+			moneyExpensesLabel.setText(TowerConsts.CURRENCY_SYMBOL + formatNumber(player.getCurrentExpenses()));
+			populationLabel.setText(formatNumber(player.getPopulationResidency()) + "/" + formatNumber(player.getMaxPopulation()));
+			employmentLabel.setText(formatNumber(player.getJobsFilled()) + "/" + formatNumber(player.getJobsMax()));
 
 			pack();
 		}
@@ -218,10 +199,8 @@ public class StatusBarPanel extends Table {
 		super.draw(batch, parentAlpha);
 
 		batch.setColor(Colors.ICS_BLUE_SEMI_TRANSPARENT);
-		batch.draw(whiteSwatch, getX(), getY() - LINE_WIDTH, getWidth(),
-				LINE_WIDTH);
-		batch.draw(whiteSwatch, getX() + getWidth(), getY() - LINE_WIDTH,
-				LINE_WIDTH, getHeight() + LINE_WIDTH * 2);
+		batch.draw(whiteSwatch, getX(), getY() - LINE_WIDTH, getWidth(), LINE_WIDTH);
+		batch.draw(whiteSwatch, getX() + getWidth(), getY() - LINE_WIDTH, LINE_WIDTH, getHeight() + LINE_WIDTH * 2);
 	}
 
 	@Override

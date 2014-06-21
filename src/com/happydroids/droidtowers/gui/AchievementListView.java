@@ -23,26 +23,23 @@ public class AchievementListView extends ScrollableTowerWindow {
 	public AchievementListView(Stage stage) {
 		super("Achievements", stage);
 
-		itemSelectBackground = TowerAssetManager.ninePatchDrawable(
-				TowerAssetManager.WHITE_SWATCH, Colors.ICS_BLUE);
+		itemSelectBackground = TowerAssetManager.ninePatchDrawable(TowerAssetManager.WHITE_SWATCH, Colors.ICS_BLUE);
 
 		defaults();
 
-		List<Achievement> achievements = AchievementEngine.instance()
-				.getAchievements();
-		List<Achievement> sortedAchievements = Ordering.natural()
-				.onResultOf(new Function<Achievement, Comparable>() {
-					@Override
-					public Comparable apply(@Nullable Achievement achievement) {
-						if (achievement.isCompleted()) {
-							return 50;
-						} else if (achievement.isLocked()) {
-							return 100;
-						}
+		List<Achievement> achievements = AchievementEngine.instance().getAchievements();
+		List<Achievement> sortedAchievements = Ordering.natural().onResultOf(new Function<Achievement, Comparable>() {
+			@Override
+			public Comparable apply(@Nullable Achievement achievement) {
+				if (achievement.isCompleted()) {
+					return 50;
+				} else if (achievement.isLocked()) {
+					return 100;
+				}
 
-						return 0;
-					}
-				}).sortedCopy(achievements);
+				return 0;
+			}
+		}).sortedCopy(achievements);
 
 		for (Achievement achievement : sortedAchievements) {
 			makeItem(achievement);
@@ -53,16 +50,14 @@ public class AchievementListView extends ScrollableTowerWindow {
 
 	public void makeItem(final Achievement achievement) {
 		row().expandX();
-		AchievementListViewItem actor = new AchievementListViewItem(this,
-				achievement, itemSelectBackground);
+		AchievementListViewItem actor = new AchievementListViewItem(this, achievement, itemSelectBackground);
 		actor.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(final InputEvent event, float x, float y) {
 				if (achievement.isCompleted() && !achievement.hasGivenReward()) {
 					dismiss();
 					achievement.giveReward();
-					AchievementEngine.instance().displayNotification(
-							achievement);
+					AchievementEngine.instance().displayNotification(achievement);
 				} else {
 					new AchievementDetailView(achievement, stage).show();
 				}

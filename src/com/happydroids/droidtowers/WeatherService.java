@@ -10,8 +10,7 @@ import com.happydroids.droidtowers.events.WeatherState;
 import com.happydroids.droidtowers.events.WeatherStateChangeEvent;
 
 public class WeatherService {
-	private EventBus eventBus = new SafeEventBus(
-			WeatherService.class.getSimpleName());
+	private EventBus eventBus = new SafeEventBus(WeatherService.class.getSimpleName());
 	private WeatherState currentWeatherState;
 	private float timeSinceChange;
 

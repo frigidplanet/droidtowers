@@ -44,8 +44,7 @@ public class Room extends GridObject {
 		if (availableDecals == null) {
 			availableDecals = Maps.newHashMap();
 
-			for (AtlasRegion region : TowerAssetManager.textureAtlas(
-					"rooms/decals.txt").getRegions()) {
+			for (AtlasRegion region : TowerAssetManager.textureAtlas("rooms/decals.txt").getRegions()) {
 				availableDecals.put(region.name, region);
 			}
 		}
@@ -66,8 +65,7 @@ public class Room extends GridObject {
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		super.render(spriteBatch, spriteCache, renderTintColor);
 		renderDecals(spriteBatch);
 	}
@@ -110,8 +108,7 @@ public class Room extends GridObject {
 	@Override
 	public int getCoinsEarned() {
 		if (getNumResidents() > 0 && isConnectedToTransport()) {
-			return Math.round(gridObjectType.getCoinsEarned()
-					* getNumResidents() * getResidencyLevel());
+			return Math.round(gridObjectType.getCoinsEarned() * getNumResidents() * getResidencyLevel());
 		}
 
 		return 0;
@@ -120,9 +117,7 @@ public class Room extends GridObject {
 	@Override
 	public float getNoiseLevel() {
 		if (((RoomType) gridObjectType).getPopulationMax() > 0) {
-			return super.getNoiseLevel()
-					* (getNumResidents() / ((RoomType) gridObjectType)
-							.getPopulationMax());
+			return super.getNoiseLevel() * (getNumResidents() / ((RoomType) gridObjectType).getPopulationMax());
 		}
 
 		return 0;
@@ -145,9 +140,7 @@ public class Room extends GridObject {
 	private float getSecurityModifier() {
 		float minDist = Float.MAX_VALUE;
 		for (GridPoint gridPoint : getGridPointsTouched()) {
-			minDist = Math
-					.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromSecurity,
-							minDist);
+			minDist = Math.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromSecurity, minDist);
 		}
 		return minDist;
 	}
@@ -170,9 +163,7 @@ public class Room extends GridObject {
 	private float getTransportModifier() {
 		float minDist = Float.MAX_VALUE;
 		for (GridPoint gridPoint : getGridPointsTouched()) {
-			minDist = Math
-					.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromTransit,
-							minDist);
+			minDist = Math.min(gameGrid.positionCache().getPosition(gridPoint).normalizedDistanceFromTransit, minDist);
 		}
 		return minDist;
 	}
@@ -192,9 +183,8 @@ public class Room extends GridObject {
 
 	@Override
 	public String toString() {
-		return "Room{" + "name=" + getName() + ", supportedResidency="
-				+ getNumSupportedResidents() + ", populationRequired="
-				+ populationRequired + ", residents=" + residents + '}';
+		return "Room{" + "name=" + getName() + ", supportedResidency=" + getNumSupportedResidents() + ", populationRequired=" + populationRequired
+				+ ", residents=" + residents + '}';
 	}
 
 	public boolean addResident(Avatar avatar) {

@@ -38,8 +38,7 @@ public class CrimeCalculator extends GameGridAction {
 
 	@Override
 	public void run() {
-		for (GridPosition[] gridPositions : gameGrid.positionCache()
-				.getPositions()) {
+		for (GridPosition[] gridPositions : gameGrid.positionCache().getPositions()) {
 			for (GridPosition gridPosition : gridPositions) {
 				gridPosition.connectedToSecurity = false;
 				gridPosition.distanceFromSecurity = 0f;
@@ -50,26 +49,22 @@ public class CrimeCalculator extends GameGridAction {
 		Array<GridObject> objects = gameGrid.getObjects();
 		for (int i = 0, objectsSize = objects.size; i < objectsSize; i++) {
 			GridObject gridObject = objects.get(i);
-			gridObject.setConnectedToSecurity(gridObject.provides(SECURITY,
-					ELEVATOR));
+			gridObject.setConnectedToSecurity(gridObject.provides(SECURITY, ELEVATOR));
 		}
 
-		Array<GridObject> instancesOf = gameGrid
-				.getInstancesOf(ServiceRoom.class);
+		Array<GridObject> instancesOf = gameGrid.getInstancesOf(ServiceRoom.class);
 		for (GridObject serviceRoom : instancesOf) {
 			if (!serviceRoom.isPlaced()) {
 				continue;
 			}
 
-			List<GridPoint> gridPointsTouched = serviceRoom
-					.getGridPointsTouched();
+			List<GridPoint> gridPointsTouched = serviceRoom.getGridPointsTouched();
 			for (int i1 = 0, gridPointsTouchedSize = gridPointsTouched.size(); i1 < gridPointsTouchedSize; i1++) {
 				GridPoint gridPoint = gridPointsTouched.get(i1);
 				int x = gridPoint.x;
 				int y = gridPoint.y;
 
-				GridPosition gridPosition = gameGrid.positionCache()
-						.getPosition(x, y);
+				GridPosition gridPosition = gameGrid.positionCache().getPosition(x, y);
 				if (gridPosition != null) {
 					gridPosition.connectedToSecurity = true;
 

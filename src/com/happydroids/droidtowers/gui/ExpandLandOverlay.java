@@ -37,8 +37,7 @@ public class ExpandLandOverlay extends WidgetGroup {
 	private Button leftButton;
 	private Button rightButton;
 
-	public ExpandLandOverlay(GameGrid gameGrid, AvatarLayer avatarLayer,
-			CameraController cameraController) {
+	public ExpandLandOverlay(GameGrid gameGrid, AvatarLayer avatarLayer, CameraController cameraController) {
 		this.gameGrid = gameGrid;
 		this.avatarLayer = avatarLayer;
 		this.cameraController = cameraController;
@@ -47,8 +46,7 @@ public class ExpandLandOverlay extends WidgetGroup {
 		leftButton = new ExpandLandButton("left");
 		leftButton.setVisible(false);
 		leftButton.setX(5);
-		leftButton
-				.setY((Gdx.graphics.getHeight() - leftButton.getHeight()) / 2);
+		leftButton.setY((Gdx.graphics.getHeight() - leftButton.getHeight()) / 2);
 		addActor(leftButton);
 
 		rightButton = new ExpandLandButton("right");
@@ -78,8 +76,7 @@ public class ExpandLandOverlay extends WidgetGroup {
 		gameGrid.updateWorldSize(false);
 
 		for (GridObject gridObject : gameGrid.getObjects()) {
-			GridObjectBoundsChangeEvent event = Pools
-					.obtain(GridObjectBoundsChangeEvent.class);
+			GridObjectBoundsChangeEvent event = Pools.obtain(GridObjectBoundsChangeEvent.class);
 			event.setGridObject(gridObject);
 
 			gridObject.setPosition(gridObject.getPosition());
@@ -88,8 +85,7 @@ public class ExpandLandOverlay extends WidgetGroup {
 			Pools.free(event);
 		}
 
-		cameraController.panTo(gameGrid.getWorldSize().x,
-				cameraController.getCamera().position.y, true);
+		cameraController.panTo(gameGrid.getWorldSize().x, cameraController.getCamera().position.y, true);
 		gameGrid.events().register(DroidTowersGame.getSoundController());
 	}
 
@@ -100,18 +96,15 @@ public class ExpandLandOverlay extends WidgetGroup {
 
 		for (GridObject gridObject : gameGrid.getObjects()) {
 			GridPoint position = gridObject.getPosition();
-			gridObject.setPosition(position.x + GAME_GRID_EXPAND_LAND_SIZE,
-					position.y);
+			gridObject.setPosition(position.x + GAME_GRID_EXPAND_LAND_SIZE, position.y);
 			gridObject.adjustToNewLandSize();
 		}
 		avatarLayer.adjustAvatarPositions(GAME_GRID_EXPAND_LAND_SIZE);
 
 		Vector3 cameraPosition = cameraController.getCamera().position.cpy();
-		cameraController.getCamera().position.set(cameraPosition.x
-				+ (TowerConsts.GRID_UNIT_SIZE * GAME_GRID_EXPAND_LAND_SIZE),
-				cameraPosition.y, cameraPosition.z);
-		cameraController
-				.panTo(0, cameraController.getCamera().position.y, true);
+		cameraController.getCamera().position.set(cameraPosition.x + (TowerConsts.GRID_UNIT_SIZE * GAME_GRID_EXPAND_LAND_SIZE), cameraPosition.y,
+				cameraPosition.z);
+		cameraController.panTo(0, cameraController.getCamera().position.y, true);
 		gameGrid.events().register(DroidTowersGame.getSoundController());
 	}
 
@@ -126,26 +119,19 @@ public class ExpandLandOverlay extends WidgetGroup {
 	private static class ExpandLandButton extends Button {
 
 		public ExpandLandButton(String textureSuffix) {
-			super(new ButtonStyle(makeNinePatch(textureSuffix, new Color(1f,
-					1f, 1f, 0.5f)), makeNinePatch(textureSuffix,
-					Colors.ICS_BLUE), makeNinePatch(textureSuffix, new Color(
-					1f, 1f, 1f, 0.75f))));
+			super(new ButtonStyle(makeNinePatch(textureSuffix, new Color(1f, 1f, 1f, 0.5f)), makeNinePatch(textureSuffix, Colors.ICS_BLUE), makeNinePatch(
+					textureSuffix, new Color(1f, 1f, 1f, 0.75f))));
 		}
 
-		private static NinePatchDrawable makeNinePatch(String textureSuffix,
-				Color color) {
-			return new NinePatchDrawable(new NinePatch(
-					TowerAssetManager.textureFromAtlas("expand-land-"
-							+ textureSuffix, "hud/buttons.txt"), color));
+		private static NinePatchDrawable makeNinePatch(String textureSuffix, Color color) {
+			return new NinePatchDrawable(new NinePatch(TowerAssetManager.textureFromAtlas("expand-land-" + textureSuffix, "hud/buttons.txt"), color));
 		}
 
 	}
 
 	@Subscribe
 	public void CameraController_onPan(CameraControllerEvent event) {
-		leftButton.setVisible(event.getPosition().x <= PADDING
-				* event.getZoom());
-		rightButton.setVisible(event.getPosition().x
-				+ (PADDING * event.getZoom()) >= gameGrid.getWorldSize().x);
+		leftButton.setVisible(event.getPosition().x <= PADDING * event.getZoom());
+		rightButton.setVisible(event.getPosition().x + (PADDING * event.getZoom()) >= gameGrid.getWorldSize().x);
 	}
 }

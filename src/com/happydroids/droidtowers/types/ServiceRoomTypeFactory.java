@@ -6,8 +6,7 @@ package com.happydroids.droidtowers.types;
 
 import com.badlogic.gdx.Gdx;
 
-public class ServiceRoomTypeFactory extends
-		GridObjectTypeFactory<ServiceRoomType> {
+public class ServiceRoomTypeFactory extends GridObjectTypeFactory<ServiceRoomType> {
 	private static ServiceRoomTypeFactory instance;
 
 	private ServiceRoomTypeFactory() {

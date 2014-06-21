@@ -36,8 +36,7 @@ public class Reward {
 		this.amount = amount;
 	}
 
-	public Reward(RewardType type, AchievementThing objectType,
-			String objectTypeId) {
+	public Reward(RewardType type, AchievementThing objectType, String objectTypeId) {
 		this.type = type;
 		thing = objectType;
 		thingId = objectTypeId;
@@ -45,11 +44,9 @@ public class Reward {
 
 	public void give() {
 		if (type == null) {
-			throw new RuntimeException(
-					"Reward does not contain 'type' parameter.");
+			throw new RuntimeException("Reward does not contain 'type' parameter.");
 		} else if (thing == null) {
-			throw new RuntimeException(String.format(
-					"Reward %s does not contain 'thing' parameter.", type));
+			throw new RuntimeException(String.format("Reward %s does not contain 'thing' parameter.", type));
 		}
 
 		switch (type) {
@@ -67,8 +64,7 @@ public class Reward {
 				} else if (TutorialEngine.instance().findById(thingId) != null) {
 					TutorialEngine.instance().complete(thingId);
 				} else {
-					throw new RuntimeException(
-							"Could not find Achievement with id: " + thingId);
+					throw new RuntimeException("Could not find Achievement with id: " + thingId);
 				}
 			}
 			break;
@@ -99,8 +95,7 @@ public class Reward {
 
 	private void handleProviderTypeReward() {
 		if (thingProviderTypes == null || thingProviderTypes.length == 0) {
-			throw new RuntimeException(
-					"Reward with 'thing' value of 'PROVIDER_TYPE' needs the parameter 'thingProviderTypes' to be set.");
+			throw new RuntimeException("Reward with 'thing' value of 'PROVIDER_TYPE' needs the parameter 'thingProviderTypes' to be set.");
 		}
 
 		setProviderTypeLockState(false);
@@ -108,15 +103,12 @@ public class Reward {
 
 	private void setProviderTypeLockState(boolean locked) {
 		if (thingProviderTypes == null || thingProviderTypes.length == 0) {
-			throw new RuntimeException(
-					"Reward with 'thing' value of 'PROVIDER_TYPE' needs the parameter 'thingProviderTypes' to be set.");
+			throw new RuntimeException("Reward with 'thing' value of 'PROVIDER_TYPE' needs the parameter 'thingProviderTypes' to be set.");
 		}
 
 		for (ProviderType providerType : thingProviderTypes) {
-			for (GridObjectTypeFactory typeFactory : GridObjectTypeFactory
-					.allFactories()) {
-				for (Object objectType : typeFactory
-						.findByProviderType(providerType)) {
+			for (GridObjectTypeFactory typeFactory : GridObjectTypeFactory.allFactories()) {
+				for (Object objectType : typeFactory.findByProviderType(providerType)) {
 					GridObjectType gridObjectType = (GridObjectType) objectType;
 					if (gridObjectType.provides(providerType)) {
 						if (locked) {
@@ -132,11 +124,9 @@ public class Reward {
 
 	protected GridObjectType getThingObjectType() {
 		if (thing == OBJECT_TYPE && thingId != null) {
-			GridObjectType objectType = GridObjectTypeFactory
-					.findTypeById(thingId);
+			GridObjectType objectType = GridObjectTypeFactory.findTypeById(thingId);
 			if (objectType == null) {
-				throw new RuntimeException(String.format(
-						"Cannot find a type for: %s", thingId));
+				throw new RuntimeException(String.format("Cannot find a type for: %s", thingId));
 			}
 
 			return objectType;
@@ -164,11 +154,7 @@ public class Reward {
 	}
 
 	public String getRewardString(boolean pastTense) {
-		return displayStringForType()
-				+ (pastTense ? "ed" : "")
-				+ " "
-				+ AchievementThing.displayStringForThing(thing, amount,
-						thingId, thingProviderTypes);
+		return displayStringForType() + (pastTense ? "ed" : "") + " " + AchievementThing.displayStringForThing(thing, amount, thingId, thingProviderTypes);
 	}
 
 	private String displayStringForType() {

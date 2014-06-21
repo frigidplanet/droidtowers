@@ -64,11 +64,9 @@ public class WidgetAccessor implements TweenAccessor<Actor> {
 		switch (tweenType) {
 		case COLOR:
 			if (target instanceof Label) {
-				((Label) target).setColor(newValues[0], newValues[1],
-						newValues[2], newValues[3]);
+				((Label) target).setColor(newValues[0], newValues[1], newValues[2], newValues[3]);
 			} else {
-				target.setColor(newValues[0], newValues[1], newValues[2],
-						newValues[3]);
+				target.setColor(newValues[0], newValues[1], newValues[2], newValues[3]);
 			}
 			break;
 

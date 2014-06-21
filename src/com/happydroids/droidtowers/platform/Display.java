@@ -57,8 +57,7 @@ public class Display {
 
 	public static int getBiggestScreenDimension() {
 		if (biggestScreenDimension == -1) {
-			biggestScreenDimension = Math.max(Display.getWidth(),
-					Display.getHeight()) / 2;
+			biggestScreenDimension = Math.max(Display.getWidth(), Display.getHeight()) / 2;
 		}
 
 		return biggestScreenDimension;

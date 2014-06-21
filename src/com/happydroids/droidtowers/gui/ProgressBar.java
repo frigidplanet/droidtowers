@@ -28,8 +28,7 @@ class ProgressBar extends Widget {
 
 		padding = 3;
 
-		patch = new NinePatch(
-				TowerAssetManager.texture(TowerAssetManager.WHITE_SWATCH));
+		patch = new NinePatch(TowerAssetManager.texture(TowerAssetManager.WHITE_SWATCH));
 
 		valueLabel = FontManager.Default.makeLabel("100%");
 		valueLabel.setAlignment(Align.center);
@@ -61,9 +60,8 @@ class ProgressBar extends Widget {
 
 		if (value > 0) {
 			patch.setColor(Colors.ICS_BLUE);
-			patch.draw(batch, getX() + padding, getY() + padding,
-					Math.min(((getWidth() / 100) * value), getWidth())
-							- (padding * 2), getHeight() - (padding * 2));
+			patch.draw(batch, getX() + padding, getY() + padding, Math.min(((getWidth() / 100) * value), getWidth()) - (padding * 2), getHeight()
+					- (padding * 2));
 		}
 
 		valueLabel.setX(getX());

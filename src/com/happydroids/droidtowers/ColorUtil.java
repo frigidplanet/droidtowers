@@ -28,9 +28,7 @@ public class ColorUtil {
 			colorStr = colorStr + "FF";
 		}
 
-		return new Color(valueOf(colorStr.substring(0, 2), 16) / 255f, valueOf(
-				colorStr.substring(2, 4), 16) / 255f, valueOf(
-				colorStr.substring(4, 6), 16) / 255f, valueOf(
-				colorStr.substring(6, 8), 16) / 255f);
+		return new Color(valueOf(colorStr.substring(0, 2), 16) / 255f, valueOf(colorStr.substring(2, 4), 16) / 255f,
+				valueOf(colorStr.substring(4, 6), 16) / 255f, valueOf(colorStr.substring(6, 8), 16) / 255f);
 	}
 }

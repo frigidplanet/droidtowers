@@ -36,16 +36,10 @@ class GridObjectPurchaseItem extends Table {
 	public GridObjectPurchaseItem(final GridObjectType gridObjectType) {
 		this.gridObjectType = gridObjectType;
 
-		Image gridObjectImage = new Image(new TextureRegionDrawable(
-				gridObjectType.getTextureRegion(0)), Scaling.fit, Align.left
-				| Align.top);
-		Label nameLabel = FontManager.RobotoBold18.makeLabel(gridObjectType
-				.getName());
-		Label priceLabel = FontManager.RobotoBold18.makeLabel(
-				StringUtils.currencyFormat(gridObjectType.getCoins()),
-				Color.WHITE, Align.right);
-		buyButton = FontManager.RobotoBold18.makeTextButton(gridObjectType
-				.isLocked() ? "How to\nunlock" : "Buy");
+		Image gridObjectImage = new Image(new TextureRegionDrawable(gridObjectType.getTextureRegion(0)), Scaling.fit, Align.left | Align.top);
+		Label nameLabel = FontManager.RobotoBold18.makeLabel(gridObjectType.getName());
+		Label priceLabel = FontManager.RobotoBold18.makeLabel(StringUtils.currencyFormat(gridObjectType.getCoins()), Color.WHITE, Align.right);
+		buyButton = FontManager.RobotoBold18.makeTextButton(gridObjectType.isLocked() ? "How to\nunlock" : "Buy");
 
 		defaults().top().left().space(Display.devicePixel(8));
 
@@ -61,8 +55,7 @@ class GridObjectPurchaseItem extends Table {
 		center.defaults().space(Display.devicePixel(8));
 		center.row().fillX();
 		if (gridObjectType.hasDescription()) {
-			Label label = FontManager.Roboto18.makeLabel(StringUtils.wrap(
-					gridObjectType.getDescription(), 35));
+			Label label = FontManager.Roboto18.makeLabel(StringUtils.wrap(gridObjectType.getDescription(), 35));
 			// label.setWrap(true);
 			center.add(label).expandX();
 		}
@@ -73,8 +66,7 @@ class GridObjectPurchaseItem extends Table {
 		}
 
 		Table right = new Table();
-		right.defaults().right().width(Display.devicePixel(130))
-				.space(Display.devicePixel(8));
+		right.defaults().right().width(Display.devicePixel(130)).space(Display.devicePixel(8));
 		right.row();
 		right.add(priceLabel);
 		right.row();
@@ -92,24 +84,18 @@ class GridObjectPurchaseItem extends Table {
 
 		int maxIncome = 0;
 		if (gridObjectType.provides(HOUSING)) {
-			maxIncome = ((RoomType) gridObjectType).getPopulationMax()
-					* gridObjectType.getCoinsEarned();
-			statsLine = statsLine.replace("{maxResidents}", ""
-					+ ((RoomType) gridObjectType).getPopulationMax());
+			maxIncome = ((RoomType) gridObjectType).getPopulationMax() * gridObjectType.getCoinsEarned();
+			statsLine = statsLine.replace("{maxResidents}", "" + ((RoomType) gridObjectType).getPopulationMax());
 		} else if (gridObjectType.provides(COMMERCIAL)) {
-			maxIncome = ((RoomType) gridObjectType).getPopulationMax()
-					* gridObjectType.getCoinsEarned();
-			statsLine = statsLine.replace("{maxEmployees}", ""
-					+ ((CommercialType) gridObjectType).getJobsProvided());
+			maxIncome = ((RoomType) gridObjectType).getPopulationMax() * gridObjectType.getCoinsEarned();
+			statsLine = statsLine.replace("{maxEmployees}", "" + ((CommercialType) gridObjectType).getJobsProvided());
 		}
 
-		statsLine = statsLine.replace("{maxIncome}",
-				StringUtils.currencyFormat(maxIncome));
+		statsLine = statsLine.replace("{maxIncome}", StringUtils.currencyFormat(maxIncome));
 
 		if (statsLine.contains("{servicedBy}")) {
 			List<String> servicedBy = Lists.newArrayList();
-			if (gridObjectType
-					.provides(Janitor.JANITOR_SERVICES_PROVIDER_TYPES)) {
+			if (gridObjectType.provides(Janitor.JANITOR_SERVICES_PROVIDER_TYPES)) {
 				servicedBy.add("Janitors");
 			}
 
@@ -117,8 +103,7 @@ class GridObjectPurchaseItem extends Table {
 				servicedBy.add("Maids");
 			}
 
-			if (gridObjectType
-					.provides(SecurityGuard.SECURITY_GUARD_SERVICE_PROVIDER_TYPES)) {
+			if (gridObjectType.provides(SecurityGuard.SECURITY_GUARD_SERVICE_PROVIDER_TYPES)) {
 				servicedBy.add("Security Guards");
 			}
 
@@ -135,8 +120,7 @@ class GridObjectPurchaseItem extends Table {
 	public void setBuyClickListener(ClickListener clickListener) {
 		if (gridObjectType.isLocked()) {
 			getColor().a = 0.65f;
-			buyButton.addListener(new GridObjectTypeLockedClickListener(
-					gridObjectType));
+			buyButton.addListener(new GridObjectTypeLockedClickListener(gridObjectType));
 		} else {
 			buyButton.addListener(clickListener);
 		}

@@ -79,8 +79,7 @@ public class Lobby extends Room {
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		super.render(spriteBatch, spriteCache, renderTintColor);
 
 		// drawEndCaps(spriteBatch);
@@ -94,8 +93,7 @@ public class Lobby extends Room {
 		float gridScale = getGridScale();
 		if (gameGrid.positionCache().getObjectsAt(left, TWO_WIDE).size == 0) {
 			leftCap.setColor(renderColor);
-			leftCap.setPosition(worldPosition.x
-					- (leftCap.getWidth() * gridScale), worldPosition.y);
+			leftCap.setPosition(worldPosition.x - (leftCap.getWidth() * gridScale), worldPosition.y);
 			leftCap.draw(spriteBatch);
 		}
 

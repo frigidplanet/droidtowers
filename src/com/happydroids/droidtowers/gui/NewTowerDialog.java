@@ -30,8 +30,7 @@ public class NewTowerDialog extends Dialog {
 
 		final TextField nameField = FontManager.Roboto24.makeTextField("", "");
 
-		TextButton randomNameButton = FontManager.Roboto12
-				.makeTextButton("Random Name");
+		TextButton randomNameButton = FontManager.Roboto12.makeTextButton("Random Name");
 		randomNameButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -50,12 +49,9 @@ public class NewTowerDialog extends Dialog {
 		c.row().space(ROW_SPACE);
 		c.add(FontManager.RobotoBold18.makeLabel("Difficulty:")).right();
 
-		TextButton easyButton = FontManager.RobotoBold18
-				.makeTextToggleButton("Easy");
-		TextButton mediumButton = FontManager.RobotoBold18
-				.makeTextToggleButton("Medium");
-		TextButton hardButton = FontManager.RobotoBold18
-				.makeTextToggleButton("Hard");
+		TextButton easyButton = FontManager.RobotoBold18.makeTextToggleButton("Easy");
+		TextButton mediumButton = FontManager.RobotoBold18.makeTextToggleButton("Medium");
+		TextButton hardButton = FontManager.RobotoBold18.makeTextToggleButton("Hard");
 
 		Table buttonContainer = new Table();
 		buttonContainer.row().pad(4).fill();
@@ -70,20 +66,15 @@ public class NewTowerDialog extends Dialog {
 		c.add(moneyLabel).center().colspan(3);
 
 		easyButton.setChecked(true);
-		easyButton.addListener(new DifficultyLevelButtonListener(
-				DifficultyLevel.EASY, moneyLabel));
-		mediumButton.addListener(new DifficultyLevelButtonListener(
-				DifficultyLevel.MEDIUM, moneyLabel));
-		hardButton.addListener(new DifficultyLevelButtonListener(
-				DifficultyLevel.HARD, moneyLabel));
+		easyButton.addListener(new DifficultyLevelButtonListener(DifficultyLevel.EASY, moneyLabel));
+		mediumButton.addListener(new DifficultyLevelButtonListener(DifficultyLevel.MEDIUM, moneyLabel));
+		hardButton.addListener(new DifficultyLevelButtonListener(DifficultyLevel.HARD, moneyLabel));
 
-		final ButtonGroup difficultyGroup = new ButtonGroup(easyButton,
-				mediumButton, hardButton);
+		final ButtonGroup difficultyGroup = new ButtonGroup(easyButton, mediumButton, hardButton);
 		difficultyGroup.setUncheckLast(true);
 		difficultyGroup.setMaxCheckCount(1);
 
-		TextButton cancelButton = FontManager.RobotoBold18
-				.makeTextButton("cancel");
+		TextButton cancelButton = FontManager.RobotoBold18.makeTextButton("cancel");
 		cancelButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -102,15 +93,10 @@ public class NewTowerDialog extends Dialog {
 			@Override
 			public void onClick(Dialog dialog) {
 				if (StringUtils.isEmpty(nameField.getText())) {
-					new Dialog()
-							.setTitle("Error")
-							.setMessage(
-									"You need to provide a name for your Tower!")
-							.show();
+					new Dialog().setTitle("Error").setMessage("You need to provide a name for your Tower!").show();
 				} else {
 					dismiss();
-					SceneManager.changeScene(LoadTowerSplashScene.class,
-							new GameSave(nameField.getText(), difficultyLevel));
+					SceneManager.changeScene(LoadTowerSplashScene.class, new GameSave(nameField.getText(), difficultyLevel));
 				}
 			}
 		});
@@ -123,14 +109,12 @@ public class NewTowerDialog extends Dialog {
 	private class DifficultyLevelButtonListener extends InputListener {
 		private final DifficultyLevel buttonDifficultyLevel;
 
-		public DifficultyLevelButtonListener(
-				DifficultyLevel buttonDifficultyLevel, Label moneyLabel) {
+		public DifficultyLevelButtonListener(DifficultyLevel buttonDifficultyLevel, Label moneyLabel) {
 			this.buttonDifficultyLevel = buttonDifficultyLevel;
 		}
 
 		@Override
-		public boolean touchDown(InputEvent event, float x, float y,
-				int pointer, int button) {
+		public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 			setDifficultyLevel(buttonDifficultyLevel);
 			return true;
 		}
@@ -138,9 +122,6 @@ public class NewTowerDialog extends Dialog {
 
 	public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
 		this.difficultyLevel = difficultyLevel;
-		moneyLabel
-				.setText(MONEY_LABEL_PREFIX
-						+ StringUtils.currencyFormat(difficultyLevel
-								.getStartingMoney()));
+		moneyLabel.setText(MONEY_LABEL_PREFIX + StringUtils.currencyFormat(difficultyLevel.getStartingMoney()));
 	}
 }

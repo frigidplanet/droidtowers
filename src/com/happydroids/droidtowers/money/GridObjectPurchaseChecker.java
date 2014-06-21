@@ -14,23 +14,20 @@ import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.types.GridObjectType;
 
 public class GridObjectPurchaseChecker {
-	public static final String LOG_TAG = GridObjectPurchaseChecker.class
-			.getSimpleName();
+	public static final String LOG_TAG = GridObjectPurchaseChecker.class.getSimpleName();
 
 	private final GameGrid gameGrid;
 	private GridObjectType gridObjectType;
 	private int numPurchases;
 
-	public GridObjectPurchaseChecker(GameGrid gameGrid,
-			GridObjectType gridObjectType) {
+	public GridObjectPurchaseChecker(GameGrid gameGrid, GridObjectType gridObjectType) {
 		this.gameGrid = gameGrid;
 		this.gridObjectType = gridObjectType;
 	}
 
 	public boolean canPurchase() {
 		Gdx.app.log(LOG_TAG, "Checking purchase: " + gridObjectType.getName());
-		if (gridObjectType.getCoins() != 0
-				&& Player.instance().getCoins() < gridObjectType.getCoins()) {
+		if (gridObjectType.getCoins() != 0 && Player.instance().getCoins() < gridObjectType.getCoins()) {
 			displayCurrencyDialog();
 			return false;
 		}
@@ -40,13 +37,11 @@ public class GridObjectPurchaseChecker {
 	}
 
 	private void displayCurrencyDialog() {
-		Gdx.app.log(LOG_TAG,
-				"Out of money for purchase: " + gridObjectType.getName());
+		Gdx.app.log(LOG_TAG, "Out of money for purchase: " + gridObjectType.getName());
 		if (MathUtils.random(10) % 5 == 0) {
 			new CousinVinnieLoanDialog(gameGrid).show();
 		} else {
-			HeadsUpDisplay
-					.showToast("You do not have enough money for this purchase.");
+			HeadsUpDisplay.showToast("You do not have enough money for this purchase.");
 		}
 	}
 

@@ -13,8 +13,7 @@ import java.io.IOException;
 
 public class Vector3Serializer extends JsonSerializer<Vector3> {
 	@Override
-	public void serialize(Vector3 vector3, JsonGenerator jsonGenerator,
-			SerializerProvider serializerProvider) throws IOException {
+	public void serialize(Vector3 vector3, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
 		jsonGenerator.writeStartObject();
 		jsonGenerator.writeNumberField("x", vector3.x);
 		jsonGenerator.writeNumberField("y", vector3.y);

@@ -28,8 +28,7 @@ public class EmploymentCalculator extends GameGridAction {
 				CommercialSpace commercialSpace = (CommercialSpace) gridObject;
 				commercialSpace.updateJobs();
 
-				maxJobs += ((CommercialType) commercialSpace
-						.getGridObjectType()).getJobsProvided();
+				maxJobs += ((CommercialType) commercialSpace.getGridObjectType()).getJobsProvided();
 				jobsFilled += commercialSpace.getJobsFilled();
 			}
 		}

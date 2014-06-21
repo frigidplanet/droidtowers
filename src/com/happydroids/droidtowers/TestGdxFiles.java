@@ -14,8 +14,7 @@ import java.io.File;
  * @author Nathan Sweet
  */
 public class TestGdxFiles implements Files {
-	static public final String externalPath = System.getProperty("user.home")
-			+ "/";
+	static public final String externalPath = System.getProperty("user.home") + "/";
 
 	public FileHandle getFileHandle(String fileName, FileType type) {
 		return new TestGdxFileHandle(fileName, type);

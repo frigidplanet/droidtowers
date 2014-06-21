@@ -56,10 +56,8 @@ public class HeadsUpDisplay extends WidgetGroup {
 	private GridObjectPopOver gridObjectPopOver;
 	private TutorialStepNotification tutorialStep;
 
-	public HeadsUpDisplay(Stage stage, OrthographicCamera camera,
-			CameraController cameraController, GameGrid gameGrid,
-			final AvatarLayer avatarLayer, AchievementEngine achievementEngine,
-			TutorialEngine tutorialEngine, final GameState gameState) {
+	public HeadsUpDisplay(Stage stage, OrthographicCamera camera, CameraController cameraController, GameGrid gameGrid, final AvatarLayer avatarLayer,
+			AchievementEngine achievementEngine, TutorialEngine tutorialEngine, final GameState gameState) {
 		super();
 
 		HeadsUpDisplay.instance = this;
@@ -79,34 +77,27 @@ public class HeadsUpDisplay extends WidgetGroup {
 
 		mouseToolTip = new ToolTip();
 		addActor(mouseToolTip);
-		addActor(new ExpandLandOverlay(this.gameGrid, avatarLayer,
-				cameraController));
+		addActor(new ExpandLandOverlay(this.gameGrid, avatarLayer, cameraController));
 
 		buildToolButtonMenu();
 
 		headerButtonBar = new HeaderButtonBar(hudAtlas, gameGrid);
 		addActor(headerButtonBar);
-		headerButtonBar
-				.setX(stage.getWidth() - headerButtonBar.getWidth() - 10);
-		headerButtonBar.setY(stage.getHeight() - headerButtonBar.getHeight()
-				- 10);
+		headerButtonBar.setX(stage.getWidth() - headerButtonBar.getWidth() - 10);
+		headerButtonBar.setY(stage.getHeight() - headerButtonBar.getHeight() - 10);
 
 		achievementButton = new AchievementButton(hudAtlas, achievementEngine);
 		achievementButton.setX(10);
-		achievementButton.setY(stage.getHeight() - statusBarPanel.getHeight()
-				- achievementButton.getHeight() - 10);
-		achievementButton.getParticleEffect().setPosition(
-				achievementButton.getX() + achievementButton.getWidth() / 2,
+		achievementButton.setY(stage.getHeight() - statusBarPanel.getHeight() - achievementButton.getHeight() - 10);
+		achievementButton.getParticleEffect().setPosition(achievementButton.getX() + achievementButton.getWidth() / 2,
 				achievementButton.getY() + achievementButton.getHeight() / 2);
 
 		addActor(achievementButton);
 
 		if (TowerConsts.ENABLE_AVATAR_LIST_WINDOW) {
-			avatarsButton = TowerAssetManager.imageButton(hudAtlas
-					.findRegion("view-neighbors"));
+			avatarsButton = TowerAssetManager.imageButton(hudAtlas.findRegion("view-neighbors"));
 			avatarsButton.setX(10);
-			avatarsButton.setY(achievementButton.getY()
-					- avatarsButton.getHeight() - 10);
+			avatarsButton.setY(achievementButton.getY() - avatarsButton.getHeight() - 10);
 
 			avatarsButton.addListener(new VibrateClickListener() {
 				@Override
@@ -119,11 +110,9 @@ public class HeadsUpDisplay extends WidgetGroup {
 		}
 
 		if (TowerConsts.DEBUG) {
-			ImageButton debugButton = TowerAssetManager.imageButton(hudAtlas
-					.findRegion("debug-menu"));
+			ImageButton debugButton = TowerAssetManager.imageButton(hudAtlas.findRegion("debug-menu"));
 			debugButton.layout();
-			debugButton.setX(achievementButton.getX()
-					+ achievementButton.getWidth() + 10);
+			debugButton.setX(achievementButton.getX() + achievementButton.getWidth() + 10);
 			debugButton.setY(achievementButton.getY());
 			debugButton.addListener(new VibrateClickListener() {
 				@Override
@@ -154,8 +143,7 @@ public class HeadsUpDisplay extends WidgetGroup {
 		toolButtonStyle = toolButton.getStyle();
 		toolButton.addListener(new VibrateClickListener() {
 			public void onClick(InputEvent event, float x, float y) {
-				Gdx.app.log(TAG, "Current tool: "
-						+ InputSystem.instance().getCurrentTool());
+				Gdx.app.log(TAG, "Current tool: " + InputSystem.instance().getCurrentTool());
 				if (InputSystem.instance().getCurrentTool() instanceof PickerTool) {
 					if (toolMenu.isVisible()) {
 						toolMenu.close();
@@ -165,8 +153,7 @@ public class HeadsUpDisplay extends WidgetGroup {
 						toolMenu.setX(toolButton.getX() + 20f);
 						toolMenu.setY(toolButton.getY());
 						toolMenu.show();
-						TutorialEngine.instance().moveToStepWhenReady(
-								"tutorial-unlock-lobby");
+						TutorialEngine.instance().moveToStepWhenReady("tutorial-unlock-lobby");
 					}
 				} else {
 					InputSystem.instance().switchTool(GestureTool.PICKER, null);
@@ -176,13 +163,10 @@ public class HeadsUpDisplay extends WidgetGroup {
 	}
 
 	private void updateGridPointTooltip(float x, float y) {
-		Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(),
-				Gdx.input.getY()).getEndPoint(1);
+		Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(), Gdx.input.getY()).getEndPoint(1);
 
-		GridPoint gridPointAtMouse = gameGrid.closestGridPoint(worldPoint.x,
-				worldPoint.y);
-		GridPosition gridPosition = gameGrid.positionCache().getPosition(
-				gridPointAtMouse);
+		GridPoint gridPointAtMouse = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
+		GridPosition gridPosition = gameGrid.positionCache().getPosition(gridPointAtMouse);
 		if (gridPosition != null) {
 			int totalVisitors = 0;
 			int residents = 0;
@@ -192,8 +176,7 @@ public class HeadsUpDisplay extends WidgetGroup {
 			Set<String> objectNames = Sets.newHashSet();
 			for (GridObject gridObject : gridPosition.getObjects()) {
 				if (gridObject instanceof CommercialSpace) {
-					totalVisitors = Math.max(gridObject.getNumVisitors(),
-							totalVisitors);
+					totalVisitors = Math.max(gridObject.getNumVisitors(), totalVisitors);
 				} else if (gridObject instanceof Room) {
 					residents = ((Room) gridObject).getNumResidents();
 				}
@@ -206,23 +189,12 @@ public class HeadsUpDisplay extends WidgetGroup {
 			}
 
 			mouseToolTip.setVisible(true);
-			mouseToolTip.setText(String.format("%s\n" + "objects: %s\n"
-					+ "%s\n" + "transit: %s\n" + "security: %s\n"
-					+ "elevator: %s\n" + "stairs: %s\n" + "visitors: %d\n"
-					+ "population: %d\n" + "point crime: %.2f\n"
-					+ "object crime: %.2f\n" + "point noise: %.2f\n"
-					+ "object noise: %.2f\n" + "desirability: %.2f\n"
-					+ "trans dist: %.0f\n" + "security dist: %.0f",
-					gridPointAtMouse, gridPosition.size(), Joiner.on(", ")
-							.join(objectNames),
-					gridPosition.connectedToTransit,
-					gridPosition.connectedToSecurity,
-					gridPosition.elevator != null, gridPosition.stair != null,
-					totalVisitors, residents, gridPosition.getCrimeLevel(),
-					objectCrimeLevel, gridPosition.getNoiseLevel(),
-					objectNoiseLevel, desirabilityLevel,
-					gridPosition.distanceFromTransit,
-					gridPosition.distanceFromSecurity));
+			mouseToolTip.setText(String.format("%s\n" + "objects: %s\n" + "%s\n" + "transit: %s\n" + "security: %s\n" + "elevator: %s\n" + "stairs: %s\n"
+					+ "visitors: %d\n" + "population: %d\n" + "point crime: %.2f\n" + "object crime: %.2f\n" + "point noise: %.2f\n" + "object noise: %.2f\n"
+					+ "desirability: %.2f\n" + "trans dist: %.0f\n" + "security dist: %.0f", gridPointAtMouse, gridPosition.size(),
+					Joiner.on(", ").join(objectNames), gridPosition.connectedToTransit, gridPosition.connectedToSecurity, gridPosition.elevator != null,
+					gridPosition.stair != null, totalVisitors, residents, gridPosition.getCrimeLevel(), objectCrimeLevel, gridPosition.getNoiseLevel(),
+					objectNoiseLevel, desirabilityLevel, gridPosition.distanceFromTransit, gridPosition.distanceFromSecurity));
 			mouseToolTip.setX(x + 15);
 			mouseToolTip.setY(y + 15);
 		} else {
@@ -278,8 +250,7 @@ public class HeadsUpDisplay extends WidgetGroup {
 
 	public void toggleViewNeighborsButton(boolean state) {
 		// noinspection PointlessBooleanExpression
-		if (TowerConsts.ENABLE_HAPPYDROIDS_CONNECT
-				&& viewNeighborsButton != null) {
+		if (TowerConsts.ENABLE_HAPPYDROIDS_CONNECT && viewNeighborsButton != null) {
 			viewNeighborsButton.setVisible(state);
 		}
 	}

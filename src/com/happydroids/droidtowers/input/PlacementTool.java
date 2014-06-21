@@ -29,8 +29,7 @@ public class PlacementTool extends ToolBase {
 	private GridObjectPurchaseChecker gridObjectPurchaseChecker;
 	private final InputCallback cancelPlacementInputCallback;
 
-	public PlacementTool(OrthographicCamera camera, List<GameLayer> gameLayers,
-			GameGrid gameGrid) {
+	public PlacementTool(OrthographicCamera camera, List<GameLayer> gameLayers, GameGrid gameGrid) {
 		super(camera, gameLayers, gameGrid);
 
 		cancelPlacementInputCallback = new InputCallback() {
@@ -40,8 +39,7 @@ public class PlacementTool extends ToolBase {
 			}
 		};
 
-		InputSystem.instance().bind(new int[] { Keys.ESCAPE, Keys.BACK },
-				cancelPlacementInputCallback);
+		InputSystem.instance().bind(new int[] { Keys.ESCAPE, Keys.BACK }, cancelPlacementInputCallback);
 	}
 
 	public void setup(GridObjectType gridObjectType) {
@@ -50,12 +48,10 @@ public class PlacementTool extends ToolBase {
 
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
-		GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x,
-				worldPoint.y);
+		GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
 		makeGridObjectAtFinger_whenGridObjectIsNull(gridPointAtFinger);
 
-		isDraggingGridObject = gridObject.getWorldBounds().contains(
-				worldPoint.x, worldPoint.y);
+		isDraggingGridObject = gridObject.getWorldBounds().contains(worldPoint.x, worldPoint.y);
 
 		return true;
 	}
@@ -72,10 +68,8 @@ public class PlacementTool extends ToolBase {
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		if (isDraggingGridObject) {
 			Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
-			Vector3 deltaPoint = camera.getPickRay(x + -deltaX, y + deltaY)
-					.getEndPoint(1);
-			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(
-					worldPoint.x, worldPoint.y);
+			Vector3 deltaPoint = camera.getPickRay(x + -deltaX, y + deltaY).getEndPoint(1);
+			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
 
 			if (touchDownPointDelta != null) {
 				gridPointAtFinger.sub(touchDownPointDelta);
@@ -93,10 +87,8 @@ public class PlacementTool extends ToolBase {
 	@Override
 	public void update(float deltaTime) {
 		if (!Gdx.app.getType().equals(Android)) {
-			Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(),
-					Gdx.input.getY()).getEndPoint(1);
-			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(
-					worldPoint.x, worldPoint.y);
+			Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(), Gdx.input.getY()).getEndPoint(1);
+			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
 
 			makeGridObjectAtFinger_whenGridObjectIsNull(gridPointAtFinger);
 
@@ -106,25 +98,22 @@ public class PlacementTool extends ToolBase {
 		}
 	}
 
-	private void makeGridObjectAtFinger_whenGridObjectIsNull(
-			GridPoint gridPointAtFinger) {
+	private void makeGridObjectAtFinger_whenGridObjectIsNull(GridPoint gridPointAtFinger) {
 		if (gridObject == null) {
 			gridObject = gridObjectType.makeGridObject(gameGrid);
 			gridObject.setPosition(gridPointAtFinger);
 
 			gameGrid.addObject(gridObject);
 		} else {
-			touchDownPointDelta = gridPointAtFinger.cpy().sub(
-					gridObject.getPosition());
+			touchDownPointDelta = gridPointAtFinger.cpy().sub(gridObject.getPosition());
 		}
 	}
 
 	private boolean finishPurchase() {
 		if (gridObject != null) {
 			if (!gameGrid.canObjectBeAt(gridObject)) {
-				HeadsUpDisplay
-						.showToast(gridObjectType.provides(SKY_LOBBY) ? "The Sky Lobby can only be built every 15 floors."
-								: "This object cannot be placed here.");
+				HeadsUpDisplay.showToast(gridObjectType.provides(SKY_LOBBY) ? "The Sky Lobby can only be built every 15 floors."
+						: "This object cannot be placed here.");
 				return true;
 			} else {
 				gridObject.setPlaced(true);
@@ -134,8 +123,7 @@ public class PlacementTool extends ToolBase {
 					gridObjectPurchaseChecker.makePurchase();
 
 					if (!gridObjectType.allowContinuousPurchase()) {
-						InputSystem.instance().switchTool(GestureTool.PICKER,
-								null);
+						InputSystem.instance().switchTool(GestureTool.PICKER, null);
 					}
 				}
 			}
@@ -147,11 +135,9 @@ public class PlacementTool extends ToolBase {
 	}
 
 	public void enterPurchaseMode() {
-		gridObjectPurchaseChecker = new GridObjectPurchaseChecker(gameGrid,
-				gridObjectType);
+		gridObjectPurchaseChecker = new GridObjectPurchaseChecker(gameGrid, gridObjectType);
 
-		if (gridObjectPurchaseChecker != null
-				&& !gridObjectPurchaseChecker.canPurchase()) {
+		if (gridObjectPurchaseChecker != null && !gridObjectPurchaseChecker.canPurchase()) {
 			InputSystem.instance().switchTool(GestureTool.PICKER, null);
 		}
 	}
@@ -163,7 +149,6 @@ public class PlacementTool extends ToolBase {
 			gridObject = null;
 		}
 
-		InputSystem.instance().unbind(new int[] { Keys.ESCAPE, Keys.BACK },
-				cancelPlacementInputCallback);
+		InputSystem.instance().unbind(new int[] { Keys.ESCAPE, Keys.BACK }, cancelPlacementInputCallback);
 	}
 }

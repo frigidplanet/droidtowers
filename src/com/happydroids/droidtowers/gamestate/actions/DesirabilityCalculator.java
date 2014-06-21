@@ -34,12 +34,8 @@ public class DesirabilityCalculator extends GameGridAction {
 
 				for (int x = position.x; x < position.x + size.x; x++) {
 					for (int y = position.y; y < position.y + size.y; y++) {
-						maxNoiseLevel = Math.max(maxNoiseLevel, gameGrid
-								.positionCache().getPosition(x, y)
-								.getNoiseLevel());
-						maxCrimeLevel = Math.max(maxCrimeLevel, gameGrid
-								.positionCache().getPosition(x, y)
-								.getCrimeLevel());
+						maxNoiseLevel = Math.max(maxNoiseLevel, gameGrid.positionCache().getPosition(x, y).getNoiseLevel());
+						maxCrimeLevel = Math.max(maxCrimeLevel, gameGrid.positionCache().getPosition(x, y).getCrimeLevel());
 					}
 				}
 

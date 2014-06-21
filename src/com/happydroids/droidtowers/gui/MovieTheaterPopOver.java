@@ -39,8 +39,7 @@ public class MovieTheaterPopOver extends GridObjectPopOver {
 			makeMovieTicketsPurchaseButton(buttonBar, movie);
 		}
 
-		row().fillX().pad(Display.devicePixel(-8))
-				.padTop(Display.devicePixel(16));
+		row().fillX().pad(Display.devicePixel(-8)).padTop(Display.devicePixel(16));
 		add(buttonBar).expandX().minWidth(200);
 	}
 
@@ -50,8 +49,7 @@ public class MovieTheaterPopOver extends GridObjectPopOver {
 			buttonBar.addButton("Watch Trailer", new VibrateClickListener() {
 				@Override
 				public void onClick(InputEvent event, float x, float y) {
-					Platform.getBrowserUtil().launchWebBrowser(
-							youtubeTrailerUrl);
+					Platform.getBrowserUtil().launchWebBrowser(youtubeTrailerUrl);
 				}
 			});
 		}
@@ -64,8 +62,7 @@ public class MovieTheaterPopOver extends GridObjectPopOver {
 				@Override
 				public void onClick(InputEvent event, float x, float y) {
 
-					Platform.getBrowserUtil().launchWebBrowser(
-							ticketsPurchaseUrl);
+					Platform.getBrowserUtil().launchWebBrowser(ticketsPurchaseUrl);
 				}
 			});
 		}

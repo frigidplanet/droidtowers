@@ -20,8 +20,7 @@ public class HeaderButtonBar extends Table {
 
 	public HeaderButtonBar(TextureAtlas hudAtlas, final GameGrid gameGrid) {
 		AudioControl audioControl = new AudioControl(hudAtlas);
-		dataOverlayButton = TowerAssetManager.imageButton(hudAtlas
-				.findRegion("overlay-button"));
+		dataOverlayButton = TowerAssetManager.imageButton(hudAtlas.findRegion("overlay-button"));
 
 		dataOverlayPopOverMenu = new DataOverlayPopOver(gameGrid.getRenderer());
 		dataOverlayPopOverMenu.setVisible(false);
@@ -36,8 +35,7 @@ public class HeaderButtonBar extends Table {
 		dataOverlayButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
-				dataOverlayPopOverMenu.toggle(HeaderButtonBar.this,
-						dataOverlayButton);
+				dataOverlayPopOverMenu.toggle(HeaderButtonBar.this, dataOverlayButton);
 			}
 		});
 	}

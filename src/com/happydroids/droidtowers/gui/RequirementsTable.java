@@ -22,9 +22,7 @@ class RequirementsTable extends Table {
 
 		add(FontManager.Default.makeLabel("requirement", Color.GRAY)).expandX();
 		add(FontManager.Default.makeLabel("amount", Color.GRAY, Align.center));
-		add(
-				FontManager.Default.makeLabel("your progress", Color.GRAY,
-						Align.center)).center();
+		add(FontManager.Default.makeLabel("your progress", Color.GRAY, Align.center)).center();
 
 		row();
 		add(new HorizontalRule(Color.DARK_GRAY, 1)).colspan(3);
@@ -43,8 +41,7 @@ class RequirementsTable extends Table {
 
 		Cell amountCell = add().center();
 		if (requirement.getAmount() > 0) {
-			Label amountValue = RobotoBold18.makeLabel(String.format("%d/%d",
-					requirement.getCurrentWeight(), requirement.getAmount()));
+			Label amountValue = RobotoBold18.makeLabel(String.format("%d/%d", requirement.getCurrentWeight(), requirement.getAmount()));
 			amountValue.setAlignment(Align.center);
 			amountCell.setWidget(amountValue);
 		}

@@ -46,8 +46,7 @@ public class GridPositionCache {
 
 		if (copyExisting) {
 			for (int x = 0; x < oldPositions.length; x++) {
-				System.arraycopy(oldPositions[x], 0, gridPositions[x], 0,
-						oldPositions[x].length);
+				System.arraycopy(oldPositions[x], 0, gridPositions[x], 0, oldPositions[x].length);
 			}
 		}
 
@@ -61,10 +60,8 @@ public class GridPositionCache {
 	}
 
 	private void addGridObjectToPosition(GridObject gridObject) {
-		for (int x = gridObject.getPosition().x; x < gridObject.getPosition().x
-				+ gridObject.getSize().x; x++) {
-			for (int y = gridObject.getPosition().y; y < gridObject
-					.getPosition().y + gridObject.getSize().y; y++) {
+		for (int x = gridObject.getPosition().x; x < gridObject.getPosition().x + gridObject.getSize().x; x++) {
+			for (int y = gridObject.getPosition().y; y < gridObject.getPosition().y + gridObject.getSize().y; y++) {
 				GridPosition gridPosition = getPosition(x, y);
 				if (gridPosition != null) {
 					getPosition(x, y).add(gridObject);
@@ -73,8 +70,7 @@ public class GridPositionCache {
 		}
 	}
 
-	private void removeGridObjectFromPosition(GridObject gridObject,
-			GridPoint position, GridPoint size) {
+	private void removeGridObjectFromPosition(GridObject gridObject, GridPoint position, GridPoint size) {
 		for (int x = position.x; x < position.x + size.x; x++) {
 			for (int y = position.y; y < position.y + size.y; y++) {
 				GridPosition gridPosition = getPosition(x, y);
@@ -96,32 +92,27 @@ public class GridPositionCache {
 	}
 
 	@Subscribe
-	public void GameGrid_onGridObjectBoundsChange(
-			GridObjectBoundsChangeEvent event) {
+	public void GameGrid_onGridObjectBoundsChange(GridObjectBoundsChangeEvent event) {
 		GridObject gridObject = event.getGridObject();
 		if (!gridObject.isPlaced()) {
 			return;
 		}
 
-		removeGridObjectFromPosition(gridObject, event.getPrevPosition(),
-				event.getPrevSize());
+		removeGridObjectFromPosition(gridObject, event.getPrevPosition(), event.getPrevSize());
 
 		addGridObjectToPosition(gridObject);
 	}
 
 	@Subscribe
 	public void GameGrid_onGridObjectRemoved(GridObjectRemovedEvent event) {
-		removeGridObjectFromPosition(event.getGridObject(), event
-				.getGridObject().getPosition(), event.getGridObject().getSize());
+		removeGridObjectFromPosition(event.getGridObject(), event.getGridObject().getPosition(), event.getGridObject().getSize());
 	}
 
 	private GridPosition getObjectSetForPosition(GridPoint gridPoint) {
-		return !checkBounds(gridPoint.x, gridPoint.y) ? null
-				: gridPositions[gridPoint.x][gridPoint.y];
+		return !checkBounds(gridPoint.x, gridPoint.y) ? null : gridPositions[gridPoint.x][gridPoint.y];
 	}
 
-	public Array<GridObject> getObjectsAt(GridPoint position, GridPoint size,
-			GridObject... gridObjectsToIgnore) {
+	public Array<GridObject> getObjectsAt(GridPoint position, GridPoint size, GridObject... gridObjectsToIgnore) {
 		Array<GridObject> objects = new Array<GridObject>();
 
 		int maxX = Math.min(gridSize.x, position.x + size.x);
@@ -210,8 +201,7 @@ public class GridPositionCache {
 			for (GridPosition[] row : gridPositions) {
 				for (GridPosition position : row) {
 					if (position.distanceFromTransit > 5) {
-						position.normalizedDistanceFromTransit = position.distanceFromTransit
-								/ maxVal;
+						position.normalizedDistanceFromTransit = position.distanceFromTransit / maxVal;
 					} else {
 						position.normalizedDistanceFromTransit = 0f;
 					}
@@ -234,8 +224,7 @@ public class GridPositionCache {
 			for (GridPosition[] row : gridPositions) {
 				for (GridPosition position : row) {
 					if (position.distanceFromSecurity > 5) {
-						position.normalizedDistanceFromSecurity = position.distanceFromSecurity
-								/ maxVal;
+						position.normalizedDistanceFromSecurity = position.distanceFromSecurity / maxVal;
 					} else {
 						position.normalizedDistanceFromSecurity = 0f;
 					}
@@ -245,7 +234,6 @@ public class GridPositionCache {
 	}
 
 	public GridPosition getPosition(Vector2 worldPoint) {
-		return getPosition((int) worldPoint.x / TowerConsts.GRID_UNIT_SIZE,
-				(int) worldPoint.y / TowerConsts.GRID_UNIT_SIZE);
+		return getPosition((int) worldPoint.x / TowerConsts.GRID_UNIT_SIZE, (int) worldPoint.y / TowerConsts.GRID_UNIT_SIZE);
 	}
 }

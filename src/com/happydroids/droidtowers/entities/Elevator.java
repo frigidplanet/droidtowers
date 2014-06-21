@@ -50,12 +50,10 @@ public class Elevator extends Transit {
 		super(elevatorType, gameGrid);
 
 		if (elevatorAtlas == null) {
-			elevatorAtlas = TowerAssetManager.textureAtlas(elevatorType
-					.getAtlasFilename());
+			elevatorAtlas = TowerAssetManager.textureAtlas(elevatorType.getAtlasFilename());
 		}
 
-		floorLabelCache = new BitmapFontCache(
-				FontManager.BankGothic32.getFont(), true);
+		floorLabelCache = new BitmapFontCache(FontManager.BankGothic32.getFont(), true);
 
 		size.set(1, 3);
 		topSprite = elevatorAtlas.createSprite("elevator/top");
@@ -104,8 +102,7 @@ public class Elevator extends Transit {
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		tmpVector.set(worldPosition);
 
 		if (selectedResizeHandle == ResizeHandle.BOTTOM) {
@@ -117,8 +114,7 @@ public class Elevator extends Transit {
 		bottomSprite.draw(spriteBatch);
 
 		Sprite shaftToRender;
-		if (drawShaft
-				&& !(InputSystem.instance().getCurrentTool() instanceof PlacementTool)) {
+		if (drawShaft && !(InputSystem.instance().getCurrentTool() instanceof PlacementTool)) {
 			shaftToRender = shaftSprite;
 		} else {
 			shaftToRender = emptyShaftSprite;
@@ -134,9 +130,7 @@ public class Elevator extends Transit {
 		floorLabelCache.setColor(1, 1, 1, 0.5f);
 		floorLabelCache.draw(spriteBatch, renderColor.a);
 
-		if (isPlaced()
-				&& selectedResizeHandle == null
-				&& !(InputSystem.instance().getCurrentTool() instanceof PlacementTool)) {
+		if (isPlaced() && selectedResizeHandle == null && !(InputSystem.instance().getCurrentTool() instanceof PlacementTool)) {
 			for (ElevatorCar elevatorCar : elevatorCars) {
 				elevatorCar.setColor(renderColor);
 				elevatorCar.draw(spriteBatch);
@@ -148,8 +142,7 @@ public class Elevator extends Transit {
 		} else {
 			topSprite.setColor(renderColor);
 		}
-		topSprite.setPosition(getWorldPosition().x, getWorldTop().y
-				- scaledGridUnit());
+		topSprite.setPosition(getWorldPosition().x, getWorldTop().y - scaledGridUnit());
 		topSprite.draw(spriteBatch);
 	}
 
@@ -168,16 +161,13 @@ public class Elevator extends Transit {
 	}
 
 	@Override
-	public boolean touchDown(GridPoint gameGridPoint, Vector2 worldPoint,
-			int pointer) {
-		if (topSprite.getBoundingRectangle().contains(worldPoint.x,
-				worldPoint.y)) {
+	public boolean touchDown(GridPoint gameGridPoint, Vector2 worldPoint, int pointer) {
+		if (topSprite.getBoundingRectangle().contains(worldPoint.x, worldPoint.y)) {
 			selectedResizeHandle = TOP;
 			anchorPoint = position.cpy();
 
 			return true;
-		} else if (bottomSprite.getBoundingRectangle().contains(worldPoint.x,
-				worldPoint.y)) {
+		} else if (bottomSprite.getBoundingRectangle().contains(worldPoint.x, worldPoint.y)) {
 			selectedResizeHandle = ResizeHandle.BOTTOM;
 			anchorPoint = position.cpy().add(size);
 
@@ -193,8 +183,7 @@ public class Elevator extends Transit {
 	public boolean touchUp() {
 		if (selectedResizeHandle != null) {
 			selectedResizeHandle = null;
-			ElevatorHeightChangeEvent event = Pools
-					.obtain(ElevatorHeightChangeEvent.class);
+			ElevatorHeightChangeEvent event = Pools.obtain(ElevatorHeightChangeEvent.class);
 			event.setGridObject(this);
 			broadcastEvent(event);
 			Pools.free(event);
@@ -219,10 +208,8 @@ public class Elevator extends Transit {
 			floors.insert(0, labelText + "\n");
 		}
 
-		floorLabelCache.setMultiLineText(floors, getWorldCenterBottom().x,
-				getWorldCenterBottom().y, 0f, BitmapFont.HAlignment.CENTER);
-		floorLabelCache.setPosition(0, floorLabelCache.getBounds().height
-				+ (TowerConsts.GRID_UNIT_SIZE * 1.25f));
+		floorLabelCache.setMultiLineText(floors, getWorldCenterBottom().x, getWorldCenterBottom().y, 0f, BitmapFont.HAlignment.CENTER);
+		floorLabelCache.setPosition(0, floorLabelCache.getBounds().height + (TowerConsts.GRID_UNIT_SIZE * 1.25f));
 
 		numFloorsSinceLabelCacheBuilt = size.y;
 	}
@@ -233,8 +220,7 @@ public class Elevator extends Transit {
 			return false;
 		}
 
-		GridObjectBoundsChangeEvent event = Pools
-				.obtain(GridObjectBoundsChangeEvent.class);
+		GridObjectBoundsChangeEvent event = Pools.obtain(GridObjectBoundsChangeEvent.class);
 		event.setGridObject(this);
 
 		switch (selectedResizeHandle) {
@@ -301,8 +287,7 @@ public class Elevator extends Transit {
 
 		Elevator elevator = (Elevator) o;
 
-		return !(elevatorCars != null ? !elevatorCars
-				.equals(elevator.elevatorCars) : elevator.elevatorCars != null);
+		return !(elevatorCars != null ? !elevatorCars.equals(elevator.elevatorCars) : elevator.elevatorCars != null);
 	}
 
 	@Override
@@ -320,23 +305,19 @@ public class Elevator extends Transit {
 		return true;
 	}
 
-	public boolean addPassenger(AvatarSteeringManager avatarSteeringManager,
-			int currentFloor, int destinationFloor, Runnable uponArrivalRunnable) {
+	public boolean addPassenger(AvatarSteeringManager avatarSteeringManager, int currentFloor, int destinationFloor, Runnable uponArrivalRunnable) {
 		if (elevatorCars.size == 0) {
 			return false;
 		}
 
 		for (ElevatorCar elevatorCar : elevatorCars) {
 			if (!elevatorCar.isInUse()) {
-				return elevatorCar.addPassenger(avatarSteeringManager,
-						currentFloor, destinationFloor, uponArrivalRunnable);
+				return elevatorCar.addPassenger(avatarSteeringManager, currentFloor, destinationFloor, uponArrivalRunnable);
 			}
 		}
 
-		ElevatorCar elevatorCar = elevatorCars.get(MathUtils.random(0,
-				elevatorCars.size - 1));
-		return elevatorCar.addPassenger(avatarSteeringManager, currentFloor,
-				destinationFloor, uponArrivalRunnable);
+		ElevatorCar elevatorCar = elevatorCars.get(MathUtils.random(0, elevatorCars.size - 1));
+		return elevatorCar.addPassenger(avatarSteeringManager, currentFloor, destinationFloor, uponArrivalRunnable);
 	}
 
 	public void removePassenger(AvatarSteeringManager avatarSteeringManager) {
@@ -380,8 +361,7 @@ public class Elevator extends Transit {
 
 	@Override
 	public int getUpkeepCost() {
-		return super.getUpkeepCost()
-				+ (gridObjectType.getCoins() / 20 * numCars);
+		return super.getUpkeepCost() + (gridObjectType.getCoins() / 20 * numCars);
 	}
 
 	public void removeCar() {

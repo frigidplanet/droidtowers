@@ -6,8 +6,7 @@ package com.happydroids.droidtowers.types;
 
 import com.badlogic.gdx.Gdx;
 
-public class CommercialTypeFactory extends
-		GridObjectTypeFactory<CommercialType> {
+public class CommercialTypeFactory extends GridObjectTypeFactory<CommercialType> {
 	private static CommercialTypeFactory instance;
 
 	private CommercialTypeFactory() {

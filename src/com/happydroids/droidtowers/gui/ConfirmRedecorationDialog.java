@@ -19,8 +19,7 @@ public class ConfirmRedecorationDialog extends Dialog {
 				dismiss();
 
 				int variationId = gridObject.getVariationId() + 1;
-				if (variationId > gridObject.getGridObjectType()
-						.getNumVariations()) {
+				if (variationId > gridObject.getGridObjectType().getNumVariations()) {
 					variationId = 1;
 				}
 

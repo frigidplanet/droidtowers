@@ -33,11 +33,9 @@ public abstract class Scene {
 
 	public Scene() {
 		camera = new OrthographicCamera(Display.getWidth(), Display.getHeight());
-		stage = new Stage(Display.getWidth(), Display.getHeight(), false,
-				getSpriteBatch());
+		stage = new Stage(Display.getWidth(), Display.getHeight(), false, getSpriteBatch());
 		// stage = new Stage(800, 480, true, getSpriteBatch());
-		cameraController = new CameraController(camera, new Vector2(
-				Display.getWidth(), Display.getHeight()));
+		cameraController = new CameraController(camera, new Vector2(Display.getWidth(), Display.getHeight()));
 		eventBus = new SafeEventBus(getClass().getSimpleName());
 		timeMultiplier = 1f;
 
@@ -59,8 +57,7 @@ public abstract class Scene {
 	}
 
 	public void setTimeMultiplier(float value) {
-		timeMultiplier = MathUtils.clamp(value, TowerConsts.GAME_SPEED_MIN,
-				TowerConsts.GAME_SPEED_MAX);
+		timeMultiplier = MathUtils.clamp(value, TowerConsts.GAME_SPEED_MIN, TowerConsts.GAME_SPEED_MAX);
 		events().post(new GameSpeedChangeEvent(this));
 	}
 

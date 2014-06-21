@@ -91,8 +91,7 @@ public class ElevatorQueue {
 			Passenger rider = riderIterator.next();
 			if (!rider.isRiding() && rider.boardingFloor == currentFloor) {
 				rider.boardNow();
-			} else if (rider.isRiding()
-					&& rider.destinationFloor == currentFloor) {
+			} else if (rider.isRiding() && rider.destinationFloor == currentFloor) {
 				rider.disembarkNow();
 				riderIterator.remove();
 			}
@@ -116,8 +115,7 @@ public class ElevatorQueue {
 	public void removePassenger(AvatarSteeringManager avatarSteeringManager) {
 		Iterator<Passenger> ridersIterator = currentRiders.iterator();
 		while (ridersIterator.hasNext()) {
-			if (ridersIterator.next().getSteeringManager()
-					.equals(avatarSteeringManager)) {
+			if (ridersIterator.next().getSteeringManager().equals(avatarSteeringManager)) {
 				ridersIterator.remove();
 				break;
 			}
@@ -125,8 +123,7 @@ public class ElevatorQueue {
 
 		ridersIterator = passengersWaiting.iterator();
 		while (ridersIterator.hasNext()) {
-			if (ridersIterator.next().getSteeringManager()
-					.equals(avatarSteeringManager)) {
+			if (ridersIterator.next().getSteeringManager().equals(avatarSteeringManager)) {
 				ridersIterator.remove();
 				break;
 			}

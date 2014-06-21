@@ -47,30 +47,23 @@ public class ManageHotelRoomDialog extends Dialog {
 		content.defaults().pad(Display.devicePixel(4));
 
 		content.row().fillX();
-		content.add(
-				FontManager.Roboto18.makeLabel("Name of "
-						+ hotelRoom.getGridObjectType().getName())).expandX()
-				.colspan(2);
+		content.add(FontManager.Roboto18.makeLabel("Name of " + hotelRoom.getGridObjectType().getName())).expandX().colspan(2);
 
 		content.row();
 		content.add(textField).width(400);
 		content.add(makeRandomNameButton());
 
 		content.row();
-		content.add(FontManager.Roboto18.makeLabel("Uses between Cleanings"))
-				.colspan(2);
+		content.add(FontManager.Roboto18.makeLabel("Uses between Cleanings")).colspan(2);
 
 		content.row();
-		content.add(
-				FontManager.Roboto18.makeLabel(String.valueOf(hotelRoom
-						.getNumVisitors()))).colspan(2);
+		content.add(FontManager.Roboto18.makeLabel(String.valueOf(hotelRoom.getNumVisitors()))).colspan(2);
 
 		return content;
 	}
 
 	private TextButton makeRandomNameButton() {
-		TextButton randomNameButton = FontManager.Roboto12
-				.makeTextButton("Random Name");
+		TextButton randomNameButton = FontManager.Roboto12.makeTextButton("Random Name");
 		randomNameButton.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {

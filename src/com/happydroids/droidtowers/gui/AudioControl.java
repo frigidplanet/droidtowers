@@ -17,12 +17,8 @@ import static com.happydroids.droidtowers.Colors.ICS_BLUE;
 
 public class AudioControl extends ImageButton {
 	public AudioControl(TextureAtlas hudAtlas) {
-		super(new NinePatchDrawable(new NinePatch(
-				hudAtlas.findRegion("audio-on"), WHITE)),
-				new NinePatchDrawable(new NinePatch(
-						hudAtlas.findRegion("audio-on"), ICS_BLUE)),
-				new NinePatchDrawable(new NinePatch(
-						hudAtlas.findRegion("audio-off"), WHITE)));
+		super(new NinePatchDrawable(new NinePatch(hudAtlas.findRegion("audio-on"), WHITE)), new NinePatchDrawable(new NinePatch(
+				hudAtlas.findRegion("audio-on"), ICS_BLUE)), new NinePatchDrawable(new NinePatch(hudAtlas.findRegion("audio-off"), WHITE)));
 		layout();
 
 		GameSoundController.runAfterInit(new Runnable() {

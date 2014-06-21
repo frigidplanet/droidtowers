@@ -42,10 +42,8 @@ import com.happydroids.droidtowers.utils.Random;
 public class Avatar extends GameObject {
 	public static final float FRAME_DURATION = 0.25f;
 	public static final float WALKING_ANIMATION_DURATION = FRAME_DURATION * 3;
-	private static final Set<Color> colors = Sets.newHashSet(Color.GREEN,
-			Color.RED, Color.ORANGE, Color.MAGENTA, Color.PINK, Color.YELLOW);
-	private static Iterator<Color> colorIterator = Iterables.cycle(colors)
-			.iterator();
+	private static final Set<Color> colors = Sets.newHashSet(Color.GREEN, Color.RED, Color.ORANGE, Color.MAGENTA, Color.PINK, Color.YELLOW);
+	private static Iterator<Color> colorIterator = Iterables.cycle(colors).iterator();
 	private final Animation walkAnimation;
 	private float walkAnimationTime;
 
@@ -76,21 +74,18 @@ public class Avatar extends GameObject {
 		setColor(colorIterator.next());
 
 		TextureAtlas droidAtlas = getTextureAtlas();
-		TextureAtlas.AtlasRegion stationary = droidAtlas
-				.findRegion(addFramePrefix("stationary"));
+		TextureAtlas.AtlasRegion stationary = droidAtlas.findRegion(addFramePrefix("stationary"));
 		setSize(stationary.originalWidth, stationary.originalHeight);
 		setRegion(stationary);
 		setOrigin(stationary.originalWidth / 2, 0);
 		// setVisible(false);
 
-		walkAnimation = new Animation(FRAME_DURATION,
-				droidAtlas.findRegions(addFramePrefix("walk")));
+		walkAnimation = new Animation(FRAME_DURATION, droidAtlas.findRegions(addFramePrefix("walk")));
 		lastVisitedPlaces = Lists.newLinkedList();
 		satisfactionFood = 1f;
 		satisfactionShops = 1f;
 
-		pathFinder = new TransitPathFinder(this.gameGrid,
-				this instanceof Janitor);
+		pathFinder = new TransitPathFinder(this.gameGrid, this instanceof Janitor);
 		pathFinder.setCompleteCallback(new Runnable() {
 			@Override
 			public void run() {
@@ -146,8 +141,7 @@ public class Avatar extends GameObject {
 			navigateToGridObject(gridObjects.get(0));
 		} else if (gridObjects.size > 0) {
 			for (GridObject gridObject : gridObjects) {
-				if (gridObject.provides(COMMERCIAL)
-						&& gridObject.getDirtLevel() < 1f) {
+				if (gridObject.provides(COMMERCIAL) && gridObject.getDirtLevel() < 1f) {
 					navigateToGridObject(gridObject);
 					break;
 				}
@@ -156,22 +150,18 @@ public class Avatar extends GameObject {
 	}
 
 	protected void wanderAround() {
-		GridPosition start = gameGrid.positionCache().getPosition(
-				gameGrid.closestGridPoint(getX(), getY()));
+		GridPosition start = gameGrid.positionCache().getPosition(gameGrid.closestGridPoint(getX(), getY()));
 
 		Array<GridPosition> discoveredPath = new Array<GridPosition>(5);
 
 		GridPoint gridSize = gameGrid.getGridSize();
 
 		if (start.y == TowerConsts.LOBBY_FLOOR) {
-			discoveredPath.add(gameGrid.positionCache().getPosition(
-					Random.randomInt(0, gridSize.x), TowerConsts.LOBBY_FLOOR));
-			discoveredPath.add(gameGrid.positionCache().getPosition(
-					Random.randomInt(0, gridSize.x), TowerConsts.LOBBY_FLOOR));
+			discoveredPath.add(gameGrid.positionCache().getPosition(Random.randomInt(0, gridSize.x), TowerConsts.LOBBY_FLOOR));
+			discoveredPath.add(gameGrid.positionCache().getPosition(Random.randomInt(0, gridSize.x), TowerConsts.LOBBY_FLOOR));
 		} else {
 			for (int i = 1; i < 5; i++) {
-				GridPosition positionRight = gameGrid.positionCache()
-						.getPosition(start.x + i, start.y);
+				GridPosition positionRight = gameGrid.positionCache().getPosition(start.x + i, start.y);
 				if (positionRight != null && !positionRight.isEmpty()) {
 					if (positionRight.elevator == null) {
 						discoveredPath.add(positionRight);
@@ -182,8 +172,7 @@ public class Avatar extends GameObject {
 			}
 
 			for (int i = 1; i < 5; i++) {
-				GridPosition positionLeft = gameGrid.positionCache()
-						.getPosition(start.x - i, start.y);
+				GridPosition positionLeft = gameGrid.positionCache().getPosition(start.x - i, start.y);
 				if (positionLeft != null && !positionLeft.isEmpty()) {
 					if (positionLeft.elevator == null) {
 						discoveredPath.add(positionLeft);
@@ -211,10 +200,8 @@ public class Avatar extends GameObject {
 			movingTo.addToVisitorQueue(this);
 		}
 
-		pathFinder.setStart(gameGrid.positionCache().getPosition(
-				gameGrid.closestGridPoint(getX(), getY())));
-		pathFinder.setGoal(gameGrid.positionCache().getPosition(
-				gridObject.getPosition()));
+		pathFinder.setStart(gameGrid.positionCache().getPosition(gameGrid.closestGridPoint(getX(), getY())));
+		pathFinder.setGoal(gameGrid.positionCache().getPosition(gridObject.getPosition()));
 		pathFinder.start();
 
 		if (this instanceof Janitor) {
@@ -242,8 +229,7 @@ public class Avatar extends GameObject {
 		}
 
 		movingTo = null;
-		timeUntilPathSearch = PathSearchManager.instance().queueLength() > 5 ? 5f + MathUtils
-				.random(1, 5f) : 0f;
+		timeUntilPathSearch = PathSearchManager.instance().queueLength() > 5 ? 5f + MathUtils.random(1, 5f) : 0f;
 	}
 
 	@Override
@@ -265,25 +251,21 @@ public class Avatar extends GameObject {
 		if (!steeringManager.isRunning()) {
 			beginNextAction();
 		} else {
-			if ((steeringManager.getCurrentState() & MOVING) != 0
-					|| (steeringManager.getCurrentState() & USING_STAIRS) != 0) {
+			if ((steeringManager.getCurrentState() & MOVING) != 0 || (steeringManager.getCurrentState() & USING_STAIRS) != 0) {
 				walkAnimationTime += delta;
 				if (walkAnimationTime >= WALKING_ANIMATION_DURATION) {
 					walkAnimationTime = 0f;
 				}
 
-				TextureRegion keyFrame = walkAnimation.getKeyFrame(
-						walkAnimationTime, true);
+				TextureRegion keyFrame = walkAnimation.getKeyFrame(walkAnimationTime, true);
 				setRegion(keyFrame);
-				flip(steeringManager.horizontalDirection() == Direction.LEFT,
-						false);
+				flip(steeringManager.horizontalDirection() == Direction.LEFT, false);
 			}
 		}
 	}
 
 	private GridObject searchForFood() {
-		Array<GridObject> commercialSpaces = gameGrid
-				.getInstancesOf(CommercialSpace.class);
+		Array<GridObject> commercialSpaces = gameGrid.getInstancesOf(CommercialSpace.class);
 		if (commercialSpaces.size == 0) {
 			return null;
 		}
@@ -295,24 +277,20 @@ public class Avatar extends GameObject {
 		int closestDist = Integer.MAX_VALUE;
 		for (GridObject gridObject : commercialSpaces) {
 			CommercialSpace commercialSpace = (CommercialSpace) gridObject;
-			if (commercialSpace.getVisitorQueueSize() >= 5
-					|| commercialSpace.getEmploymentLevel() > 0.0f) {
+			if (commercialSpace.getVisitorQueueSize() >= 5 || commercialSpace.getEmploymentLevel() > 0.0f) {
 				continue;
 			}
 
-			int distanceFromAvatar = commercialSpace.getPosition().dst(avatarX,
-					avatarY);
+			int distanceFromAvatar = commercialSpace.getPosition().dst(avatarX, avatarY);
 			if (distanceFromAvatar < closestDist) {
 				closest = commercialSpace;
 			}
 		}
 
 		if (lastVisitedPlaces.contains(closest) || closest == null) {
-			satisfactionFood = MathUtils
-					.clamp(satisfactionFood - 0.15f, 0f, 1f);
+			satisfactionFood = MathUtils.clamp(satisfactionFood - 0.15f, 0f, 1f);
 		} else {
-			satisfactionFood = MathUtils
-					.clamp(satisfactionFood + 0.15f, 0f, 1f);
+			satisfactionFood = MathUtils.clamp(satisfactionFood + 0.15f, 0f, 1f);
 		}
 
 		return closest;
@@ -344,12 +322,9 @@ public class Avatar extends GameObject {
 			GridObject mostDesirable = rooms.get(0);
 			for (GridObject gridObject : rooms) {
 				Room room = (Room) gridObject;
-				if (room.isConnectedToTransport()
-						&& room.getNumSupportedResidents() > 0) {
+				if (room.isConnectedToTransport() && room.getNumSupportedResidents() > 0) {
 					if (room.getNumResidents() == 0
-							|| (room.getNumResidents() < room
-									.getNumSupportedResidents() && mostDesirable
-									.getDesirability() < room.getDesirability())) {
+							|| (room.getNumResidents() < room.getNumSupportedResidents() && mostDesirable.getDesirability() < room.getDesirability())) {
 						mostDesirable = room;
 					}
 				}
@@ -383,10 +358,7 @@ public class Avatar extends GameObject {
 		public boolean apply(@Nullable GridObject input) {
 			if (input instanceof Room) {
 				Room room = (Room) input;
-				return room.isConnectedToTransport()
-						&& (room.getNumResidents() == 0 || room
-								.getNumResidents() < room
-								.getNumSupportedResidents());
+				return room.isConnectedToTransport() && (room.getNumResidents() == 0 || room.getNumResidents() < room.getNumSupportedResidents());
 			}
 
 			return false;

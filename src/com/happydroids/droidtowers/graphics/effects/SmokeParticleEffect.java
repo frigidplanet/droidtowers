@@ -15,8 +15,7 @@ public class SmokeParticleEffect extends GameObject {
 
 	public SmokeParticleEffect() {
 		particleEffect = new ParticleEffect();
-		particleEffect.load(Gdx.files.internal("particles/smoke.p"),
-				Gdx.files.internal("particles"));
+		particleEffect.load(Gdx.files.internal("particles/smoke.p"), Gdx.files.internal("particles"));
 	}
 
 	@Override

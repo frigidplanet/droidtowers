@@ -29,10 +29,8 @@ public class FontHelper {
 		this(fontPath, fontPath, 0, 0);
 	}
 
-	public FontHelper(String mdpiFontPath, String hdpiFontPath,
-			int buttonPadTop, int buttonPadLeft) {
-		this.fontPath = Display.getScaledDensity() > 1f ? hdpiFontPath
-				: mdpiFontPath;
+	public FontHelper(String mdpiFontPath, String hdpiFontPath, int buttonPadTop, int buttonPadLeft) {
+		this.fontPath = Display.getScaledDensity() > 1f ? hdpiFontPath : mdpiFontPath;
 		this.buttonPadTop = Display.devicePixel(buttonPadTop);
 		this.buttonPadLeft = Display.devicePixel(buttonPadLeft);
 	}
@@ -41,8 +39,7 @@ public class FontHelper {
 		this(mdpiFontPath, hdpiFontPath, 0, 0);
 	}
 
-	public FontHelper(String fileName, int pixelHeight, int buttonPadTop,
-			int buttonPadLeft) {
+	public FontHelper(String fileName, int pixelHeight, int buttonPadTop, int buttonPadLeft) {
 		this.fontPath = fileName;
 		this.pixelHeight = pixelHeight * Display.getScaledDensity();
 		this.buttonPadTop = Display.devicePixel(buttonPadTop);
@@ -64,8 +61,7 @@ public class FontHelper {
 	public BitmapFont getFont() {
 		if (bitmapFont == null) {
 			if (pixelHeight > 0) {
-				FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(
-						Gdx.files.internal(fontPath));
+				FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontPath));
 				bitmapFont = fontGenerator.generateFont((int) pixelHeight);
 				fontGenerator.dispose();
 			} else {
@@ -82,11 +78,8 @@ public class FontHelper {
 		return makeLabel(text, Color.WHITE);
 	}
 
-	public TransparentTextButton makeTransparentButton(String labelText,
-			Color downColor, Color upColor) {
-		return applyTextButtonLabelStyle(new TransparentTextButton(labelText,
-				TowerAssetManager.getCustomSkin(), upColor, downColor),
-				Color.WHITE);
+	public TransparentTextButton makeTransparentButton(String labelText, Color downColor, Color upColor) {
+		return applyTextButtonLabelStyle(new TransparentTextButton(labelText, TowerAssetManager.getCustomSkin(), upColor, downColor), Color.WHITE);
 	}
 
 	public TextButton makeTextButton(String labelText) {
@@ -94,27 +87,22 @@ public class FontHelper {
 	}
 
 	public TextButton makeTextButton(String buttonText, Color color) {
-		return applyTextButtonLabelStyle(new TextButton(buttonText,
-				TowerAssetManager.getCustomSkin()), color);
+		return applyTextButtonLabelStyle(new TextButton(buttonText, TowerAssetManager.getCustomSkin()), color);
 	}
 
 	public CheckBox makeCheckBox(String labelText) {
-		return applyTextButtonLabelStyle(new CheckBox(labelText,
-				TowerAssetManager.getCustomSkin()), Color.WHITE);
+		return applyTextButtonLabelStyle(new CheckBox(labelText, TowerAssetManager.getCustomSkin()), Color.WHITE);
 	}
 
-	private <T extends TextButton> T applyTextButtonLabelStyle(T textButton,
-			Color labelColor) {
+	private <T extends TextButton> T applyTextButtonLabelStyle(T textButton, Color labelColor) {
 		if (labelColor != Color.WHITE) {
-			TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(
-					textButton.getStyle());
+			TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(textButton.getStyle());
 			style.fontColor = labelColor;
 
 			textButton.setStyle(style);
 		}
 		textButton.getLabel().setStyle(labelStyle(labelColor));
-		textButton.getLabelCell().pad(buttonPadTop, buttonPadLeft,
-				buttonPadTop, buttonPadLeft);
+		textButton.getLabelCell().pad(buttonPadTop, buttonPadLeft, buttonPadTop, buttonPadLeft);
 		textButton.invalidate();
 		textButton.pack();
 
@@ -123,11 +111,9 @@ public class FontHelper {
 
 	public TextField makeTextField(String labelText, String hintText) {
 		if (textFieldStyle == null) {
-			TextField.TextFieldStyle defaultStyle = TowerAssetManager
-					.getCustomSkin().get(TextField.TextFieldStyle.class);
-			textFieldStyle = new TextField.TextFieldStyle(getFont(),
-					defaultStyle.fontColor, defaultStyle.cursor,
-					defaultStyle.selection, defaultStyle.background);
+			TextField.TextFieldStyle defaultStyle = TowerAssetManager.getCustomSkin().get(TextField.TextFieldStyle.class);
+			textFieldStyle = new TextField.TextFieldStyle(getFont(), defaultStyle.fontColor, defaultStyle.cursor, defaultStyle.selection,
+					defaultStyle.background);
 		}
 
 		return new TextField(labelText, textFieldStyle);
@@ -145,9 +131,7 @@ public class FontHelper {
 	}
 
 	public TextButton makeTextToggleButton(String labelText) {
-		return applyTextButtonLabelStyle(
-				new TextButton(labelText, TowerAssetManager.getCustomSkin()
-						.get("toggle-button", TextButton.TextButtonStyle.class)),
+		return applyTextButtonLabelStyle(new TextButton(labelText, TowerAssetManager.getCustomSkin().get("toggle-button", TextButton.TextButtonStyle.class)),
 				Color.WHITE);
 	}
 

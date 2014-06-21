@@ -17,8 +17,7 @@ public class ToolTip extends Table {
 		label = FontManager.Default.makeLabel("");
 
 		defaults();
-		setBackground(TowerAssetManager.ninePatchDrawable(
-				TowerAssetManager.WHITE_SWATCH, Colors.TRANSPARENT_BLACK));
+		setBackground(TowerAssetManager.ninePatchDrawable(TowerAssetManager.WHITE_SWATCH, Colors.TRANSPARENT_BLACK));
 		pad(4);
 		add(label);
 		pack();

@@ -32,31 +32,25 @@ public class TutorialStepNotification extends Table {
 		super();
 		this.tutorialStep = tutorialStep;
 
-		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png",
-				Color.WHITE, 1, 1, 1, 1));
+		setBackground(TowerAssetManager.ninePatchDrawable("hud/dialog-bg.png", Color.WHITE, 1, 1, 1, 1));
 
 		pad(Display.devicePixel(8));
 		defaults().top().left().space(Display.devicePixel(6));
 
 		row();
-		add(FontManager.Default.makeLabel(tutorialStep.getName().toUpperCase(Locale.getDefault()),
-				Colors.ICS_BLUE));
+		add(FontManager.Default.makeLabel(tutorialStep.getName().toUpperCase(Locale.getDefault()), Colors.ICS_BLUE));
 
 		row();
 		add(new HorizontalRule()).fillX();
 
-		Label descLabel = FontManager.Default.makeLabel(tutorialStep
-				.getDescription());
+		Label descLabel = FontManager.Default.makeLabel(tutorialStep.getDescription());
 		row();
 		add(descLabel);
 
 		if (tutorialStep.requiresTapToGiveReward()) {
-			final boolean isTutorialCompleteStep = tutorialStep.getId().equals(
-					"tutorial-finished");
+			final boolean isTutorialCompleteStep = tutorialStep.getId().equals("tutorial-finished");
 
-			TextButton tapToDismissButton = FontManager.Default
-					.makeTextButton(isTutorialCompleteStep ? "tap to dismiss"
-							: "continue");
+			TextButton tapToDismissButton = FontManager.Default.makeTextButton(isTutorialCompleteStep ? "tap to dismiss" : "continue");
 			tapToDismissButton.addListener(new VibrateClickListener() {
 				@Override
 				public void onClick(InputEvent event, float x, float y) {
@@ -76,40 +70,27 @@ public class TutorialStepNotification extends Table {
 	public void show() {
 		HeadsUpDisplay.instance().setTutorialStepNotification(this);
 
-		Timeline.createSequence()
-				.push(Tween.set(this, WidgetAccessor.OPACITY).target(0.0f))
-				.push(Tween.to(this, WidgetAccessor.OPACITY, 200).target(1.0f))
-				.setCallbackTriggers(TweenCallback.END)
-				.start(TweenSystem.manager());
+		Timeline.createSequence().push(Tween.set(this, WidgetAccessor.OPACITY).target(0.0f)).push(Tween.to(this, WidgetAccessor.OPACITY, 200).target(1.0f))
+				.setCallbackTriggers(TweenCallback.END).start(TweenSystem.manager());
 	}
 
 	public void hide() {
 		TweenSystem.manager().killTarget(this);
 
-		Timeline.createSequence()
-				.push(Tween.set(this, WidgetAccessor.SIZE).target(
-						this.getWidth(), this.getHeight()))
-				.beginParallel()
-				.push(Tween.to(this, WidgetAccessor.SIZE, 300).target(
-						this.getWidth(), 0))
-				.push(Tween.to(this, WidgetAccessor.OPACITY, 300).target(0))
-				.end()
+		Timeline.createSequence().push(Tween.set(this, WidgetAccessor.SIZE).target(this.getWidth(), this.getHeight())).beginParallel()
+				.push(Tween.to(this, WidgetAccessor.SIZE, 300).target(this.getWidth(), 0)).push(Tween.to(this, WidgetAccessor.OPACITY, 300).target(0)).end()
 				.setCallback(new TweenCallback() {
 					public void onEvent(int eventType, BaseTween source) {
 						TutorialStepNotification.this.remove();
-						HeadsUpDisplay.instance().getAchievementButton()
-								.setVisible(true);
-						HeadsUpDisplay.instance().toggleViewNeighborsButton(
-								true);
+						HeadsUpDisplay.instance().getAchievementButton().setVisible(true);
+						HeadsUpDisplay.instance().toggleViewNeighborsButton(true);
 					}
-				}).setCallbackTriggers(TweenCallback.END)
-				.start(TweenSystem.manager());
+				}).setCallbackTriggers(TweenCallback.END).start(TweenSystem.manager());
 	}
 
 	@Override
 	protected void drawBackground(SpriteBatch batch, float parentAlpha) {
-		SceneManager.activeScene().effects()
-				.drawDropShadow(batch, parentAlpha, this);
+		SceneManager.activeScene().effects().drawDropShadow(batch, parentAlpha, this);
 
 		super.drawBackground(batch, parentAlpha);
 	}

@@ -19,8 +19,7 @@ public class Passenger {
 	private boolean waitFor;
 	private boolean riding;
 
-	public Passenger(AvatarSteeringManager steeringManager, int boarding,
-			int destination, Runnable disembarkCallback) {
+	public Passenger(AvatarSteeringManager steeringManager, int boarding, int destination, Runnable disembarkCallback) {
 		this.steeringManager = steeringManager;
 		boardingFloor = boarding;
 		destinationFloor = destination;

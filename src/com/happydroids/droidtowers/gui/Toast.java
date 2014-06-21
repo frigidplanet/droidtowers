@@ -27,16 +27,14 @@ public class Toast extends Table {
 		label = FontManager.RobotoBold18.makeLabel("");
 
 		defaults();
-		setBackground(TowerAssetManager.ninePatchDrawable(
-				TowerAssetManager.WHITE_SWATCH, Colors.DARKER_GRAY));
+		setBackground(TowerAssetManager.ninePatchDrawable(TowerAssetManager.WHITE_SWATCH, Colors.DARKER_GRAY));
 		pad(Display.devicePixel(12));
 		add(label);
 		pack();
 		setTouchable(Touchable.enabled);
 		addListener(new ClickListener() {
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				removeListener(this);
 				fadeOut();
 				return true;
@@ -61,22 +59,19 @@ public class Toast extends Table {
 	}
 
 	protected void fadeIn() {
-		Tween.to(this, WidgetAccessor.OPACITY, 500).target(1.0f)
-				.start(TweenSystem.manager()).setCallback(new TweenCallback() {
-					public void onEvent(int eventType, BaseTween source) {
-						fadeOut();
-					}
-				}).setCallbackTriggers(TweenCallback.COMPLETE);
+		Tween.to(this, WidgetAccessor.OPACITY, 500).target(1.0f).start(TweenSystem.manager()).setCallback(new TweenCallback() {
+			public void onEvent(int eventType, BaseTween source) {
+				fadeOut();
+			}
+		}).setCallbackTriggers(TweenCallback.COMPLETE);
 	}
 
 	protected void fadeOut() {
-		Tween.to(this, WidgetAccessor.OPACITY, 250).target(0f).delay(3000)
-				.setCallback(new TweenCallback() {
-					public void onEvent(int eventType, BaseTween source) {
-						remove();
-					}
-				}).setCallbackTriggers(TweenCallback.COMPLETE)
-				.start(TweenSystem.manager());
+		Tween.to(this, WidgetAccessor.OPACITY, 250).target(0f).delay(3000).setCallback(new TweenCallback() {
+			public void onEvent(int eventType, BaseTween source) {
+				remove();
+			}
+		}).setCallbackTriggers(TweenCallback.COMPLETE).start(TweenSystem.manager());
 	}
 
 	@Override

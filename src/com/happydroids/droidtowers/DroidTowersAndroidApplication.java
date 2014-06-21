@@ -32,7 +32,7 @@ public class DroidTowersAndroidApplication extends Application {
 		 */
 
 		ACRA.init(this);
-		//ACRA.getErrorReporter().setReportSender(new RavenReportSender());
+		// ACRA.getErrorReporter().setReportSender(new RavenReportSender());
 		ACRA.getErrorReporter().setReportSender(new CrashReporterSave(this));
 
 		ACRAConfiguration conf = ACRA.getNewDefaultConfig(this);

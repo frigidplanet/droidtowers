@@ -24,14 +24,10 @@ public class NameGenerator {
 	private static Iterator<String> maleNames;
 
 	public static void initialize() {
-		placeNames = Iterables.cycle(parseFile("generators/places.txt"))
-				.iterator();
-		corporationNames = Iterables.cycle(
-				parseFile("generators/corporations.txt")).iterator();
-		femaleNames = Iterables.cycle(parseFile("generators/names-female.txt"))
-				.iterator();
-		maleNames = Iterables.cycle(parseFile("generators/names-male.txt"))
-				.iterator();
+		placeNames = Iterables.cycle(parseFile("generators/places.txt")).iterator();
+		corporationNames = Iterables.cycle(parseFile("generators/corporations.txt")).iterator();
+		femaleNames = Iterables.cycle(parseFile("generators/names-female.txt")).iterator();
+		maleNames = Iterables.cycle(parseFile("generators/names-male.txt")).iterator();
 	}
 
 	private static List<String> parseFile(String fileName) {
@@ -59,8 +55,7 @@ public class NameGenerator {
 		return placeNames.next();
 	}
 
-	public static String randomNameForGridObjectType(
-			GridObjectType gridObjectType) {
+	public static String randomNameForGridObjectType(GridObjectType gridObjectType) {
 		if (gridObjectType.provides(OFFICE_SERVICES)) {
 			return randomCorporationName();
 		} else if (gridObjectType.provides(FOOD, ENTERTAINMENT)) {

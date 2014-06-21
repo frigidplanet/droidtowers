@@ -22,14 +22,11 @@ import com.happydroids.droidtowers.platform.Display;
 class AchievementListViewItem extends Table {
 	private AchievementListView achievementListView;
 
-	public AchievementListViewItem(AchievementListView achievementListView,
-			Achievement achievement, final Drawable itemSelectBackground) {
+	public AchievementListViewItem(AchievementListView achievementListView, Achievement achievement, final Drawable itemSelectBackground) {
 		this.achievementListView = achievementListView;
 
-		row().pad(Display.devicePixel(16), Display.devicePixel(8),
-				Display.devicePixel(16), Display.devicePixel(8)).fillX();
-		add(FontManager.Roboto18.makeLabel(achievement.getName())).expandX()
-				.left();
+		row().pad(Display.devicePixel(16), Display.devicePixel(8), Display.devicePixel(16), Display.devicePixel(8)).fillX();
+		add(FontManager.Roboto18.makeLabel(achievement.getName())).expandX().left();
 
 		Actor actor;
 		if (achievement.isCompleted()) {
@@ -45,8 +42,7 @@ class AchievementListViewItem extends Table {
 		}
 		add(actor).width(Display.devicePixel(200));
 
-		Image arrowImg = new Image(TowerAssetManager.drawableFromAtlas(
-				"right-arrow", "hud/menus.txt"), Scaling.fit);
+		Image arrowImg = new Image(TowerAssetManager.drawableFromAtlas("right-arrow", "hud/menus.txt"), Scaling.fit);
 		add(arrowImg).width((int) arrowImg.getWidth());
 
 		row().fillX();
@@ -61,13 +57,12 @@ class AchievementListViewItem extends Table {
 				InputEvent event = (InputEvent) e;
 
 				if (event.getType().equals(InputEvent.Type.touchDown)) {
-					addAction(Actions.sequence(Actions.delay(0.125f),
-							Actions.run(new Runnable() {
-								@Override
-								public void run() {
-									setBackground(itemSelectBackground);
-								}
-							})));
+					addAction(Actions.sequence(Actions.delay(0.125f), Actions.run(new Runnable() {
+						@Override
+						public void run() {
+							setBackground(itemSelectBackground);
+						}
+					})));
 				} else {
 					clearActions();
 					setBackground((Drawable) null);

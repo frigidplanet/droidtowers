@@ -42,13 +42,11 @@ public class TowerAssetManager {
 	private static AssetList assetList;
 	private static Skin customSkin;
 	private static Skin defaultSkin;
-	private static SafeEventBus eventBus = new SafeEventBus(
-			TowerAssetManager.class.getSimpleName());
+	private static SafeEventBus eventBus = new SafeEventBus(TowerAssetManager.class.getSimpleName());
 
 	public static MemoryTrackingAssetManager assetManager() {
 		if (assetManager == null) {
-			assetManager = new MemoryTrackingAssetManager(
-					new FileResolverMultiplexer());
+			assetManager = new MemoryTrackingAssetManager(new FileResolverMultiplexer());
 			if (HappyDroidConsts.DEBUG) {
 				assetManager.getLogger().setLevel(Logger.ERROR);
 			}
@@ -56,11 +54,7 @@ public class TowerAssetManager {
 			Texture.setAssetManager(assetManager);
 
 			try {
-				assetList = TowerGameService
-						.instance()
-						.getObjectMapper()
-						.readValue(Gdx.files.internal("assets.json").read(),
-								AssetList.class);
+				assetList = TowerGameService.instance().getObjectMapper().readValue(Gdx.files.internal("assets.json").read(), AssetList.class);
 
 				ensureAssetsAreLoaded();
 			} catch (IOException e) {
@@ -71,10 +65,8 @@ public class TowerAssetManager {
 			parameter.genMipMaps = true;
 			parameter.minFilter = MipMapNearestNearest;
 			parameter.magFilter = Linear;
-			assetManager.load(checkForHDPI("elevator/shaft.png"),
-					Texture.class, parameter);
-			assetManager.load(checkForHDPI("elevator/empty.png"),
-					Texture.class, parameter);
+			assetManager.load(checkForHDPI("elevator/shaft.png"), Texture.class, parameter);
+			assetManager.load(checkForHDPI("elevator/empty.png"), Texture.class, parameter);
 
 			defaultSkin = new Skin(Gdx.files.internal("default-skin.json"));
 			makeCustomGUISkin();
@@ -89,33 +81,25 @@ public class TowerAssetManager {
 	}
 
 	private static void makeCustomGUISkin() {
-		ResolutionIndependentAtlas skinAtlas = new ResolutionIndependentAtlas(
-				Gdx.files.internal("hud/skin.txt"));
+		ResolutionIndependentAtlas skinAtlas = new ResolutionIndependentAtlas(Gdx.files.internal("hud/skin.txt"));
 
 		int size = 4;
-		NinePatchDrawable buttonNormal = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("button"), size, size, size, size));
-		NinePatchDrawable buttonDown = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("button-down"), size, size, size, size));
-		NinePatchDrawable buttonDisabled = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("button"), size, size, size, size));
+		NinePatchDrawable buttonNormal = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("button"), size, size, size, size));
+		NinePatchDrawable buttonDown = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("button-down"), size, size, size, size));
+		NinePatchDrawable buttonDisabled = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("button"), size, size, size, size));
 		buttonDisabled.getPatch().getColor().a = 0.75f;
 
 		customSkin = new Skin();
 
 		CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
-		checkBoxStyle.checkboxOn = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("checkbox-on")));
-		checkBoxStyle.checkboxOff = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("checkbox-off")));
+		checkBoxStyle.checkboxOn = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("checkbox-on")));
+		checkBoxStyle.checkboxOff = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("checkbox-off")));
 		checkBoxStyle.font = FontManager.Default.getFont();
 		checkBoxStyle.fontColor = Color.WHITE;
 		customSkin.add("default", checkBoxStyle);
 
-		Slider.SliderStyle sliderStyle = new Slider.SliderStyle(
-				new NinePatchDrawable(new NinePatch(new Texture(WHITE_SWATCH),
-						Color.LIGHT_GRAY)), new NinePatchDrawable(
-						new NinePatch(skinAtlas.findRegion("slider-handle"))));
+		Slider.SliderStyle sliderStyle = new Slider.SliderStyle(new NinePatchDrawable(new NinePatch(new Texture(WHITE_SWATCH), Color.LIGHT_GRAY)),
+				new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("slider-handle"))));
 		customSkin.add("default-horizontal", sliderStyle);
 
 		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -145,10 +129,8 @@ public class TowerAssetManager {
 		textFieldStyle.fontColor = Color.WHITE;
 		textFieldStyle.messageFont = FontManager.Roboto18.getFont();
 		textFieldStyle.messageFontColor = Color.LIGHT_GRAY;
-		textFieldStyle.cursor = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("text-cursor"), size, size, size, size));
-		textFieldStyle.selection = new NinePatchDrawable(new NinePatch(
-				skinAtlas.findRegion("text-selection")));
+		textFieldStyle.cursor = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("text-cursor"), size, size, size, size));
+		textFieldStyle.selection = new NinePatchDrawable(new NinePatch(skinAtlas.findRegion("text-selection")));
 
 		customSkin.add("default", textFieldStyle);
 
@@ -163,16 +145,14 @@ public class TowerAssetManager {
 		customSkin.add("default", selectBoxStyle);
 	}
 
-	private static void addToAssetManager(Map<String, Class> preloadFiles,
-			Map<String, String> highDefFiles) {
+	private static void addToAssetManager(Map<String, Class> preloadFiles, Map<String, String> highDefFiles) {
 		for (Map.Entry<String, Class> entry : preloadFiles.entrySet()) {
 			assetManager().load(checkForHDPI(entry.getKey()), entry.getValue());
 		}
 	}
 
 	public static String checkForHDPI(String fileName) {
-		if (Display.isXHDPIMode()
-				&& assetList.highDefFiles.containsKey(fileName)) {
+		if (Display.isXHDPIMode() && assetList.highDefFiles.containsKey(fileName)) {
 			return assetList.highDefFiles.get(fileName);
 		}
 
@@ -200,10 +180,8 @@ public class TowerAssetManager {
 		return assetManager().get(checkForHDPI(s), Texture.class);
 	}
 
-	public static TextureAtlas.AtlasRegion textureFromAtlas(String textureName,
-			String atlasName) {
-		return assetManager().get(checkForHDPI(atlasName), TextureAtlas.class)
-				.findRegion(textureName);
+	public static TextureAtlas.AtlasRegion textureFromAtlas(String textureName, String atlasName) {
+		return assetManager().get(checkForHDPI(atlasName), TextureAtlas.class).findRegion(textureName);
 	}
 
 	public static NinePatch ninePatch(String fileName) {
@@ -236,18 +214,15 @@ public class TowerAssetManager {
 		return true;
 	}
 
-	public static NinePatch ninePatch(String fileName, Color color,
-			Texture.TextureFilter filterA, Texture.TextureFilter filterB) {
+	public static NinePatch ninePatch(String fileName, Color color, Texture.TextureFilter filterA, Texture.TextureFilter filterB) {
 		Texture texture = texture(fileName);
 		texture.setFilter(filterA, filterB);
 
 		return new NinePatch(texture, color);
 	}
 
-	public static Animation animationFromAtlas(String framePrefix,
-			String atlasName, float animationTime) {
-		return new Animation(animationTime, textureAtlas(atlasName)
-				.findRegions(framePrefix));
+	public static Animation animationFromAtlas(String framePrefix, String atlasName, float animationTime) {
+		return new Animation(animationTime, textureAtlas(atlasName).findRegions(framePrefix));
 	}
 
 	public static Image image(String fileName) {
@@ -258,10 +233,8 @@ public class TowerAssetManager {
 		return defaultSkin;
 	}
 
-	public static NinePatch ninePatch(String fileName, Color color, int left,
-			int right, int top, int bottom) {
-		NinePatch ninePatch = new NinePatch(texture(fileName), left, right,
-				top, bottom);
+	public static NinePatch ninePatch(String fileName, Color color, int left, int right, int top, int bottom) {
+		NinePatch ninePatch = new NinePatch(texture(fileName), left, right, top, bottom);
 		ninePatch.setColor(color);
 		return ninePatch;
 	}
@@ -274,20 +247,16 @@ public class TowerAssetManager {
 		return assetList;
 	}
 
-	public static Drawable ninePatchDrawable(String fileName, Color color,
-			int left, int right, int top, int bottom) {
-		return new NinePatchDrawable(ninePatch(fileName, color, left, right,
-				top, bottom));
+	public static Drawable ninePatchDrawable(String fileName, Color color, int left, int right, int top, int bottom) {
+		return new NinePatchDrawable(ninePatch(fileName, color, left, right, top, bottom));
 	}
 
 	public static Drawable ninePatchDrawable(String fileName, Color color) {
 		return new NinePatchDrawable(ninePatch(fileName, color));
 	}
 
-	public static TextureRegionDrawable drawableFromAtlas(String drawableName,
-			String atlasFileName) {
-		return new TextureRegionDrawable(textureFromAtlas(drawableName,
-				atlasFileName));
+	public static TextureRegionDrawable drawableFromAtlas(String drawableName, String atlasFileName) {
+		return new TextureRegionDrawable(textureFromAtlas(drawableName, atlasFileName));
 	}
 
 	public static Drawable drawable(String fileName) {

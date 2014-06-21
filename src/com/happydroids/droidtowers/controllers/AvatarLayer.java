@@ -65,8 +65,7 @@ public class AvatarLayer extends GameLayer<Avatar> {
 		spriteBatch.enableBlending();
 		for (Avatar gameObject : gameObjects) {
 			tmp.set(gameObject.getX(), gameObject.getY(), 0);
-			if (camera.frustum.sphereInFrustum(tmp,
-					Math.max(gameObject.getWidth(), gameObject.getHeight()))) {
+			if (camera.frustum.sphereInFrustum(tmp, Math.max(gameObject.getWidth(), gameObject.getHeight()))) {
 				gameObject.draw(spriteBatch);
 			}
 		}
@@ -107,10 +106,7 @@ public class AvatarLayer extends GameLayer<Avatar> {
 		boolean positionSet = false;
 
 		if (!positionSet) {
-			avatar.setPosition(
-					Random.randomInt(-avatar.getWidth(),
-							gameGrid.getWorldSize().x + avatar.getWidth()),
-					TowerConsts.GROUND_HEIGHT);
+			avatar.setPosition(Random.randomInt(-avatar.getWidth(), gameGrid.getWorldSize().x + avatar.getWidth()), TowerConsts.GROUND_HEIGHT);
 		}
 
 		addChild(avatar);
@@ -128,11 +124,9 @@ public class AvatarLayer extends GameLayer<Avatar> {
 		return false;
 	}
 
-	private void setupSpecialAvatar(CommercialSpace commercialSpace,
-			Class<? extends Avatar> avatarClass, int numToCreate) {
+	private void setupSpecialAvatar(CommercialSpace commercialSpace, Class<? extends Avatar> avatarClass, int numToCreate) {
 		try {
-			Constructor<? extends Avatar> constructor = avatarClass
-					.getDeclaredConstructor(AvatarLayer.class);
+			Constructor<? extends Avatar> constructor = avatarClass.getDeclaredConstructor(AvatarLayer.class);
 			for (int i = 0; i < numToCreate; i++) {
 				Avatar avatar = constructor.newInstance(this);
 				setupAvatar(avatar);
@@ -194,8 +188,7 @@ public class AvatarLayer extends GameLayer<Avatar> {
 				if (iterator.hasNext()) {
 					Room newHome = (Room) iterator.next();
 					avatar.setHome(newHome);
-					if (newHome.getNumResidents() >= newHome
-							.getNumSupportedResidents()) {
+					if (newHome.getNumResidents() >= newHome.getNumSupportedResidents()) {
 						iterator.remove();
 					}
 				} else {

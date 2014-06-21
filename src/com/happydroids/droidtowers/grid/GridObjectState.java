@@ -62,8 +62,7 @@ public class GridObjectState {
 				object.addLoanFromCousinVinnie(loanFromCousinVinnie);
 
 				if (object instanceof Elevator) {
-					((Elevator) object)
-							.setNumElevatorCars(numberOfElevatorCars);
+					((Elevator) object).setNumElevatorCars(numberOfElevatorCars);
 				}
 
 				object.updateSprite();

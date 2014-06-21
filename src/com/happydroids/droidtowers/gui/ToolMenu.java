@@ -37,16 +37,11 @@ public class ToolMenu extends RadialMenu {
 		radius = Display.devicePixel(180);
 		setRotation(0);
 
-		housingButton = new ColorizedImageButton(
-				hudAtlas.findRegion("tool-housing"), Colors.ICS_BLUE);
-		transitButton = new ColorizedImageButton(
-				hudAtlas.findRegion("tool-transit"), Colors.ICS_BLUE);
-		commerceButton = new ColorizedImageButton(
-				hudAtlas.findRegion("tool-commerce"), Colors.ICS_BLUE);
-		servicesButton = new ColorizedImageButton(
-				hudAtlas.findRegion("tool-services"), Colors.ICS_BLUE);
-		sellButton = new ColorizedImageButton(hudAtlas.findRegion("tool-sell"),
-				Colors.ICS_BLUE);
+		housingButton = new ColorizedImageButton(hudAtlas.findRegion("tool-housing"), Colors.ICS_BLUE);
+		transitButton = new ColorizedImageButton(hudAtlas.findRegion("tool-transit"), Colors.ICS_BLUE);
+		commerceButton = new ColorizedImageButton(hudAtlas.findRegion("tool-commerce"), Colors.ICS_BLUE);
+		servicesButton = new ColorizedImageButton(hudAtlas.findRegion("tool-services"), Colors.ICS_BLUE);
+		sellButton = new ColorizedImageButton(hudAtlas.findRegion("tool-sell"), Colors.ICS_BLUE);
 
 		addActor(housingButton);
 		addActor(transitButton);
@@ -58,45 +53,37 @@ public class ToolMenu extends RadialMenu {
 	}
 
 	private void makeClickListeners() {
-		housingButton.addListener(makePurchaseButtonClickListener("Housing",
-				RoomTypeFactory.instance()));
-		transitButton.addListener(makePurchaseButtonClickListener("Transit",
-				TransitTypeFactory.instance()));
-		commerceButton.addListener(makePurchaseButtonClickListener("Commerce",
-				CommercialTypeFactory.instance()));
-		servicesButton.addListener(makePurchaseButtonClickListener("Services",
-				ServiceRoomTypeFactory.instance()));
+		housingButton.addListener(makePurchaseButtonClickListener("Housing", RoomTypeFactory.instance()));
+		transitButton.addListener(makePurchaseButtonClickListener("Transit", TransitTypeFactory.instance()));
+		commerceButton.addListener(makePurchaseButtonClickListener("Commerce", CommercialTypeFactory.instance()));
+		servicesButton.addListener(makePurchaseButtonClickListener("Services", ServiceRoomTypeFactory.instance()));
 		sellButton.addListener(new VibrateClickListener() {
 			public void onClick(InputEvent event, float x, float y) {
 				close();
 
 				hudToolButton.setStyle(sellButton.getStyle());
 
-				InputSystem.instance().switchTool(GestureTool.SELL,
-						new Runnable() {
-							@Override
-							public void run() {
-								hudToolButton.resetStyle();
-							}
-						});
+				InputSystem.instance().switchTool(GestureTool.SELL, new Runnable() {
+					@Override
+					public void run() {
+						hudToolButton.resetStyle();
+					}
+				});
 			}
 		});
 	}
 
-	private ClickListener makePurchaseButtonClickListener(
-			final String dialogTitle, final GridObjectTypeFactory typeFactory) {
+	private ClickListener makePurchaseButtonClickListener(final String dialogTitle, final GridObjectTypeFactory typeFactory) {
 		return new VibrateClickListener() {
 			public void onClick(InputEvent event, float x, float y) {
 				close();
 
 				if (purchaseDialog == null) {
 					if (typeFactory instanceof RoomTypeFactory) {
-						TutorialEngine.instance().moveToStepWhenReady(
-								"tutorial-unlock-lobby");
+						TutorialEngine.instance().moveToStepWhenReady("tutorial-unlock-lobby");
 					}
 
-					makePurchaseDialog(dialogTitle, typeFactory,
-							((ImageButton) event.getListenerActor()).getStyle());
+					makePurchaseDialog(dialogTitle, typeFactory, ((ImageButton) event.getListenerActor()).getStyle());
 				} else {
 					purchaseDialog.dismiss();
 					purchaseDialog = null;
@@ -105,20 +92,16 @@ public class ToolMenu extends RadialMenu {
 		};
 	}
 
-	private void makePurchaseDialog(String title,
-			GridObjectTypeFactory typeFactory,
-			final ImageButton.ImageButtonStyle purchaseButtonStyle) {
-		purchaseDialog = new GridObjectPurchaseMenu(getStage(), title,
-				typeFactory, new Runnable() {
-					public void run() {
-						hudToolButton.resetStyle();
-					}
-				});
+	private void makePurchaseDialog(String title, GridObjectTypeFactory typeFactory, final ImageButton.ImageButtonStyle purchaseButtonStyle) {
+		purchaseDialog = new GridObjectPurchaseMenu(getStage(), title, typeFactory, new Runnable() {
+			public void run() {
+				hudToolButton.resetStyle();
+			}
+		});
 
 		purchaseDialog.setDismissCallback(new Runnable() {
 			public void run() {
-				Gdx.app.log(TAG, "Tool: "
-						+ InputSystem.instance().getCurrentTool());
+				Gdx.app.log(TAG, "Tool: " + InputSystem.instance().getCurrentTool());
 				purchaseDialog = null;
 				if (InputSystem.instance().getCurrentTool() instanceof PickerTool) {
 					hudToolButton.resetStyle();

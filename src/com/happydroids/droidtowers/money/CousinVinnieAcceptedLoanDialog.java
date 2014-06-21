@@ -24,18 +24,15 @@ public class CousinVinnieAcceptedLoanDialog extends Dialog {
 		if (!gameGrid.isEmpty()) {
 			int numGridObjects = gameGrid.getObjects().size - 1;
 			GridObject gridObject;
-			gridObject = Iterables.get(gameGrid.getObjects(),
-					MathUtils.random(numGridObjects));
+			gridObject = Iterables.get(gameGrid.getObjects(), MathUtils.random(numGridObjects));
 			while (gridObject.getAmountLoanedFromCousinVinnie() > 0) {
-				gridObject = Iterables.get(gameGrid.getObjects(),
-						MathUtils.random(numGridObjects));
+				gridObject = Iterables.get(gameGrid.getObjects(), MathUtils.random(numGridObjects));
 			}
 			gridObject.addLoanFromCousinVinnie(amountToLoan);
 
 			Player.instance().addCurrency(amountToLoan);
 
-			TextureAtlas.AtlasRegion cousinVinnieTexture = TowerAssetManager
-					.textureFromAtlas("droid-cousin-vinnie", "hud/menus.txt");
+			TextureAtlas.AtlasRegion cousinVinnieTexture = TowerAssetManager.textureFromAtlas("droid-cousin-vinnie", "hud/menus.txt");
 			Image cousinVinnieImage = new Image(cousinVinnieTexture);
 
 			Table c = new Table();
@@ -43,26 +40,20 @@ public class CousinVinnieAcceptedLoanDialog extends Dialog {
 			c.defaults().top().left();
 
 			c.row();
-			c.add(FontManager.Roboto18
-					.makeLabel("I am glad you made the right choice.\n\nI have selected my new hideout:"));
-			c.add(cousinVinnieImage).spaceLeft(Display.devicePixel(20)).top()
-					.width(Display.devicePixel(96));
+			c.add(FontManager.Roboto18.makeLabel("I am glad you made the right choice.\n\nI have selected my new hideout:"));
+			c.add(cousinVinnieImage).spaceLeft(Display.devicePixel(20)).top().width(Display.devicePixel(96));
 
 			c.row();
 			c.add(new Image(gridObject.getSprite()));
 			c.add();
 
 			c.row().spaceTop(Display.devicePixel(20));
-			c.add(FontManager.Roboto18
-					.makeLabel("Remember, we're business partners now. So keep\nthose security guards away from me."))
-					.colspan(2);
+			c.add(FontManager.Roboto18.makeLabel("Remember, we're business partners now. So keep\nthose security guards away from me.")).colspan(2);
 
 			setView(c);
 		} else {
 			dismiss();
-			new Dialog().setMessage(
-					"Cousin Vinnie was unable to find a suitable hideout.")
-					.show();
+			new Dialog().setMessage("Cousin Vinnie was unable to find a suitable hideout.").show();
 		}
 	}
 }

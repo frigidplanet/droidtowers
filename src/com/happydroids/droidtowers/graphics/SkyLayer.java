@@ -30,8 +30,7 @@ public class SkyLayer extends GameLayer implements RespondsToWorldSizeChange {
 
 		weatherService.events().register(this);
 
-		Texture texture = TowerAssetManager
-				.texture("backgrounds/sky-gradient.png");
+		Texture texture = TowerAssetManager.texture("backgrounds/sky-gradient.png");
 		sky = new GameObject(texture);
 		sky.setColor(weatherService.currentState().skyColor);
 
@@ -39,10 +38,8 @@ public class SkyLayer extends GameLayer implements RespondsToWorldSizeChange {
 	}
 
 	public void updateWorldSize(Vector2 worldSize) {
-		sky.setPosition(-Display.getBiggestScreenDimension(),
-				TowerConsts.GROUND_HEIGHT);
-		sky.setSize(worldSize.x + (Display.getBiggestScreenDimension() * 4),
-				worldSize.y + Display.getBiggestScreenDimension());
+		sky.setPosition(-Display.getBiggestScreenDimension(), TowerConsts.GROUND_HEIGHT);
+		sky.setSize(worldSize.x + (Display.getBiggestScreenDimension() * 4), worldSize.y + Display.getBiggestScreenDimension());
 		sky.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
 	}
 
@@ -50,9 +47,7 @@ public class SkyLayer extends GameLayer implements RespondsToWorldSizeChange {
 	public void WeatherService_onWeatherChange(WeatherStateChangeEvent event) {
 		Color tweenColor = weatherService.currentState().skyColor;
 
-		Tween.to(sky, GameObjectAccessor.COLOR,
-				TowerConsts.WEATHER_SERVICE_STATE_CHANGE_DURATION)
-				.target(tweenColor.r, tweenColor.g, tweenColor.b, tweenColor.a)
-				.start(TweenSystem.manager());
+		Tween.to(sky, GameObjectAccessor.COLOR, TowerConsts.WEATHER_SERVICE_STATE_CHANGE_DURATION)
+				.target(tweenColor.r, tweenColor.g, tweenColor.b, tweenColor.a).start(TweenSystem.manager());
 	}
 }

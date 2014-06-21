@@ -17,8 +17,7 @@ import java.util.List;
 public class TransportCalculator extends GameGridAction {
 	private static final String TAG = TransportCalculator.class.getSimpleName();
 
-	private final Class transportClasses[] = { Elevator.class, Stair.class,
-			ParkingGarageRamp.class, ParkingGarageSpace.class };
+	private final Class transportClasses[] = { Elevator.class, Stair.class, ParkingGarageRamp.class, ParkingGarageSpace.class };
 
 	public TransportCalculator(GameGrid gameGrid, float frequency) {
 		super(gameGrid, frequency, false);
@@ -38,8 +37,7 @@ public class TransportCalculator extends GameGridAction {
 		}
 
 		for (GridObject gridObject : gameGrid.getObjects()) {
-			gridObject.setConnectedToTransport(gridObject
-					.provides(ProviderType.LOBBY));
+			gridObject.setConnectedToTransport(gridObject.provides(ProviderType.LOBBY));
 		}
 
 		for (GridObject transport : gameGrid.getInstancesOf(transportClasses)) {
@@ -47,19 +45,15 @@ public class TransportCalculator extends GameGridAction {
 				continue;
 			}
 
-			List<GridPoint> gridPointsTouched = transport
-					.getGridPointsTouched();
+			List<GridPoint> gridPointsTouched = transport.getGridPointsTouched();
 			for (int i1 = 0, gridPointsTouchedSize = gridPointsTouched.size(); i1 < gridPointsTouchedSize; i1++) {
 				GridPoint gridPoint = gridPointsTouched.get(i1);
 				int x = gridPoint.x;
 				int y = gridPoint.y;
 
-				GridPosition gridPosition = gameGrid.positionCache()
-						.getPosition(x, y);
+				GridPosition gridPosition = gameGrid.positionCache().getPosition(x, y);
 				if (gridPosition != null) {
-					gridPosition.connectedToTransit = !(transport instanceof Elevator)
-							|| ((Elevator) transport)
-									.servicesFloor(gridPosition.y);
+					gridPosition.connectedToTransit = !(transport instanceof Elevator) || ((Elevator) transport).servicesFloor(gridPosition.y);
 
 					if (gridPosition.connectedToTransit) {
 						scanForRooms(x, y, -1, gridPosition.x);

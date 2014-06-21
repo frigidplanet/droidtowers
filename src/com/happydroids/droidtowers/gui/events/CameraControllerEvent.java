@@ -20,8 +20,7 @@ public class CameraControllerEvent implements Pool.Poolable {
 
 	@Override
 	public String toString() {
-		return "CameraControllerEvent{" + "position=" + position + ", zoom="
-				+ zoom + '}';
+		return "CameraControllerEvent{" + "position=" + position + ", zoom=" + zoom + '}';
 	}
 
 	public Vector3 getPosition() {

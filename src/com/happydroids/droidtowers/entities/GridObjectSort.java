@@ -10,16 +10,14 @@ public class GridObjectSort {
 	public static final Comparator<GridObject> byDesirability = new Comparator<GridObject>() {
 		@Override
 		public int compare(GridObject gridObject, GridObject gridObject1) {
-			return compareValues(gridObject.getDesirability(),
-					gridObject1.getDesirability());
+			return compareValues(gridObject.getDesirability(), gridObject1.getDesirability());
 		}
 	};
 
 	public static Comparator<GridObject> byZIndex = new Comparator<GridObject>() {
 		@Override
 		public int compare(GridObject gridObject, GridObject gridObject1) {
-			return compareValues(gridObject.getGridObjectType().getZIndex(),
-					gridObject1.getGridObjectType().getZIndex());
+			return compareValues(gridObject.getGridObjectType().getZIndex(), gridObject1.getGridObjectType().getZIndex());
 		}
 	};
 

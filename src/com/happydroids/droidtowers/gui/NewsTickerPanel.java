@@ -39,14 +39,12 @@ public class NewsTickerPanel extends Table {
 
 		label.getColor().a = 0f;
 
-		label.addAction(Actions.forever(Actions.sequence(Actions.fadeIn(0.35f),
-				Actions.delay(5f), Actions.fadeOut(0.35f),
-				Actions.run(new Runnable() {
-					@Override
-					public void run() {
-						label.setText(storiesIterator.next());
-					}
-				}))));
+		label.addAction(Actions.forever(Actions.sequence(Actions.fadeIn(0.35f), Actions.delay(5f), Actions.fadeOut(0.35f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				label.setText(storiesIterator.next());
+			}
+		}))));
 	}
 
 	private void addStory(String storyText) {

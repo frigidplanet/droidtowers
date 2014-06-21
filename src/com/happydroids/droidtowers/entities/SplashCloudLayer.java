@@ -28,8 +28,7 @@ public class SplashCloudLayer extends WidgetGroup {
 	protected Vector2 worldSize;
 	private final Array<TextureAtlas.AtlasRegion> cloudRegions;
 
-	public SplashCloudLayer(Stage stage,
-			Array<TextureAtlas.AtlasRegion> cloudRegions) {
+	public SplashCloudLayer(Stage stage, Array<TextureAtlas.AtlasRegion> cloudRegions) {
 		super();
 		this.setStage(stage);
 		worldSize = new Vector2(stage.getWidth(), stage.getHeight());
@@ -56,19 +55,15 @@ public class SplashCloudLayer extends WidgetGroup {
 			return null;
 		}
 
-		final Image cloud = new Image(Iterables.get(cloudRegions,
-				MathUtils.random(cloudRegions.size - 1)));
+		final Image cloud = new Image(Iterables.get(cloudRegions, MathUtils.random(cloudRegions.size - 1)));
 		cloud.setScaling(Scaling.fit);
-		cloud.setHeight(Math.min(cloud.getHeight(),
-				getStage().getHeight() * 0.18f));
+		cloud.setHeight(Math.min(cloud.getHeight(), getStage().getHeight() * 0.18f));
 		if (spawnOnScreen) {
 			cloud.setX(Random.randomInt(0, worldSize.x));
-			cloud.setY(Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN,
-					worldSize.y * CLOUD_SPAWN_MAX));
+			cloud.setY(Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN, worldSize.y * CLOUD_SPAWN_MAX));
 		} else {
 			cloud.setX(-cloud.getWidth());
-			cloud.setY(Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN,
-					worldSize.y * CLOUD_SPAWN_MAX));
+			cloud.setY(Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN, worldSize.y * CLOUD_SPAWN_MAX));
 		}
 
 		cloud.getColor().a = 0f;
@@ -79,8 +74,7 @@ public class SplashCloudLayer extends WidgetGroup {
 	}
 
 	private Action makeFlyAction(final Image cloud) {
-		Action moveTo = Actions.moveTo(worldSize.x, cloud.getY(),
-				MathUtils.random(30f, 45f));
+		Action moveTo = Actions.moveTo(worldSize.x, cloud.getY(), MathUtils.random(30f, 45f));
 		RunnableAction finished = Actions.run(new Runnable() {
 			@Override
 			public void run() {

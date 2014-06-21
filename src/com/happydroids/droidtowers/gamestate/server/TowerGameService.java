@@ -18,7 +18,7 @@ public class TowerGameService {
 	public static final String DEVICE_ID = "DEVICE_ID";
 
 	protected static TowerGameService _instance;
-	
+
 	private static String deviceType;
 	private static String deviceOSVersion;
 	private static String deviceOSMarketName = "none";
@@ -26,7 +26,7 @@ public class TowerGameService {
 	private boolean authenticated;
 	private RunnableQueue postAuthRunnables;
 	private boolean authenticationFinished;
-	
+
 	protected HappyDroidObjectMapper objectMapper;
 
 	public TowerGameService() {
@@ -45,7 +45,7 @@ public class TowerGameService {
 
 		return (TowerGameService) _instance;
 	}
-	
+
 	public HappyDroidObjectMapper getObjectMapper() {
 		if (objectMapper == null) {
 			objectMapper = new HappyDroidObjectMapper();
@@ -53,7 +53,7 @@ public class TowerGameService {
 
 		return objectMapper;
 	}
-	
+
 	public static void setInstance(TowerGameService instance) {
 		TowerGameService._instance = instance;
 	}
@@ -87,7 +87,7 @@ public class TowerGameService {
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
-	
+
 	public static void setDeviceType(String dt) {
 		deviceType = dt;
 	}
@@ -161,13 +161,11 @@ public class TowerGameService {
 		if (preferences == null) {
 			preferences = new SecurePreferences("com.happydroids.droidtowers." + getDeviceOSMarketName());
 			if (!preferences.contains(DEVICE_ID)) {
-				preferences.putString(DEVICE_ID, UUID.randomUUID().toString()
-						.replaceAll("-", ""));
+				preferences.putString(DEVICE_ID, UUID.randomUUID().toString().replaceAll("-", ""));
 				preferences.flush();
 			}
 
-			VibrateClickListener.setVibrateEnabled(preferences.getBoolean(
-					"vibrateOnTouch", true));
+			VibrateClickListener.setVibrateEnabled(preferences.getBoolean("vibrateOnTouch", true));
 		}
 
 		return preferences;

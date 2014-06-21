@@ -395,8 +395,7 @@ public class GridPoint implements Serializable {
 	 * @return whether the vectors are the same.
 	 */
 	public boolean epsilonEquals(GridPoint obj, int epsilon) {
-		return obj != null && Math.abs(obj.x - x) <= epsilon
-				&& Math.abs(obj.y - y) <= epsilon;
+		return obj != null && Math.abs(obj.x - x) <= epsilon && Math.abs(obj.y - y) <= epsilon;
 	}
 
 	@JsonIgnore

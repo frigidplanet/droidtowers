@@ -90,24 +90,21 @@ public abstract class GridObject {
 
 		name = NameGenerator.randomNameForGridObjectType(getGridObjectType());
 		position = new GridPoint(0, 0);
-		size = new GridPoint(gridObjectType.getWidth(),
-				gridObjectType.getHeight());
+		size = new GridPoint(gridObjectType.getWidth(), gridObjectType.getHeight());
 		bounds = new Rectangle(position.x, position.y, size.x, size.y);
 		visitorQueue = Sets.newHashSet();
 		averageNumVisitors = new StatLog();
 		averageNumVisitors.reset(5);
 
 		worldPosition = new Vector2();
-		worldSize = new Vector2(size.getWorldX() * gameGrid.getGridScale(),
-				size.getWorldY() * gameGrid.getGridScale());
+		worldSize = new Vector2(size.getWorldX() * gameGrid.getGridScale(), size.getWorldY() * gameGrid.getGridScale());
 		worldCenter = new Vector2();
 		worldCenterBottom = new Vector2();
 		worldTop = new Vector2();
 		worldBounds = new Rectangle();
 
 		if (gridObjectType.getNumVariations() > 0) {
-			variationId = MathUtils
-					.random(1, gridObjectType.getNumVariations());
+			variationId = MathUtils.random(1, gridObjectType.getNumVariations());
 		}
 
 		setRenderColor(Color.WHITE);
@@ -140,8 +137,7 @@ public abstract class GridObject {
 		return gameGrid;
 	}
 
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		Sprite sprite = getSprite();
 		if (sprite != null) {
 			sprite.setColor(renderColor);
@@ -165,9 +161,7 @@ public abstract class GridObject {
 			if (decalsToDraw.size() == 1) {
 				for (String regionName : decalsToDraw) {
 					TextureRegion region = availableDecals.get(regionName);
-					spriteBatch.draw(region,
-							getWorldCenter().x - region.getRegionWidth() / 2,
-							getWorldCenter().y - region.getRegionHeight() / 2);
+					spriteBatch.draw(region, getWorldCenter().x - region.getRegionWidth() / 2, getWorldCenter().y - region.getRegionHeight() / 2);
 				}
 			} else {
 				int decalsWidth = 0;
@@ -179,8 +173,7 @@ public abstract class GridObject {
 				float startX = getWorldCenter().x - decalsWidth;
 				for (String regionName : decalsToDraw) {
 					TextureRegion region = availableDecals.get(regionName);
-					spriteBatch.draw(region, startX, getWorldCenter().y
-							- region.getRegionHeight() / 2);
+					spriteBatch.draw(region, startX, getWorldCenter().y - region.getRegionHeight() / 2);
 					startX += region.getRegionWidth();
 				}
 			}
@@ -198,10 +191,7 @@ public abstract class GridObject {
 			} else {
 				GridObjectPopOver popOver = makePopOver();
 				if (popOver != null) {
-					SceneManager
-							.activeScene()
-							.getCameraController()
-							.panTo(getWorldCenter().x, getWorldCenter().y, true);
+					SceneManager.activeScene().getCameraController().panTo(getWorldCenter().x, getWorldCenter().y, true);
 					displayedPopOver = true;
 					popOver.pack();
 					popOver.getColor().a = 0f;
@@ -228,8 +218,7 @@ public abstract class GridObject {
 	}
 
 	public void setSize(int x, int y) {
-		GridObjectBoundsChangeEvent event = Pools
-				.obtain(GridObjectBoundsChangeEvent.class);
+		GridObjectBoundsChangeEvent event = Pools.obtain(GridObjectBoundsChangeEvent.class);
 		event.setGridObject(this);
 
 		size.set(x, y);
@@ -248,8 +237,7 @@ public abstract class GridObject {
 	}
 
 	public void setPosition(int x, int y) {
-		GridObjectBoundsChangeEvent event = Pools
-				.obtain(GridObjectBoundsChangeEvent.class);
+		GridObjectBoundsChangeEvent event = Pools.obtain(GridObjectBoundsChangeEvent.class);
 		event.setGridObject(this);
 
 		position.set(x, y);
@@ -262,21 +250,13 @@ public abstract class GridObject {
 	}
 
 	public void updateWorldCoordinates() {
-		worldPosition.set(
-				gameGrid.getGridOrigin().x
-						+ (position.getWorldX() * gameGrid.getGridScale()),
-				gameGrid.getGridOrigin().y
-						+ (position.getWorldY() * gameGrid.getGridScale()));
-		worldSize.set(size.getWorldX() * gameGrid.getGridScale(),
-				size.getWorldY() * gameGrid.getGridScale());
-		worldBounds.set(worldPosition.x, worldPosition.y, worldSize.x,
-				worldSize.y);
-		worldCenter.set(worldPosition.x + worldSize.x / 2, worldPosition.y
-				+ worldSize.y / 2);
-		worldCenterBottom.set(worldCenter.cpy().sub(0,
-				TowerConsts.GRID_UNIT_SIZE * size.y / 2));
-		worldTop.set(worldPosition.x + worldSize.x / 2, worldPosition.y
-				+ worldSize.y);
+		worldPosition.set(gameGrid.getGridOrigin().x + (position.getWorldX() * gameGrid.getGridScale()), gameGrid.getGridOrigin().y
+				+ (position.getWorldY() * gameGrid.getGridScale()));
+		worldSize.set(size.getWorldX() * gameGrid.getGridScale(), size.getWorldY() * gameGrid.getGridScale());
+		worldBounds.set(worldPosition.x, worldPosition.y, worldSize.x, worldSize.y);
+		worldCenter.set(worldPosition.x + worldSize.x / 2, worldPosition.y + worldSize.y / 2);
+		worldCenterBottom.set(worldCenter.cpy().sub(0, TowerConsts.GRID_UNIT_SIZE * size.y / 2));
+		worldTop.set(worldPosition.x + worldSize.x / 2, worldPosition.y + worldSize.y);
 
 		updateGridPointsTouched();
 	}
@@ -313,14 +293,12 @@ public abstract class GridObject {
 	private void checkPlacement(boolean prevState) {
 		if (placed) {
 			setRenderColor(Color.WHITE);
-			GridObjectPlacedEvent event = Pools
-					.obtain(GridObjectPlacedEvent.class);
+			GridObjectPlacedEvent event = Pools.obtain(GridObjectPlacedEvent.class);
 			event.setGridObject(this);
 			broadcastEvent(event);
 			Pools.free(event);
 		} else {
-			setRenderColor(gameGrid.canObjectBeAt(this) ? Color.CYAN
-					: Color.RED);
+			setRenderColor(gameGrid.canObjectBeAt(this) ? Color.CYAN : Color.RED);
 		}
 	}
 
@@ -428,19 +406,16 @@ public abstract class GridObject {
 
 		GridObject that = (GridObject) o;
 
-		if (gameGrid != null ? !gameGrid.equals(that.gameGrid)
-				: that.gameGrid != null) {
+		if (gameGrid != null ? !gameGrid.equals(that.gameGrid) : that.gameGrid != null) {
 			return false;
 		}
-		if (gridObjectType != null ? !gridObjectType
-				.equals(that.gridObjectType) : that.gridObjectType != null) {
+		if (gridObjectType != null ? !gridObjectType.equals(that.gridObjectType) : that.gridObjectType != null) {
 			return false;
 		}
 		if (placed != that.placed) {
 			return false;
 		}
-		if (position != null ? !position.equals(that.position)
-				: that.position != null) {
+		if (position != null ? !position.equals(that.position) : that.position != null) {
 			return false;
 		}
 		if (size != null ? !size.equals(that.size) : that.size != null) {
@@ -452,8 +427,7 @@ public abstract class GridObject {
 
 	@Override
 	public String toString() {
-		return "GridObject{" + "position=" + position + ", gridObjectType="
-				+ gridObjectType + '}';
+		return "GridObject{" + "position=" + position + ", gridObjectType=" + gridObjectType + '}';
 	}
 
 	public float getCrimeLevel() {
@@ -526,9 +500,7 @@ public abstract class GridObject {
 
 	public float getNormalizedCrimeLevel() {
 		if (getCrimeLevel() > 0f) {
-			return getCrimeLevel()
-					* Math.max(1, getNumVisitors())
-					- gameGrid.positionCache().getPosition(position).normalizedDistanceFromSecurity;
+			return getCrimeLevel() * Math.max(1, getNumVisitors()) - gameGrid.positionCache().getPosition(position).normalizedDistanceFromSecurity;
 		} else {
 			return 0;
 		}
@@ -623,12 +595,10 @@ public abstract class GridObject {
 	}
 
 	public float getDirtLevel() {
-		return MathUtils.clamp(getNumVisitors(), 0, VISITORS_PER_CLEANING)
-				/ VISITORS_PER_CLEANING;
+		return MathUtils.clamp(getNumVisitors(), 0, VISITORS_PER_CLEANING) / VISITORS_PER_CLEANING;
 	}
 
-	public boolean touchDown(GridPoint gameGridPoint, Vector2 worldPoint,
-			int pointer) {
+	public boolean touchDown(GridPoint gameGridPoint, Vector2 worldPoint, int pointer) {
 		return false;
 	}
 

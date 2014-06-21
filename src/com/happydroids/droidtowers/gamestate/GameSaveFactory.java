@@ -31,37 +31,29 @@ public class GameSaveFactory {
 
 	public static GameSave readFile(InputStream inputStream, String fileName) {
 		try {
-			return TowerGameService.instance().getObjectMapper()
-					.readValue(inputStream, GameSave.class);
+			return TowerGameService.instance().getObjectMapper().readValue(inputStream, GameSave.class);
 		} catch (Exception e) {
-			throw new RuntimeException("There was a problem parsing: "
-					+ fileName, e);
+			throw new RuntimeException("There was a problem parsing: " + fileName, e);
 		}
 	}
 
-	public static void save(GameSave gameSave, FileHandle gameFile)
-			throws IOException {
+	public static void save(GameSave gameSave, FileHandle gameFile) throws IOException {
 		if (TowerConsts.DEBUG && gameSave.isSaveToDiskDisabled()) {
 			return;
 		}
 		gameSave.getMetadata().lastPlayed = new Date();
 		OutputStream stream = gameFile.write(false);
-		TowerGameService.instance().getObjectMapper()
-				.writeValue(stream, gameSave);
+		TowerGameService.instance().getObjectMapper().writeValue(stream, gameSave);
 		stream.flush();
 		stream.close();
 	}
 
 	public static GameSave readMetadata(InputStream inputStream) {
 		try {
-			HappyDroidObjectMapper objectMapper = TowerGameService.instance()
-					.getObjectMapper();
-			return objectMapper.reader(GameSave.class)
-					.withView(GameSave.Views.Metadata.class)
-					.readValue(inputStream);
+			HappyDroidObjectMapper objectMapper = TowerGameService.instance().getObjectMapper();
+			return objectMapper.reader(GameSave.class).withView(GameSave.Views.Metadata.class).readValue(inputStream);
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"There was a problem parsing gamesave metadata.", e);
+			throw new RuntimeException("There was a problem parsing gamesave metadata.", e);
 		}
 	}
 
@@ -75,22 +67,16 @@ public class GameSaveFactory {
 		throw new RuntimeException("No storage device available.");
 	}
 
-	public static GameSave upgradeGameSave(InputStream inputStream,
-			String fileName) {
+	public static GameSave upgradeGameSave(InputStream inputStream, String fileName) {
 		try {
-			JacksonTransformer transformer = new JacksonTransformer(
-					inputStream, fileName);
-			transformer
-					.addTransform(Migration_GameSave_UnhappyrobotToDroidTowers.class);
-			transformer
-					.addTransform(Migration_GameSave_RemoveObjectCounts.class);
+			JacksonTransformer transformer = new JacksonTransformer(inputStream, fileName);
+			transformer.addTransform(Migration_GameSave_UnhappyrobotToDroidTowers.class);
+			transformer.addTransform(Migration_GameSave_RemoveObjectCounts.class);
 			transformer.addTransform(Migration_GameSave_MoveMetadata.class);
 
-			return TowerGameService.instance().getObjectMapper()
-					.readValue(transformer.process(), GameSave.class);
+			return TowerGameService.instance().getObjectMapper().readValue(transformer.process(), GameSave.class);
 		} catch (Exception e) {
-			throw new RuntimeException("There was a problem parsing: "
-					+ fileName, e);
+			throw new RuntimeException("There was a problem parsing: " + fileName, e);
 		}
 	}
 }

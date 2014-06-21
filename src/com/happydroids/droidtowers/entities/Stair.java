@@ -23,8 +23,7 @@ public class Stair extends Transit {
 	public Stair(TransitType stairType, GameGrid gameGrid) {
 		super(stairType, gameGrid);
 
-		TextureAtlas textureAtlas = TowerAssetManager.textureAtlas(stairType
-				.getAtlasFilename());
+		TextureAtlas textureAtlas = TowerAssetManager.textureAtlas(stairType.getAtlasFilename());
 		sprite = textureAtlas.createSprite("stairs");
 	}
 
@@ -39,8 +38,7 @@ public class Stair extends Transit {
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		// stairs need to support overflowing into adjacent cells.
 		if (sprite != null) {
 			sprite.setColor(renderColor);

@@ -71,26 +71,23 @@ public class Movie extends HappyDroidServiceObject {
 	public void loadAssets(final Runnable runnable) {
 		postLoad.push(runnable);
 		TowerAssetManager.assetManager().events().register(this);
-		TowerAssetManager.assetManager().load(
-				atlasTxtFile.file().getAbsolutePath(), TextureAtlas.class);
+		TowerAssetManager.assetManager().load(atlasTxtFile.file().getAbsolutePath(), TextureAtlas.class);
 	}
 
 	public void queueForDownload() {
-		if (state.equals(MovieState.Loaded)
-				|| state.equals(MovieState.Downloading)) {
+		if (state.equals(MovieState.Loaded) || state.equals(MovieState.Downloading)) {
 			return;
 		}
 
-		final FileHandle movieStorageRoot = GameSaveFactory.getStorageRoot()
-				.child("movies/");
+		final FileHandle movieStorageRoot = GameSaveFactory.getStorageRoot().child("movies/");
 		if (!movieStorageRoot.exists()) {
 			movieStorageRoot.mkdirs();
 		}
-		
-		//setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
-		//setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
-		
-		//Trying this method so we can get rid of apach3
+
+		// setAtlasTxtFile(movieStorageRoot.child(FilenameUtils.getName(atlasTxt)));
+		// setAtlasPngFile(movieStorageRoot.child(FilenameUtils.getName(atlasPng)));
+
+		// Trying this method so we can get rid of apach3
 		setAtlasTxtFile(movieStorageRoot.child(new File(atlasTxt).getName()));
 		setAtlasPngFile(movieStorageRoot.child(new File(atlasPng).getName()));
 
@@ -98,8 +95,7 @@ public class Movie extends HappyDroidServiceObject {
 
 	public TextureAtlas getTextureAtlas() {
 		if (textureAtlas == null) {
-			textureAtlas = TowerAssetManager.textureAtlas(getAtlasTxtFile()
-					.file().getAbsolutePath());
+			textureAtlas = TowerAssetManager.textureAtlas(getAtlasTxtFile().file().getAbsolutePath());
 		}
 
 		return textureAtlas;
@@ -168,14 +164,12 @@ public class Movie extends HappyDroidServiceObject {
 
 	@Subscribe
 	public void AssetManager_onAssetLoad(AssetLoadEvent event) {
-		if (!event.getFileName().contains(atlasPngFile.name())
-				&& !event.getFileName().contains(atlasTxtFile.name())) {
+		if (!event.getFileName().contains(atlasPngFile.name()) && !event.getFileName().contains(atlasTxtFile.name())) {
 			return;
 		}
 
 		TowerAssetManager.events().unregister(this);
-		setState(event instanceof AssetLoadErrorEvent ? MovieState.Failed
-				: MovieState.Loaded);
+		setState(event instanceof AssetLoadErrorEvent ? MovieState.Failed : MovieState.Loaded);
 
 		if (getState().equals(MovieState.Failed)) {
 			if (atlasPngFile.exists()) {

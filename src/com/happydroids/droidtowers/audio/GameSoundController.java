@@ -41,15 +41,12 @@ public class GameSoundController {
 		musicVolume = preferences.getFloat("musicVolume", 0.5f);
 		effectsVolume = preferences.getFloat("effectsVolume", 0.5f);
 
-		availableSongs = Iterables.cycle(
-				TowerAssetManager.getAssetList().musicFiles).iterator();
+		availableSongs = Iterables.cycle(TowerAssetManager.getAssetList().musicFiles).iterator();
 
 		moveToNextSong();
 
-		constructionSound = Gdx.audio.newSound(Gdx.files
-				.internal(CONSTRUCTION_PLACEMENT));
-		destructionSound = Gdx.audio.newSound(Gdx.files
-				.internal(CONSTRUCTION_DESTROY));
+		constructionSound = Gdx.audio.newSound(Gdx.files.internal(CONSTRUCTION_PLACEMENT));
+		destructionSound = Gdx.audio.newSound(Gdx.files.internal(CONSTRUCTION_DESTROY));
 
 		if (afterInitRunnables != null) {
 			afterInitRunnables.runAll();

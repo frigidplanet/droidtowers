@@ -13,8 +13,7 @@ public class GameGridResizeEvent {
 	public GameGridResizeEvent(GameGrid gameGrid, boolean copyGridPositions) {
 		this.copyGridPositions = copyGridPositions;
 		if (gameGrid == null) {
-			throw new RuntimeException(
-					"GameGridResizeEvent cannot be created with out a valid GameGrid");
+			throw new RuntimeException("GameGridResizeEvent cannot be created with out a valid GameGrid");
 		}
 
 		this.gameGrid = gameGrid;

@@ -22,27 +22,23 @@ public class GroundLayer extends GameLayer implements RespondsToWorldSizeChange 
 	public void updateWorldSize(Vector2 worldSize) {
 		removeAllChildren();
 
-		Texture topTexture = TowerAssetManager
-				.texture("backgrounds/ground-top.png");
+		Texture topTexture = TowerAssetManager.texture("backgrounds/ground-top.png");
 
 		float tiledHeight = TowerConsts.GROUND_HEIGHT - topTexture.getHeight();
 
 		GameObject top = new GameObject(topTexture);
 		int biggestScreenDimension = Display.getBiggestScreenDimension();
 		top.setPosition(-biggestScreenDimension, tiledHeight);
-		top.setSize(worldSize.x + (biggestScreenDimension * 2),
-				topTexture.getHeight());
+		top.setSize(worldSize.x + (biggestScreenDimension * 2), topTexture.getHeight());
 		top.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
 
 		addChild(top);
 
-		Texture tileTexture = TowerAssetManager
-				.texture("backgrounds/ground-tile.png");
+		Texture tileTexture = TowerAssetManager.texture("backgrounds/ground-tile.png");
 
 		GameObject tile = new GameObject(tileTexture);
 		tile.setPosition(-biggestScreenDimension, -biggestScreenDimension);
-		tile.setSize(worldSize.x + (biggestScreenDimension * 4), tiledHeight
-				+ biggestScreenDimension);
+		tile.setSize(worldSize.x + (biggestScreenDimension * 4), tiledHeight + biggestScreenDimension);
 		tile.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		addChild(tile);

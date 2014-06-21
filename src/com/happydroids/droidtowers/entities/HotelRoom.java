@@ -33,8 +33,7 @@ public class HotelRoom extends CommercialSpace {
 	@Override
 	public int getCoinsEarned() {
 		if (isConnectedToTransport()) {
-			return (int) MathUtils.clamp(gridObjectType.getCoinsEarned()
-					* 0.25f * getNumVisitors(), 0, 3600);
+			return (int) MathUtils.clamp(gridObjectType.getCoinsEarned() * 0.25f * getNumVisitors(), 0, 3600);
 		}
 
 		return 0;

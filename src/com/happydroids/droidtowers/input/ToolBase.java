@@ -17,8 +17,7 @@ public class ToolBase implements GestureDetector.GestureListener {
 	protected final List<GameLayer> gameLayers;
 	protected final GameGrid gameGrid;
 
-	public ToolBase(OrthographicCamera camera, List<GameLayer> gameLayers,
-			GameGrid gameGrid) {
+	public ToolBase(OrthographicCamera camera, List<GameLayer> gameLayers, GameGrid gameGrid) {
 		this.camera = camera;
 		this.gameLayers = gameLayers;
 		this.gameGrid = gameGrid;
@@ -57,8 +56,7 @@ public class ToolBase implements GestureDetector.GestureListener {
 		return false;
 	}
 
-	public boolean pinch(Vector2 vector2, Vector2 vector21, Vector2 vector22,
-			Vector2 vector23) {
+	public boolean pinch(Vector2 vector2, Vector2 vector21, Vector2 vector22, Vector2 vector23) {
 		return false;
 	}
 

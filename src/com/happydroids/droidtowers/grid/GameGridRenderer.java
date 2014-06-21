@@ -93,16 +93,11 @@ public class GameGridRenderer extends GameLayer {
 	private void makeOverlayFunctions() {
 		overlayFunctions = new HashMap<Overlays, Function<GridObject, Float>>();
 
-		overlayFunctions.put(Overlays.CRIME_LEVEL,
-				Overlays.CRIME_LEVEL.getMethod());
-		overlayFunctions.put(Overlays.EMPLOYMENT_LEVEL,
-				Overlays.EMPLOYMENT_LEVEL.getMethod());
-		overlayFunctions.put(Overlays.POPULATION_LEVEL,
-				Overlays.POPULATION_LEVEL.getMethod());
-		overlayFunctions.put(Overlays.DESIRABILITY_LEVEL,
-				Overlays.DESIRABILITY_LEVEL.getMethod());
-		overlayFunctions.put(Overlays.DIRT_LEVEL,
-				Overlays.DIRT_LEVEL.getMethod());
+		overlayFunctions.put(Overlays.CRIME_LEVEL, Overlays.CRIME_LEVEL.getMethod());
+		overlayFunctions.put(Overlays.EMPLOYMENT_LEVEL, Overlays.EMPLOYMENT_LEVEL.getMethod());
+		overlayFunctions.put(Overlays.POPULATION_LEVEL, Overlays.POPULATION_LEVEL.getMethod());
+		overlayFunctions.put(Overlays.DESIRABILITY_LEVEL, Overlays.DESIRABILITY_LEVEL.getMethod());
+		overlayFunctions.put(Overlays.DIRT_LEVEL, Overlays.DIRT_LEVEL.getMethod());
 	}
 
 	private void renderGenericOverlay(Overlays overlay) {
@@ -114,20 +109,14 @@ public class GameGridRenderer extends GameLayer {
 		Array<GridObject> objects = gameGrid.getObjects();
 		for (int i = 0, objectsSize = objects.size; i < objectsSize; i++) {
 			GridObject gridObject = objects.get(i);
-			tmp.set(gridObject.getWorldCenter().x,
-					gridObject.getWorldCenter().y, 0);
-			if (camera.frustum.sphereInFrustum(
-					tmp,
-					Math.max(gridObject.getWorldBounds().width,
-							gridObject.getWorldBounds().height))) {
+			tmp.set(gridObject.getWorldCenter().x, gridObject.getWorldCenter().y, 0);
+			if (camera.frustum.sphereInFrustum(tmp, Math.max(gridObject.getWorldBounds().width, gridObject.getWorldBounds().height))) {
 				Float returnValue = function.apply(gridObject);
 				if (returnValue != null) {
 					baseColor.a = returnValue;
 					shapeRenderer.setColor(baseColor);
-					shapeRenderer.rect(gridObject.getPosition().getWorldX(),
-							gridObject.getPosition().getWorldY(), gridObject
-									.getSize().getWorldX(), gridObject
-									.getSize().getWorldY());
+					shapeRenderer.rect(gridObject.getPosition().getWorldX(), gridObject.getPosition().getWorldY(), gridObject.getSize().getWorldX(), gridObject
+							.getSize().getWorldY());
 				}
 			}
 		}
@@ -140,18 +129,13 @@ public class GameGridRenderer extends GameLayer {
 
 		for (int x = 0; x < gameGrid.gridSize.x; x++) {
 			for (int y = 0; y < gameGrid.gridSize.y; y++) {
-				GridPosition position = gameGrid.positionCache().getPosition(x,
-						y);
+				GridPosition position = gameGrid.positionCache().getPosition(x, y);
 
 				if (position.getNoiseLevel() > 0.01f) {
 					tmp.set(position.worldPoint().x, position.worldPoint().y, 0);
-					if (camera.frustum.sphereInFrustum(tmp,
-							TowerConsts.GRID_UNIT_SIZE)) {
-						shapeRenderer.setColor(Overlays.NOISE_LEVEL
-								.getColor(position.getNoiseLevel()));
-						shapeRenderer.rect(x * GRID_UNIT_SIZE, y
-								* GRID_UNIT_SIZE, GRID_UNIT_SIZE,
-								GRID_UNIT_SIZE);
+					if (camera.frustum.sphereInFrustum(tmp, TowerConsts.GRID_UNIT_SIZE)) {
+						shapeRenderer.setColor(Overlays.NOISE_LEVEL.getColor(position.getNoiseLevel()));
+						shapeRenderer.rect(x * GRID_UNIT_SIZE, y * GRID_UNIT_SIZE, GRID_UNIT_SIZE, GRID_UNIT_SIZE);
 					}
 				}
 			}
@@ -166,14 +150,9 @@ public class GameGridRenderer extends GameLayer {
 		spriteCache.begin();
 
 		for (GridObject gridObject : gameGrid.getObjects()) {
-			if (gridObject.shouldUseSpriteCache()
-					&& gridObject.getSpriteCacheId() != -1) {
-				tmp.set(gridObject.getWorldCenter().x,
-						gridObject.getWorldCenter().y, 0);
-				if (camera.frustum.sphereInFrustum(
-						tmp,
-						Math.max(gridObject.getWorldBounds().width,
-								gridObject.getWorldBounds().height))) {
+			if (gridObject.shouldUseSpriteCache() && gridObject.getSpriteCacheId() != -1) {
+				tmp.set(gridObject.getWorldCenter().x, gridObject.getWorldCenter().y, 0);
+				if (camera.frustum.sphereInFrustum(tmp, Math.max(gridObject.getWorldBounds().width, gridObject.getWorldBounds().height))) {
 					spriteCache.draw(gridObject.getSpriteCacheId());
 				}
 			}
@@ -184,16 +163,10 @@ public class GameGridRenderer extends GameLayer {
 		spriteBatch.begin();
 
 		for (GridObject gridObject : gameGrid.getObjects()) {
-			tmp.set(gridObject.getWorldCenter().x,
-					gridObject.getWorldCenter().y, 0);
-			if (camera.frustum.sphereInFrustum(
-					tmp,
-					Math.max(gridObject.getWorldBounds().width,
-							gridObject.getWorldBounds().height))) {
-				if (!gridObject.shouldUseSpriteCache()
-						|| gridObject.getSpriteCacheId() == -1) {
-					gridObject
-							.render(spriteBatch, spriteCache, renderTintColor);
+			tmp.set(gridObject.getWorldCenter().x, gridObject.getWorldCenter().y, 0);
+			if (camera.frustum.sphereInFrustum(tmp, Math.max(gridObject.getWorldBounds().width, gridObject.getWorldBounds().height))) {
+				if (!gridObject.shouldUseSpriteCache() || gridObject.getSpriteCacheId() == -1) {
+					gridObject.render(spriteBatch, spriteCache, renderTintColor);
 				}
 
 				if (gridObject.hasDecals()) {
@@ -213,13 +186,11 @@ public class GameGridRenderer extends GameLayer {
 		shapeRenderer.setColor(1f, 1f, 1f, 0.15f);
 
 		for (int i = 0; i <= gameGrid.getGridSize().x; i++) {
-			shapeRenderer.line(i * GRID_UNIT_SIZE, 0, i * GRID_UNIT_SIZE,
-					gameGrid.getGridSize().y * GRID_UNIT_SIZE);
+			shapeRenderer.line(i * GRID_UNIT_SIZE, 0, i * GRID_UNIT_SIZE, gameGrid.getGridSize().y * GRID_UNIT_SIZE);
 		}
 
 		for (int i = 0; i <= gameGrid.getGridSize().y; i++) {
-			shapeRenderer.line(0, i * GRID_UNIT_SIZE, gameGrid.getGridSize().x
-					* GRID_UNIT_SIZE, i * GRID_UNIT_SIZE);
+			shapeRenderer.line(0, i * GRID_UNIT_SIZE, gameGrid.getGridSize().x * GRID_UNIT_SIZE, i * GRID_UNIT_SIZE);
 		}
 
 		shapeRenderer.end();
@@ -233,8 +204,7 @@ public class GameGridRenderer extends GameLayer {
 
 	public void setActiveOverlay(Overlays overlay) {
 		if (activeOverlay == null && overlay == POPULATION_LEVEL) {
-			TutorialEngine.instance().moveToStepWhenReady(
-					"tutorial-turn-off-population-overlay");
+			TutorialEngine.instance().moveToStepWhenReady("tutorial-turn-off-population-overlay");
 		}
 
 		if (activeOverlay == POPULATION_LEVEL && overlay == null) {

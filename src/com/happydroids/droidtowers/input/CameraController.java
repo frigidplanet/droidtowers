@@ -26,8 +26,7 @@ public class CameraController implements GestureDetector.GestureListener {
 
 	private OrthographicCamera camera;
 	private BoundingBox cameraBounds;
-	private EventBus events = new SafeEventBus(
-			CameraController.class.getSimpleName());
+	private EventBus events = new SafeEventBus(CameraController.class.getSimpleName());
 	private float initialScale = 1.0f;
 	private boolean flinging = false;
 	private float velX;
@@ -37,8 +36,7 @@ public class CameraController implements GestureDetector.GestureListener {
 
 	public CameraController(OrthographicCamera camera_, Vector2 worldSize) {
 		camera = camera_;
-		camera.position.set(worldSize.x / 2, TowerConsts.GROUND_HEIGHT
-				+ (TowerConsts.GRID_UNIT_SIZE * 2), 0);
+		camera.position.set(worldSize.x / 2, TowerConsts.GROUND_HEIGHT + (TowerConsts.GRID_UNIT_SIZE * 2), 0);
 		lastCameraPosition = new Vector3(camera.position);
 		updateCameraConstraints(worldSize);
 	}
@@ -46,9 +44,8 @@ public class CameraController implements GestureDetector.GestureListener {
 	public void updateCameraConstraints(Vector2 newWorldSize) {
 		worldSize = newWorldSize;
 		int gameWorldPadding = Display.getBiggestScreenDimension();
-		this.cameraBounds = new BoundingBox(new Vector3(-gameWorldPadding,
-				-gameWorldPadding, 0), new Vector3(worldSize.x
-				+ gameWorldPadding, worldSize.y + gameWorldPadding, 0));
+		this.cameraBounds = new BoundingBox(new Vector3(-gameWorldPadding, -gameWorldPadding, 0), new Vector3(worldSize.x + gameWorldPadding, worldSize.y
+				+ gameWorldPadding, 0));
 		checkBounds();
 	}
 
@@ -114,14 +111,12 @@ public class CameraController implements GestureDetector.GestureListener {
 		checkZoom();
 		checkBounds();
 
-		TutorialEngine.instance().moveToStepWhenReady(
-				"tutorial-turn-on-population-overlay");
+		TutorialEngine.instance().moveToStepWhenReady("tutorial-turn-on-population-overlay");
 
 		return true;
 	}
 
-	public boolean pinch(Vector2 vector2, Vector2 vector21, Vector2 vector22,
-			Vector2 vector23) {
+	public boolean pinch(Vector2 vector2, Vector2 vector21, Vector2 vector22, Vector2 vector23) {
 		return false;
 	}
 
@@ -131,8 +126,7 @@ public class CameraController implements GestureDetector.GestureListener {
 		checkZoom();
 		checkBounds();
 
-		TutorialEngine.instance().moveToStepWhenReady(
-				"tutorial-turn-on-population-overlay");
+		TutorialEngine.instance().moveToStepWhenReady("tutorial-turn-on-population-overlay");
 
 		return true;
 	}
@@ -155,8 +149,7 @@ public class CameraController implements GestureDetector.GestureListener {
 		}
 
 		if (!lastCameraPosition.equals(camera.position)) {
-			CameraControllerEvent event = Pools
-					.obtain(CameraControllerEvent.class);
+			CameraControllerEvent event = Pools.obtain(CameraControllerEvent.class);
 			event.setPosition(camera.position);
 			event.setDelta(lastCameraPosition.sub(camera.position));
 			event.setZoom(camera.zoom);
@@ -167,21 +160,15 @@ public class CameraController implements GestureDetector.GestureListener {
 	}
 
 	private void checkZoom() {
-		camera.zoom = MathUtils.clamp(camera.zoom,
-				ZOOM_MIN / Display.getScaledDensity(),
-				ZOOM_MAX / Display.getScaledDensity());
+		camera.zoom = MathUtils.clamp(camera.zoom, ZOOM_MIN / Display.getScaledDensity(), ZOOM_MAX / Display.getScaledDensity());
 	}
 
 	public void checkBounds() {
 		float halfWidth = Display.getWidth() / 2 * camera.zoom;
 		float halfHeight = Display.getHeight() / 2 * camera.zoom;
 
-		camera.position.x = MathUtils.clamp(camera.position.x,
-				cameraBounds.getMin().x + halfWidth, cameraBounds.getMax().x
-						- halfWidth);
-		camera.position.y = MathUtils.clamp(camera.position.y,
-				cameraBounds.getMin().y + halfHeight, cameraBounds.getMax().y
-						- halfHeight);
+		camera.position.x = MathUtils.clamp(camera.position.x, cameraBounds.getMin().x + halfWidth, cameraBounds.getMax().x - halfWidth);
+		camera.position.y = MathUtils.clamp(camera.position.y, cameraBounds.getMin().y + halfHeight, cameraBounds.getMax().y - halfHeight);
 	}
 
 	public BoundingBox getCameraBounds() {
@@ -203,9 +190,7 @@ public class CameraController implements GestureDetector.GestureListener {
 	public void panTo(Vector3 position, boolean animate) {
 		if (animate) {
 			TweenSystem.manager().killTarget(this);
-			Tween.to(this, CameraControllerAccessor.PAN, 750)
-					.target(position.x, position.y)
-					.start(TweenSystem.manager());
+			Tween.to(this, CameraControllerAccessor.PAN, 750).target(position.x, position.y).start(TweenSystem.manager());
 		} else {
 			camera.position.set(position.x, position.y, 0f);
 			checkBounds();

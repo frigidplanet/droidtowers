@@ -31,10 +31,8 @@ public class TutorialEngine extends AchievementEngine {
 	protected TutorialEngine() {
 		try {
 			ObjectMapper mapper = TowerGameService.instance().getObjectMapper();
-			achievements = mapper.readValue(
-					Gdx.files.internal("params/tutorial-steps.json").reader(),
-					mapper.getTypeFactory().constructCollectionType(
-							ArrayList.class, TutorialStep.class));
+			achievements = mapper.readValue(Gdx.files.internal("params/tutorial-steps.json").reader(),
+					mapper.getTypeFactory().constructCollectionType(ArrayList.class, TutorialStep.class));
 			achievementsById = Maps.newHashMap();
 
 			for (int i = 0, achievementsSize = achievements.size(); i < achievementsSize; i++) {
@@ -61,8 +59,7 @@ public class TutorialEngine extends AchievementEngine {
 	protected void complete(Achievement achievement) {
 		TutorialStep tutorialStep = (TutorialStep) achievement;
 
-		if (tutorialStep.isLocked() || tutorialStep.hasGivenReward()
-				|| tutorialStep.hasShownNotification()) {
+		if (tutorialStep.isLocked() || tutorialStep.hasGivenReward() || tutorialStep.hasShownNotification()) {
 			return;
 		}
 
@@ -76,8 +73,7 @@ public class TutorialEngine extends AchievementEngine {
 			tutorialStep.shownNotification();
 			new TutorialStepNotification(tutorialStep).show();
 
-			AchievementCompletionEvent event = Pools
-					.obtain(AchievementCompletionEvent.class);
+			AchievementCompletionEvent event = Pools.obtain(AchievementCompletionEvent.class);
 			event.setAchievement(tutorialStep);
 			eventBus.post(event);
 			Pools.free(event);

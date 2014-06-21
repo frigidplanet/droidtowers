@@ -66,16 +66,13 @@ class RatingBar extends Table {
 		super.draw(batch, parentAlpha);
 
 		batch.setColor(1, 1, 1, 0.35f * parentAlpha);
-		batch.draw(maskTexture, (int) getX() + starPlaceholder.getX(),
-				(int) getY() + starPlaceholder.getY(), textureWidth * maxValue,
-				textureHeight, 0, 0, maxValue, -1f);
+		batch.draw(maskTexture, (int) getX() + starPlaceholder.getX(), (int) getY() + starPlaceholder.getY(), textureWidth * maxValue, textureHeight, 0, 0,
+				maxValue, -1f);
 
 		float starWidth = Math.round(stars * textureWidth);
-		batch.setColor(MASK_COLOR.r, MASK_COLOR.g, MASK_COLOR.b, MASK_COLOR.a
-				* parentAlpha);
-		batch.draw(maskTexture, (int) getX() + starPlaceholder.getX(),
-				(int) getY() + starPlaceholder.getY(), (int) starWidth,
-				textureHeight, 0f, 0f, stars, -1f);
+		batch.setColor(MASK_COLOR.r, MASK_COLOR.g, MASK_COLOR.b, MASK_COLOR.a * parentAlpha);
+		batch.draw(maskTexture, (int) getX() + starPlaceholder.getX(), (int) getY() + starPlaceholder.getY(), (int) starWidth, textureHeight, 0f, 0f, stars,
+				-1f);
 	}
 
 	public int getMaxValue() {
@@ -94,8 +91,7 @@ class RatingBar extends Table {
 
 	public void setTextures(String maskTextureFilename) {
 		this.maskTexture = TowerAssetManager.texture(maskTextureFilename);
-		this.maskTexture.setWrap(Texture.TextureWrap.Repeat,
-				Texture.TextureWrap.Repeat);
+		this.maskTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		textureWidth = this.maskTexture.getWidth();
 
 		updateLayout();
@@ -116,8 +112,7 @@ class RatingBar extends Table {
 		}
 
 		row();
-		add(starPlaceholder).width(textureWidth * maxValue).height(
-				textureHeight);
+		add(starPlaceholder).width(textureWidth * maxValue).height(textureHeight);
 		add(valueLabel);
 	}
 }

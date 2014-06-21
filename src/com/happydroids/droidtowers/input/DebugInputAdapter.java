@@ -42,8 +42,7 @@ public class DebugInputAdapter extends InputAdapter {
 				debugWindow.dismiss();
 				debugWindow = null;
 			} else {
-				debugWindow = new DebugWindow(DroidTowersGame.getRootUiStage())
-						.show();
+				debugWindow = new DebugWindow(DroidTowersGame.getRootUiStage()).show();
 				debugWindow.setDismissCallback(new Runnable() {
 					@Override
 					public void run() {

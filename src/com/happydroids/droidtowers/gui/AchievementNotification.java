@@ -23,8 +23,7 @@ public class AchievementNotification extends Dialog {
 		super();
 
 		particleEffect = new ParticleEffect();
-		particleEffect.load(Gdx.files.internal("particles/sparkle-dialog.p"),
-				Gdx.files.internal("particles"));
+		particleEffect.load(Gdx.files.internal("particles/sparkle-dialog.p"), Gdx.files.internal("particles"));
 
 		setTitle("Achievement Complete: " + achievement.getName());
 
@@ -34,15 +33,12 @@ public class AchievementNotification extends Dialog {
 		t.row();
 		t.add(new HorizontalRule(Color.GRAY, 1)).fillX();
 		t.row();
-		t.add(FontManager.Default.makeLabel(achievement.toRewardString()))
-				.top();
+		t.add(FontManager.Default.makeLabel(achievement.toRewardString())).top();
 
 		Table c = new Table();
 		c.defaults().top().left();
 		c.row().fillX();
-		c.add(new Image(TowerAssetManager.drawableFromAtlas("trophy",
-				"hud/menus.txt"), Scaling.none)).padRight(
-				Display.devicePixel(8));
+		c.add(new Image(TowerAssetManager.drawableFromAtlas("trophy", "hud/menus.txt"), Scaling.none)).padRight(Display.devicePixel(8));
 		c.add(t).expandX().minWidth(300);
 		c.setClip(true);
 		c.pack();
@@ -60,8 +56,7 @@ public class AchievementNotification extends Dialog {
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		particleEffect.setPosition(getX() + getWidth() / 2, getY()
-				+ getHeight() / 2);
+		particleEffect.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
 		particleEffect.update(delta);
 	}
 

@@ -16,8 +16,7 @@ public class PopulationCalculator extends GameGridAction {
 
 	private final AvatarLayer avatarLayer;
 
-	public PopulationCalculator(GameGrid gameGrid, AvatarLayer avatarLayer,
-			float frequency) {
+	public PopulationCalculator(GameGrid gameGrid, AvatarLayer avatarLayer, float frequency) {
 		super(gameGrid, frequency);
 		this.avatarLayer = avatarLayer;
 	}
@@ -30,10 +29,8 @@ public class PopulationCalculator extends GameGridAction {
 
 		if (rooms != null) {
 			for (GridObject gridObject : rooms) {
-				maxPopulation += ((RoomType) gridObject.getGridObjectType())
-						.getPopulationMax();
-				supportedResidency += ((Room) gridObject)
-						.getNumSupportedResidents();
+				maxPopulation += ((RoomType) gridObject.getGridObjectType()).getPopulationMax();
+				supportedResidency += ((Room) gridObject).getNumSupportedResidents();
 			}
 		}
 

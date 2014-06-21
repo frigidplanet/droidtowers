@@ -40,13 +40,10 @@ public class MovieTheater extends CommercialSpace {
 				public void run() {
 					if (movie.getState().equals(MovieState.Loaded)) {
 						movie.incrementRefCount();
-						animation = new Animation(1f / movie.getAtlasFps(),
-								movie.getTextureAtlas().getRegions());
+						animation = new Animation(1f / movie.getAtlasFps(), movie.getTextureAtlas().getRegions());
 						animationTime = 0f;
 						isPlaying = true;
-						getSprite().setRegion(
-								gridObjectType.getTextureAtlas().findRegion(
-										"4x1-movie-theater-on"));
+						getSprite().setRegion(gridObjectType.getTextureAtlas().findRegion("4x1-movie-theater-on"));
 					} else {
 						endPlayback();
 					}
@@ -56,8 +53,7 @@ public class MovieTheater extends CommercialSpace {
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		if (animation != null) {
 			if (isPlaying) {
 				animationTime += Gdx.graphics.getDeltaTime();
@@ -65,10 +61,7 @@ public class MovieTheater extends CommercialSpace {
 					endPlayback();
 				} else {
 					Vector2 worldCenter = getWorldCenter();
-					spriteBatch.draw(
-							animation.getKeyFrame(animationTime, false),
-							worldCenter.x - 53.5f * getGridScale(),
-							worldCenter.y - 19 * getGridScale(),
+					spriteBatch.draw(animation.getKeyFrame(animationTime, false), worldCenter.x - 53.5f * getGridScale(), worldCenter.y - 19 * getGridScale(),
 							107 * getGridScale(), 44 * getGridScale());
 				}
 			}
@@ -91,9 +84,7 @@ public class MovieTheater extends CommercialSpace {
 			animation = null;
 		}
 
-		getSprite().setRegion(
-				gridObjectType.getTextureAtlas()
-						.findRegion("4x1-movie-theater"));
+		getSprite().setRegion(gridObjectType.getTextureAtlas().findRegion("4x1-movie-theater"));
 		nextShowTime = System.currentTimeMillis();// + (Random.randomInt(5, 15)
 													// * 1000);
 		isPlaying = false;

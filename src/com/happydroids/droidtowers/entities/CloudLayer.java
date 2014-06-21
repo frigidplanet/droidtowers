@@ -24,8 +24,7 @@ import com.happydroids.droidtowers.utils.Random;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CloudLayer extends GameLayer<GameObject> implements
-		RespondsToWorldSizeChange {
+public class CloudLayer extends GameLayer<GameObject> implements RespondsToWorldSizeChange {
 	public static final int CLOUD_SPAWN_DELAY = 2;
 	public static final String CLOUDS_ATLAS = "backgrounds/clouds.txt";
 	public double CLOUD_SPAWN_MIN = 0.35;
@@ -62,8 +61,7 @@ public class CloudLayer extends GameLayer<GameObject> implements
 	private void spawnCloudWhenItsTime(float timeDelta) {
 		timeSinceSpawn += timeDelta;
 
-		if (timeSinceSpawn > CLOUD_SPAWN_DELAY
-				&& gameObjects.size < MAX_ACTIVE_CLOUDS) {
+		if (timeSinceSpawn > CLOUD_SPAWN_DELAY && gameObjects.size < MAX_ACTIVE_CLOUDS) {
 			timeSinceSpawn = 0;
 
 			spawnCloudNow(false);
@@ -79,8 +77,7 @@ public class CloudLayer extends GameLayer<GameObject> implements
 		if (!deadClouds.isEmpty()) {
 			cloud = deadClouds.remove(0);
 		} else {
-			cloud = new GameObject(textureAtlas.findRegion("cloud",
-					Random.randomInt(1, numberOfCloudTypes)));
+			cloud = new GameObject(textureAtlas.findRegion("cloud", Random.randomInt(1, numberOfCloudTypes)));
 		}
 
 		if (weatherService != null) {
@@ -88,38 +85,28 @@ public class CloudLayer extends GameLayer<GameObject> implements
 		}
 
 		if (spawnOnScreen) {
-			cloud.setPosition(
-					Random.randomInt(-cloud.getWidth(), worldSize.x),
-					Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN, worldSize.y
-							* CLOUD_SPAWN_MAX));
+			cloud.setPosition(Random.randomInt(-cloud.getWidth(), worldSize.x), Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN, worldSize.y * CLOUD_SPAWN_MAX));
 		} else {
-			cloud.setPosition(
-					-(cloud.getWidth() + Display.getBiggestScreenDimension()),
-					Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN, worldSize.y
-							* CLOUD_SPAWN_MAX));
+			cloud.setPosition(-(cloud.getWidth() + Display.getBiggestScreenDimension()),
+					Random.randomInt(worldSize.y * CLOUD_SPAWN_MIN, worldSize.y * CLOUD_SPAWN_MAX));
 		}
 		cloud.setVelocity(Random.randomInt(5, 25), 0);
 		cloud.setScale(2f);
 
 		cloud.setOpacity(0);
-		Tween.to(cloud, GameObjectAccessor.OPACITY, 2000).target(1.0f)
-				.start(TweenSystem.manager());
+		Tween.to(cloud, GameObjectAccessor.OPACITY, 2000).target(1.0f).start(TweenSystem.manager());
 
 		addChild(cloud);
 	}
 
 	private void removeDeadClouds() {
 		for (final GameObject cloud : gameObjects) {
-			if (cloud.getX() >= worldSize.x
-					+ Display.getBiggestScreenDimension()) {
-				Tween.to(cloud, GameObjectAccessor.OPACITY, 2000)
-						.target(0f)
-						.setCallback(new TweenCallback() {
-							public void onEvent(int eventType, BaseTween source) {
-								cloud.markToRemove(true);
-							}
-						}).setCallbackTriggers(TweenCallback.COMPLETE)
-						.start(TweenSystem.manager());
+			if (cloud.getX() >= worldSize.x + Display.getBiggestScreenDimension()) {
+				Tween.to(cloud, GameObjectAccessor.OPACITY, 2000).target(0f).setCallback(new TweenCallback() {
+					public void onEvent(int eventType, BaseTween source) {
+						cloud.markToRemove(true);
+					}
+				}).setCallbackTriggers(TweenCallback.COMPLETE).start(TweenSystem.manager());
 			}
 		}
 	}
@@ -140,10 +127,8 @@ public class CloudLayer extends GameLayer<GameObject> implements
 
 		if (cloudColor != null) {
 			for (GameObject cloud : gameObjects) {
-				Tween.to(cloud, GameObjectAccessor.COLOR,
-						TowerConsts.WEATHER_SERVICE_STATE_CHANGE_DURATION)
-						.target(cloudColor.r, cloudColor.g, cloudColor.b,
-								cloudColor.a).start(TweenSystem.manager());
+				Tween.to(cloud, GameObjectAccessor.COLOR, TowerConsts.WEATHER_SERVICE_STATE_CHANGE_DURATION)
+						.target(cloudColor.r, cloudColor.g, cloudColor.b, cloudColor.a).start(TweenSystem.manager());
 			}
 		}
 	}

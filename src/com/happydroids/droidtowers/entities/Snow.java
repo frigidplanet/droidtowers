@@ -25,40 +25,29 @@ public class Snow extends GameObject {
 		super();
 
 		Texture rainDropTexture = TowerAssetManager.texture("snow.png");
-		rainDropTexture.setWrap(Texture.TextureWrap.Repeat,
-				Texture.TextureWrap.Repeat);
+		rainDropTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		setTexture(rainDropTexture);
 
-		float width = worldSize.x + (Display.getBiggestScreenDimension() * 4)
-				+ (RAIN_TEXURE_SIZE * 2);
-		float height = worldSize.y + (Display.getBiggestScreenDimension() * 4)
-				+ (RAIN_TEXURE_SIZE * 2);
+		float width = worldSize.x + (Display.getBiggestScreenDimension() * 4) + (RAIN_TEXURE_SIZE * 2);
+		float height = worldSize.y + (Display.getBiggestScreenDimension() * 4) + (RAIN_TEXURE_SIZE * 2);
 		setPosition(-Display.getBiggestScreenDimension() * 2, 0);
 		setSize(width, height);
 		setRegion(0, 0, width / RAIN_TEXURE_SIZE, height / RAIN_TEXURE_SIZE);
 
-		Tween.to(this, GameObjectAccessor.TEXTURE_VV2,
-				Random.randomInt(60000, 64000))
-				.ease(Linear.INOUT)
-				.target(-getV2(), 0f)
-				.repeat(Tween.INFINITY, 0)
+		Tween.to(this, GameObjectAccessor.TEXTURE_VV2, Random.randomInt(60000, 64000)).ease(Linear.INOUT).target(-getV2(), 0f).repeat(Tween.INFINITY, 0)
 				.setCallback(new TweenCallback() {
 					public void onEvent(int eventType, BaseTween source) {
-						setPosition(Random.randomInt(
-								-Display.getBiggestScreenDimension() * 2,
-								-Display.getBiggestScreenDimension()), 0);
+						setPosition(Random.randomInt(-Display.getBiggestScreenDimension() * 2, -Display.getBiggestScreenDimension()), 0);
 					}
-				}).setCallbackTriggers(TweenCallback.BEGIN)
-				.start(TweenSystem.manager());
+				}).setCallbackTriggers(TweenCallback.BEGIN).start(TweenSystem.manager());
 	}
 
 	@Override
 	public void update(float timeDelta) {
 		super.update(timeDelta);
 
-		float alpha = 1f - SceneManager.activeScene().getCamera().zoom
-				/ CameraController.ZOOM_MAX;
+		float alpha = 1f - SceneManager.activeScene().getCamera().zoom / CameraController.ZOOM_MAX;
 		if (alpha > 0.25f) {
 			visible = true;
 			setColor(1f, 1f, 1f, alpha);

@@ -19,42 +19,29 @@ import com.happydroids.droidtowers.utils.StringUtils;
 import java.text.NumberFormat;
 
 public class SellGridObjectConfirmationDialog extends Dialog {
-	public SellGridObjectConfirmationDialog(final GameGrid gameGrid,
-			final GridObject objectToSell) {
+	public SellGridObjectConfirmationDialog(final GameGrid gameGrid, final GridObject objectToSell) {
 		super();
 
-		final int sellPrice = (int) (objectToSell.getGridObjectType()
-				.getCoins() * 0.5);
+		final int sellPrice = (int) (objectToSell.getGridObjectType().getCoins() * 0.5);
 
 		setTitle("Are you sure?");
 
 		if (objectToSell.getAmountLoanedFromCousinVinnie() > 0) {
-			setMessage("You must pay back Cousin Vinnie before you can sell his hideout in: "
-					+ objectToSell.getName()
-					+ "\n\nDo you want to pay him back: "
-					+ TowerConsts.CURRENCY_SYMBOL
-					+ StringUtils.formatNumber(objectToSell
-							.getAmountLoanedFromCousinVinnie()) + "?");
+			setMessage("You must pay back Cousin Vinnie before you can sell his hideout in: " + objectToSell.getName() + "\n\nDo you want to pay him back: "
+					+ TowerConsts.CURRENCY_SYMBOL + StringUtils.formatNumber(objectToSell.getAmountLoanedFromCousinVinnie()) + "?");
 			addButton("Yes", new OnClickCallback() {
 				@Override
 				public void onClick(Dialog dialog) {
-					if (Player.instance().getCoins() < objectToSell
-							.getAmountLoanedFromCousinVinnie()) {
-						new Dialog()
-								.setMessage(
-										"Sorry you do not have enough money right now.")
-								.show();
+					if (Player.instance().getCoins() < objectToSell.getAmountLoanedFromCousinVinnie()) {
+						new Dialog().setMessage("Sorry you do not have enough money right now.").show();
 					} else {
-						Player.instance().subtractCurrency(
-								objectToSell.getAmountLoanedFromCousinVinnie());
+						Player.instance().subtractCurrency(objectToSell.getAmountLoanedFromCousinVinnie());
 						sellGridObject(gameGrid, objectToSell, sellPrice);
 					}
 				}
 			});
 		} else {
-			String message = "Are you sure you want to recycle this "
-					+ objectToSell.getName() + "?"
-					+ "\n\nRecycled materials price is: $"
+			String message = "Are you sure you want to recycle this " + objectToSell.getName() + "?" + "\n\nRecycled materials price is: $"
 					+ NumberFormat.getInstance().format(sellPrice);
 
 			if (!(objectToSell instanceof Transit)) {
@@ -78,8 +65,7 @@ public class SellGridObjectConfirmationDialog extends Dialog {
 		});
 	}
 
-	private void sellGridObject(GameGrid gameGrid, GridObject objectToSell,
-			int sellPrice) {
+	private void sellGridObject(GameGrid gameGrid, GridObject objectToSell, int sellPrice) {
 		dismiss();
 		Gdx.input.vibrate(100);
 
@@ -88,8 +74,7 @@ public class SellGridObjectConfirmationDialog extends Dialog {
 
 		SmokeParticleEffect smokeParticleEffect = new SmokeParticleEffect();
 		smokeParticleEffect.setPosition(objectToSell.getWorldCenter());
-		smokeParticleEffect.setSize(objectToSell.getWorldBounds().width,
-				objectToSell.getWorldBounds().height);
+		smokeParticleEffect.setSize(objectToSell.getWorldBounds().width, objectToSell.getWorldBounds().height);
 		smokeParticleEffect.start();
 		gameGrid.addChild(smokeParticleEffect);
 	}

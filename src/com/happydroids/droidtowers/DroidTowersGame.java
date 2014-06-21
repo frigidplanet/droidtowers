@@ -53,8 +53,7 @@ import com.happydroids.droidtowers.types.StairTypeFactory;
 import com.happydroids.platform.Platform;
 import com.happydroids.utils.BackgroundTask;
 
-public class DroidTowersGame implements ApplicationListener,
-		BackgroundTask.PostExecuteManager {
+public class DroidTowersGame implements ApplicationListener, BackgroundTask.PostExecuteManager {
 	private static final String TAG = DroidTowersGame.class.getSimpleName();
 
 	private SpriteBatch spriteBatch;
@@ -77,8 +76,7 @@ public class DroidTowersGame implements ApplicationListener,
 			afterInitRunnable.run();
 		}
 
-		Thread.currentThread().setUncaughtExceptionHandler(
-				Platform.getUncaughtExceptionHandler());
+		Thread.currentThread().setUncaughtExceptionHandler(Platform.getUncaughtExceptionHandler());
 
 		Gdx.app.debug("lifecycle", "create");
 		Gdx.app.debug(TAG, "ApplicationType: " + Gdx.app.getType().toString());
@@ -86,8 +84,7 @@ public class DroidTowersGame implements ApplicationListener,
 		Display.setup();
 
 		BackgroundTask.setPostExecuteManager(this);
-		BackgroundTask
-				.setUncaughtExceptionHandler(Platform.uncaughtExceptionHandler);
+		BackgroundTask.setUncaughtExceptionHandler(Platform.uncaughtExceptionHandler);
 
 		TowerGameService.setInstance(new TowerGameService());
 
@@ -99,8 +96,7 @@ public class DroidTowersGame implements ApplicationListener,
 				// (Display.getHeight() * displayScalar), true);
 				// spriteBatchFBO = new SpriteBatch();
 			} else if (Display.isInCompatibilityMode()) {
-				frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888,
-						Display.getWidth(), Display.getHeight(), true);
+				frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Display.getWidth(), Display.getHeight(), true);
 				spriteBatchFBO = new SpriteBatch();
 			}
 		}
@@ -136,25 +132,21 @@ public class DroidTowersGame implements ApplicationListener,
 		}
 		AchievementEngine.instance();
 		Tween.setCombinedAttributesLimit(4);
-		Tween.registerAccessor(CameraController.class,
-				new CameraControllerAccessor());
+		Tween.registerAccessor(CameraController.class, new CameraControllerAccessor());
 		Tween.registerAccessor(GameObject.class, new GameObjectAccessor());
 		Tween.registerAccessor(Actor.class, new WidgetAccessor());
 
 		spriteBatch = new SpriteBatch();
-		rootUiStage = new Stage(Display.getWidth(), Display.getHeight(), false,
-				spriteBatch);
+		rootUiStage = new Stage(Display.getWidth(), Display.getHeight(), false, spriteBatch);
 
 		Gdx.input.setInputProcessor(InputSystem.instance());
 		InputSystem.instance().addInputProcessor(rootUiStage, 0);
 
 		if (DEBUG) {
-			InputSystem.instance().addInputProcessor(new DebugInputAdapter(),
-					1000);
+			InputSystem.instance().addInputProcessor(new DebugInputAdapter(), 1000);
 		}
 
-		InputSystem.instance().addInputProcessor(new QuitGameInputAdapter(),
-				1000000);
+		InputSystem.instance().addInputProcessor(new QuitGameInputAdapter(), 1000000);
 
 		Scene.setSpriteBatch(spriteBatch);
 
@@ -177,15 +169,12 @@ public class DroidTowersGame implements ApplicationListener,
 		ActionManager.instance().update(deltaTime);
 		InputSystem.instance().update(deltaTime);
 		PathSearchManager.instance().update(deltaTime);
-		TweenSystem.manager().update(
-				(int) (deltaTime * 1000 * SceneManager.activeScene()
-						.getTimeMultiplier()));
+		TweenSystem.manager().update((int) (deltaTime * 1000 * SceneManager.activeScene().getTimeMultiplier()));
 		if (soundController != null) {
 			soundController.update(deltaTime);
 		}
 
-		spriteBatch
-				.setProjectionMatrix(SceneManager.activeScene().getCamera().combined);
+		spriteBatch.setProjectionMatrix(SceneManager.activeScene().getCamera().combined);
 
 		if (frameBuffer != null) {
 			frameBuffer.begin();
@@ -194,9 +183,7 @@ public class DroidTowersGame implements ApplicationListener,
 			frameBuffer.end();
 
 			spriteBatchFBO.begin();
-			spriteBatchFBO.draw(frameBuffer.getColorBufferTexture(), 0, 0,
-					Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 1,
-					1);
+			spriteBatchFBO.draw(frameBuffer.getColorBufferTexture(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0, 0, 1, 1);
 			spriteBatchFBO.end();
 		} else {
 			SceneManager.activeScene().render(deltaTime);
@@ -215,10 +202,8 @@ public class DroidTowersGame implements ApplicationListener,
 			Table.drawDebug(SceneManager.activeScene().getStage());
 			Table.drawDebug(rootUiStage);
 
-			float javaHeapInBytes = Gdx.app.getJavaHeap()
-					/ TowerConsts.ONE_MEGABYTE;
-			float nativeHeapInBytes = Gdx.app.getNativeHeap()
-					/ TowerConsts.ONE_MEGABYTE;
+			float javaHeapInBytes = Gdx.app.getJavaHeap() / TowerConsts.ONE_MEGABYTE;
+			float nativeHeapInBytes = Gdx.app.getNativeHeap() / TowerConsts.ONE_MEGABYTE;
 
 			timeUntilDebugInfoUpdate -= deltaTime;
 			if (timeUntilDebugInfoUpdate <= 0f) {
@@ -231,8 +216,7 @@ public class DroidTowersGame implements ApplicationListener,
 				debugInfo.append("Mb, heap: ");
 				debugInfo.append((int) nativeHeapInBytes);
 				debugInfo.append("Mb, gpu: ");
-				debugInfo.append((int) TowerAssetManager.assetManager()
-						.getMemoryInMegabytes());
+				debugInfo.append((int) TowerAssetManager.assetManager().getMemoryInMegabytes());
 				debugInfo.append("Mb)");
 
 				debugInfo.append(" psm: ");
@@ -254,8 +238,7 @@ public class DroidTowersGame implements ApplicationListener,
 		if (SceneManager.activeScene() != null) {
 			SceneManager.activeScene().getCamera().viewportWidth = width;
 			SceneManager.activeScene().getCamera().viewportHeight = height;
-			SceneManager.activeScene().getSpriteBatch().getProjectionMatrix()
-					.setToOrtho2D(0, 0, width, height);
+			SceneManager.activeScene().getSpriteBatch().getProjectionMatrix().setToOrtho2D(0, 0, width, height);
 			Gdx.gl.glViewport(0, 0, width, height);
 			spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
 		}

@@ -38,8 +38,7 @@ public class RadialMenu extends WidgetGroup {
 	}
 
 	public void show() {
-		InputSystem.instance().bind(InputSystem.Keys.ESCAPE,
-				closeMenuInputCallback);
+		InputSystem.instance().bind(InputSystem.Keys.ESCAPE, closeMenuInputCallback);
 		InputSystem.instance().addInputProcessor(closeMenuInputAdapter, 0);
 
 		setVisible(true);
@@ -60,12 +59,9 @@ public class RadialMenu extends WidgetGroup {
 			float newX = (float) (-radius * Math.cos(radian));
 			float newY = (float) (radius * Math.sin(radian));
 
-			timeline.push(Tween.to(child, POSITION, 200).delay(10 * index++)
-					.target(newX, newY));
-			timeline.push(Tween.to(child, SCALE, 200).delay(10 * index++)
-					.target(1f, 1f));
-			timeline.push(Tween.to(child, OPACITY, 200).delay(10 * index++)
-					.target(1f));
+			timeline.push(Tween.to(child, POSITION, 200).delay(10 * index++).target(newX, newY));
+			timeline.push(Tween.to(child, SCALE, 200).delay(10 * index++).target(1f, 1f));
+			timeline.push(Tween.to(child, OPACITY, 200).delay(10 * index++).target(1f));
 		}
 
 		timeline.start(TweenSystem.manager());
@@ -74,13 +70,11 @@ public class RadialMenu extends WidgetGroup {
 	public void close() {
 		InputSystem.instance().removeInputProcessor(closeMenuInputAdapter);
 
-		Tween.to(this, OPACITY, 150).target(0.0f)
-				.setCallback(new TweenCallback() {
-					public void onEvent(int eventType, BaseTween source) {
-						setVisible(false);
-					}
-				}).setCallbackTriggers(TweenCallback.COMPLETE)
-				.start(TweenSystem.manager());
+		Tween.to(this, OPACITY, 150).target(0.0f).setCallback(new TweenCallback() {
+			public void onEvent(int eventType, BaseTween source) {
+				setVisible(false);
+			}
+		}).setCallbackTriggers(TweenCallback.COMPLETE).start(TweenSystem.manager());
 	}
 
 	private InputAdapter closeMenuInputAdapter = new InputAdapter() {

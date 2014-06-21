@@ -44,19 +44,16 @@ public class GameSaveMetadata {
 		if (fileGeneration != metadata.fileGeneration) {
 			return false;
 		}
-		if (baseFilename != null ? !baseFilename.equals(metadata.baseFilename)
-				: metadata.baseFilename != null) {
+		if (baseFilename != null ? !baseFilename.equals(metadata.baseFilename) : metadata.baseFilename != null) {
 			return false;
 		}
-		if (cloudSaveUri != null ? !cloudSaveUri.equals(metadata.cloudSaveUri)
-				: metadata.cloudSaveUri != null) {
+		if (cloudSaveUri != null ? !cloudSaveUri.equals(metadata.cloudSaveUri) : metadata.cloudSaveUri != null) {
 			return false;
 		}
 		if (difficultyLevel != metadata.difficultyLevel) {
 			return false;
 		}
-		if (towerName != null ? !towerName.equals(metadata.towerName)
-				: metadata.towerName != null) {
+		if (towerName != null ? !towerName.equals(metadata.towerName) : metadata.towerName != null) {
 			return false;
 		}
 
@@ -66,10 +63,8 @@ public class GameSaveMetadata {
 	@Override
 	public int hashCode() {
 		int result = cloudSaveUri != null ? cloudSaveUri.hashCode() : 0;
-		result = 31 * result
-				+ (baseFilename != null ? baseFilename.hashCode() : 0);
-		result = 31 * result
-				+ (difficultyLevel != null ? difficultyLevel.hashCode() : 0);
+		result = 31 * result + (baseFilename != null ? baseFilename.hashCode() : 0);
+		result = 31 * result + (difficultyLevel != null ? difficultyLevel.hashCode() : 0);
 		return result;
 	}
 }

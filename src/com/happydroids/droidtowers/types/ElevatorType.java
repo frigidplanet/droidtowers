@@ -39,8 +39,6 @@ public class ElevatorType extends TransitType {
 
 	@Override
 	public boolean connectsToFloor(GridObject gridObject, float floor) {
-		return gridObject.getPosition().y + 1 <= floor
-				&& floor <= (gridObject.getPosition().y + 1
-						+ gridObject.getSize().y - 2);
+		return gridObject.getPosition().y + 1 <= floor && floor <= (gridObject.getPosition().y + 1 + gridObject.getSize().y - 2);
 	}
 }

@@ -38,14 +38,11 @@ public class MainMenuScene extends SplashScene {
 	public void create(Object... args) {
 		super.create(args);
 
-		Label versionLabel = FontManager.Default.makeLabel(String.format(
-				"v%s (%s, %s)", HappyDroidConsts.VERSION,
-				HappyDroidConsts.GIT_SHA.substring(0, 8),
+		Label versionLabel = FontManager.Default.makeLabel(String.format("v%s (%s, %s)", HappyDroidConsts.VERSION, HappyDroidConsts.GIT_SHA.substring(0, 8),
 				TowerGameService.getDeviceOSMarketName()));
 		versionLabel.setColor(Color.LIGHT_GRAY);
 		versionLabel.setX(getStage().getWidth() - versionLabel.getWidth() - 5);
-		versionLabel
-				.setY(getStage().getHeight() - versionLabel.getHeight() - 5);
+		versionLabel.setY(getStage().getHeight() - versionLabel.getHeight() - 5);
 		addActor(versionLabel);
 	}
 
@@ -69,18 +66,15 @@ public class MainMenuScene extends SplashScene {
 			SecurePreferences preferences = TowerGameService.instance().getPreferences();
 
 			if (Display.isInCompatibilityMode()) {
-				if (!preferences.getBoolean(
-						"ANDROID_WARNED_ABOUT_DISPLAY_MODE", false)) {
-					preferences.putBoolean("ANDROID_WARNED_ABOUT_DISPLAY_MODE",
-							true);
-					Platform.getDialogOpener()
-							.showAlert(
-									"Compatibility Mode",
-									"Hello,\n\nWe're sorry but this game is designed for a device with a higher resolution screen.  "
-											+ "It is impossible for us to restrict these devices from the market, so we have "
-											+ "designed a compatability mode as a work around.\n\nYou can continue to play the game, "
-											+ "but please understand your experience will be degraded.  Most commonly the text will be rather difficult to read.\n\n"
-											+ "Thank you,\nDroid Towers Team");
+				if (!preferences.getBoolean("ANDROID_WARNED_ABOUT_DISPLAY_MODE", false)) {
+					preferences.putBoolean("ANDROID_WARNED_ABOUT_DISPLAY_MODE", true);
+					Platform.getDialogOpener().showAlert(
+							"Compatibility Mode",
+							"Hello,\n\nWe're sorry but this game is designed for a device with a higher resolution screen.  "
+									+ "It is impossible for us to restrict these devices from the market, so we have "
+									+ "designed a compatability mode as a work around.\n\nYou can continue to play the game, "
+									+ "but please understand your experience will be degraded.  Most commonly the text will be rather difficult to read.\n\n"
+									+ "Thank you,\nDroid Towers Team");
 				}
 			}
 			// new GridObjectDesigner(getStage()).show();
@@ -97,16 +91,12 @@ public class MainMenuScene extends SplashScene {
 
 		MainMenuButtonPanel menuButtonPanel = new MainMenuButtonPanel();
 		menuButtonPanel.pack();
-		menuButtonPanel.setY(droidTowersLogo.getY()
-				- menuButtonPanel.getHeight());
+		menuButtonPanel.setY(droidTowersLogo.getY() - menuButtonPanel.getHeight());
 		menuButtonPanel.setX(-droidTowersLogo.getImageWidth());
 		addActor(menuButtonPanel);
 
-		Tween.to(menuButtonPanel, WidgetAccessor.POSITION,
-				CAMERA_PAN_DOWN_DURATION)
-				.target(50 + (45 * (droidTowersLogo.getImageWidth() / droidTowersLogo
-						.getWidth())), menuButtonPanel.getY())
-				.ease(TweenEquations.easeInOutExpo)
+		Tween.to(menuButtonPanel, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION)
+				.target(50 + (45 * (droidTowersLogo.getImageWidth() / droidTowersLogo.getWidth())), menuButtonPanel.getY()).ease(TweenEquations.easeInOutExpo)
 				.start(TweenSystem.manager());
 	}
 
@@ -118,14 +108,12 @@ public class MainMenuScene extends SplashScene {
 		Image happyDroidsLogo = new Image(atlas.findRegion("happy-droids-logo"));
 		happyDroidsLogo.getColor().a = 0f;
 		happyDroidsLogo.addAction(Actions.fadeIn(0.125f));
-		happyDroidsLogo.setX(getStage().getWidth() - happyDroidsLogo.getWidth()
-				- Display.devicePixel(5));
+		happyDroidsLogo.setX(getStage().getWidth() - happyDroidsLogo.getWidth() - Display.devicePixel(5));
 		happyDroidsLogo.setY(Display.devicePixel(5));
 		happyDroidsLogo.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
-				Platform.getBrowserUtil().launchWebBrowser(
-						TowerConsts.HAPPYDROIDS_URI);
+				Platform.getBrowserUtil().launchWebBrowser(TowerConsts.HAPPYDROIDS_URI);
 			}
 		});
 		return happyDroidsLogo;
@@ -140,8 +128,7 @@ public class MainMenuScene extends SplashScene {
 		libGdxLogo.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
-				Platform.getBrowserUtil().launchWebBrowser(
-						"http://libgdx.badlogicgames.com");
+				Platform.getBrowserUtil().launchWebBrowser("http://libgdx.badlogicgames.com");
 			}
 		});
 		return libGdxLogo;

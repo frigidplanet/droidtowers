@@ -21,8 +21,7 @@ public class ParticleEffectManager extends GameObject {
 	private float playbackTime;
 	private boolean stopped;
 
-	public ParticleEffectManager(ParticleEffect activeEffect,
-			Iterator<float[]> colorsIterator, Rectangle worldBounds) {
+	public ParticleEffectManager(ParticleEffect activeEffect, Iterator<float[]> colorsIterator, Rectangle worldBounds) {
 		super();
 
 		this.activeEffect = activeEffect;
@@ -36,9 +35,7 @@ public class ParticleEffectManager extends GameObject {
 		playbackTime = 0f;
 		playbackDuration = 1f + Random.randomInt(1.75f, 4.5f);
 
-		activeEffect.setPosition(
-				Random.randomInt(worldBounds.x, worldBounds.width + 1),
-				Random.randomInt(worldBounds.y, worldBounds.height + 1));
+		activeEffect.setPosition(Random.randomInt(worldBounds.x, worldBounds.width + 1), Random.randomInt(worldBounds.y, worldBounds.height + 1));
 
 		for (ParticleEmitter emitter : activeEffect.getEmitters()) {
 			emitter.reset();

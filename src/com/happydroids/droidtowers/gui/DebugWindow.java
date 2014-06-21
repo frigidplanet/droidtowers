@@ -64,21 +64,18 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private Actor makeTakeAllMoneyButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Take ALL Money");
+		TextButton button = FontManager.Roboto24.makeTextButton("Take ALL Money");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
-				Player.instance()
-						.subtractCurrency(Player.instance().getCoins());
+				Player.instance().subtractCurrency(Player.instance().getCoins());
 			}
 		});
 		return button;
 	}
 
 	private TextButton makeToggleDebugInfoButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Toggle Debug Info");
+		TextButton button = FontManager.Roboto24.makeTextButton("Toggle Debug Info");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -89,8 +86,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private Actor makeTakeScreenshotButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Take Screenshot");
+		TextButton button = FontManager.Roboto24.makeTextButton("Take Screenshot");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -107,8 +103,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private Actor makeGenerateNewDeviceIdButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Generate new Device ID");
+		TextButton button = FontManager.Roboto24.makeTextButton("Generate new Device ID");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -119,8 +114,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private Actor makeDisconnectHappyDroidsButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Disconnect from happydroids");
+		TextButton button = FontManager.Roboto24.makeTextButton("Disconnect from happydroids");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -131,8 +125,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private TextButton makeRestartActiveSceneButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Restart Active Scene");
+		TextButton button = FontManager.Roboto24.makeTextButton("Restart Active Scene");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -143,8 +136,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private TextButton makeInvalidateTexturesButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Invalidate Textures");
+		TextButton button = FontManager.Roboto24.makeTextButton("Invalidate Textures");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -155,8 +147,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private Actor makeCompleteAllAchievementsButton() {
-		TextButton button = FontManager.Roboto24
-				.makeTextButton("Complete all achievements");
+		TextButton button = FontManager.Roboto24.makeTextButton("Complete all achievements");
 		button.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {
@@ -179,8 +170,7 @@ public class DebugWindow extends ScrollableTowerWindow {
 	}
 
 	private TextButton makeResetAchievementsButton() {
-		TextButton resetAchievements = FontManager.Roboto24
-				.makeTextButton("Reset all achievements");
+		TextButton resetAchievements = FontManager.Roboto24.makeTextButton("Reset all achievements");
 		resetAchievements.addListener(new VibrateClickListener() {
 			@Override
 			public void onClick(InputEvent event, float x, float y) {

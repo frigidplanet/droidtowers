@@ -45,8 +45,7 @@ public class PopOver extends WidgetGroup {
 		triangle = texture(TowerAssetManager.WHITE_SWATCH_TRIANGLE);
 		swatch = texture(TowerAssetManager.WHITE_SWATCH);
 		background = TowerAssetManager.texture("hud/window-bg.png");
-		background.setFilter(Texture.TextureFilter.Linear,
-				Texture.TextureFilter.Linear);
+		background.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		content = new Table();
 		content.defaults().top().left().space(Display.devicePixel(6));
@@ -54,8 +53,7 @@ public class PopOver extends WidgetGroup {
 		setTouchable(Touchable.enabled);
 		addListener(new InputListener() {
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				return true;
 			}
 		});
@@ -79,16 +77,12 @@ public class PopOver extends WidgetGroup {
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-		SceneManager.activeScene().effects()
-				.drawDropShadow(batch, parentAlpha, this);
+		SceneManager.activeScene().effects().drawDropShadow(batch, parentAlpha, this);
 
-		float xOffset = (arrowAlignment & Align.right) != 0 ? getWidth()
-				- triangle.getWidth() - 8 : 8;
+		float xOffset = (arrowAlignment & Align.right) != 0 ? getWidth() - triangle.getWidth() - 8 : 8;
 		batch.setColor(Colors.ICS_BLUE);
-		batch.draw(triangle, getX() + xOffset + 2, getY() + getHeight() + 2, 2,
-				3, triangle.getWidth() - 4, triangle.getHeight() - 6);
-		batch.draw(swatch, getX() - 2, getY() - 2, getWidth() + 4,
-				getHeight() + 4);
+		batch.draw(triangle, getX() + xOffset + 2, getY() + getHeight() + 2, 2, 3, triangle.getWidth() - 4, triangle.getHeight() - 6);
+		batch.draw(swatch, getX() - 2, getY() - 2, getWidth() + 4, getHeight() + 4);
 
 		batch.setColor(Colors.DARKER_GRAY);
 		batch.draw(triangle, getX() + xOffset, getY() + getHeight() - 4);
@@ -124,14 +118,11 @@ public class PopOver extends WidgetGroup {
 		pack();
 		float relativeX = relativeTo.getX() + parentWidget.getX();
 		if ((arrowAlignment & Align.right) != 0) {
-			setX(relativeX - getWidth() + relativeTo.getWidth()
-					- ((relativeTo.getWidth() - triangle.getWidth()) / 2) + 8);
+			setX(relativeX - getWidth() + relativeTo.getWidth() - ((relativeTo.getWidth() - triangle.getWidth()) / 2) + 8);
 		} else {
-			setX(relativeX
-					+ ((relativeTo.getWidth() - triangle.getWidth()) / 2) - 8);
+			setX(relativeX + ((relativeTo.getWidth() - triangle.getWidth()) / 2) - 8);
 		}
-		setY(relativeTo.getY() + parentWidget.getY() - getHeight()
-				- relativeTo.getHeight() / 2);
+		setY(relativeTo.getY() + parentWidget.getY() - getHeight() - relativeTo.getHeight() / 2);
 		content.setX(getX() + Display.devicePixel(10));
 		content.setY(getY() + Display.devicePixel(10));
 
@@ -143,26 +134,22 @@ public class PopOver extends WidgetGroup {
 	}
 
 	protected void hide() {
-		InputSystem.instance()
-				.unbind(new int[] { ESCAPE, BACK }, inputCallback);
+		InputSystem.instance().unbind(new int[] { ESCAPE, BACK }, inputCallback);
 		InputSystem.instance().removeInputProcessor(clickCallback);
 
-		addAction(Actions.sequence(Actions.fadeOut(BUTTON_FADE_DURATION),
-				Actions.run(new Runnable() {
-					@Override
-					public void run() {
-						setVisible(false);
-					}
-				})));
+		addAction(Actions.sequence(Actions.fadeOut(BUTTON_FADE_DURATION), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				setVisible(false);
+			}
+		})));
 
-		content.addAction(Actions.sequence(
-				Actions.fadeOut(BUTTON_FADE_DURATION),
-				Actions.run(new Runnable() {
-					@Override
-					public void run() {
-						content.setVisible(false);
-					}
-				})));
+		content.addAction(Actions.sequence(Actions.fadeOut(BUTTON_FADE_DURATION), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				content.setVisible(false);
+			}
+		})));
 	}
 
 	private final InputCallback inputCallback = new InputCallback() {

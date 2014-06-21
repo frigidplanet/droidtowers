@@ -22,17 +22,14 @@ public class CanvasTouchListener extends InputListener {
 	}
 
 	@Override
-	public boolean touchDown(InputEvent event, float x, float y, int pointer,
-			int button) {
+	public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 		Rectangle rect = new Rectangle();
 		float scale = canvas.getScaleX();
 		for (Actor child : canvas.getChildren()) {
-			rect.set(child.getX() * scale, child.getY() * scale,
-					child.getWidth() * scale, child.getHeight() * scale);
+			rect.set(child.getX() * scale, child.getY() * scale, child.getWidth() * scale, child.getHeight() * scale);
 			if (rect.contains(x, y)) {
 				selectedObject = child;
-				touchOffset = new Vector2(x - child.getX() * scale, y
-						- child.getY() * scale);
+				touchOffset = new Vector2(x - child.getX() * scale, y - child.getY() * scale);
 				event.stop();
 				break;
 			}
@@ -52,10 +49,8 @@ public class CanvasTouchListener extends InputListener {
 			yPos = step * MathUtils.floor(yPos / step);
 
 			float scale = canvas.getScaleX();
-			xPos = MathUtils.clamp(xPos, 0,
-					(canvas.getWidth() - selectedObject.getWidth()) * scale);
-			yPos = MathUtils.clamp(yPos, 0,
-					(canvas.getHeight() - selectedObject.getHeight()) * scale);
+			xPos = MathUtils.clamp(xPos, 0, (canvas.getWidth() - selectedObject.getWidth()) * scale);
+			yPos = MathUtils.clamp(yPos, 0, (canvas.getHeight() - selectedObject.getHeight()) * scale);
 
 			selectedObject.setPosition(xPos, yPos);
 
@@ -64,8 +59,7 @@ public class CanvasTouchListener extends InputListener {
 	}
 
 	@Override
-	public void touchUp(InputEvent event, float x, float y, int pointer,
-			int button) {
+	public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 		if (selectedObject != null) {
 			canvas.addActor(selectedObject);
 			selectedObject = null;

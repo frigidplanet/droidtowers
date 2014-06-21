@@ -21,20 +21,14 @@ public class QuitGameInputAdapter extends InputAdapter {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode != Input.Keys.ESCAPE && keycode != Input.Keys.BACK
-				|| !TowerAssetManager.preloadFinished()) {
+		if (keycode != Input.Keys.ESCAPE && keycode != Input.Keys.BACK || !TowerAssetManager.preloadFinished()) {
 			return false;
 		}
 
 		mainMenuIsActive = SceneManager.activeScene() instanceof MainMenuScene;
 
 		quitGameDialog = new Dialog(DroidTowersGame.getRootUiStage());
-		quitGameDialog
-				.setTitle("Awe, don't leave me.")
-				.setMessage(
-						"Are you sure you want to exit "
-								+ (mainMenuIsActive ? "the game?"
-										: "to the Main Menu?"))
+		quitGameDialog.setTitle("Awe, don't leave me.").setMessage("Are you sure you want to exit " + (mainMenuIsActive ? "the game?" : "to the Main Menu?"))
 				.addButton("No way!", new OnClickCallback() {
 					@Override
 					public void onClick(Dialog dialog) {

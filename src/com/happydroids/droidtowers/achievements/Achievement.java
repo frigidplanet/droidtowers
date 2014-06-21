@@ -42,8 +42,7 @@ public class Achievement {
 	}
 
 	public static Achievement findById(String achievementId) {
-		Achievement achievement = AchievementEngine.instance().findById(
-				achievementId);
+		Achievement achievement = AchievementEngine.instance().findById(achievementId);
 		if (achievement == null) {
 			achievement = TutorialEngine.instance().findById(achievementId);
 		}
@@ -52,8 +51,7 @@ public class Achievement {
 			return achievement;
 		}
 
-		throw new RuntimeException("Could not find Achievement with id: "
-				+ achievementId);
+		throw new RuntimeException("Could not find Achievement with id: " + achievementId);
 	}
 
 	public void checkRequirements(GameGrid gameGrid) {
@@ -151,9 +149,8 @@ public class Achievement {
 
 	@Override
 	public String toString() {
-		return "Achievement{" + "completed=" + completed + ", id='" + id + '\''
-				+ ", name='" + name + '\'' + ", requirements=" + requirements
-				+ ", rewards=" + rewards + '}';
+		return "Achievement{" + "completed=" + completed + ", id='" + id + '\'' + ", name='" + name + '\'' + ", requirements=" + requirements + ", rewards="
+				+ rewards + '}';
 	}
 
 	public boolean isLocked() {

@@ -33,13 +33,11 @@ public class ElevatorCar extends GameObject {
 
 		queue = new ElevatorQueue(elevator);
 
-		TextureAtlas.AtlasRegion carRegion = elevatorAtlas.findRegion(elevator
-				.getGridObjectType().getImageFilename());
+		TextureAtlas.AtlasRegion carRegion = elevatorAtlas.findRegion(elevator.getGridObjectType().getImageFilename());
 		setRegion(carRegion);
 		setOrigin(0, 0);
 		float gridScale = elevator.gameGrid.getGridScale();
-		setSize(carRegion.originalWidth * gridScale, carRegion.originalHeight
-				* gridScale);
+		setSize(carRegion.originalWidth * gridScale, carRegion.originalHeight * gridScale);
 		setScale(gridScale);
 		resetToBottomOfShaft();
 	}
@@ -59,14 +57,12 @@ public class ElevatorCar extends GameObject {
 		finalPosition.y = nextFloor;
 		float targetYPosition = finalPosition.getWorldY();
 		int distanceBetweenStops = (int) (Math.abs(getY() - targetYPosition) * 2.5f);
-		Tween.to(this, POSITION_Y, distanceBetweenStops)
-				.target(targetYPosition).delay(500f)
-				.setCallback(new TweenCallback() {
-					public void onEvent(int type, BaseTween source) {
-						queue.arrivedAt(nextFloor);
-						inUse = false;
-					}
-				}).setCallbackTriggers(COMPLETE).start(TweenSystem.manager());
+		Tween.to(this, POSITION_Y, distanceBetweenStops).target(targetYPosition).delay(500f).setCallback(new TweenCallback() {
+			public void onEvent(int type, BaseTween source) {
+				queue.arrivedAt(nextFloor);
+				inUse = false;
+			}
+		}).setCallbackTriggers(COMPLETE).start(TweenSystem.manager());
 	}
 
 	@Override
@@ -97,10 +93,8 @@ public class ElevatorCar extends GameObject {
 		moveToFloor(elevator.getPosition().y);
 	}
 
-	public boolean addPassenger(AvatarSteeringManager steeringManager,
-			int boarding, int destination, Runnable disembarkCallback) {
-		queue.add(new Passenger(steeringManager, boarding, destination,
-				disembarkCallback));
+	public boolean addPassenger(AvatarSteeringManager steeringManager, int boarding, int destination, Runnable disembarkCallback) {
+		queue.add(new Passenger(steeringManager, boarding, destination, disembarkCallback));
 
 		return true;
 	}
@@ -128,8 +122,7 @@ public class ElevatorCar extends GameObject {
 		queue.informPassengersOfServiceChange();
 		TweenSystem.manager().killTarget(this);
 		Vector2 elevatorWorldPosition = elevator.getWorldPosition();
-		setPosition(elevatorWorldPosition.x,
-				elevatorWorldPosition.y + elevator.scaledGridUnit());
+		setPosition(elevatorWorldPosition.x, elevatorWorldPosition.y + elevator.scaledGridUnit());
 	}
 
 	@Override

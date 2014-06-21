@@ -42,28 +42,22 @@ class DataOverlayPopOver extends PopOver {
 	}
 
 	private void buildControls() {
-		boolean unlockedJanitors = AchievementEngine.instance()
-				.findById("build5commercialspaces").hasGivenReward();
-		boolean unlockedMaids = AchievementEngine.instance()
-				.findById("build8hotelroom").hasGivenReward();
+		boolean unlockedJanitors = AchievementEngine.instance().findById("build5commercialspaces").hasGivenReward();
+		boolean unlockedMaids = AchievementEngine.instance().findById("build8hotelroom").hasGivenReward();
 
 		for (final Overlays overlay : Overlays.values()) {
-			if (overlay.equals(Overlays.DIRT_LEVEL)
-					&& (!unlockedJanitors || !unlockedMaids)) {
+			if (overlay.equals(Overlays.DIRT_LEVEL) && (!unlockedJanitors || !unlockedMaids)) {
 				continue;
 			}
 
-			final CheckBox checkBox = FontManager.Roboto18.makeCheckBox(overlay
-					.toString());
+			final CheckBox checkBox = FontManager.Roboto18.makeCheckBox(overlay.toString());
 			checkBox.align(Align.left);
-			checkBox.getLabelCell().padLeft(0)
-					.spaceLeft(Display.devicePixel(8));
+			checkBox.getLabelCell().padLeft(0).spaceLeft(Display.devicePixel(8));
 			checkBox.addListener(new VibrateClickListener() {
 				public void onClick(InputEvent event, float x, float y) {
 					if (checkBox.isChecked()) {
 						for (Actor otherCheckbox : getActors()) {
-							if (otherCheckbox instanceof CheckBox
-									&& otherCheckbox != checkBox) {
+							if (otherCheckbox instanceof CheckBox && otherCheckbox != checkBox) {
 								((CheckBox) otherCheckbox).setChecked(false);
 							}
 						}
@@ -75,8 +69,7 @@ class DataOverlayPopOver extends PopOver {
 				}
 			});
 
-			Image colorSwatch = new Image(
-					drawable(TowerAssetManager.WHITE_SWATCH), Scaling.stretch);
+			Image colorSwatch = new Image(drawable(TowerAssetManager.WHITE_SWATCH), Scaling.stretch);
 			colorSwatch.setColor(overlay.getColor(1f));
 
 			row().left();

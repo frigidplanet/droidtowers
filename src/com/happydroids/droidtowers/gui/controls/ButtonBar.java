@@ -29,10 +29,8 @@ public class ButtonBar extends Table {
 		showTopLine = true;
 	}
 
-	public ButtonBar addButton(String labelText,
-			VibrateClickListener clickListener) {
-		TextButton button = FontManager.Roboto18.makeTransparentButton(
-				labelText, Color.CLEAR, Colors.ICS_BLUE);
+	public ButtonBar addButton(String labelText, VibrateClickListener clickListener) {
+		TextButton button = FontManager.Roboto18.makeTransparentButton(labelText, Color.CLEAR, Colors.ICS_BLUE);
 		button.addListener(clickListener);
 
 		buttons.add(button);
@@ -48,8 +46,7 @@ public class ButtonBar extends Table {
 		int lineColSpan = buttons.size() * 2 - 1;
 		if (showTopLine) {
 			row().fillX();
-			add(new HorizontalRule(Color.GRAY, 1)).height(1).fillX()
-					.colspan(lineColSpan);
+			add(new HorizontalRule(Color.GRAY, 1)).height(1).fillX().colspan(lineColSpan);
 		}
 
 		row().fill();
@@ -65,8 +62,7 @@ public class ButtonBar extends Table {
 
 		if (showBottomLine) {
 			row().fillX();
-			add(new HorizontalRule(Color.GRAY, 1)).height(1).fillX()
-					.colspan(lineColSpan);
+			add(new HorizontalRule(Color.GRAY, 1)).height(1).fillX().colspan(lineColSpan);
 		}
 	}
 

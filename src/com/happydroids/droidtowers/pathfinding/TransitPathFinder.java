@@ -36,10 +36,8 @@ public class TransitPathFinder extends AStar<GridPosition> {
 		}
 
 		if (to != null) {
-			if (to.elevator != null && to.elevator.servicesFloor(to.y)
-					&& to.elevator.getNumElevatorCars() > 0) {
-				if (canUseServiceRoutes
-						&& to.elevator.provides(SERVICE_ELEVATOR)) {
+			if (to.elevator != null && to.elevator.servicesFloor(to.y) && to.elevator.getNumElevatorCars() > 0) {
+				if (canUseServiceRoutes && to.elevator.provides(SERVICE_ELEVATOR)) {
 					return 5;
 				}
 
@@ -72,8 +70,7 @@ public class TransitPathFinder extends AStar<GridPosition> {
 
 		Elevator elevator = point.elevator;
 		if (elevator != null && elevator.getNumElevatorCars() > 0) {
-			if ((canUseServiceRoutes && elevator.provides(SERVICE_ELEVATOR) || !canUseServiceRoutes
-					&& !elevator.provides(SERVICE_ELEVATOR))) {
+			if ((canUseServiceRoutes && elevator.provides(SERVICE_ELEVATOR) || !canUseServiceRoutes && !elevator.provides(SERVICE_ELEVATOR))) {
 				if (elevator.servicesFloor(point.y + 1)) {
 					checkGridPositionY(tmpArray, point.x, point.y + 1);
 				}
@@ -94,16 +91,14 @@ public class TransitPathFinder extends AStar<GridPosition> {
 
 	private void checkGridPositionX(Array<GridPosition> successors, int x, int y) {
 		GridPosition position = gameGrid.positionCache().getPosition(x, y);
-		if (position != null
-				&& (!position.isEmpty() || y == TowerConsts.LOBBY_FLOOR)) {
+		if (position != null && (!position.isEmpty() || y == TowerConsts.LOBBY_FLOOR)) {
 			successors.add(position);
 		}
 	}
 
 	private void checkGridPositionY(Array<GridPosition> successors, int x, int y) {
 		GridPosition position = gameGrid.positionCache().getPosition(x, y);
-		if (position != null
-				&& (position.connectedToTransit || y == TowerConsts.LOBBY_FLOOR)) {
+		if (position != null && (position.connectedToTransit || y == TowerConsts.LOBBY_FLOOR)) {
 			if (position.elevator != null && position.elevator.servicesFloor(y)) {
 				successors.add(position);
 			} else if (position.stair != null) {

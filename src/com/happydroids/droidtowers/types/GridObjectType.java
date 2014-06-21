@@ -99,28 +99,20 @@ public abstract class GridObjectType {
 		GridPoint gridPointBelow = gridObject.getPosition().cpy();
 		gridPointBelow.sub(0, 1);
 
-		Array<GridObject> objectsBelow = gridObject.getGameGrid()
-				.positionCache()
-				.getObjectsAt(gridPointBelow, gridObject.getSize(), gridObject);
+		Array<GridObject> objectsBelow = gridObject.getGameGrid().positionCache().getObjectsAt(gridPointBelow, gridObject.getSize(), gridObject);
 		if (objectsBelow.size > 0) {
 			return true;
 		}
 
 		GridPoint gridPointAbove = gridObject.getPosition().cpy();
 		gridPointAbove.add(0, 1);
-		Array<GridObject> objectsAbove = gridObject.getGameGrid()
-				.positionCache()
-				.getObjectsAt(gridPointAbove, gridObject.getSize(), gridObject);
+		Array<GridObject> objectsAbove = gridObject.getGameGrid().positionCache().getObjectsAt(gridPointAbove, gridObject.getSize(), gridObject);
 
 		return objectsAbove.size > 0;
 	}
 
 	protected boolean checkForOverlap(GridObject gridObject) {
-		Array<GridObject> objectsOverlapped = gridObject
-				.getGameGrid()
-				.positionCache()
-				.getObjectsAt(gridObject.getPosition(), gridObject.getSize(),
-						gridObject);
+		Array<GridObject> objectsOverlapped = gridObject.getGameGrid().positionCache().getObjectsAt(gridObject.getPosition(), gridObject.getSize(), gridObject);
 		for (GridObject object : objectsOverlapped) {
 			if (!gridObject.canShareSpace(object)) {
 				return false;
@@ -134,15 +126,13 @@ public abstract class GridObjectType {
 		if (atlasFilename != null) {
 			TextureRegion region;
 			if (numVariations > 0 && variationId > 0) {
-				region = getTextureAtlas().findRegion(imageFilename,
-						variationId);
+				region = getTextureAtlas().findRegion(imageFilename, variationId);
 			} else {
 				region = getTextureAtlas().findRegion(imageFilename);
 			}
 
 			if (region == null) {
-				throw new RuntimeException("Cannot find texture region named: "
-						+ imageFilename + ", index: " + variationId);
+				throw new RuntimeException("Cannot find texture region named: " + imageFilename + ", index: " + variationId);
 			}
 
 			return region;
@@ -227,15 +217,13 @@ public abstract class GridObjectType {
 		if (width != that.width) {
 			return false;
 		}
-		if (atlasFilename != null ? !atlasFilename.equals(that.atlasFilename)
-				: that.atlasFilename != null) {
+		if (atlasFilename != null ? !atlasFilename.equals(that.atlasFilename) : that.atlasFilename != null) {
 			return false;
 		}
 		if (id != null ? !id.equals(that.id) : that.id != null) {
 			return false;
 		}
-		if (imageFilename != null ? !imageFilename.equals(that.imageFilename)
-				: that.imageFilename != null) {
+		if (imageFilename != null ? !imageFilename.equals(that.imageFilename) : that.imageFilename != null) {
 			return false;
 		}
 		if (lock != null ? !lock.equals(that.lock) : that.lock != null) {
@@ -247,8 +235,7 @@ public abstract class GridObjectType {
 		if (provides != that.provides) {
 			return false;
 		}
-		if (textureAtlas != null ? !textureAtlas.equals(that.textureAtlas)
-				: that.textureAtlas != null) {
+		if (textureAtlas != null ? !textureAtlas.equals(that.textureAtlas) : that.textureAtlas != null) {
 			return false;
 		}
 
@@ -263,24 +250,19 @@ public abstract class GridObjectType {
 		result = 31 * result + width;
 		result = 31 * result + coins;
 		result = 31 * result + experienceAward;
-		result = 31 * result
-				+ (atlasFilename != null ? atlasFilename.hashCode() : 0);
-		result = 31 * result
-				+ (imageFilename != null ? imageFilename.hashCode() : 0);
+		result = 31 * result + (atlasFilename != null ? atlasFilename.hashCode() : 0);
+		result = 31 * result + (imageFilename != null ? imageFilename.hashCode() : 0);
 		result = 31 * result + (canShareSpace ? 1 : 0);
-		result = 31 * result
-				+ (noiseLevel != +0.0f ? Float.floatToIntBits(noiseLevel) : 0);
+		result = 31 * result + (noiseLevel != +0.0f ? Float.floatToIntBits(noiseLevel) : 0);
 		result = 31 * result + (provides != null ? provides.hashCode() : 0);
-		result = 31 * result
-				+ (textureAtlas != null ? textureAtlas.hashCode() : 0);
+		result = 31 * result + (textureAtlas != null ? textureAtlas.hashCode() : 0);
 		result = 31 * result + (lock != null ? lock.hashCode() : 0);
 		return result;
 	}
 
 	@Override
 	public String toString() {
-		return "GridObjectType{" + "name='" + name + '\'' + ", height="
-				+ height + ", width=" + width + '}';
+		return "GridObjectType{" + "name='" + name + '\'' + ", height=" + height + ", width=" + width + '}';
 	}
 
 	public boolean requiresUnlimitedVersion() {

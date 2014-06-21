@@ -33,8 +33,7 @@ import static com.happydroids.droidtowers.math.Direction.*;
 import static com.happydroids.droidtowers.tween.GameObjectAccessor.POSITION;
 
 public class AvatarSteeringManager {
-	private static final String TAG = AvatarSteeringManager.class
-			.getSimpleName();
+	private static final String TAG = AvatarSteeringManager.class.getSimpleName();
 	public static final float MOVEMENT_SPEED = 30;
 
 	private final Avatar avatar;
@@ -124,17 +123,14 @@ public class AvatarSteeringManager {
 				} else if (currentPos.elevator != null) {
 					GridPosition endOfElevator = null;
 					do {
-						if (next != null && next.elevator != null
-								&& next.elevator.equals(currentPos.elevator)
-								&& currentPos.y != next.y) {
+						if (next != null && next.elevator != null && next.elevator.equals(currentPos.elevator) && currentPos.y != next.y) {
 							transitLine.highlightPoint(pointsTraveled++);
 							endOfElevator = next;
 						} else {
 							break;
 						}
 
-						next = pointsTraveled + 1 < path.size ? path
-								.get(pointsTraveled + 1) : null;
+						next = pointsTraveled + 1 < path.size ? path.get(pointsTraveled + 1) : null;
 					} while (next != null);
 
 					if (endOfElevator != null) {
@@ -153,17 +149,14 @@ public class AvatarSteeringManager {
 	}
 
 	private void traverseElevator(final GridPosition destination) {
-		int offsetX = TowerConsts.GRID_UNIT_SIZE
-				+ Random.randomInt(0, TowerConsts.GRID_UNIT_SIZE);
+		int offsetX = TowerConsts.GRID_UNIT_SIZE + Random.randomInt(0, TowerConsts.GRID_UNIT_SIZE);
 		nextWorldPos.set(currentPos.worldPoint());
 
-		GridPosition leftOfElevator = gameGrid.positionCache().getPosition(
-				currentPos.x - 1, currentPos.y);
+		GridPosition leftOfElevator = gameGrid.positionCache().getPosition(currentPos.x - 1, currentPos.y);
 		if (leftOfElevator != null && !leftOfElevator.isEmpty()) {
 			nextWorldPos.x -= -offsetX;
 		} else {
-			GridPosition rightOfElevator = gameGrid.positionCache()
-					.getPosition(currentPos.x + 1, currentPos.y);
+			GridPosition rightOfElevator = gameGrid.positionCache().getPosition(currentPos.x + 1, currentPos.y);
 			if (rightOfElevator != null && !rightOfElevator.isEmpty()) {
 				nextWorldPos.x += offsetX;
 			}
@@ -177,9 +170,7 @@ public class AvatarSteeringManager {
 					return;
 				}
 
-				boolean addedPassenger = currentPos.elevator.addPassenger(
-						AvatarSteeringManager.this, currentPos.y,
-						destination.y,
+				boolean addedPassenger = currentPos.elevator.addPassenger(AvatarSteeringManager.this, currentPos.y, destination.y,
 						uponArrivalAtElevatorDestination(destination));
 				if (!addedPassenger) {
 					Gdx.app.error(TAG, "ZOMG CANNOT REACH FLOOR!!!");
@@ -189,8 +180,7 @@ public class AvatarSteeringManager {
 		});
 	}
 
-	private Runnable uponArrivalAtElevatorDestination(
-			final GridPosition destination) {
+	private Runnable uponArrivalAtElevatorDestination(final GridPosition destination) {
 		return new Runnable() {
 			@Override
 			public void run() {
@@ -215,18 +205,15 @@ public class AvatarSteeringManager {
 		currentState = AvatarState.USING_STAIRS;
 
 		Direction verticalDir = nextPosition.y < currentPos.y ? DOWN : UP;
-		Stair stair = verticalDir.equals(UP) ? currentPos.stair
-				: nextPosition.stair;
+		Stair stair = verticalDir.equals(UP) ? currentPos.stair : nextPosition.stair;
 		if (stair == null) {
 			finished();
 			return;
 		}
 
 		Rectangle stairBounds = stair.getWorldBounds();
-		Vector2 stairBottomRight = new Vector2(stairBounds.x
-				+ stairBounds.width - avatar.getWidth(), stairBounds.y);
-		final Vector2 stairTopLeft = new Vector2(stairBounds.x, stairBounds.y
-				+ stairBounds.height);
+		Vector2 stairBottomRight = new Vector2(stairBounds.x + stairBounds.width - avatar.getWidth(), stairBounds.y);
+		final Vector2 stairTopLeft = new Vector2(stairBounds.x, stairBounds.y + stairBounds.height);
 
 		List<Vector2> points = Lists.newArrayList();
 		points.add(currentPos.worldPoint());
@@ -249,12 +236,7 @@ public class AvatarSteeringManager {
 
 		Vector2 lastPos = currentPos.worldPoint();
 		for (Vector2 point : points) {
-			sequence.push(Tween
-					.to(avatar,
-							POSITION,
-							lastPos.dst(point) * MOVEMENT_SPEED
-									* randomSpeedModifier)
-					.target(point.x, point.y).ease(Linear.INOUT));
+			sequence.push(Tween.to(avatar, POSITION, lastPos.dst(point) * MOVEMENT_SPEED * randomSpeedModifier).target(point.x, point.y).ease(Linear.INOUT));
 			lastPos = point;
 		}
 
@@ -268,8 +250,7 @@ public class AvatarSteeringManager {
 		sequence.start(TweenSystem.manager());
 	}
 
-	public void moveAvatarTo(GridPosition gridPosition,
-			TweenCallback endCallback) {
+	public void moveAvatarTo(GridPosition gridPosition, TweenCallback endCallback) {
 		moveAvatarTo(nextWorldPos.set(gridPosition.worldPoint()), endCallback);
 	}
 
@@ -278,17 +259,10 @@ public class AvatarSteeringManager {
 
 		TweenSystem.manager().killTarget(avatar);
 
-		horizontalDirection = (int) endPoint.x < (int) avatar.getX() ? LEFT
-				: RIGHT;
-		float distanceBetweenPoints = endPoint
-				.dst(avatar.getX(), avatar.getY());
-		Tween.to(
-				avatar,
-				POSITION,
-				(int) (distanceBetweenPoints * MOVEMENT_SPEED * randomSpeedModifier))
-				.ease(Linear.INOUT)
-				.target(endPoint.x - avatar.getWidth(), endPoint.y)
-				.setCallback(new TweenCallback() {
+		horizontalDirection = (int) endPoint.x < (int) avatar.getX() ? LEFT : RIGHT;
+		float distanceBetweenPoints = endPoint.dst(avatar.getX(), avatar.getY());
+		Tween.to(avatar, POSITION, (int) (distanceBetweenPoints * MOVEMENT_SPEED * randomSpeedModifier)).ease(Linear.INOUT)
+				.target(endPoint.x - avatar.getWidth(), endPoint.y).setCallback(new TweenCallback() {
 					@Override
 					public void onEvent(int type, BaseTween source) {
 						currentState &= ~MOVING;

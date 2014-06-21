@@ -26,8 +26,7 @@ public class ParkingGarageSpace extends ServiceRoom {
 		connectedToTransport = true;
 
 		if (vehicleTextures == null) {
-			vehicleTextures = serviceRoomType.getTextureAtlas().findRegions(
-					"vehicle");
+			vehicleTextures = serviceRoomType.getTextureAtlas().findRegions("vehicle");
 		}
 
 		timeUntilVehicleChange = VEHICLE_CHANGE_FREQUENCY;
@@ -57,8 +56,7 @@ public class ParkingGarageSpace extends ServiceRoom {
 	public void update(float deltaTime) {
 		timeUntilVehicleChange -= deltaTime;
 		if (timeUntilVehicleChange <= 0f) {
-			timeUntilVehicleChange = VEHICLE_CHANGE_FREQUENCY
-					+ MathUtils.random(0f, 3.5f);
+			timeUntilVehicleChange = VEHICLE_CHANGE_FREQUENCY + MathUtils.random(0f, 3.5f);
 			activeVehicleTexture = null;
 
 			int randomIndex = MathUtils.random(0, vehicleTextures.size);
@@ -69,16 +67,13 @@ public class ParkingGarageSpace extends ServiceRoom {
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache,
-			Color renderTintColor) {
+	public void render(SpriteBatch spriteBatch, SpriteCache spriteCache, Color renderTintColor) {
 		super.render(spriteBatch, spriteCache, renderTintColor);
 
 		if (activeVehicleTexture != null) {
 			spriteBatch.setColor(Color.WHITE);
-			spriteBatch.draw(activeVehicleTexture, getWorldCenter().x
-					- activeVehicleTexture.getRegionWidth() / 2,
-					getWorldCenter().y - activeVehicleTexture.getRegionHeight()
-							/ 2);
+			spriteBatch.draw(activeVehicleTexture, getWorldCenter().x - activeVehicleTexture.getRegionWidth() / 2,
+					getWorldCenter().y - activeVehicleTexture.getRegionHeight() / 2);
 
 		}
 	}

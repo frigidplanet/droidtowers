@@ -34,17 +34,15 @@ public class GameState {
 	private FileHandle pngFile;
 	private int fileGeneration;
 
-	public GameState(OrthographicCamera camera,
-			CameraController cameraController, FileHandle gameSaveLocation,
-			GameSave currentGameSave, final GameGrid gameGrid) {
+	public GameState(OrthographicCamera camera, CameraController cameraController, FileHandle gameSaveLocation, GameSave currentGameSave,
+			final GameGrid gameGrid) {
 		this.camera = camera;
 		this.cameraController = cameraController;
 		this.gameGrid = gameGrid;
 		this.gameSaveLocation = gameSaveLocation;
 		this.currentGameSave = currentGameSave;
 		gameFile = gameSaveLocation.child(currentGameSave.getBaseFilename());
-		pngFile = gameSaveLocation.child(currentGameSave.getBaseFilename()
-				+ ".png");
+		pngFile = gameSaveLocation.child(currentGameSave.getBaseFilename() + ".png");
 	}
 
 	public void loadSavedGame() {
@@ -60,28 +58,25 @@ public class GameState {
 			shouldSaveGame = false;
 
 			Gdx.app.log("GameSave", "Could not load saved game!", e);
-			new Dialog()
-					.setMessage(
-							"Saved game could not be loaded, want to reset?")
-					.addButton("Yes", new OnClickCallback() {
-						@Override
-						public void onClick(Dialog dialog) {
-							if (gameFile.exists()) {
-								gameFile.delete();
-							}
-							if (pngFile.exists()) {
-								pngFile.delete();
-							}
-							dialog.dismiss();
-							shouldSaveGame = true;
-						}
-					}).addButton("No, exit game", new OnClickCallback() {
-						@Override
-						public void onClick(Dialog dialog) {
-							dialog.dismiss();
-							SceneManager.changeScene(MainMenuScene.class);
-						}
-					}).show();
+			new Dialog().setMessage("Saved game could not be loaded, want to reset?").addButton("Yes", new OnClickCallback() {
+				@Override
+				public void onClick(Dialog dialog) {
+					if (gameFile.exists()) {
+						gameFile.delete();
+					}
+					if (pngFile.exists()) {
+						pngFile.delete();
+					}
+					dialog.dismiss();
+					shouldSaveGame = true;
+				}
+			}).addButton("No, exit game", new OnClickCallback() {
+				@Override
+				public void onClick(Dialog dialog) {
+					dialog.dismiss();
+					SceneManager.changeScene(MainMenuScene.class);
+				}
+			}).show();
 		} finally {
 			Gdx.app.debug(TAG, "loadGameSave - finished");
 		}
@@ -90,11 +85,13 @@ public class GameState {
 	public void saveGame(final boolean shouldForceCloudSave) {
 		if (shouldSaveGame && !currentGameSave.isSaveToDiskDisabled()) {
 			if (!gameGrid.isEmpty()) {
-				currentGameSave.update(camera, gameGrid, null); //frigidplanet: no neighbors anymore so passing null
+				currentGameSave.update(camera, gameGrid, null); // frigidplanet:
+																// no neighbors
+																// anymore so
+																// passing null
 
 				if (DEBUG) {
-					Gdx.app.debug("DEBUG",
-							"Saving to: " + gameSaveLocation.toString());
+					Gdx.app.debug("DEBUG", "Saving to: " + gameSaveLocation.toString());
 				}
 
 				new BackgroundTask() {
@@ -105,8 +102,7 @@ public class GameState {
 								gameSaveLocation.mkdirs();
 							}
 							OutputStream stream = pngFile.write(false);
-							stream.write(PNG.toPNG(TowerMiniMap.redrawMiniMap(
-									gameGrid, true, 2f)));
+							stream.write(PNG.toPNG(TowerMiniMap.redrawMiniMap(gameGrid, true, 2f)));
 							stream.flush();
 							stream.close();
 

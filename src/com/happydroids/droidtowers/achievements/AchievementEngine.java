@@ -45,22 +45,16 @@ public class AchievementEngine {
 		try {
 			eventBus = new SafeEventBus();
 			ObjectMapper mapper = TowerGameService.instance().getObjectMapper();
-			achievements = mapper.readValue(
-					Gdx.files.internal("params/achievements.json").reader(),
-					mapper.getTypeFactory().constructCollectionType(
-							ArrayList.class, Achievement.class));
+			achievements = mapper.readValue(Gdx.files.internal("params/achievements.json").reader(),
+					mapper.getTypeFactory().constructCollectionType(ArrayList.class, Achievement.class));
 
 			// noinspection PointlessBooleanExpression
 			if (!TowerConsts.ENABLE_HAPPYDROIDS_CONNECT) {
-				Iterator<Achievement> achievementIterator = achievements
-						.iterator();
+				Iterator<Achievement> achievementIterator = achievements.iterator();
 				while (achievementIterator.hasNext()) {
 					Achievement achievement = achievementIterator.next();
-					for (Requirement requirement : achievement
-							.getRequirements()) {
-						if (requirement.getType().equals(ADD_NEIGHBOR)
-								|| requirement.getType().equals(
-										HAPPYDROIDS_CONNECT)) {
+					for (Requirement requirement : achievement.getRequirements()) {
+						if (requirement.getType().equals(ADD_NEIGHBOR) || requirement.getType().equals(HAPPYDROIDS_CONNECT)) {
 							achievementIterator.remove();
 						}
 					}
@@ -102,8 +96,7 @@ public class AchievementEngine {
 
 	public void displayNotification(Achievement achievement) {
 		new AchievementNotification(achievement).show();
-		AchievementCompletionEvent event = Pools
-				.obtain(AchievementCompletionEvent.class);
+		AchievementCompletionEvent event = Pools.obtain(AchievementCompletionEvent.class);
 		event.setAchievement(achievement);
 		eventBus.post(event);
 		Pools.free(event);
@@ -116,12 +109,10 @@ public class AchievementEngine {
 			return;
 		}
 
-		throw new RuntimeException("Could not find achievement called: "
-				+ achievementId);
+		throw new RuntimeException("Could not find achievement called: " + achievementId);
 	}
 
-	public void loadCompletedAchievements(List<String> achievementIds,
-			GameGrid gameGrid) {
+	public void loadCompletedAchievements(List<String> achievementIds, GameGrid gameGrid) {
 		resetState();
 
 		if (achievementIds == null) {

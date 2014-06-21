@@ -35,8 +35,7 @@ public class TowerMiniMap extends Table {
 		// setBackground(new NinePatch(new Texture(backgroundPixmap)));
 	}
 
-	public static Pixmap redrawMiniMap(GameGrid gameGrid,
-			boolean useCustomScale, float customScale) {
+	public static Pixmap redrawMiniMap(GameGrid gameGrid, boolean useCustomScale, float customScale) {
 		Gdx.app.debug(TAG, "Redrawing minimap!");
 		GridPoint gridSize = gameGrid.getGridSize();
 
@@ -45,14 +44,11 @@ public class TowerMiniMap extends Table {
 			maxSize = min(gridSize.x, gridSize.y) / max(gridSize.x, gridSize.y);
 		}
 
-		float pixmapWidth = MathUtils
-				.nextPowerOfTwo((int) (gridSize.x * maxSize));
-		float pixmapHeight = MathUtils
-				.nextPowerOfTwo((int) (gridSize.y * maxSize));
+		float pixmapWidth = MathUtils.nextPowerOfTwo((int) (gridSize.x * maxSize));
+		float pixmapHeight = MathUtils.nextPowerOfTwo((int) (gridSize.y * maxSize));
 		double objWidth, objHeight, xPos, yPos;
 
-		Pixmap pixmap = new Pixmap((int) pixmapWidth, (int) pixmapHeight,
-				Pixmap.Format.RGB565);
+		Pixmap pixmap = new Pixmap((int) pixmapWidth, (int) pixmapHeight, Pixmap.Format.RGB565);
 		pixmap.setColor(WeatherState.SUNNY.skyColor);
 		pixmap.fill();
 
@@ -60,8 +56,7 @@ public class TowerMiniMap extends Table {
 		double landY = pixmapHeight - landHeight;
 
 		pixmap.setColor(Color.ORANGE);
-		pixmap.fillRectangle(0, (int) landY, (int) pixmapWidth,
-				(int) landHeight);
+		pixmap.fillRectangle(0, (int) landY, (int) pixmapWidth, (int) landHeight);
 
 		GridPosition[][] positions = gameGrid.positionCache().getPositions();
 		for (GridPosition[] row : positions) {
@@ -79,12 +74,9 @@ public class TowerMiniMap extends Table {
 				}
 
 				if (useCustomScale && customScale != 1f) {
-					pixmap.fillRectangle(round(position.x * maxSize),
-							round(pixmapHeight - (position.y * maxSize)),
-							(int) customScale, (int) customScale);
+					pixmap.fillRectangle(round(position.x * maxSize), round(pixmapHeight - (position.y * maxSize)), (int) customScale, (int) customScale);
 				} else {
-					pixmap.drawPixel(round(position.x * maxSize),
-							round(pixmapHeight - (position.y * maxSize)));
+					pixmap.drawPixel(round(position.x * maxSize), round(pixmapHeight - (position.y * maxSize)));
 				}
 			}
 		}

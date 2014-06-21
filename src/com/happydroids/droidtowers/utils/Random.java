@@ -8,8 +8,7 @@ public class Random {
 	private Random() {
 	}
 
-	public final static java.util.Random random = new java.util.Random(
-			System.nanoTime());
+	public final static java.util.Random random = new java.util.Random(System.nanoTime());
 
 	public static int randomInt(int maxVal) {
 		return random.nextInt(maxVal);

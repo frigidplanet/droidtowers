@@ -20,8 +20,7 @@ public class SafeEventBus extends EventBus {
 		try {
 
 		} catch (IllegalArgumentException iae) {
-			if (!iae.getMessage().startsWith(
-					"missing event handler for an annotated method")) {
+			if (!iae.getMessage().startsWith("missing event handler for an annotated method")) {
 				throw iae;
 			}
 		}

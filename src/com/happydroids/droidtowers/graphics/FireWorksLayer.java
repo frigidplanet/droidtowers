@@ -30,8 +30,7 @@ import java.util.Set;
 import static com.happydroids.droidtowers.TowerConsts.GRID_UNIT_SIZE;
 import static com.happydroids.droidtowers.TowerConsts.LOBBY_FLOOR;
 
-public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements
-		RespondsToWorldSizeChange {
+public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements RespondsToWorldSizeChange {
 	private static final float FIREWORK_DURATION = 10f;
 
 	private final Iterator<float[]> colorsIterator;
@@ -47,31 +46,25 @@ public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements
 		AchievementEngine.instance().eventBus().register(this);
 
 		ParticleEffect particleEffect = new ParticleEffect();
-		particleEffect.load(Gdx.files.internal("particles/firework.p"),
-				Gdx.files.internal("particles"));
+		particleEffect.load(Gdx.files.internal("particles/firework.p"), Gdx.files.internal("particles"));
 
 		Set<float[]> colors = Sets.newHashSet();
 		colors.add(makeParticleColorArray(Color.WHITE, Color.RED, Color.ORANGE));
 		colors.add(makeParticleColorArray(Color.WHITE, Color.BLUE, Color.GREEN));
 		colors.add(makeParticleColorArray(Color.WHITE, Color.YELLOW, Color.PINK));
-		colors.add(makeParticleColorArray(Color.WHITE, Color.PINK,
-				Color.MAGENTA));
+		colors.add(makeParticleColorArray(Color.WHITE, Color.PINK, Color.MAGENTA));
 		colors.add(makeParticleColorArray(Color.WHITE, Color.BLUE, Color.CYAN));
 
 		colorsIterator = Iterators.cycle(colors);
 
 		worldBounds = new Rectangle();
 		for (int i = 0; i < 10; i++) {
-			addChild(new ParticleEffectManager(new ParticleEffect(
-					particleEffect), colorsIterator, worldBounds));
+			addChild(new ParticleEffectManager(new ParticleEffect(particleEffect), colorsIterator, worldBounds));
 		}
 	}
 
-	private float[] makeParticleColorArray(final Color colorA,
-			final Color colorB, final Color colorC) {
-		return new float[] { colorA.r, colorA.g, colorA.b, colorA.a, colorB.r,
-				colorB.g, colorB.b, colorB.a, colorC.r, colorC.g, colorC.b,
-				colorC.a };
+	private float[] makeParticleColorArray(final Color colorA, final Color colorB, final Color colorC) {
+		return new float[] { colorA.r, colorA.g, colorA.b, colorA.a, colorB.r, colorB.g, colorB.b, colorB.a, colorC.r, colorC.g, colorC.b, colorC.a };
 	}
 
 	@Override
@@ -107,8 +100,7 @@ public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements
 	@Override
 	public void updateWorldSize(Vector2 worldSize) {
 		int groundHeight = GRID_UNIT_SIZE * LOBBY_FLOOR;
-		worldBounds.set(0, groundHeight + GRID_UNIT_SIZE * 5, worldSize.x,
-				groundHeight + GRID_UNIT_SIZE * 20);
+		worldBounds.set(0, groundHeight + GRID_UNIT_SIZE * 5, worldSize.x, groundHeight + GRID_UNIT_SIZE * 20);
 	}
 
 	@Subscribe
@@ -122,11 +114,9 @@ public class FireWorksLayer extends GameLayer<ParticleEffectManager> implements
 	}
 
 	@Subscribe
-	public void AchievementEngine_onAchievementCompletion(
-			AchievementCompletionEvent event) {
+	public void AchievementEngine_onAchievementCompletion(AchievementCompletionEvent event) {
 		if (event.getAchievement() instanceof TutorialStep) {
-			if (event.getAchievement().getId()
-					.equalsIgnoreCase("tutorial-finished")) {
+			if (event.getAchievement().getId().equalsIgnoreCase("tutorial-finished")) {
 				play();
 			}
 		} else {

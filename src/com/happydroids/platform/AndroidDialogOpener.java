@@ -20,17 +20,12 @@ public class AndroidDialogOpener implements PlatformDialogOpener {
 		activity.runOnUiThread(new Runnable() {
 			public void run() {
 				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-				builder.setTitle(title)
-						.setMessage(message)
-						.setNeutralButton("Ok",
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(
-											DialogInterface dialogInterface,
-											int i) {
-										dialogInterface.dismiss();
-									}
-								}).show();
+				builder.setTitle(title).setMessage(message).setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						dialogInterface.dismiss();
+					}
+				}).show();
 			}
 		});
 	}

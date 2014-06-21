@@ -35,8 +35,7 @@ public class MigrateExistingGamesTask extends BackgroundTask {
 			for (FileHandle file : localSaveFiles) {
 				if (file.name().endsWith(".json")) {
 					try {
-						GameSaveFactory.upgradeGameSave(file.read(),
-								file.name());
+						GameSaveFactory.upgradeGameSave(file.read(), file.name());
 					} catch (Throwable ignored) {
 						// move game files we cannot understand into an invalid
 						// root. maybe
@@ -54,8 +53,7 @@ public class MigrateExistingGamesTask extends BackgroundTask {
 			for (FileHandle file : files) {
 				if (file.name().endsWith(".json")) {
 					try {
-						GameSaveFactory.upgradeGameSave(file.read(),
-								file.name());
+						GameSaveFactory.upgradeGameSave(file.read(), file.name());
 					} catch (Throwable ignored) {
 
 					}
