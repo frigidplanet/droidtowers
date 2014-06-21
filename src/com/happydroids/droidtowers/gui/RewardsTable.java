@@ -27,7 +27,6 @@ class RewardsTable extends Table {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addReward(Reward reward) {
 		row().fillX().pad(12, 0, 12, 0);
 		Label label = Roboto18.makeLabel(reward.getRewardString(false));

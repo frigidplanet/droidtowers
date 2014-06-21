@@ -19,7 +19,6 @@ public class Player {
 	private int jobsFilled;
 	private int jobsMax;
 	private int populationAttracted;
-	private int maxPopulation;
 	private int populationMax;
 	private int supportedResidency;
 	private int populationResidency;

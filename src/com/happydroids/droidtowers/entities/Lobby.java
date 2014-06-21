@@ -49,10 +49,6 @@ public class Lobby extends Room {
 		return false;
 	}
 
-	private void updatePopulation() {
-		// do nothing!
-	}
-
 	@Override
 	public int getCoinsEarned() {
 		return 0;
@@ -85,27 +81,4 @@ public class Lobby extends Room {
 		// drawEndCaps(spriteBatch);
 	}
 
-	// TODO: Make this better?
-	private void drawEndCaps(SpriteBatch spriteBatch) {
-		GridPoint left = getPosition().cpy();
-		left.sub(2, 0);
-
-		float gridScale = getGridScale();
-		if (gameGrid.positionCache().getObjectsAt(left, TWO_WIDE).size == 0) {
-			leftCap.setColor(renderColor);
-			leftCap.setPosition(worldPosition.x - (leftCap.getWidth() * gridScale), worldPosition.y);
-			leftCap.draw(spriteBatch);
-		}
-
-		GridPoint right = getPosition().cpy();
-		right.add(size.x, 0);
-
-		if (gameGrid.positionCache().getObjectsAt(right, TWO_WIDE).size == 0) {
-			rightCap.setColor(renderColor);
-			rightCap.setOrigin(0, 0);
-			rightCap.setPosition(worldPosition.x + worldSize.x, worldPosition.y);
-			rightCap.setScale(gridScale);
-			rightCap.draw(spriteBatch);
-		}
-	}
 }

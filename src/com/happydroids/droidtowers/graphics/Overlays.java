@@ -4,6 +4,10 @@
 
 package com.happydroids.droidtowers.graphics;
 
+import static com.happydroids.droidtowers.ColorUtil.rgba;
+
+import javax.annotation.Nullable;
+
 import com.badlogic.gdx.graphics.Color;
 import com.google.common.base.Function;
 import com.happydroids.droidtowers.entities.CommercialSpace;
@@ -12,13 +16,7 @@ import com.happydroids.droidtowers.entities.HotelRoom;
 import com.happydroids.droidtowers.entities.Room;
 import com.happydroids.droidtowers.types.CommercialType;
 import com.happydroids.droidtowers.types.RoomType;
-import com.happydroids.droidtowers.utils.StringUtils;
 
-import javax.annotation.Nullable;
-
-import static com.happydroids.droidtowers.ColorUtil.rgba;
-
-@SuppressWarnings("ALL")
 public enum Overlays {
 	NOISE_LEVEL("#f20000") {
 		@Override

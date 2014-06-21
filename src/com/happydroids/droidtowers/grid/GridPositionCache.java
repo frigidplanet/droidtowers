@@ -19,7 +19,6 @@ public class GridPositionCache {
 	private GridPosition[][] gridPositions;
 	private GridPoint gridSize;
 	private final GameGrid gameGrid;
-	private float[][] noiseLevels;
 
 	public GridPositionCache(GameGrid gameGrid) {
 		this.gameGrid = gameGrid;

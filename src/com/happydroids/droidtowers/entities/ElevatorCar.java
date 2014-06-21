@@ -89,10 +89,6 @@ public class ElevatorCar extends GameObject {
 		}
 	}
 
-	private void returnToLobby() {
-		moveToFloor(elevator.getPosition().y);
-	}
-
 	public boolean addPassenger(AvatarSteeringManager steeringManager, int boarding, int destination, Runnable disembarkCallback) {
 		queue.add(new Passenger(steeringManager, boarding, destination, disembarkCallback));
 

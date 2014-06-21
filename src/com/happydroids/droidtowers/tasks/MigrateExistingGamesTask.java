@@ -47,18 +47,4 @@ public class MigrateExistingGamesTask extends BackgroundTask {
 			}
 		}
 	}
-
-	private void upgradeLocalFiles(FileHandle[] files) {
-		if (files != null && files.length > 0) {
-			for (FileHandle file : files) {
-				if (file.name().endsWith(".json")) {
-					try {
-						GameSaveFactory.upgradeGameSave(file.read(), file.name());
-					} catch (Throwable ignored) {
-
-					}
-				}
-			}
-		}
-	}
 }

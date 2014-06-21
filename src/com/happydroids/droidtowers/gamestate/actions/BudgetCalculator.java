@@ -10,7 +10,6 @@ import com.happydroids.HappyDroidConsts;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.entities.Player;
 import com.happydroids.droidtowers.grid.GameGrid;
-import com.happydroids.platform.Platform;
 
 public class BudgetCalculator extends GameGridAction {
 	public static final String TAG = BudgetCalculator.class.getSimpleName();

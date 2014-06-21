@@ -14,7 +14,6 @@ import com.happydroids.droidtowers.utils.Random;
 
 public class CommercialSpace extends Room {
 	private int jobsFilled;
-	private long lastJobUpdateTime;
 
 	public CommercialSpace(CommercialType commercialType, GameGrid gameGrid) {
 		super(commercialType, gameGrid);

@@ -4,36 +4,22 @@
 
 package com.happydroids.droidtowers.gui;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.happydroids.droidtowers.DroidTowersGame;
 import com.happydroids.droidtowers.TowerAssetManager;
 import com.happydroids.droidtowers.gamestate.server.TowerGameService;
 import com.happydroids.droidtowers.platform.Display;
-import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.security.SecurePreferences;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class OptionsDialog extends Dialog {
 	private final SecurePreferences preferences;
 	private final CheckBox fullscreenCheckbox;
-	private SelectBox displayResolution;
-	private List<Graphics.DisplayMode> displayModeList;
-	private boolean displayModeChanged;
 
 	public OptionsDialog(Stage stage) {
 		super(stage);
@@ -100,53 +86,4 @@ public class OptionsDialog extends Dialog {
 		});
 		return slider;
 	}
-
-	private SelectBox makeResolutionSelectBox() {
-		List<Graphics.DisplayMode> displayModes = Lists.newArrayList();
-		for (Graphics.DisplayMode displayMode : Gdx.graphics.getDisplayModes()) {
-			if (displayMode.width > 800 && displayMode.height > 480) {
-				displayModes.add(displayMode);
-			}
-		}
-
-		displayModeList = Ordering.natural().onResultOf(new Function<Graphics.DisplayMode, Comparable>() {
-			@Override
-			public Comparable apply(@Nullable Graphics.DisplayMode input) {
-				return input.width * input.height * input.bitsPerPixel;
-			}
-		}).sortedCopy(Lists.newArrayList(displayModes));
-
-		List<String> displayModeStrings = Lists.newArrayList();
-		for (Graphics.DisplayMode displayMode : displayModeList) {
-			displayModeStrings.add(displayMode.width + "x" + displayMode.height);
-		}
-
-		displayResolution = new SelectBox(displayModeStrings.toArray(), TowerAssetManager.getCustomSkin());
-		int currentResolution = displayModeStrings.indexOf(Display.getWidth() + "x" + Gdx.graphics.getHeight());
-		if (currentResolution > -1) {
-			displayResolution.setSelection(currentResolution);
-		}
-
-		displayResolution.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				saveDisplayChanges(displayModeList.get(displayResolution.getSelectionIndex()));
-			}
-		});
-
-		return displayResolution;
-	}
-
-	private String formatDisplayMode(Graphics.DisplayMode displayMode) {
-		return displayMode.width + "x" + displayMode.height;
-	}
-
-	private void saveDisplayChanges(Graphics.DisplayMode displayMode) {
-		displayModeChanged = true;
-		preferences.putInteger("width", displayMode.width);
-		preferences.putInteger("height", displayMode.height);
-		preferences.putBoolean("fullscreen", fullscreenCheckbox.isChecked());
-		preferences.flush();
-	}
-
 }

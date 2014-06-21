@@ -16,7 +16,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AnimatedHappyDroid extends Group {
 	private final Image leftArm;
-	private boolean shouldYoYo;
 	private final Image body;
 
 	public AnimatedHappyDroid() {

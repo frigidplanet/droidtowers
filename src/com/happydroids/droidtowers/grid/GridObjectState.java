@@ -5,16 +5,11 @@
 package com.happydroids.droidtowers.grid;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.happydroids.droidtowers.employee.JobCandidate;
-import com.happydroids.droidtowers.entities.CommercialSpace;
 import com.happydroids.droidtowers.entities.Elevator;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.math.GridPoint;
 import com.happydroids.droidtowers.types.GridObjectType;
 import com.happydroids.droidtowers.types.GridObjectTypeFactory;
-import com.happydroids.droidtowers.types.ProviderType;
-
-import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class GridObjectState {
@@ -24,7 +19,6 @@ public class GridObjectState {
 	private String name;
 	private int variationId;
 	private int loanFromCousinVinnie;
-	private List<JobCandidate> employees;
 	private int numberOfElevatorCars;
 
 	public GridObjectState() {

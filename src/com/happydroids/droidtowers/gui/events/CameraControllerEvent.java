@@ -7,7 +7,6 @@ package com.happydroids.droidtowers.gui.events;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 
-@SuppressWarnings("FieldCanBeLocal")
 public class CameraControllerEvent implements Pool.Poolable {
 	private Vector3 position;
 	private Vector3 delta;

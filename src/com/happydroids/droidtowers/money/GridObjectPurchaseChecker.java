@@ -14,7 +14,7 @@ import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.types.GridObjectType;
 
 public class GridObjectPurchaseChecker {
-	public static final String LOG_TAG = GridObjectPurchaseChecker.class.getSimpleName();
+	public static final String TAG = GridObjectPurchaseChecker.class.getSimpleName();
 
 	private final GameGrid gameGrid;
 	private GridObjectType gridObjectType;
@@ -26,18 +26,18 @@ public class GridObjectPurchaseChecker {
 	}
 
 	public boolean canPurchase() {
-		Gdx.app.log(LOG_TAG, "Checking purchase: " + gridObjectType.getName());
+		Gdx.app.log(TAG, "Checking purchase: " + gridObjectType.getName());
 		if (gridObjectType.getCoins() != 0 && Player.instance().getCoins() < gridObjectType.getCoins()) {
 			displayCurrencyDialog();
 			return false;
 		}
 
-		Gdx.app.log(LOG_TAG, "Allowing purchase: " + gridObjectType.getName());
+		Gdx.app.log(TAG, "Allowing purchase: " + gridObjectType.getName());
 		return true;
 	}
 
 	private void displayCurrencyDialog() {
-		Gdx.app.log(LOG_TAG, "Out of money for purchase: " + gridObjectType.getName());
+		Gdx.app.log(TAG, "Out of money for purchase: " + gridObjectType.getName());
 		if (MathUtils.random(10) % 5 == 0) {
 			new CousinVinnieLoanDialog(gameGrid).show();
 		} else {
@@ -46,12 +46,12 @@ public class GridObjectPurchaseChecker {
 	}
 
 	public void makePurchase() {
-		Gdx.app.log(LOG_TAG, "Made purchase: " + gridObjectType.getName());
+		Gdx.app.log(TAG, "Made purchase: " + gridObjectType.getName());
 		Player player = Player.instance();
 
 		player.subtractCurrency(gridObjectType.getCoins());
 		player.addExperience(gridObjectType.getExperienceAward());
-		numPurchases += 1;
+		this.numPurchases++;
 
 		if (!gridObjectType.allowContinuousPurchase()) {
 			InputSystem.instance().switchTool(GestureTool.PICKER, null);

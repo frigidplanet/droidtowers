@@ -4,16 +4,14 @@
 
 package com.happydroids.droidtowers.achievements;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.grid.GameGrid;
-
-import java.util.List;
-
-import static com.badlogic.gdx.Application.ApplicationType.Android;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Achievement {
@@ -63,7 +61,7 @@ public class Achievement {
 			finishedWeight = 0;
 			for (int i = 0, requirementsSize = requirements.size(); i < requirementsSize; i++) {
 				Requirement requirement = requirements.get(i);
-				boolean completed = requirement.validate(gameGrid);
+				requirement.validate(gameGrid);
 				finishedWeight += requirement.getCurrentWeight();
 			}
 

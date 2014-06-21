@@ -38,7 +38,6 @@ public class SellTool extends ToolBase {
 			} else if (objectToSell.getPosition().y < TowerConsts.LOBBY_FLOOR && !checkAboveOrBelow(objectToSell, objectToSell.getPosition().cpy().sub(0, 1))) {
 				HeadsUpDisplay.showToast("You cannot sell this, something is below it.");
 			} else {
-				final int sellPrice = (int) (objectToSell.getGridObjectType().getCoins() * 0.5);
 				new SellGridObjectConfirmationDialog(gameGrid, objectToSell).show();
 			}
 

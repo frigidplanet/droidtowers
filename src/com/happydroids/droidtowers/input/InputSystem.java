@@ -4,30 +4,27 @@
 
 package com.happydroids.droidtowers.input;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
-import com.happydroids.droidtowers.entities.GameLayer;
 import com.happydroids.droidtowers.events.SafeEventBus;
 import com.happydroids.droidtowers.events.SwitchToolEvent;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
-
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static com.badlogic.gdx.input.GestureDetector.GestureListener;
 
 public class InputSystem extends InputAdapter {
 	private static final String TAG = InputSystem.class.getSimpleName();
@@ -35,13 +32,10 @@ public class InputSystem extends InputAdapter {
 
 	private HashMap<Integer, Array<InputCallback>> keyBindings;
 
-	private OrthographicCamera camera;
-	private CameraController cameraController;
 	private GestureDetector gestureDetector;
 	private GestureDelegater gestureDelegater;
 
 	private static InputSystem instance;
-	private List<GameLayer> gameLayers;
 	private EventBus eventBus;
 	private float timeUntilProcessorCleanup;
 	private float timeSinceDrag;
@@ -121,7 +115,6 @@ public class InputSystem extends InputAdapter {
 		return inputCallbacks;
 	}
 
-	@SuppressWarnings("WhileLoopReplaceableByForEach")
 	public boolean keyDown(int keycode) {
 		if (keyBindings != null && keyBindings.containsKey(keycode)) {
 			float deltaTime = Gdx.graphics.getDeltaTime();

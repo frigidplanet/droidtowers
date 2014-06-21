@@ -15,7 +15,6 @@ public class PathSearchManager {
 
 	private ArrayList<AStar> pathFinders;
 	private AStar currentPathFinder;
-	private int framesSinceUpdate;
 
 	private PathSearchManager() {
 		pathFinders = Lists.newArrayList();

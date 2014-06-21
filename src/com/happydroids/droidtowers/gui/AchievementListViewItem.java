@@ -72,12 +72,4 @@ class AchievementListViewItem extends Table {
 			}
 		});
 	}
-
-	private void setChildrenColor(Color color) {
-		for (Actor child : getChildren()) {
-			if (child instanceof Label) {
-				child.setColor(color);
-			}
-		}
-	}
 }

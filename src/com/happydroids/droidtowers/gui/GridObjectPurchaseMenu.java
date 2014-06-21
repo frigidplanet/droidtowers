@@ -11,12 +11,10 @@ import com.happydroids.droidtowers.types.GridObjectType;
 import com.happydroids.droidtowers.types.GridObjectTypeFactory;
 
 public class GridObjectPurchaseMenu extends ScrollableTowerWindow {
-	private Class gridObjectTypeClass;
 
 	public GridObjectPurchaseMenu(Stage stage, String objectTypeName, GridObjectTypeFactory typeFactory, final Runnable toolCleanupRunnable) {
 		super("Purchase " + objectTypeName, stage);
 
-		float biggestWidth = 0;
 		for (Object o : typeFactory.all()) {
 			final GridObjectType gridObjectType = typeFactory.castToObjectType(o);
 

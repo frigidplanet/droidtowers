@@ -21,8 +21,6 @@ public class TowerMiniMap extends Table {
 	private static final String TAG = TowerMiniMap.class.getSimpleName();
 
 	private final GameGrid gameGrid;
-	private boolean mapIsDirty;
-	private Pixmap pixmap;
 
 	public TowerMiniMap(GameGrid gameGrid) {
 		super();
@@ -46,7 +44,6 @@ public class TowerMiniMap extends Table {
 
 		float pixmapWidth = MathUtils.nextPowerOfTwo((int) (gridSize.x * maxSize));
 		float pixmapHeight = MathUtils.nextPowerOfTwo((int) (gridSize.y * maxSize));
-		double objWidth, objHeight, xPos, yPos;
 
 		Pixmap pixmap = new Pixmap((int) pixmapWidth, (int) pixmapHeight, Pixmap.Format.RGB565);
 		pixmap.setColor(WeatherState.SUNNY.skyColor);

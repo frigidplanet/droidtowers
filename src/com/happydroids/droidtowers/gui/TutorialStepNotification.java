@@ -25,7 +25,7 @@ import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.droidtowers.tween.TweenSystem;
 
 public class TutorialStepNotification extends Table {
-	private boolean allowDismiss;
+	
 	private final TutorialStep tutorialStep;
 
 	public TutorialStepNotification(final TutorialStep tutorialStep) {

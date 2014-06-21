@@ -32,7 +32,6 @@ public class GameState {
 	private final FileHandle gameFile;
 	private boolean shouldSaveGame;
 	private FileHandle pngFile;
-	private int fileGeneration;
 
 	public GameState(OrthographicCamera camera, CameraController cameraController, FileHandle gameSaveLocation, GameSave currentGameSave,
 			final GameGrid gameGrid) {

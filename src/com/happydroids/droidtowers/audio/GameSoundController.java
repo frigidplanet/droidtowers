@@ -25,7 +25,6 @@ public class GameSoundController {
 	public static final String CONSTRUCTION_DESTROY = "sound/effects/construction-destroy-1.wav";
 
 	private static RunnableQueue afterInitRunnables = new RunnableQueue();
-	private boolean backgroundMusicEnabled;
 	public boolean audioState;
 	private Sound constructionSound;
 	private Sound destructionSound;

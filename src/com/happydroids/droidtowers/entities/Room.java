@@ -4,11 +4,13 @@
 
 package com.happydroids.droidtowers.entities;
 
+import java.util.Set;
+
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -19,20 +21,13 @@ import com.happydroids.droidtowers.gui.RoomPopOver;
 import com.happydroids.droidtowers.math.GridPoint;
 import com.happydroids.droidtowers.types.RoomType;
 
-import java.util.Set;
-
-import static com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-
 public class Room extends GridObject {
-	private static BitmapFont labelFont;
 	public static final String DECAL_COUSIN_VINNIE = "cousin-vinnie";
 	public static final String DECAL_TRANSPORT_DISCONNECTED = "transport-disconnected";
 	public static final String DECAL_NEEDS_DROIDS = "needs-droids";
 	public static final String DECAL_DIRTY = "dirty";
 	private Sprite sprite;
 
-	private static final int UPDATE_FREQUENCY = 10000;
-	private long lastUpdateTime;
 	private int populationRequired;
 
 	private Set<Avatar> residents;

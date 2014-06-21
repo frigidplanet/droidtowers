@@ -4,6 +4,10 @@
 
 package com.happydroids.droidtowers.entities;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +22,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
 import com.happydroids.droidtowers.TowerConsts;
-import com.happydroids.droidtowers.actions.Action;
 import com.happydroids.droidtowers.events.GridObjectBoundsChangeEvent;
 import com.happydroids.droidtowers.events.GridObjectEvent;
 import com.happydroids.droidtowers.events.GridObjectPlacedEvent;
@@ -32,10 +35,6 @@ import com.happydroids.droidtowers.math.StatLog;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
 import com.happydroids.droidtowers.types.GridObjectType;
 import com.happydroids.droidtowers.types.ProviderType;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public abstract class GridObject {
 
@@ -52,7 +51,6 @@ public abstract class GridObject {
 	protected Vector2 worldSize;
 	protected Color renderColor;
 	protected Rectangle bounds;
-	private Set<Action> actions;
 	private EventBus myEventBus;
 	private Vector2 worldTop;
 	private Vector2 worldCenter;
@@ -394,7 +392,6 @@ public abstract class GridObject {
 		return worldCenterBottom;
 	}
 
-	@SuppressWarnings("RedundantIfStatement")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {

@@ -4,9 +4,6 @@
 
 package com.happydroids.server;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,12 +48,6 @@ public abstract class HappyDroidServiceObject {
 		this.resourceUri = resourceUri;
 	}
 
-	private void validateResourceUri() {
-		if (resourceUri != null && !resourceUri.startsWith("http")) {
-			resourceUri = HappyDroidConsts.HAPPYDROIDS_URI + resourceUri;
-		}
-	}
-
 	protected int getCacheMaxAge() {
 		return -1;
 	}
@@ -67,17 +58,6 @@ public abstract class HappyDroidServiceObject {
 
 	public void save() {
 		return; // wasn't doing anything anyway
-	}
-
-	private void copyValueFromField(HappyDroidServiceObject serverInstance, Field field) {
-		try {
-			if (!Modifier.isFinal(field.getModifiers())) {
-				field.setAccessible(true);
-				field.set(this, field.get(serverInstance));
-			}
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
 	}
 
 	@JsonIgnore

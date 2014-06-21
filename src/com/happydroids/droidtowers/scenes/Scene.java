@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.common.eventbus.EventBus;
@@ -26,8 +25,6 @@ public abstract class Scene {
 	protected final OrthographicCamera camera;
 	private float timeMultiplier;
 	private EventBus eventBus;
-	private Vector3 previousCameraPosition;
-	private float previousCameraZoom;
 	protected CameraController cameraController;
 	private final Effects effects;
 

@@ -37,7 +37,6 @@ public class Elevator extends Transit {
 	private Sprite bottomSprite;
 	private ResizeHandle selectedResizeHandle;
 	private boolean drawShaft;
-	private Action onResizeAction;
 	static TextureAtlas elevatorAtlas;
 	private GridPoint anchorPoint;
 	private int numCars;

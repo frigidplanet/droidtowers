@@ -13,7 +13,6 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -36,13 +35,11 @@ import com.happydroids.droidtowers.tween.TweenSystem;
 
 public abstract class SplashScene extends Scene {
 	public static final int CAMERA_PAN_DOWN_DURATION = 1000;
-	private Sprite happyDroid;
 	protected SplashCloudLayer cloudLayer;
 	private TextureAtlas atlas1;
 	private TextureAtlas atlas2;
 	protected Image droidTowersLogo;
 	protected ProgressPanel progressPanel;
-	private Image mainBuilding;
 	private boolean createdAudioControls;
 	private Group container;
 	private boolean createdSplashScene;
@@ -115,7 +112,7 @@ public abstract class SplashScene extends Scene {
 		container.addActor(cityScape);
 
 		cityScape.setY(-getStage().getHeight());
-		Tween start = Tween.to(cityScape, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION).delay(50).target(cityScape.getX(), 0)
+		Tween.to(cityScape, WidgetAccessor.POSITION, CAMERA_PAN_DOWN_DURATION).delay(50).target(cityScape.getX(), 0)
 				.ease(TweenEquations.easeInOutExpo).start(TweenSystem.manager());
 	}
 

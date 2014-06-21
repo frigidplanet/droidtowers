@@ -44,7 +44,6 @@ public class AvatarSteeringManager {
 	private Vector2 currentWorldPos;
 	private Vector2 nextWorldPos;
 	private TransitLine transitLine = new TransitLine();
-	private boolean movingHorizontally;
 	private Direction horizontalDirection;
 	private int currentState;
 	private Runnable completeCallback;
@@ -288,7 +287,7 @@ public class AvatarSteeringManager {
 	}
 
 	public void setCompleteCallback(Runnable runnable) {
-		completeCallback = runnable;
+		this.completeCallback = runnable;
 	}
 
 	public void boardElevator(final Runnable runnable) {

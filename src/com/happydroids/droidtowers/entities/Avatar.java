@@ -49,8 +49,6 @@ public class Avatar extends GameObject {
 
 	private AvatarSteeringManager steeringManager;
 	protected final GameGrid gameGrid;
-	private boolean isEmployed;
-	private boolean isResident;
 	private float satisfactionShops;
 	private float satisfactionFood;
 	protected GridObject movingTo;
@@ -59,7 +57,6 @@ public class Avatar extends GameObject {
 	private float hungerLevel;
 	private LinkedList<Object> lastVisitedPlaces;
 	private float lastSearchedForHome = Float.MAX_VALUE;
-	private boolean wanderingAround;
 	private final String name;
 	private float timeUntilPathSearch;
 

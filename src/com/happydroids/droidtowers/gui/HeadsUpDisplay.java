@@ -4,36 +4,26 @@
 
 package com.happydroids.droidtowers.gui;
 
-import java.util.Set;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
 import com.happydroids.droidtowers.DroidTowersGame;
 import com.happydroids.droidtowers.TowerAssetManager;
 import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.achievements.AchievementEngine;
 import com.happydroids.droidtowers.achievements.TutorialEngine;
 import com.happydroids.droidtowers.controllers.AvatarLayer;
-import com.happydroids.droidtowers.entities.CommercialSpace;
-import com.happydroids.droidtowers.entities.GridObject;
-import com.happydroids.droidtowers.entities.Room;
 import com.happydroids.droidtowers.gamestate.GameState;
 import com.happydroids.droidtowers.grid.GameGrid;
-import com.happydroids.droidtowers.grid.GridPosition;
 import com.happydroids.droidtowers.input.CameraController;
 import com.happydroids.droidtowers.input.GestureTool;
 import com.happydroids.droidtowers.input.InputSystem;
 import com.happydroids.droidtowers.input.PickerTool;
-import com.happydroids.droidtowers.math.GridPoint;
 
 public class HeadsUpDisplay extends WidgetGroup {
 	private static final String TAG = HeadsUpDisplay.class.getSimpleName();
@@ -43,7 +33,6 @@ public class HeadsUpDisplay extends WidgetGroup {
 	private GameGrid gameGrid;
 	private static HeadsUpDisplay instance;
 	private ToolTip mouseToolTip;
-	private GridObjectPurchaseMenu purchaseDialog;
 	private RadialMenu toolMenu;
 	private final StackGroup notificationStack;
 	private HudToolButton toolButton;
@@ -160,47 +149,6 @@ public class HeadsUpDisplay extends WidgetGroup {
 				}
 			}
 		});
-	}
-
-	private void updateGridPointTooltip(float x, float y) {
-		Vector3 worldPoint = camera.getPickRay(Gdx.input.getX(), Gdx.input.getY()).getEndPoint(1);
-
-		GridPoint gridPointAtMouse = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
-		GridPosition gridPosition = gameGrid.positionCache().getPosition(gridPointAtMouse);
-		if (gridPosition != null) {
-			int totalVisitors = 0;
-			int residents = 0;
-			float objectNoiseLevel = 0f;
-			float desirabilityLevel = 0f;
-			float objectCrimeLevel = 0f;
-			Set<String> objectNames = Sets.newHashSet();
-			for (GridObject gridObject : gridPosition.getObjects()) {
-				if (gridObject instanceof CommercialSpace) {
-					totalVisitors = Math.max(gridObject.getNumVisitors(), totalVisitors);
-				} else if (gridObject instanceof Room) {
-					residents = ((Room) gridObject).getNumResidents();
-				}
-
-				objectNoiseLevel = gridObject.getNoiseLevel();
-				desirabilityLevel = gridObject.getDesirability();
-				objectCrimeLevel = gridObject.getCrimeLevel();
-
-				objectNames.add(gridObject.getGridObjectType().getName());
-			}
-
-			mouseToolTip.setVisible(true);
-			mouseToolTip.setText(String.format("%s\n" + "objects: %s\n" + "%s\n" + "transit: %s\n" + "security: %s\n" + "elevator: %s\n" + "stairs: %s\n"
-					+ "visitors: %d\n" + "population: %d\n" + "point crime: %.2f\n" + "object crime: %.2f\n" + "point noise: %.2f\n" + "object noise: %.2f\n"
-					+ "desirability: %.2f\n" + "trans dist: %.0f\n" + "security dist: %.0f", gridPointAtMouse, gridPosition.size(),
-					Joiner.on(", ").join(objectNames), gridPosition.connectedToTransit, gridPosition.connectedToSecurity, gridPosition.elevator != null,
-					gridPosition.stair != null, totalVisitors, residents, gridPosition.getCrimeLevel(), objectCrimeLevel, gridPosition.getNoiseLevel(),
-					objectNoiseLevel, desirabilityLevel, gridPosition.distanceFromTransit, gridPosition.distanceFromSecurity));
-			mouseToolTip.setX(x + 15);
-			mouseToolTip.setY(y + 15);
-		} else {
-			mouseToolTip.setVisible(false);
-		}
-
 	}
 
 	public static void showToast(String message, Object... objects) {

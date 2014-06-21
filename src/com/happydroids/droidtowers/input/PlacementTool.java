@@ -68,7 +68,6 @@ public class PlacementTool extends ToolBase {
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		if (isDraggingGridObject) {
 			Vector3 worldPoint = camera.getPickRay(x, y).getEndPoint(1);
-			Vector3 deltaPoint = camera.getPickRay(x + -deltaX, y + deltaY).getEndPoint(1);
 			GridPoint gridPointAtFinger = gameGrid.closestGridPoint(worldPoint.x, worldPoint.y);
 
 			if (touchDownPointDelta != null) {

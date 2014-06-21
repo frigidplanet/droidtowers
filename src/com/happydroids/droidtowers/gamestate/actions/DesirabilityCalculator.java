@@ -10,9 +10,6 @@ import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.math.GridPoint;
 
 public class DesirabilityCalculator extends GameGridAction {
-	private float[][] noiseLevels;
-	private int gridSizeX;
-	private int gridSizeY;
 
 	public DesirabilityCalculator(GameGrid gameGrid, float roomUpdateFrequency) {
 		super(gameGrid, roomUpdateFrequency);

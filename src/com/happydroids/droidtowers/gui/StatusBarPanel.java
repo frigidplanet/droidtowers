@@ -45,7 +45,6 @@ public class StatusBarPanel extends Table {
 	private final Label moneyExpensesLabel;
 	private final RatingBar starRatingBar;
 	private float lastUpdated = TowerConsts.HUD_UPDATE_FREQUENCY;
-	private float starRating;
 	private final PopOver starRatingPopOver;
 	private final Texture whiteSwatch;
 	private final PopOver gameSpeedOverlay;

@@ -26,7 +26,6 @@ class RatingBar extends Table {
 	private float stars;
 	private int maxValue;
 	private Texture maskTexture;
-	private Texture starTextureMask;
 	private int textureWidth;
 	private final int textureHeight;
 	private Label unitLabel;

@@ -54,7 +54,6 @@ public class MemoryTrackingAssetManager extends AssetManager {
 		});
 	}
 
-	@SuppressWarnings("unchecked")
 	private synchronized int calculateTextureSize(AssetManager assetManager, String fileName) {
 		if (memoryPerFile.containsKey(fileName)) {
 			return memoryPerFile.get(fileName);
@@ -87,7 +86,6 @@ public class MemoryTrackingAssetManager extends AssetManager {
 		return textureSize;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized <T> void load(String fileName, Class<T> type, AssetLoaderParameters<T> parameter) {
 		if (parameter == null) {

@@ -7,7 +7,6 @@ package com.happydroids.droidtowers.events;
 import com.badlogic.gdx.utils.Pool;
 import com.happydroids.droidtowers.achievements.Achievement;
 
-@SuppressWarnings("FieldCanBeLocal")
 public class AchievementCompletionEvent implements Pool.Poolable {
 	private Achievement achievement;
 

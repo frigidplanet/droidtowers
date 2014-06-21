@@ -12,10 +12,6 @@ public class SkyLobby extends Room {
 		super(roomType, gameGrid);
 	}
 
-	private void updatePopulation() {
-		// do nothing!
-	}
-
 	@Override
 	public int getCoinsEarned() {
 		return 0;

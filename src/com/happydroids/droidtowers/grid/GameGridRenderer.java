@@ -40,8 +40,6 @@ public class GameGridRenderer extends GameLayer {
 	protected final ShapeRenderer shapeRenderer;
 	private Overlays activeOverlay;
 	private Map<Overlays, Function<GridObject, Float>> overlayFunctions;
-	private Function<GridObject, Integer> objectRenderSortFunction;
-	private List<GridObject> objectsRenderOrder;
 	private List<TransitLine> transitLines;
 	private boolean shouldRenderTransitLines;
 	protected Color renderTintColor;

@@ -6,9 +6,6 @@ package com.happydroids.droidtowers.scenes;
 
 import com.happydroids.droidtowers.TowerAssetManager;
 import com.happydroids.droidtowers.scenes.components.SceneManager;
-import com.happydroids.platform.Platform;
-
-import java.net.URI;
 
 public class ApplicationResumeScene extends SplashScene {
 	@Override

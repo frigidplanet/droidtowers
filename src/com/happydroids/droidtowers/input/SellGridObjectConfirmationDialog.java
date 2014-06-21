@@ -4,9 +4,10 @@
 
 package com.happydroids.droidtowers.input;
 
+import java.text.NumberFormat;
+
 import com.badlogic.gdx.Gdx;
 import com.happydroids.droidtowers.TowerConsts;
-import com.happydroids.droidtowers.entities.CommercialSpace;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.entities.Player;
 import com.happydroids.droidtowers.entities.Transit;
@@ -15,8 +16,6 @@ import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.gui.Dialog;
 import com.happydroids.droidtowers.gui.OnClickCallback;
 import com.happydroids.droidtowers.utils.StringUtils;
-
-import java.text.NumberFormat;
 
 public class SellGridObjectConfirmationDialog extends Dialog {
 	public SellGridObjectConfirmationDialog(final GameGrid gameGrid, final GridObject objectToSell) {

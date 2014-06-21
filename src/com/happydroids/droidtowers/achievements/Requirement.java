@@ -4,8 +4,14 @@
 
 package com.happydroids.droidtowers.achievements;
 
+import static com.happydroids.droidtowers.achievements.AchievementThing.ACHIEVEMENT;
+import static com.happydroids.droidtowers.achievements.AchievementThing.OBJECT_TYPE;
+import static com.happydroids.droidtowers.achievements.AchievementThing.PROVIDER_TYPE;
+import static com.happydroids.droidtowers.achievements.AchievementThing.displayStringForThing;
+
+import java.text.NumberFormat;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.happydroids.droidtowers.entities.CommercialSpace;
 import com.happydroids.droidtowers.entities.GridObject;
 import com.happydroids.droidtowers.entities.Player;
 import com.happydroids.droidtowers.gamestate.GameSave;
@@ -18,10 +24,6 @@ import com.happydroids.droidtowers.types.GridObjectType;
 import com.happydroids.droidtowers.types.GridObjectTypeFactory;
 import com.happydroids.droidtowers.types.ProviderType;
 
-import java.text.NumberFormat;
-
-import static com.happydroids.droidtowers.achievements.AchievementThing.*;
-
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Requirement {
 	private RequirementType type;
@@ -30,7 +32,6 @@ public class Requirement {
 	private String thingId;
 	private int amount;
 	private int currentWeight;
-	private int totalWeight;
 
 	public boolean validate(GameGrid gameGrid) {
 		switch (type) {
