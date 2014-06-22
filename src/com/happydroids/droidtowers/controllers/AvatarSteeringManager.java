@@ -183,6 +183,7 @@ public class AvatarSteeringManager {
 		return new Runnable() {
 			@Override
 			public void run() {
+				Gdx.app.debug(TAG, "elevator destination callback");
 				currentPos = destination;
 				moveAvatarTo(currentPos, new TweenCallback() {
 					@Override
@@ -260,14 +261,18 @@ public class AvatarSteeringManager {
 
 		horizontalDirection = (int) endPoint.x < (int) avatar.getX() ? LEFT : RIGHT;
 		float distanceBetweenPoints = endPoint.dst(avatar.getX(), avatar.getY());
-		Tween.to(avatar, POSITION, (int) (distanceBetweenPoints * MOVEMENT_SPEED * randomSpeedModifier)).ease(Linear.INOUT)
-				.target(endPoint.x - avatar.getWidth(), endPoint.y).setCallback(new TweenCallback() {
+		Tween.to(avatar, POSITION, (int) (distanceBetweenPoints * MOVEMENT_SPEED * randomSpeedModifier))
+				.ease(Linear.INOUT)
+				.target(endPoint.x - avatar.getWidth(), endPoint.y)
+				.setCallback(new TweenCallback() {
 					@Override
 					public void onEvent(int type, BaseTween source) {
 						currentState &= ~MOVING;
 						endCallback.onEvent(type, source);
 					}
-				}).setCallbackTriggers(COMPLETE).start(TweenSystem.manager());
+				})
+				.setCallbackTriggers(COMPLETE)
+				.start(TweenSystem.manager());
 	}
 
 	public boolean isRunning() {

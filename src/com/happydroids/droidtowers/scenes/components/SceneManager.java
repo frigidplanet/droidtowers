@@ -57,7 +57,7 @@ public class SceneManager {
 			activeScene = pausedScenes.poll();
 			activeScene.resume();
 			InputSystem.instance().addInputProcessor(activeScene.getStage(), 10);
-			Gdx.app.error(TAG, "popScene resumed instance of: " + activeScene.getClass().getSimpleName());
+			Gdx.app.debug(TAG, "popScene resumed instance of: " + activeScene.getClass().getSimpleName());
 		} else {
 			Gdx.app.debug(TAG, "popScene says there are no more scenes.");
 		}

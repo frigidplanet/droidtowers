@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.happydroids.droidtowers.TowerConsts;
 import com.happydroids.droidtowers.graphics.TowerMiniMap;
 import com.happydroids.droidtowers.grid.GameGrid;
 import com.happydroids.droidtowers.gui.Dialog;
@@ -88,9 +87,7 @@ public class GameState {
 																// anymore so
 																// passing null
 
-				if (TowerConsts.DEBUG) {
-					Gdx.app.debug("DEBUG", "Saving to: " + gameSaveLocation.toString());
-				}
+				Gdx.app.debug(TAG, "Saving to: " + gameSaveLocation.toString());
 
 				new BackgroundTask() {
 					@Override

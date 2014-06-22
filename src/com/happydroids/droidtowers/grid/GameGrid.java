@@ -23,6 +23,8 @@ import com.happydroids.droidtowers.events.SafeEventBus;
 import com.happydroids.droidtowers.math.GridPoint;
 
 public class GameGrid extends GameLayer {
+	private static final String TAG = GameGrid.class.getSimpleName();
+	
 	private EventBus eventBus = new SafeEventBus(GameGrid.class.getSimpleName());
 	protected float gridScale;
 
@@ -83,6 +85,9 @@ public class GameGrid extends GameLayer {
 	}
 
 	public boolean addObject(GridObject gridObject) {
+		
+		Gdx.app.debug(TAG, "Adding new GridObject: " + gridObject);
+		
 		gridObjects.add(gridObject);
 
 		int objectYPos = gridObject.getPosition().y;

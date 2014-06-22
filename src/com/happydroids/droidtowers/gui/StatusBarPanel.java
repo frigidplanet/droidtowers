@@ -30,6 +30,10 @@ import com.happydroids.droidtowers.scenes.components.SceneManager;
 import static com.happydroids.droidtowers.platform.Display.devicePixel;
 import static com.happydroids.droidtowers.utils.StringUtils.formatNumber;
 
+/*
+ * Defines the information strip in the top left corner of the screen
+ * 
+ */
 public class StatusBarPanel extends Table {
 	public static final float INACTIVE_BUTTON_ALPHA = 0.5f;
 	public static final float ACTIVE_BUTTON_ALPHA = 0.85f;
@@ -71,8 +75,9 @@ public class StatusBarPanel extends Table {
 		defaults();
 		center();
 
+		//TODO these need to be moved to the resources file
 		row().pad(devicePixel(2)).padBottom(0);
-		add(makeHeader("COINS", Color.LIGHT_GRAY)).center();
+		add(makeHeader("MONEY", Color.LIGHT_GRAY)).center();
 		add(makeHeader("INCOME", Color.LIGHT_GRAY)).center();
 		add(makeHeader("EXPENSES", Color.LIGHT_GRAY)).center();
 		add(makeHeader("POPULATION", Color.LIGHT_GRAY)).center();
@@ -153,13 +158,13 @@ public class StatusBarPanel extends Table {
 	}
 
 	private Label makeValueLabel(String labelText) {
-		Label label = FontManager.RobotoBold18.makeLabel(labelText);
+		Label label = FontManager.RobotoBold24.makeLabel(labelText);
 		label.setAlignment(Align.center);
 		return label;
 	}
 
 	private Label makeHeader(String headerText, Color tint) {
-		Label label = FontManager.Roboto12.makeLabel(headerText);
+		Label label = FontManager.Roboto18.makeLabel(headerText);
 		label.setAlignment(Align.center);
 		label.setColor(tint);
 

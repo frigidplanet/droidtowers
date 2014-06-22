@@ -153,6 +153,9 @@ public class Elevator extends Transit {
 		return TowerConsts.GRID_UNIT_SIZE * getGridScale();
 	}
 
+	/*
+	 * toggles the visibility of the elevator shaft
+	 */
 	@Override
 	public boolean tap(GridPoint gridPointAtFinger, int count) {
 		if (count >= 2) {
